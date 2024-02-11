@@ -1,5 +1,5 @@
 using LibraryManagementSystem.Data;
-using Microsoft.AspNetCore.Identity;
+using LibraryManagementSystem.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Web
@@ -13,14 +13,16 @@ namespace LibraryManagementSystem.Web
             var connectionString =
                 builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            builder.Services.AddDbContext<ELibraryDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            // TODO when adding new roles !!!
+            // Changed to <ApplicationUser> from <IdentityUser>
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ELibraryDbContext>();
 
             builder.Services.AddControllersWithViews();
 
