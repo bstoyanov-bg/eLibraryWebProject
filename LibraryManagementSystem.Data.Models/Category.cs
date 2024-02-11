@@ -5,7 +5,7 @@ using static LibraryManagementSystem.Common.DataModelsValidationConstants.Catego
 namespace LibraryManagementSystem.Data.Models
 {
     /// <summary>
-    /// Model representing category entity used in the database.
+    /// Model representing category entity for the books used in the database.
     /// </summary>
 
     public class Category

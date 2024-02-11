@@ -5,7 +5,7 @@ using static LibraryManagementSystem.Common.DataModelsValidationConstants.Author
 namespace LibraryManagementSystem.Data.Models
 {
     /// <summary>
-    /// Model representing author entity used in the database.
+    /// Model representing author entity for the books used in the database.
     /// </summary>
 
     public class Author

@@ -5,6 +5,10 @@ using static LibraryManagementSystem.Common.DataModelsValidationConstants.Editio
 
 namespace LibraryManagementSystem.Data.Models
 {
+    /// <summary>
+    /// Model representing edition entity for different books used in the database.
+    /// </summary>
+
     public class Edition
     {
         [Comment("Primary key")]
