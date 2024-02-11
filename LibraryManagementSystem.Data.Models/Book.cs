@@ -33,6 +33,10 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; } = null!;
 
+        [Comment("Publisher of the book")]
+        [MaxLength(PublisherMaxLength)]
+        public string? Publisher { get; set; }
+
         [Comment("Cover image of the book")]
         [MaxLength(CoverImagePathUrlMaxLength)]
         public string? CoverImagePathUrl { get; set; }
@@ -41,6 +45,7 @@ namespace LibraryManagementSystem.Data.Models
         [Required]
         [ForeignKey(nameof(Author))]
         public Guid AuthorId { get; set; }
+
         [Comment("Author")]
         public virtual Author Author { get; set; } = null!;
 
