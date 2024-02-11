@@ -1,4 +1,4 @@
-using LibraryManagementSystem.Web.Data;
+using LibraryManagementSystem.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

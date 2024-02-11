@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibraryManagementSystem.Web.Data
+namespace LibraryManagementSystem.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

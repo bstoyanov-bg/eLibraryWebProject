@@ -1,4 +1,4 @@
-namespace LibraryManagementSystem.Web.Models
+namespace LibraryManagementSystem.Web.ViewModels.Home
 {
     public class ErrorViewModel
     {
