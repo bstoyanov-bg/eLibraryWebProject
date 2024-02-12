@@ -7,7 +7,7 @@ namespace LibraryManagementSystem.Data.Configuration
 {
 
     /// <summary>
-    /// This configuration class is used to seed the database with the default roles.
+    /// This configuration class is used to configure and seed the database with the default roles.
     /// The default roles are Admin and User.
     /// </summary>
 
