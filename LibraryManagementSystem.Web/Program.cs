@@ -21,6 +21,7 @@ namespace LibraryManagementSystem.Web
             {
                 options.SignIn.RequireConfirmedAccount = true;
             })
+                // Add identity Roles
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ELibraryDbContext>();
 
@@ -46,6 +47,7 @@ namespace LibraryManagementSystem.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //Suggest using top level route registrations UseEndpoints
             #pragma warning disable ASP0014
             // Add Admin area routing.
             app.UseEndpoints(endpoints =>
@@ -58,6 +60,8 @@ namespace LibraryManagementSystem.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.MapRazorPages();
 
             app.Run();
         }
