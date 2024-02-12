@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagementSystem.Web", "LibraryManagementSystem.Web\LibraryManagementSystem.Web.csproj", "{9C1D25F1-59AC-42D3-8EB0-B23737041672}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagementSystem.Web", "LibraryManagementSystem.Web\LibraryManagementSystem.Web.csproj", "{9C1D25F1-59AC-42D3-8EB0-B23737041672}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagementSystem.Common", "LibraryManagementSystem.Common\LibraryManagementSystem.Common.csproj", "{0134B322-BE1D-4FA9-9B53-51CA3BD796C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagementSystem.Common", "LibraryManagementSystem.Common\LibraryManagementSystem.Common.csproj", "{0134B322-BE1D-4FA9-9B53-51CA3BD796C2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{5318D9DD-BC00-4D01-8200-AE21D4C5DB3D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{32F5EAC9-574B-441C-819F-D1022A857B7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagementSystem.Data", "LibraryManagementSystem.Data\LibraryManagementSystem.Data.csproj", "{CE9E37CE-738E-42D5-B02E-F40AA5BDC99D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagementSystem.Data", "LibraryManagementSystem.Data\LibraryManagementSystem.Data.csproj", "{CE9E37CE-738E-42D5-B02E-F40AA5BDC99D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagementSystem.Data.Models", "LibraryManagementSystem.Data.Models\LibraryManagementSystem.Data.Models.csproj", "{51BBE7D8-814E-41BD-B386-6BB68E952AC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagementSystem.Data.Models", "LibraryManagementSystem.Data.Models\LibraryManagementSystem.Data.Models.csproj", "{51BBE7D8-814E-41BD-B386-6BB68E952AC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagementSystem.Web.ViewModels", "LibraryManagementSystem.Web.ViewModels\LibraryManagementSystem.Web.ViewModels.csproj", "{C4DD3486-C69B-4C6A-933F-95620080D45A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagementSystem.Web.ViewModels", "LibraryManagementSystem.Web.ViewModels\LibraryManagementSystem.Web.ViewModels.csproj", "{C4DD3486-C69B-4C6A-933F-95620080D45A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

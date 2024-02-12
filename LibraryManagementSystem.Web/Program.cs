@@ -1,5 +1,6 @@
 using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Web
@@ -16,12 +17,11 @@ namespace LibraryManagementSystem.Web
             builder.Services.AddDbContext<ELibraryDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            // TODO when adding new roles !!!
-            // Changed to <ApplicationUser> from <IdentityUser>
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
             })
+                .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ELibraryDbContext>();
 
             builder.Services.AddControllersWithViews();
