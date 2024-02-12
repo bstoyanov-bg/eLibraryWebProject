@@ -32,5 +32,7 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("Nationality of the Author")]
         [MaxLength(NationalityMaxLength)]
         public string? Nationality { get; set; }
+
+        public ICollection<Book> Books { get; set; } = new HashSet<Book>();
     }
 }

@@ -49,6 +49,10 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("Author")]
         public virtual Author Author { get; set; } = null!;
 
-        public ICollection<BookCategory> BooksCategories { get; set; } = new List<BookCategory>();
+        public ICollection<BookCategory> BooksCategories { get; set; } = new HashSet<BookCategory>();
+
+        public ICollection<Edition> Editions { get; set; } = new HashSet<Edition>();
+
+        public ICollection<LendedBook> LendedBooks { get; set; } = new HashSet<LendedBook>();
     }
 }

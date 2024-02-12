@@ -1,5 +1,9 @@
 ﻿namespace LibraryManagementSystem.Common
 {
+    /// <summary>
+    /// Constants and regular expressions for data model validations.
+    /// </summary> 
+
     public static class DataModelsValidationConstants
     {
         public static class Category
@@ -61,6 +65,14 @@
             public const int AddressMaxLength = 50;
 
             public const int AllowedBooksMaxLength = 2;
+        }
+
+        public static class Rating
+        {
+            public const int BookRatingMaxLength = 5;
+
+            public const int CommentMinLength = 5;
+            public const int CommentMaxLength = 1000;
         }
     }
 }
