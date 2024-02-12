@@ -6,6 +6,7 @@ namespace LibraryManagementSystem.Data.Models
 {
     /// <summary>
     /// Model representing category entity for the books used in the database.
+    /// Many to Many Table.
     /// </summary>
 
     public class Category

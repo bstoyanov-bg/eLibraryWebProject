@@ -11,7 +11,6 @@ namespace LibraryManagementSystem.Data.Models
         /// Model representing Custom User (ApplicationUser) which is going to be one of the main users of the application.
         /// </summary>
 
-
         public ApplicationUser()
         {
             

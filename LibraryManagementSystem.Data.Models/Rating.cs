@@ -5,6 +5,11 @@ using static LibraryManagementSystem.Common.DataModelsValidationConstants.Rating
 
 namespace LibraryManagementSystem.Data.Models
 {
+    /// <summary>
+    /// Model representing rating of book used in the database.
+    /// Many to Many Table.
+    /// </summary>
+
     public class Rating
     {
         [Comment("BookId")]

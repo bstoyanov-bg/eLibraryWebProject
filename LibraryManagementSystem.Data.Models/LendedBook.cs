@@ -4,6 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LibraryManagementSystem.Data.Models
 {
+    /// <summary>
+    /// Model representing lended books by the application user and other information used in the database.
+    /// Many to Many Table.
+    /// </summary>
+
     public class LendedBook
     {
         [Comment("Primary key")]
