@@ -36,14 +36,18 @@ namespace LibraryManagementSystem.Data
             builder.Entity<BookCategory>(entity =>
             {
                 entity
-                .HasKey(book => new { book.BookId, book.CategoryId });
+                .HasKey(bc => new { bc.BookId, bc.CategoryId });
             });
 
             builder.Entity<Rating>(entity =>
             {
                 entity
-                .HasKey(rating => new { rating.BookId, rating.UserId});
+                .HasKey(r => new { r.BookId, r.UserId});
             });
+
+            builder.Entity<Rating>()
+                .Property(r => r.BookRating)
+                .HasPrecision(18, 2);
 
             // TODO Seed DATA like admin and other stuff
 
