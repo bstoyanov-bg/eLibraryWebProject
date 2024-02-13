@@ -35,7 +35,7 @@ namespace LibraryManagementSystem.Data.Models
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
 
-        [Comment("Book")]
+        [Comment("User")]
         public ApplicationUser User { get; set; } = null!;
     }
 }

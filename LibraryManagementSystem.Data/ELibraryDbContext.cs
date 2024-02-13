@@ -14,21 +14,22 @@ namespace LibraryManagementSystem.Data
         public ELibraryDbContext(DbContextOptions<ELibraryDbContext> options)
             : base(options)
         {
+
         }
 
-        public DbSet<Author> Author { get; set; } = null!;
+        public DbSet<Author> Authors { get; set; } = null!;
 
-        public DbSet<Book> Book { get; set; } = null!;
+        public DbSet<Book> Books { get; set; } = null!;
 
-        public DbSet<Category> Category { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
 
-        public DbSet<Edition> Edition { get; set; } = null!;
+        public DbSet<Edition> Editions { get; set; } = null!;
 
         public DbSet<LendedBook> LendedBooks { get; set; } = null!;
 
         public DbSet<Rating> Ratings { get; set; } = null!;
 
-        public DbSet<BookCategory> BooksCategorys { get; set; } = null!;
+        public DbSet<BookCategory> BooksCategories { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -45,9 +46,20 @@ namespace LibraryManagementSystem.Data
                 .HasKey(r => new { r.BookId, r.UserId});
             });
 
+            builder.Entity<LendedBook>(entity =>
+            {
+                entity
+                .HasKey(lb => new { lb.BookId, lb.UserId });
+            });
+
             builder.Entity<Rating>()
                 .Property(r => r.BookRating)
                 .HasPrecision(18, 2);
+
+            //builder.Entity<LendedBook>()
+            //    .HasOne(h => h.)
+            //    .WithMany(h => h.)
+
 
             // TODO Seed DATA like admin and other stuff
 
