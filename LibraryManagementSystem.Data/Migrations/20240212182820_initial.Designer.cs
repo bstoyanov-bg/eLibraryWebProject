@@ -13,7 +13,7 @@ namespace LibraryManagementSystem.Data.Migrations
 {
     [DbContext(typeof(ELibraryDbContext))]
     [Migration("20240212182820_initial")]
-    partial class initial
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
