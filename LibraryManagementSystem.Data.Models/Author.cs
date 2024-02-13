@@ -10,6 +10,14 @@ namespace LibraryManagementSystem.Data.Models
 
     public class Author
     {
+        public Author()
+        {
+
+            Id = Guid.NewGuid();
+
+            Books = new HashSet<Book>();
+        }
+
         [Comment("Primary key")]
         [Key]
         public Guid Id { get; set; }
@@ -33,6 +41,6 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(NationalityMaxLength)]
         public string? Nationality { get; set; }
 
-        public virtual ICollection<Book> Books { get; set; } = new HashSet<Book>();
+        public virtual ICollection<Book> Books { get; set; }
     }
 }

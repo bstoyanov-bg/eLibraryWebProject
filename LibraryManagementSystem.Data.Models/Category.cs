@@ -10,6 +10,11 @@ namespace LibraryManagementSystem.Data.Models
 
     public class Category
     {
+        public Category() 
+        {
+            BooksCategories = new HashSet<BookCategory>();
+        }
+
         [Comment("Primary key")]
         [Key]
         public int Id { get; set; }
@@ -19,6 +24,6 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(NameMaxLength)]
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<BookCategory> BooksCategories { get; set; } = new List<BookCategory>();
+        public virtual ICollection<BookCategory> BooksCategories { get; set; }
     }
 }

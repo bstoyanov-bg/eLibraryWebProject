@@ -10,6 +10,11 @@ namespace LibraryManagementSystem.Data.Models
 
     public class LendedBook
     {
+        public LendedBook()
+        {
+            Id = new Guid();
+        }
+
         [Comment("Primary key")]
         [Key]
         public Guid Id { get; set; }

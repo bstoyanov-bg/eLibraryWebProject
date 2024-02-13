@@ -14,7 +14,10 @@ namespace LibraryManagementSystem.Data.Models
         public ApplicationUser()
         {
             
-            this.Id = Guid.NewGuid();
+            Id = Guid.NewGuid();
+
+            LendedBooks = new HashSet<LendedBook>();
+            Ratings = new HashSet<Rating>();
         }
 
         [Comment("Fist name of the user (Member)")]
@@ -38,8 +41,8 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(AllowedBooksMaxLength)]
         public int MaxLoanedBooks { get; set; }
 
-        public virtual ICollection<LendedBook> LendedBooks { get; set; } = new HashSet<LendedBook>();
+        public virtual ICollection<LendedBook> LendedBooks { get; set; }
 
-        public virtual ICollection<Rating> Ratings { get; set; } = new HashSet<Rating>();
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

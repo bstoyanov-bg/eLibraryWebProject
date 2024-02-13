@@ -11,6 +11,16 @@ namespace LibraryManagementSystem.Data.Models
     
     public class Book
     {
+        public Book() 
+        {
+            Id = new Guid();
+
+            BooksCategories = new HashSet<BookCategory>();
+            Editions = new HashSet<Edition>();
+            Ratings = new HashSet<Rating>();
+            LendedBooks = new HashSet<LendedBook>();
+        }
+
         [Comment("Primary key")]
         [Key]
         public Guid Id { get; set; }
@@ -49,12 +59,12 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("Author")]
         public virtual Author Author { get; set; } = null!;
 
-        public virtual ICollection<BookCategory> BooksCategories { get; set; } = new HashSet<BookCategory>();
+        public virtual ICollection<BookCategory> BooksCategories { get; set; }
 
-        public virtual ICollection<Edition> Editions { get; set; } = new HashSet<Edition>();
+        public virtual ICollection<Edition> Editions { get; set; }
 
-        public virtual ICollection<Rating> Ratings { get; set; } = new HashSet<Rating>();
+        public virtual ICollection<Rating> Ratings { get; set; }
 
-        public virtual ICollection<LendedBook> LendedBooks { get; set; } = new HashSet<LendedBook>();
+        public virtual ICollection<LendedBook> LendedBooks { get; set; }
     }
 }
