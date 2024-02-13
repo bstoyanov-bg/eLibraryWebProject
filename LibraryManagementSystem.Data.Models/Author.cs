@@ -33,6 +33,6 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(NationalityMaxLength)]
         public string? Nationality { get; set; }
 
-        public ICollection<Book> Books { get; set; } = new HashSet<Book>();
+        public virtual ICollection<Book> Books { get; set; } = new HashSet<Book>();
     }
 }

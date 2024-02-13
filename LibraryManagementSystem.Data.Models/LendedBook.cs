@@ -6,7 +6,6 @@ namespace LibraryManagementSystem.Data.Models
 {
     /// <summary>
     /// Model representing lended books by the application user and other information used in the database.
-    /// Many to Many Table.
     /// </summary>
 
     public class LendedBook
@@ -28,7 +27,7 @@ namespace LibraryManagementSystem.Data.Models
         public Guid BookId { get; set; }
 
         [Comment("Book")]
-        public Book Book { get; set; } = null!;
+        public virtual Book Book { get; set; } = null!;
 
         [Comment("ApplicationUserId")]
         [Required]
@@ -36,6 +35,6 @@ namespace LibraryManagementSystem.Data.Models
         public Guid UserId { get; set; }
 
         [Comment("User")]
-        public ApplicationUser User { get; set; } = null!;
+        public virtual ApplicationUser User { get; set; } = null!;
     }
 }

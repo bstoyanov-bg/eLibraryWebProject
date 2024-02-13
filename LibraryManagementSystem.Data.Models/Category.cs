@@ -6,7 +6,6 @@ namespace LibraryManagementSystem.Data.Models
 {
     /// <summary>
     /// Model representing category entity for the books used in the database.
-    /// Many to Many Table.
     /// </summary>
 
     public class Category
@@ -20,6 +19,6 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(NameMaxLength)]
         public string Name { get; set; } = null!;
 
-        public ICollection<BookCategory> BooksCategories { get; set; } = new List<BookCategory>();
+        public virtual ICollection<BookCategory> BooksCategories { get; set; } = new List<BookCategory>();
     }
 }

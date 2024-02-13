@@ -38,6 +38,8 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(AllowedBooksMaxLength)]
         public int MaxLoanedBooks { get; set; }
 
-        public ICollection<LendedBook> LendedBooks { get; set; } = new HashSet<LendedBook>();
+        public virtual ICollection<LendedBook> LendedBooks { get; set; } = new HashSet<LendedBook>();
+
+        public virtual ICollection<Rating> Ratings { get; set; } = new HashSet<Rating>();
     }
 }

@@ -7,7 +7,6 @@ namespace LibraryManagementSystem.Data.Models
 {
     /// <summary>
     /// Model representing rating of book used in the database.
-    /// Many to Many Table.
     /// </summary>
 
     public class Rating
@@ -19,14 +18,6 @@ namespace LibraryManagementSystem.Data.Models
 
         [Comment("Book")]
         public Book Book { get; set; } = null!;
-
-        [Comment("ApplicationUserId")]
-        [Required]
-        [ForeignKey(nameof(User))]
-        public Guid UserId { get; set; }
-
-        [Comment("Book")]
-        public ApplicationUser User { get; set; } = null!;
 
         [Comment("Rating for the book")]
         [Required]
@@ -40,5 +31,13 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("Date of the rating")]
         [Required]
         public DateOnly Date { get; set; }
+
+        [Comment("ApplicationUserId")]
+        [Required]
+        [ForeignKey(nameof(User))]
+        public Guid UserId { get; set; }
+
+        [Comment("User")]
+        public virtual ApplicationUser User { get; set; } = null!;
     }
 }
