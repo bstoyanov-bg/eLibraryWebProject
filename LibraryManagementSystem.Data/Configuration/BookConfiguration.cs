@@ -12,12 +12,11 @@ namespace LibraryManagementSystem.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Book> builder)
         {
-            //builder
-            //    .HasOne(g => g.Manager)
-            //    .WithMany(m => m.Gyms)
-            //    .HasForeignKey(g => g.ManagerId)
-            //    .OnDelete(DeleteBehavior.Restrict)
-            //    .IsRequired();
+            builder
+                .HasOne(h => h.Author)
+                .WithMany(c => c.Books)
+                .HasForeignKey(h => h.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace LibraryManagementSystem.Data
 {
@@ -34,34 +35,10 @@ namespace LibraryManagementSystem.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<BookCategory>(entity =>
-            {
-                entity
-                .HasKey(bc => new { bc.BookId, bc.CategoryId });
-            });
+            Assembly assembly = Assembly.GetAssembly(typeof(ELibraryDbContext))
+                ?? Assembly.GetExecutingAssembly();
 
-            builder.Entity<Rating>(entity =>
-            {
-                entity
-                .HasKey(r => new { r.BookId, r.UserId});
-            });
-
-            builder.Entity<LendedBook>(entity =>
-            {
-                entity
-                .HasKey(lb => new { lb.BookId, lb.UserId });
-            });
-
-            builder.Entity<Rating>()
-                .Property(r => r.BookRating)
-                .HasPrecision(18, 2);
-
-            //builder.Entity<LendedBook>()
-            //    .HasOne(h => h.)
-            //    .WithMany(h => h.)
-
-
-            // TODO Seed DATA like admin and other stuff
+            builder.ApplyConfigurationsFromAssembly(assembly);
 
             base.OnModelCreating(builder);
         }
