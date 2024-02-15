@@ -31,6 +31,11 @@ namespace LibraryManagementSystem.Web
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ELibraryDbContext>();
 
+            builder.Services.ConfigureApplicationCookie(cfg =>
+            {
+                cfg.LoginPath = "/User/Login";
+            });
+
             builder.Services.AddControllersWithViews();
 
             WebApplication app = builder.Build();

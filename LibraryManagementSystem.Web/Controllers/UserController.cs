@@ -1,7 +1,9 @@
 ﻿using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Web.ViewModels.User;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using static LibraryManagementSystem.Common.NotificationMessageConstants;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -9,7 +11,6 @@ namespace LibraryManagementSystem.Web.Controllers
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IUserStore<ApplicationUser> userStore;
 
         public UserController(SignInManager<ApplicationUser> signInManager, 
                                 UserManager<ApplicationUser> userManager)
@@ -21,7 +22,7 @@ namespace LibraryManagementSystem.Web.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
@@ -55,12 +56,44 @@ namespace LibraryManagementSystem.Web.Controllers
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
 
-                return View(model);
+                return this.View(model);
             }
 
             await this.signInManager.SignInAsync(user, isPersistent: false);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Login(string? returnUrl = null)
+        {
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            LoginFormModel model = new LoginFormModel()
+            {
+                ReturnUrl = returnUrl,
+            };
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginFormModel model) 
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            var result = await this.signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
+            if(!result.Succeeded)
+            {
+                TempData[ErrorMessage] = "There was an error while logging you in!";
+
+                return this.View(model);
+            }
+
+            return this.Redirect(model.ReturnUrl ?? "/Home/Index");
         }
     }
 }
