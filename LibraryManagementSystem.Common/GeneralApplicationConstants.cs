@@ -2,6 +2,8 @@
 {
     public static class GeneralApplicationConstants
     {
+        public const string AppName = "eLibrary";
+
         public const int ReleaseYear = 2024;
 
         public const string AdminAreaName = "Admin";
