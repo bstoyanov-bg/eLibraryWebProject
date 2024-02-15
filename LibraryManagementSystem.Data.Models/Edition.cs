@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static LibraryManagementSystem.Common.DataModelsValidationConstants;
 using static LibraryManagementSystem.Common.DataModelsValidationConstants.Edition;
 
 namespace LibraryManagementSystem.Data.Models
@@ -14,7 +13,7 @@ namespace LibraryManagementSystem.Data.Models
     {
         public Edition()
         {
-            Id = new Guid();
+            this.Id = new Guid();
         }
 
         [Comment("Primary key")]

@@ -34,7 +34,7 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("Book")]
         public virtual Book Book { get; set; } = null!;
 
-        [Comment("ApplicationUserId")]
+        [Comment("Application User Id")]
         [Required]
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }

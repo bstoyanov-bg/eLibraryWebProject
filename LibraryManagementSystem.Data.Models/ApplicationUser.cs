@@ -14,10 +14,10 @@ namespace LibraryManagementSystem.Data.Models
         public ApplicationUser()
         {
             
-            Id = Guid.NewGuid();
+            this.Id = Guid.NewGuid();
 
-            LendedBooks = new HashSet<LendedBook>();
-            Ratings = new HashSet<Rating>();
+            this.LendedBooks = new HashSet<LendedBook>();
+            this.Ratings = new HashSet<Rating>();
         }
 
         [Comment("Fist name of the user (Member)")]
@@ -34,6 +34,16 @@ namespace LibraryManagementSystem.Data.Models
         [Required]
         [MaxLength(AddressMaxLength)]
         public string Address { get; set; } = null!;
+
+        [Comment("Country of the user (Member)")]
+        [Required]
+        [MaxLength(CountryMaxLength)]
+        public string Country { get; set; } = null!;
+
+        [Comment("City of the user (Member)")]
+        [Required]
+        [MaxLength(CityMaxLength)]
+        public string City { get; set; } = null!;
 
         // TODO --> check and add more properties
         [Comment("Maximum number of books allowed to have at the same time")]

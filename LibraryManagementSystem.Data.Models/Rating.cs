@@ -17,7 +17,15 @@ namespace LibraryManagementSystem.Data.Models
         public Guid BookId { get; set; }
 
         [Comment("Book")]
-        public Book Book { get; set; } = null!;
+        public virtual Book Book { get; set; } = null!;
+
+        [Comment("Application User Id")]
+        [Required]
+        [ForeignKey(nameof(User))]
+        public Guid UserId { get; set; }
+
+        [Comment("User")]
+        public virtual ApplicationUser User { get; set; } = null!;
 
         [Comment("Rating for the book")]
         [Required]
@@ -31,13 +39,5 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("Date of the rating")]
         [Required]
         public DateOnly Date { get; set; }
-
-        [Comment("ApplicationUserId")]
-        [Required]
-        [ForeignKey(nameof(User))]
-        public Guid UserId { get; set; }
-
-        [Comment("User")]
-        public virtual ApplicationUser User { get; set; } = null!;
     }
 }

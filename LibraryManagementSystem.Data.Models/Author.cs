@@ -12,20 +12,24 @@ namespace LibraryManagementSystem.Data.Models
     {
         public Author()
         {
+            this.Id = Guid.NewGuid();
 
-            Id = Guid.NewGuid();
-
-            Books = new HashSet<Book>();
+            this.Books = new HashSet<Book>();
         }
 
         [Comment("Primary key")]
         [Key]
         public Guid Id { get; set; }
 
-        [Comment("Name of the Author")]
+        [Comment("First name of the Author")]
         [Required]
-        [MaxLength(NameMaxLength)]
-        public string Name { get; set; } = null!;
+        [MaxLength(FirstNameMaxLength)]
+        public string FirstName { get; set; } = null!;
+
+        [Comment("Last name of the Author")]
+        [Required]
+        [MaxLength(LastNameMaxLength)]
+        public string LastName { get; set; } = null!;
 
         [Comment("Biography of the Author")]
         [MaxLength(BiographyMaxLength)]
@@ -38,8 +42,9 @@ namespace LibraryManagementSystem.Data.Models
         public DateOnly? DeathDate { get; set; }
 
         [Comment("Nationality of the Author")]
+        [Required]
         [MaxLength(NationalityMaxLength)]
-        public string? Nationality { get; set; }
+        public string Nationality { get; set; } = null!;
 
         public virtual ICollection<Book> Books { get; set; }
     }

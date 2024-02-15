@@ -32,8 +32,11 @@
 
         public static class Author
         {
-            public const int NameMinLength = 5;
-            public const int NameMaxLength = 100;
+            public const int FirstNameMinLength = 5;
+            public const int FirstNameMaxLength = 100;
+
+            public const int LastNameMinLength = 5;
+            public const int LastNameMaxLength = 100;
 
             public const int BiographyMinLength = 10;
             public const int BiographyMaxLength = 1500;
@@ -63,6 +66,12 @@
 
             public const int AddressMinLength = 5;
             public const int AddressMaxLength = 50;
+
+            public const int CountryMinLength = 4;
+            public const int CountryMaxLength = 60;
+
+            public const int CityMinLength = 1;
+            public const int CityMaxLength = 100;
 
             public const int AllowedBooksMaxLength = 2;
         }

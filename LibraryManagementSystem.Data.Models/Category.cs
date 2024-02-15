@@ -12,7 +12,7 @@ namespace LibraryManagementSystem.Data.Models
     {
         public Category() 
         {
-            BooksCategories = new HashSet<BookCategory>();
+            this.BooksCategories = new HashSet<BookCategory>();
         }
 
         [Comment("Primary key")]

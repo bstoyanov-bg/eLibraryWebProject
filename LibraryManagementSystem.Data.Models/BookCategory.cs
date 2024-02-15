@@ -15,13 +15,13 @@ namespace LibraryManagementSystem.Data.Models
         [ForeignKey(nameof(Book))]
         public Guid BookId { get; set; }
         [Comment("Book")]
-        public Book Book { get; set; } = null!;
+        public virtual Book Book { get; set; } = null!;
 
         [Comment("CategoryId")]
         [Required]
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
         [Comment("Category")]
-        public Category Category { get; set; } = null!;
+        public virtual Category Category { get; set; } = null!;
     }
 }

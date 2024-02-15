@@ -13,12 +13,12 @@ namespace LibraryManagementSystem.Data.Models
     {
         public Book() 
         {
-            Id = new Guid();
+            this.Id = new Guid();
 
-            BooksCategories = new HashSet<BookCategory>();
-            Editions = new HashSet<Edition>();
-            Ratings = new HashSet<Rating>();
-            LendedBooks = new HashSet<LendedBook>();
+            this.BooksCategories = new HashSet<BookCategory>();
+            this.Editions = new HashSet<Edition>();
+            this.Ratings = new HashSet<Rating>();
+            this.LendedBooks = new HashSet<LendedBook>();
         }
 
         [Comment("Primary key")]
