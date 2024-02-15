@@ -58,6 +58,9 @@
 
         public static class ApplicationUser
         {
+            public const int PasswordMinLength = 6;
+            public const int PasswordMaxLength = 100;
+
             public const int FirstNameMinLength = 2;
             public const int FirstNameMaxLength = 30;
 
@@ -72,6 +75,9 @@
 
             public const int CityMinLength = 1;
             public const int CityMaxLength = 100;
+
+            public const int PhoneNumberMinLength = 6;
+            public const int PhoneNumberMaxLength = 15;
 
             public const int AllowedBooksMaxLength = 2;
         }
