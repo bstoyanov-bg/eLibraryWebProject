@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManagementSystem.Data.Migrations
 {
     [DbContext(typeof(ELibraryDbContext))]
-    [Migration("20240215084905_InitializeDB")]
+    [Migration("20240215100546_InitializeDB")]
     partial class InitializeDB
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace LibraryManagementSystem.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -56,6 +56,10 @@ namespace LibraryManagementSystem.Data.Migrations
                         .HasColumnType("nvarchar(60)")
                         .HasComment("Country of the user (Member)");
 
+                    b.Property<DateOnly>("DateOfBirth")
+                        .HasColumnType("date")
+                        .HasComment("Date of birth of the user (Member)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -81,7 +85,7 @@ namespace LibraryManagementSystem.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int>("MaxLoanedBooks")
+                    b.Property<int?>("MaxLoanedBooks")
                         .HasMaxLength(2)
                         .HasColumnType("int")
                         .HasComment("Maximum number of books allowed to have at the same time");
@@ -384,13 +388,13 @@ namespace LibraryManagementSystem.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("dc86e86b-b591-465e-96e7-e6ed19823e9c"),
+                            Id = new Guid("42d3d645-8a63-4571-9852-a32464de0d2f"),
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("f258fd17-f8c5-4222-a8e1-e830b40c272b"),
+                            Id = new Guid("c26e95d7-4387-4646-8e05-bb6566d69575"),
                             Name = "User",
                             NormalizedName = "USER"
                         });

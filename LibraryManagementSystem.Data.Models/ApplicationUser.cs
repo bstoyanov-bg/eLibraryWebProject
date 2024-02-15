@@ -23,16 +23,24 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("Fist name of the user (Member)")]
         [Required]
         [MaxLength(FirstNameMaxLength)]
+        [ProtectedPersonalData]
         public string FirstName { get; set; } = null!;
 
         [Comment("Last name of the user (Member)")]
         [Required]
         [MaxLength(LastNameMaxLength)]
+        [ProtectedPersonalData]
         public string LastName { get; set; } = null!;
+
+        [Comment("Date of birth of the user (Member)")]
+        [Required]
+        [ProtectedPersonalData]
+        public DateOnly DateOfBirth { get; set; }
 
         [Comment("Address of the user (Member)")]
         [Required]
         [MaxLength(AddressMaxLength)]
+        [ProtectedPersonalData]
         public string Address { get; set; } = null!;
 
         [Comment("Country of the user (Member)")]
@@ -45,11 +53,9 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(CityMaxLength)]
         public string City { get; set; } = null!;
 
-        // TODO --> check and add more properties
         [Comment("Maximum number of books allowed to have at the same time")]
-        [Required]
         [MaxLength(AllowedBooksMaxLength)]
-        public int MaxLoanedBooks { get; set; }
+        public int? MaxLoanedBooks { get; set; }
 
         public virtual ICollection<LendedBook> LendedBooks { get; set; }
 

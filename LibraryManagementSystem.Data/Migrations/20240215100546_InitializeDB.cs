@@ -34,10 +34,11 @@ namespace LibraryManagementSystem.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false, comment: "Fist name of the user (Member)"),
                     LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false, comment: "Last name of the user (Member)"),
+                    DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false, comment: "Date of birth of the user (Member)"),
                     Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Address of the user (Member)"),
                     Country = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false, comment: "Country of the user (Member)"),
                     City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "City of the user (Member)"),
-                    MaxLoanedBooks = table.Column<int>(type: "int", maxLength: 2, nullable: false, comment: "Maximum number of books allowed to have at the same time"),
+                    MaxLoanedBooks = table.Column<int>(type: "int", maxLength: 2, nullable: true, comment: "Maximum number of books allowed to have at the same time"),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -322,8 +323,8 @@ namespace LibraryManagementSystem.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("dc86e86b-b591-465e-96e7-e6ed19823e9c"), null, "Administrator", "ADMINISTRATOR" },
-                    { new Guid("f258fd17-f8c5-4222-a8e1-e830b40c272b"), null, "User", "USER" }
+                    { new Guid("42d3d645-8a63-4571-9852-a32464de0d2f"), null, "Administrator", "ADMINISTRATOR" },
+                    { new Guid("c26e95d7-4387-4646-8e05-bb6566d69575"), null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
