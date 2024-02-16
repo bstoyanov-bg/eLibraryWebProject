@@ -15,30 +15,30 @@ namespace LibraryManagementSystem.Data.Seeding
 
             IEnumerable<Category> catgeories = new HashSet<Category>
                 {
-                    new Category
-                    {
-                        Name = "Academic book",
-                    },
+                    //new Category
+                    //{
+                    //    Name = "Academic book",
+                    //},
                     new Category
                     {
                         Name = "Adventure stories",
                     },
-                    new Category
-                    {
-                        Name = "Classics",
-                    },
-                    new Category
-                    {
-                        Name = "Mystery",
-                    },
-                    new Category
-                    {
-                        Name = "Roman",
-                    },
-                    new Category
-                    {
-                        Name = "Science fiction",
-                    }
+                    //new Category
+                    //{
+                    //    Name = "Classics",
+                    //},
+                    //new Category
+                    //{
+                    //    Name = "Mystery",
+                    //},
+                    //new Category
+                    //{
+                    //    Name = "Roman",
+                    //},
+                    //new Category
+                    //{
+                    //    Name = "Science fiction",
+                    //}
                 };
 
             await dbContext.Categories.AddRangeAsync(catgeories);
