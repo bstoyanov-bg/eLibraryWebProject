@@ -2,7 +2,6 @@ using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
 namespace LibraryManagementSystem.Web
 {
