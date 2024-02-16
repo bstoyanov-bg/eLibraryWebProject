@@ -16,19 +16,12 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task CreateBookAsync(AddBookInputModel addBookInputModel)
         {
-            Book book = new Book
-            {
-                ManagerId = Guid.Parse(managerId),
-                Name = createGymInputModel.Name,
-                Email = createGymInputModel.Email,
-                PhoneNumber = createGymInputModel.PhoneNumber,
-                Description = createGymInputModel.Description,
-                LogoUri = createGymInputModel.LogoResultParams!.SecureUri!.AbsoluteUri,
-                LogoPublicId = createGymInputModel.LogoResultParams.PublicId,
-                WebsiteUrl = createGymInputModel.WebsiteUrl,
-                GymType = Enum.Parse<GymType>(createGymInputModel.GymType),
-                CreatedOn = DateTime.UtcNow
-            };
+            throw new NotImplementedException();
+
+            //Book book = new Book
+            //{
+                
+            //};
         }
     }
 }

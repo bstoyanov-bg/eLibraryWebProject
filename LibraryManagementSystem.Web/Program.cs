@@ -1,5 +1,6 @@
 using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Data.Seeding;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +39,16 @@ namespace LibraryManagementSystem.Web
             builder.Services.AddControllersWithViews();
 
             WebApplication app = builder.Build();
+
+            // Seed data when the application starts
+            using (var serviceScope = app.Services.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ELibraryDbContext>();
+
+                dbContext.Database.Migrate();
+
+                new ELibraryDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+            }
 
             if (app.Environment.IsDevelopment())
             {
