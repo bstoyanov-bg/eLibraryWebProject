@@ -1,0 +1,73 @@
+﻿using LibraryManagementSystem.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+
+namespace LibraryManagementSystem.Data.Seeding.Contracts
+{
+    public class AuthorsSeeder : ISeeder
+    {
+        public async Task SeedAsync(ELibraryDbContext dbContext, IServiceProvider serviceProvider)
+        {
+            if (await dbContext.Authors.AnyAsync())
+            {
+                return;
+            }
+
+            if (await dbContext.Categories.AnyAsync())
+            {
+                return;
+            }
+
+            IEnumerable<Author> authors = new HashSet<Author>
+                {
+                    new Author
+                    {
+                        FirstName = "Stephen",
+                        LastName = "Hawking",
+                        Biography = "Stephen William Hawking was an English theoretical physicist, cosmologist, and author who was director of research at the Centre for Theoretical Cosmology at the University of Cambridge. Between 1979 and 2009, he was the Lucasian Professor of Mathematics at Cambridge, widely viewed as one of the most prestigious academic posts in the world.\r\n\r\nHawking was born in Oxford into a family of physicians. In October 1959, at the age of 17, he began his university education at University College, Oxford, where he received a first-class BA degree in physics. In October 1962, he began his graduate work at Trinity Hall, Cambridge, where, in March 1966, he obtained his PhD degree in applied mathematics and theoretical physics, specialising in general relativity and cosmology.",
+                        BirthDate = DateOnly.ParseExact("08-01-1942", "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        DeathDate = DateOnly.ParseExact("14-03-2018", "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        Nationality = "English",
+                    },
+                    new Author
+                    {
+                        FirstName = "Jules",
+                        LastName = "Verne",
+                        Biography = "Jules Gabriel Verne was a French novelist, poet, and playwright. His collaboration with the publisher Pierre-Jules Hetzel led to the creation of the Voyages extraordinaires, a series of bestselling adventure novels including Journey to the Center of the Earth (1864), Twenty Thousand Leagues Under the Seas (1870), and Around the World in Eighty Days (1872). His novels, always well documented, are generally set in the second half of the 19th century, taking into account the technological advances of the time.",
+                        BirthDate = DateOnly.ParseExact("08-02-1828", "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        DeathDate = DateOnly.ParseExact("24-03-1905", "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        Nationality = "French",
+                    },
+                    new Author
+                    {
+                        FirstName = "Charles ",
+                        LastName = "Dickens",
+                        Biography = "Charles John Huffam Dickens was an English novelist and social critic who created some of the world's best-known fictional characters, and is regarded by many as the greatest novelist of the Victorian era. His works enjoyed unprecedented popularity during his lifetime and, by the 20th century, critics and scholars had recognised him as a literary genius. His novels and short stories are widely read today.",
+                        BirthDate = DateOnly.ParseExact("07-02-1812", "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        DeathDate = DateOnly.ParseExact("09-06-1870", "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        Nationality = "English",
+                    },
+                    new Author
+                    {
+                        FirstName = "Georgi",
+                        LastName = "Gospodinov",
+                        Biography = "Georgi Gospodinov Georgiev is a Bulgarian writer, poet and playwright. His novel Time Shelter received the 2023 International Booker Prize, shared with translator Angela Rodel, as well as the Strega European Prize. His novel The Physics of Sorrow received the Jan Michalski Prize and the Angelus Award. His works have been translated into 25 languages.",
+                        BirthDate = DateOnly.ParseExact("07-01-1968", "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        Nationality = "Bulgarian",
+                    },
+                    new Author
+                    {
+                        FirstName = "Franklin",
+                        LastName = "Herbert",
+                        Biography = "Franklin Patrick Herbert Jr. was an American science fiction author best known for the 1965 novel Dune and its five sequels. Though he became famous for his novels, he also wrote short stories and worked as a newspaper journalist, photographer, book reviewer, ecological consultant, and lecturer.\r\n\r\nThe Dune saga, set in the distant future, and taking place over millennia, explores complex themes, such as the long-term survival of the human species, human evolution, planetary science and ecology, and the intersection of religion, politics, economics and power in a future where humanity has long since developed interstellar travel and settled many thousands of worlds. Dune is the best-selling science fiction novel of all time, and the entire series is considered to be among the classics of the genre.",
+                        BirthDate = DateOnly.ParseExact("08-10-1920", "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        DeathDate = DateOnly.ParseExact("11-02-1986", "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        Nationality = "American",
+                    },
+                };
+
+            await dbContext.Authors.AddRangeAsync(authors);
+            await dbContext.SaveChangesAsync();
+        }
+    }
+}

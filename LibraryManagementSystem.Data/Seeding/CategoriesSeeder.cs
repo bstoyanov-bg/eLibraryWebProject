@@ -25,15 +25,15 @@ namespace LibraryManagementSystem.Data.Seeding
                     },
                     new Category
                     {
-                        Name = "Biography",
-                    },
-                    new Category
-                    {
                         Name = "Classics",
                     },
                     new Category
                     {
                         Name = "Mystery",
+                    },
+                    new Category
+                    {
+                        Name = "Roman",
                     },
                     new Category
                     {

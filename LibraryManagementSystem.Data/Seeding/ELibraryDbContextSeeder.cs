@@ -18,6 +18,7 @@ namespace LibraryManagementSystem.Data.Seeding
 
             var seeders = new List<ISeeder>
                           {
+                              new AuthorsSeeder(),
                               new CategoriesSeeder(),
                           };
 
