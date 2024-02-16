@@ -36,6 +36,7 @@ namespace LibraryManagementSystem.Data.Models
 
         [Comment("The year of book publish")]
         [MaxLength(YearPublishedMaxLength)]
+        [DisplayFormat(DataFormatString = DateFormat)]
         public DateOnly? YearPublished { get; set; }
 
         [Comment("Description of the book")]

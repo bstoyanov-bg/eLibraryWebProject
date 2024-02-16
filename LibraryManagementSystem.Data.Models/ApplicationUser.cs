@@ -34,6 +34,7 @@ namespace LibraryManagementSystem.Data.Models
 
         [Comment("Date of birth of the user (Member)")]
         [Required]
+        [DisplayFormat(DataFormatString = DateFormat)]
         [ProtectedPersonalData]
         public DateOnly DateOfBirth { get; set; }
 

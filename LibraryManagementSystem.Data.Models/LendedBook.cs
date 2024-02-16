@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static LibraryManagementSystem.Common.DataModelsValidationConstants.LendedBook;
 
 namespace LibraryManagementSystem.Data.Models
 {
@@ -21,9 +22,11 @@ namespace LibraryManagementSystem.Data.Models
 
         [Comment("The date when the book was borrowed")]
         [Required]
+        [DisplayFormat(DataFormatString = DateFormatt)]
         public DateOnly LoanDate { get; set; }
 
         [Comment("The date when the book was returned")]
+        [DisplayFormat(DataFormatString = DateFormatt)]
         public DateOnly? ReturnDate { get; set; }
 
         [Comment("BookId")]

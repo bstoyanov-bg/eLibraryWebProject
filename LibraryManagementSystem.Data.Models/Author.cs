@@ -36,9 +36,11 @@ namespace LibraryManagementSystem.Data.Models
         public string? Biography { get; set; }
 
         [Comment("Birth date of the Author")]
+        [DisplayFormat(DataFormatString = DateFormatt)]
         public DateOnly? BirthDate { get; set; }
 
         [Comment("Death date of the Author")]
+        [DisplayFormat(DataFormatString = DateFormatt)]
         public DateOnly? DeathDate { get; set; }
 
         [Comment("Nationality of the Author")]

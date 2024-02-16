@@ -38,6 +38,7 @@ namespace LibraryManagementSystem.Data.Models
 
         [Comment("Date of the rating")]
         [Required]
+        [DisplayFormat(DataFormatString = DateFormat)]
         public DateOnly Date { get; set; }
     }
 }

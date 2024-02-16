@@ -28,6 +28,8 @@
             public const int CoverImagePathUrlMaxLength = 2083;
 
             public const string ISBNRegexPattern = @"\b(?:ISBN(?:-13)?:? ?)?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){3})[- 0-9]{17}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b";
+
+            public const string DateFormat = "dd-MM-yyyy";
         }
 
         public static class Author
@@ -43,6 +45,8 @@
 
             public const int NationalityMinLength = 2;
             public const int NationalityMaxLength = 50;
+
+            public const string DateFormatt = "dd-MM-yyyy";
         }
 
         public static class Edition
@@ -54,6 +58,8 @@
             public const int PublisherMaxLength = 100;
 
             public const int EditionYearMaxLength = 5;
+
+            public const string DateFormatt = "dd-MM-yyyy";
         }
 
         public static class ApplicationUser
@@ -80,6 +86,8 @@
             public const int PhoneNumberMaxLength = 15;
 
             public const int AllowedBooksMaxLength = 2;
+
+            public const string DateFormat = "dd-MM-yyyy";
         }
 
         public static class Rating
@@ -88,6 +96,13 @@
 
             public const int CommentMinLength = 5;
             public const int CommentMaxLength = 1000;
+
+            public const string DateFormat = "dd-MM-yyyy";
+        }
+
+        public static class LendedBook
+        {
+            public const string DateFormatt = "dd-MM-yyyy";
         }
     }
 }
