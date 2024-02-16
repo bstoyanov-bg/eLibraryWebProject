@@ -27,6 +27,7 @@
 
             public const int CoverImagePathUrlMaxLength = 2083;
 
+            public const int ISBNMaxLength = 22;
             public const string ISBNRegexPattern = @"\b(?:ISBN(?:-13)?:? ?)?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){3})[- 0-9]{17}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b";
 
             public const string DateFormat = "dd-MM-yyyy";

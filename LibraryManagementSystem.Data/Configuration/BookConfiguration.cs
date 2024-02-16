@@ -13,9 +13,13 @@ namespace LibraryManagementSystem.Data.Configuration
         public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder
-                .HasOne(h => h.Author)
-                .WithMany(c => c.Books)
-                .HasForeignKey(h => h.AuthorId)
+                .Property(b => b.CreatedOn)
+                .HasDefaultValue(DateTime.UtcNow);
+
+            builder
+                .HasOne(b => b.Author)
+                .WithMany(a => a.Books)
+                .HasForeignKey(b => b.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

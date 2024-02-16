@@ -27,6 +27,7 @@ namespace LibraryManagementSystem.Data.Models
 
         [Comment("International Standard Book Number")]
         [RegularExpression(ISBNRegexPattern)]
+        [MaxLength(ISBNMaxLength)]
         public string? ISBN { get; set; }
 
         [Comment("Title of the book")]
@@ -51,6 +52,9 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("Cover image of the book")]
         [MaxLength(CoverImagePathUrlMaxLength)]
         public string? CoverImagePathUrl { get; set; }
+
+        [Comment("Created On")]
+        public DateTime CreatedOn { get; set; }
 
         [Comment("AuthorId")]
         [Required]

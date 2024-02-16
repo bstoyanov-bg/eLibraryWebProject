@@ -48,6 +48,9 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(NationalityMaxLength)]
         public string Nationality { get; set; } = null!;
 
+        [Comment("Created On")]
+        public DateTime CreatedOn { get; set; }
+
         public virtual ICollection<Book> Books { get; set; }
     }
 }
