@@ -4,7 +4,7 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
 {
     public class BookController : BaseAdminController
     {
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Add()
         {
             return View();
         }

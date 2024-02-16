@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagementSystem.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagementSystem.Web.ViewModels", "LibraryManagementSystem.Web.ViewModels\LibraryManagementSystem.Web.ViewModels.csproj", "{C4DD3486-C69B-4C6A-933F-95620080D45A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A57007F2-869E-4D0F-933F-92F32545BBE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagementSystem.Services.Data", "LibraryManagementSystem.Services.Data\LibraryManagementSystem.Services.Data.csproj", "{FF182441-F7A9-42A4-94F7-5CA1A9B36E46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,10 @@ Global
 		{C4DD3486-C69B-4C6A-933F-95620080D45A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4DD3486-C69B-4C6A-933F-95620080D45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4DD3486-C69B-4C6A-933F-95620080D45A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF182441-F7A9-42A4-94F7-5CA1A9B36E46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF182441-F7A9-42A4-94F7-5CA1A9B36E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF182441-F7A9-42A4-94F7-5CA1A9B36E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF182441-F7A9-42A4-94F7-5CA1A9B36E46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +60,7 @@ Global
 		{CE9E37CE-738E-42D5-B02E-F40AA5BDC99D} = {32F5EAC9-574B-441C-819F-D1022A857B7A}
 		{51BBE7D8-814E-41BD-B386-6BB68E952AC1} = {32F5EAC9-574B-441C-819F-D1022A857B7A}
 		{C4DD3486-C69B-4C6A-933F-95620080D45A} = {5318D9DD-BC00-4D01-8200-AE21D4C5DB3D}
+		{FF182441-F7A9-42A4-94F7-5CA1A9B36E46} = {A57007F2-869E-4D0F-933F-92F32545BBE2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {55C465AA-15E0-40F8-BC22-CDFA0188FFF4}
