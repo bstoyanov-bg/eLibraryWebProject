@@ -1,6 +1,8 @@
 using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Data.Seeding;
+using LibraryManagementSystem.Services.Data;
+using LibraryManagementSystem.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +37,8 @@ namespace LibraryManagementSystem.Web
             {
                 cfg.LoginPath = "/User/Login";
             });
+
+            builder.Services.AddScoped<IBookService, BookService>();
 
             builder.Services.AddControllersWithViews();
 

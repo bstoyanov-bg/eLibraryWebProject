@@ -1,3 +1,4 @@
+using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -6,14 +7,18 @@ namespace LibraryManagementSystem.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IBookService bookService;
 
-        public HomeController()
+        public HomeController(IBookService bookService)
         {
+            this.bookService = bookService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            IEnumerable<IndexViewModel> viewModel = await this.bookService.LastTenBooksAsync();
+
+            return View(viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
