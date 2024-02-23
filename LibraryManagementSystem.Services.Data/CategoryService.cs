@@ -1,8 +1,10 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Category;
+using Microsoft.EntityFrameworkCore;
 
-namespace LibraryManagementSystem.Services.Data.Interfaces
+namespace LibraryManagementSystem.Services.Data
 {
     public class CategoryService : ICategoryService
     {
@@ -13,9 +15,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
             this.dbContext = dbContext;
         }
 
-        // TO DO Implement CreateCategoryAsync correct
-
-        public async Task CreateCategoryAsync(AddCategoryInputModel addCategoryInputModel)
+        public async Task<int> CreateCategoryAsync(CategoryFormModel addCategoryInputModel)
         {
             // Validate input
             if (addCategoryInputModel == null)
@@ -29,12 +29,22 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
                 Name = addCategoryInputModel.Name
             };
 
-            // Assuming you have some repository or data access layer to save the category
             await dbContext.AddAsync(category);
-
+            await dbContext.SaveChangesAsync();
 
             // Return the newly created category
-            return;
+            return category.Id;
+        }
+
+        public async Task<IEnumerable<AllViewModel>> GetAllCategoriesAsync()
+        {
+            return await this.dbContext.Categories
+                .Select(c => new AllViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                })
+                .ToListAsync();
         }
     }
 }
