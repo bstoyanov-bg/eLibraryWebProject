@@ -3,10 +3,8 @@ using static LibraryManagementSystem.Common.DataModelsValidationConstants.Catego
 
 namespace LibraryManagementSystem.Web.ViewModels.Category
 {
-    public class AddCategoryInputModel
+    public class CategoryFormModel
     {
-        public int Id { get; set; }
-
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; } = null!;

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<AllViewModel>
+
+<h1>All Categories</h1>
+
+@if (!Model.Any())
+{
+    <p>No categories found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.Id</td>
+                    <td>@category.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

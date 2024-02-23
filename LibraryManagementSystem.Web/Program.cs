@@ -1,11 +1,9 @@
 using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Data.Seeding;
-using LibraryManagementSystem.Services.Data;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Web
@@ -41,8 +39,6 @@ namespace LibraryManagementSystem.Web
             });
 
             builder.Services.AddApplicationServices(typeof(IBookService));
-            
-            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             WebApplication app = builder.Build();
 
