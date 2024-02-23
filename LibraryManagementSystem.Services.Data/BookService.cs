@@ -27,7 +27,7 @@ namespace LibraryManagementSystem.Services.Data
                     Title = b.Title,
                     Description = b.Description,
                     Author = $"{b.Author.FirstName} {b.Author.LastName}",
-                    ImageUrl = b.CoverImagePathUrl
+                    ImageUrl = b.CoverImagePathUrl ?? string.Empty,
                 })
                 .ToArrayAsync();
 
