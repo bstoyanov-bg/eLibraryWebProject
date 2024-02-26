@@ -15,25 +15,30 @@ namespace LibraryManagementSystem.Services.Data
             this.dbContext = dbContext;
         }
 
-        public async Task<int> CreateCategoryAsync(CategoryFormModel addCategoryInputModel)
+        public async Task AddCategoryAsync(CategoryFormModel model)
         {
             // Validate input
-            if (addCategoryInputModel == null)
+            if (model == null)
             {
-                throw new ArgumentNullException(nameof(addCategoryInputModel));
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Name == model.Name);
+
+            //Check if category exists in DB
+            if (category != null)
+            {
+                throw new InvalidOperationException("Category with the same name already exists.");
             }
 
             // Create a new Category object
-            var category = new Category
+            var cat = new Category
             {
-                Name = addCategoryInputModel.Name
+                Name = model.Name
             };
 
-            await dbContext.AddAsync(category);
+            await dbContext.AddAsync(cat);
             await dbContext.SaveChangesAsync();
-
-            // Return the newly created category
-            return category.Id;
         }
 
         public async Task<IEnumerable<AllViewModel>> GetAllCategoriesAsync()

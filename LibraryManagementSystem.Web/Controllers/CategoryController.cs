@@ -1,7 +1,9 @@
 ﻿using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Category;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using static LibraryManagementSystem.Common.NotificationMessageConstants;
+using static LibraryManagementSystem.Common.UserRoleNames;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -15,12 +17,16 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> Add()
         {
-            return View();
+            CategoryFormModel category = new CategoryFormModel();
+
+            return View(category);
         }
 
         [HttpPost]
+        [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Add(CategoryFormModel model)
         {
             if (!ModelState.IsValid)
@@ -28,12 +34,21 @@ namespace LibraryManagementSystem.Web.Controllers
                 return View(model);
             }
 
-            await categoryService.CreateCategoryAsync(model);
+            try
+            {
+                await categoryService.AddCategoryAsync(model);
+                TempData[SuccessMessage] = "Succestully created category";
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "Category with the same name already exists.";
+            }
 
-            return RedirectToAction(nameof(All));
+            return this.RedirectToAction("All", "Category");
         }
 
         [HttpGet]
+        [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> All()
         {
             IEnumerable<AllViewModel> viewModel =
