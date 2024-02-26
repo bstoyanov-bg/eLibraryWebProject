@@ -17,15 +17,19 @@ else
             </tr>
         </thead>
         <tbody>
+            @{
+                int counter = 1;
+            }
             @foreach (var category in Model)
             {
                 <tr>
-                    <td>@category.Id</td>
+                    <td>@counter</td>
                     <td>@category.Name</td>
                     <td>
                         <a href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-primary">Edit</a>
                     </td>
                 </tr>
+                counter++;
             }
         </tbody>
     </table>

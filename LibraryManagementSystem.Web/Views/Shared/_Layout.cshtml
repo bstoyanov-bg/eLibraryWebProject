@@ -34,12 +34,21 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Author" asp-action="Add">Add Author</a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Add">Add Book</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Add">Add Category</a>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Category
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                                    <li><a class="dropdown-item" href="@Url.Action("Add", "Category")">Add Category</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("All", "Category")">All Categories</a></li>
+                                </ul>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Edition" asp-action="Add">Add Edition</a>
                             </li>
