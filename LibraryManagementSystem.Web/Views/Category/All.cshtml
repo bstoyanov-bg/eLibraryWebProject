@@ -13,6 +13,7 @@ else
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,9 @@ else
                 <tr>
                     <td>@category.Id</td>
                     <td>@category.Name</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-primary">Edit</a>
+                    </td>
                 </tr>
             }
         </tbody>

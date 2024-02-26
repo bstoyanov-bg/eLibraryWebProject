@@ -51,5 +51,35 @@ namespace LibraryManagementSystem.Services.Data
                 })
                 .ToListAsync();
         }
+
+        public async Task<CategoryFormModel?> GetCategoryByIdAsync(int categoryId)
+        {
+           var categoryById = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+
+            if (categoryById != null)
+            {
+                CategoryFormModel category = new CategoryFormModel()
+                {
+                    Name = categoryById.Name,
+                };
+
+                return category;
+            }
+
+            return null;
+        }
+
+        public async Task EditCategoryAsync(int categoryId, CategoryFormModel model)
+        {
+            var categoryToEdit = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+
+            if (categoryToEdit != null)
+            {
+                categoryToEdit.Name = model.Name;
+
+            }
+
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

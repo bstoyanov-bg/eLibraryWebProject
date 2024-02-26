@@ -41,7 +41,7 @@ namespace LibraryManagementSystem.Web.Controllers
             }
             catch
             {
-                TempData[ErrorMessage] = "Category with the same name already exists.";
+                TempData[ErrorMessage] = "Category with the same name already exists!";
             }
 
             return this.RedirectToAction("All", "Category");
@@ -55,6 +55,50 @@ namespace LibraryManagementSystem.Web.Controllers
                 await categoryService.GetAllCategoriesAsync();
 
             return View(viewModel);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var category = await categoryService.GetCategoryByIdAsync(id);
+
+            if (category == null)
+            {
+                return RedirectToAction("All", "Category");
+            }
+
+            return View(category);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> Edit(int id, CategoryFormModel model)
+        {
+            var category = await categoryService.GetCategoryByIdAsync(id);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (category == null)
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+
+            try
+            {
+                category.Name = model.Name;
+                await categoryService.EditCategoryAsync(id, model);
+                TempData[SuccessMessage] = "Succesfully edited category";
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with editing the category!";
+            }
+
+            return this.RedirectToAction("All", "Category");
         }
     }
 }
