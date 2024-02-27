@@ -1,0 +1,42 @@
+﻿@model IEnumerable<AllAuthorsViewModel>
+
+<h1>All Authors</h1>
+
+@if (!Model.Any())
+{
+    <p>No authors found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Nationality</th>
+                <th>Books</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int counter = 1;
+            }
+            @foreach (var author in Model)
+            {
+                <tr>
+                    <td>@counter</td>
+                    <td>@author.FirstName</td>
+                    <td>@author.LastName</td>
+                    <td>@author.Nationality</td>
+                    <td>@author.BooksCount</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Author", new { id = author.Id })" class="btn btn-primary">Edit</a>
+                    </td>
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
+}

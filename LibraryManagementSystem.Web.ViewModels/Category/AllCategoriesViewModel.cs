@@ -1,6 +1,6 @@
 ﻿namespace LibraryManagementSystem.Web.ViewModels.Category
 {
-    public class AllViewModel
+    public class AllCategoriesViewModel
     {
         public int Id { get; set; }
 
