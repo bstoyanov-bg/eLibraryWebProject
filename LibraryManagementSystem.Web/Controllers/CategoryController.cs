@@ -18,7 +18,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpGet]
         [Authorize(Roles = AdminRole)]
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         {
             CategoryFormModel category = new CategoryFormModel();
 
@@ -51,7 +51,7 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> All()
         {
-            IEnumerable<AllViewModel> viewModel =
+            IEnumerable<AllCategoriesViewModel> viewModel =
                 await categoryService.GetAllCategoriesAsync();
 
             return View(viewModel);

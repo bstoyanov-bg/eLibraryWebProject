@@ -41,12 +41,11 @@ namespace LibraryManagementSystem.Services.Data
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AllViewModel>> GetAllCategoriesAsync()
+        public async Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync()
         {
             return await this.dbContext.Categories
-                .Select(c => new AllViewModel
+                .Select(c => new AllCategoriesViewModel
                 {
-                    Id = c.Id,
                     Name = c.Name,
                 })
                 .ToListAsync();

@@ -6,7 +6,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
     {
         Task AddCategoryAsync(CategoryFormModel model);
 
-        Task<IEnumerable<AllViewModel>> GetAllCategoriesAsync();
+        Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync();
 
         Task<CategoryFormModel?> GetCategoryByIdAsync(int categoryId);
 
