@@ -8,7 +8,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync();
 
-        Task<CategoryFormModel?> GetCategoryByIdAsync(int categoryId);
+        Task<CategoryFormModel?> GetCategoryForEditByIdAsync(int categoryId);
 
         Task EditCategoryAsync(int categoryId, CategoryFormModel model);
     }

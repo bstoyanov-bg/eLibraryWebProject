@@ -61,7 +61,7 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(int id)
         {
-            var category = await categoryService.GetCategoryByIdAsync(id);
+            var category = await categoryService.GetCategoryForEditByIdAsync(id);
 
             if (category == null)
             {
@@ -75,7 +75,7 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(int id, CategoryFormModel model)
         {
-            var category = await categoryService.GetCategoryByIdAsync(id);
+            var category = await categoryService.GetCategoryForEditByIdAsync(id);
 
             if (!ModelState.IsValid)
             {

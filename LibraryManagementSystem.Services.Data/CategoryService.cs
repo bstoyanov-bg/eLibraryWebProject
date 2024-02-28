@@ -46,20 +46,21 @@ namespace LibraryManagementSystem.Services.Data
             return await this.dbContext.Categories
                 .Select(c => new AllCategoriesViewModel
                 {
+                    Id = c.Id,
                     Name = c.Name,
                 })
                 .ToListAsync();
         }
 
-        public async Task<CategoryFormModel?> GetCategoryByIdAsync(int categoryId)
+        public async Task<CategoryFormModel?> GetCategoryForEditByIdAsync(int categoryId)
         {
-           var categoryById = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+           var categoryToEdit = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
 
-            if (categoryById != null)
+            if (categoryToEdit != null)
             {
                 CategoryFormModel category = new CategoryFormModel()
                 {
-                    Name = categoryById.Name,
+                    Name = categoryToEdit.Name,
                 };
 
                 return category;
@@ -75,7 +76,6 @@ namespace LibraryManagementSystem.Services.Data
             if (categoryToEdit != null)
             {
                 categoryToEdit.Name = model.Name;
-
             }
 
             await dbContext.SaveChangesAsync();
