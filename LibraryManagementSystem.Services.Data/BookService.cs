@@ -17,8 +17,7 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task<IEnumerable<IndexViewModel>> LastTenBooksAsync()
         {
-            IEnumerable<IndexViewModel> lastTenBooks = await dbContext
-                .Books
+            IEnumerable<IndexViewModel> lastTenBooks = await dbContext.Books
                 .OrderByDescending(h => h.CreatedOn)
                 .Take(10)
                 .Select(b => new IndexViewModel()
