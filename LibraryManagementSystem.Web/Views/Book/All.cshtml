@@ -1,0 +1,48 @@
+﻿@model IEnumerable<AllBooksViewModel>
+
+@{
+    ViewData["Title"] = "All Books";
+}
+
+<h1>All Books</h1>
+
+@if (!Model.Any())
+{
+    <p>No books found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Year published</th>
+                <th>Publisher</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int counter = 1;
+            }
+            @foreach (var book in Model)
+            {
+                <tr>
+                    <td>@counter</td>
+                    <td>@book.Title</td>
+                    <td>@book.YearPublished</td>
+                    <td>@book.Publisher</td>
+                    <td>@book.AuthorName</td>
+                    <td>@book.Category</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Book", new { id = book.Id })" class="btn btn-primary">Edit</a>
+                    </td>
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
+}

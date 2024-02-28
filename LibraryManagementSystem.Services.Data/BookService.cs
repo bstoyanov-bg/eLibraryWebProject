@@ -33,6 +33,21 @@ namespace LibraryManagementSystem.Services.Data
             return lastTenBooks;
         }
 
+        public async Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync()
+        {
+            return await this.dbContext.Books
+                .Select(b => new AllBooksViewModel
+                {
+                    Id = b.Id.ToString(),
+                    Title = b.Title,
+                    YearPublished = b.YearPublished,
+                    Publisher = b.Publisher,
+                    AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
+                    // TO DO
+                    //Category = 
+                }).ToListAsync();
+        }
+
         public async Task CreateBookAsync(AddBookInputModel addBookInputModel)
         {
             throw new NotImplementedException();
@@ -42,6 +57,7 @@ namespace LibraryManagementSystem.Services.Data
                 
             //};
         }
+
     }
 }
     
