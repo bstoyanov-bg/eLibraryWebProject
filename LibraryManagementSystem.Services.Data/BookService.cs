@@ -1,7 +1,6 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
-using LibraryManagementSystem.Web.ViewModels.Author;
 using LibraryManagementSystem.Web.ViewModels.Book;
 using LibraryManagementSystem.Web.ViewModels.Home;
 using Microsoft.EntityFrameworkCore;
@@ -60,9 +59,17 @@ namespace LibraryManagementSystem.Services.Data
                    Nationality = a.Nationality,
                }).ToListAsync();
 
+            var categories = await dbContext.Categories
+               .Select(c => new CategorySelectForBookFormModel
+               {
+                   Id = c.Id,
+                   Name = c.Name,
+               }).ToListAsync();
+
             BookFormModel model = new BookFormModel
             {
-                Authors = authors
+                Authors = authors,
+                Categories = categories,
             };
 
             return model;
