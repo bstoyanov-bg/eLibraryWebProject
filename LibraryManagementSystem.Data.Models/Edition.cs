@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static LibraryManagementSystem.Common.DataModelsValidationConstants.Edition;
+using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
 namespace LibraryManagementSystem.Data.Models
 {
@@ -33,7 +34,7 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("The year of book edition")]
         [Required]
         [MaxLength(EditionYearMaxLength)]
-        [DisplayFormat(DataFormatString = DateFormatt)]
+        [DisplayFormat(DataFormatString = GlobalYearFormat)]
         public DateOnly EditionYear { get; set; }
 
         [Comment("BookId")]

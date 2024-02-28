@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static LibraryManagementSystem.Common.DataModelsValidationConstants.Rating;
+using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
 namespace LibraryManagementSystem.Data.Models
 {
@@ -38,7 +39,7 @@ namespace LibraryManagementSystem.Data.Models
 
         [Comment("Date of the rating")]
         [Required]
-        [DisplayFormat(DataFormatString = DateFormat)]
+        [DisplayFormat(DataFormatString = GlobalDateFormat)]
         public DateOnly Date { get; set; }
     }
 }

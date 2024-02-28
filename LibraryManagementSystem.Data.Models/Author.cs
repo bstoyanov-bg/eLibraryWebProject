@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using static LibraryManagementSystem.Common.DataModelsValidationConstants.Author;
+using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
 namespace LibraryManagementSystem.Data.Models
 {
@@ -36,11 +37,11 @@ namespace LibraryManagementSystem.Data.Models
         public string? Biography { get; set; }
 
         [Comment("Birth date of the Author")]
-        [DisplayFormat(DataFormatString = DateFormatt)]
+        [DisplayFormat(DataFormatString = GlobalDateFormat)]
         public DateOnly? BirthDate { get; set; }
 
         [Comment("Death date of the Author")]
-        [DisplayFormat(DataFormatString = DateFormatt)]
+        [DisplayFormat(DataFormatString = GlobalDateFormat)]
         public DateOnly? DeathDate { get; set; }
 
         [Comment("Nationality of the Author")]

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static LibraryManagementSystem.Common.DataModelsValidationConstants.LendedBook;
+using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
 namespace LibraryManagementSystem.Data.Models
 {
@@ -26,7 +27,7 @@ namespace LibraryManagementSystem.Data.Models
         public DateOnly LoanDate { get; set; }
 
         [Comment("The date when the book was returned")]
-        [DisplayFormat(DataFormatString = DateFormatt)]
+        [DisplayFormat(DataFormatString = GlobalDateFormat)]
         public DateOnly? ReturnDate { get; set; }
 
         [Comment("BookId")]
