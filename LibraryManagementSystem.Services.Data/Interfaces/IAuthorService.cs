@@ -1,5 +1,4 @@
 ﻿using LibraryManagementSystem.Web.ViewModels.Author;
-using LibraryManagementSystem.Web.ViewModels.Category;
 
 namespace LibraryManagementSystem.Services.Data.Interfaces
 {
@@ -8,5 +7,9 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task AddAuthorAsync(AuthorFormModel model);
 
         Task<IEnumerable<AllAuthorsViewModel>> GetAllAuthorsAsync();
+
+        Task<AuthorFormModel?> GetAuthorForEditByIdAsync(string authorId);
+
+        Task EditAuthorAsync(string authorId, AuthorFormModel model);
     }
 }

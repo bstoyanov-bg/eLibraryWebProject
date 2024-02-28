@@ -31,8 +31,14 @@
                         </li>
                         @if (this.User.Identity?.IsAuthenticated ?? false && this.User.IsInRole(AdminRole))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Author" asp-action="Add">Add Author</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Author
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                                    <li><a class="dropdown-item" href="@Url.Action("Add", "Author")">Add Author</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("All", "Author")">All Authors</a></li>
+                                </ul>
                             </li>
 
                             <li class="nav-item">
