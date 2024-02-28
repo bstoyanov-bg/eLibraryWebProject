@@ -173,7 +173,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.Book", b =>
@@ -229,7 +229,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.BookCategory", b =>
@@ -246,7 +246,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("BooksCategories");
+                    b.ToTable("BooksCategories", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.Category", b =>
@@ -266,7 +266,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.Edition", b =>
@@ -301,7 +301,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Editions");
+                    b.ToTable("Editions", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.LendedBook", b =>
@@ -333,7 +333,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LendedBooks");
+                    b.ToTable("LendedBooks", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.Rating", b =>
@@ -365,7 +365,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Ratings");
+                    b.ToTable("Ratings", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
