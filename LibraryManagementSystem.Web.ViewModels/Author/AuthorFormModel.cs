@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static LibraryManagementSystem.Common.DataModelsValidationConstants.Author;
+using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
 
 namespace LibraryManagementSystem.Web.ViewModels.Author
@@ -20,10 +21,10 @@ namespace LibraryManagementSystem.Web.ViewModels.Author
             MinimumLength = BiographyMinLength)]
         public string? Biography { get; set; }
 
-        [DisplayFormat(DataFormatString = DateFormatt)]
+        [DisplayFormat(DataFormatString = GlobalYearFormat)]
         public DateOnly? BirthDate { get; set; }
 
-        [DisplayFormat(DataFormatString = DateFormatt)]
+        [DisplayFormat(DataFormatString = GlobalYearFormat)]
         public DateOnly? DeathDate { get; set; }
 
         [Required]

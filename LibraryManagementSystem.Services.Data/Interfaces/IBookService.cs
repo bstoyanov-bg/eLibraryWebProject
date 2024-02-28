@@ -1,5 +1,4 @@
-﻿using LibraryManagementSystem.Web.ViewModels.Author;
-using LibraryManagementSystem.Web.ViewModels.Book;
+﻿using LibraryManagementSystem.Web.ViewModels.Book;
 using LibraryManagementSystem.Web.ViewModels.Home;
 
 namespace LibraryManagementSystem.Services.Data.Interfaces
@@ -8,8 +7,10 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
     {
         Task<IEnumerable<IndexViewModel>> LastTenBooksAsync();
 
-        Task CreateBookAsync(AddBookInputModel addBookInputModel);
-
         Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync();
+
+        Task<BookFormModel> GetNewCreateBookModelAsync();
+
+        Task AddBookAsync(BookFormModel model);
     }
 }

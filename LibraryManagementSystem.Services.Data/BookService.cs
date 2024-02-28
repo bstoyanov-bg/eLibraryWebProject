@@ -1,5 +1,7 @@
 ﻿using LibraryManagementSystem.Data;
+using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
+using LibraryManagementSystem.Web.ViewModels.Author;
 using LibraryManagementSystem.Web.ViewModels.Book;
 using LibraryManagementSystem.Web.ViewModels.Home;
 using Microsoft.EntityFrameworkCore;
@@ -48,16 +50,48 @@ namespace LibraryManagementSystem.Services.Data
                 }).ToListAsync();
         }
 
-        public async Task CreateBookAsync(AddBookInputModel addBookInputModel)
+        public async Task<BookFormModel> GetNewCreateBookModelAsync()
         {
-            throw new NotImplementedException();
+            var authors = await dbContext.Authors
+               .Select(a => new AuthorSelectForBookFormModel
+               {
+                   Id = a.Id.ToString(),
+                   Name = $"{a.FirstName} {a.LastName}",
+                   Nationality = a.Nationality,
+               }).ToListAsync();
 
-            //Book book = new Book
-            //{
-                
-            //};
+            BookFormModel model = new BookFormModel
+            {
+                Authors = authors
+            };
+
+            return model;
         }
 
+        public async Task AddBookAsync(BookFormModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            //Check if book exists in DB ???
+
+            // Create a new Book object
+            var book = new Book
+            {
+                Title = model.Title,
+                ISBN = model.ISBN,
+                YearPublished = model.YearPublished,
+                Description = model.Description,
+                Publisher = model.Publisher,
+                CoverImagePathUrl = model.CoverImagePathUrl,
+                AuthorId = Guid.Parse(model.AuthorId),
+            };
+
+            await dbContext.AddAsync(book);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
     

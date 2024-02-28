@@ -1,0 +1,52 @@
+﻿@model BookFormModel
+
+@{
+    ViewData["Title"] = "Add Book";
+}
+
+<h1>Add Book</h1>
+
+<form method="post">
+    <div class="form-group mb-3">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" placeholder="" />
+        <span asp-validation-for="Title" class="small text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="ISBN"></label>
+        <input asp-for="ISBN" class="form-control" placeholder="" />
+        <span asp-validation-for="ISBN" class="small text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="YearPublished"></label>
+        <input asp-for="YearPublished" class="form-control" placeholder="" />
+        <span asp-validation-for="YearPublished" class="small text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" placeholder="" />
+        <span asp-validation-for="Description" class="small text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Publisher"></label>
+        <input asp-for="Publisher" class="form-control" placeholder="" />
+        <span asp-validation-for="Publisher" class="small text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="CoverImagePathUrl"></label>
+        <input asp-for="CoverImagePathUrl" class="form-control" placeholder="" />
+        <span asp-validation-for="CoverImagePathUrl" class="small text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.AuthorId" class="form-label-add-edit">Select Author</label>
+        <select asp-for="@Model.AuthorId" class="form-control" aria-required="true">
+            @foreach (var author in Model.Authors)
+            {
+                <option value="@author.Id">@author.Name</option>
+            }
+        </select>
+        <span asp-validation-for="@Model.AuthorId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

@@ -1,11 +1,9 @@
-﻿using LibraryManagementSystem.Services.Data;
-using LibraryManagementSystem.Services.Data.Interfaces;
+﻿using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Author;
-using LibraryManagementSystem.Web.ViewModels.Category;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static LibraryManagementSystem.Common.NotificationMessageConstants;
 using static LibraryManagementSystem.Common.UserRoleNames;
+using static LibraryManagementSystem.Common.NotificationMessageConstants;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
