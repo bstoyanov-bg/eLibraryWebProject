@@ -37,6 +37,7 @@ namespace LibraryManagementSystem.Services.Data
         public async Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync()
         {
             return await this.dbContext.Books
+                .AsNoTracking()
                 .Select(b => new AllBooksViewModel
                 {
                     Id = b.Id.ToString(),

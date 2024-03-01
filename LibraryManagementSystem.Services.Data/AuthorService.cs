@@ -44,6 +44,7 @@ namespace LibraryManagementSystem.Services.Data
         public async Task<IEnumerable<AllAuthorsViewModel>> GetAllAuthorsAsync()
         {
             return await this.dbContext.Authors
+                .AsNoTracking()
                 .Select(a => new AllAuthorsViewModel
                 {
                     Id = a.Id.ToString(),

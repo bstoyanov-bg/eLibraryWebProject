@@ -17,7 +17,6 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task AddCategoryAsync(CategoryFormModel model)
         {
-            // Validate input
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));
@@ -25,13 +24,11 @@ namespace LibraryManagementSystem.Services.Data
 
             var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Name == model.Name);
 
-            //Check if category exists in DB
             if (category != null)
             {
                 throw new InvalidOperationException("Category with the same name already exists.");
             }
 
-            // Create a new Category object
             var cat = new Category
             {
                 Name = model.Name
@@ -44,6 +41,7 @@ namespace LibraryManagementSystem.Services.Data
         public async Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync()
         {
             return await this.dbContext.Categories
+                .AsNoTracking()
                 .Select(c => new AllCategoriesViewModel
                 {
                     Id = c.Id,
