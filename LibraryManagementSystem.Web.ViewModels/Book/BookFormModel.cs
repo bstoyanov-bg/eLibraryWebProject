@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LibraryManagementSystem.Web.ViewModels.Author;
+using LibraryManagementSystem.Web.ViewModels.Category;
 using static LibraryManagementSystem.Common.DataModelsValidationConstants.Book;
 using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
@@ -8,8 +10,8 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
     {
         public BookFormModel()
         {
-            this.Authors  = new HashSet<AuthorSelectForBookFormModel>();
-            this.Categories  = new HashSet<CategorySelectForBookFormModel>();
+            Authors  = new HashSet<AuthorSelectForBookFormModel>();
+            Categories  = new HashSet<AllCategoriesViewModel>();
         }
 
         [Required]
@@ -40,8 +42,8 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
 
         public int CategoryId { get; set; }
 
-        public IEnumerable<AuthorSelectForBookFormModel> Authors { get; set; } = null!;
+        public IEnumerable<AuthorSelectForBookFormModel> Authors { get; set; }
 
-        public IEnumerable<CategorySelectForBookFormModel> Categories { get; set; } = null!;
+        public IEnumerable<AllCategoriesViewModel> Categories { get; set; }
     }
 }

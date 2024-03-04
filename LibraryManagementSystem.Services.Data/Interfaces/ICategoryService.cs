@@ -11,5 +11,11 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<CategoryFormModel?> GetCategoryForEditByIdAsync(int categoryId);
 
         Task EditCategoryAsync(int categoryId, CategoryFormModel model);
+
+        Task<string> GetCategoryNameByCategoryIdAsync(int categoryId);
+
+        Task<string> GetCategoryNameByBookIdAsync(string bookId);
+
+        Task<int> GetCategoryIdByBookIdAsync(string bookId);
     }
 }

@@ -3,6 +3,7 @@ using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Category;
 using Microsoft.EntityFrameworkCore;
+using static LibraryManagementSystem.Common.DataModelsValidationConstants;
 
 namespace LibraryManagementSystem.Services.Data
 {
@@ -29,7 +30,7 @@ namespace LibraryManagementSystem.Services.Data
                 throw new InvalidOperationException("Category with the same name already exists.");
             }
 
-            var cat = new Category
+            var cat = new LibraryManagementSystem.Data.Models.Category
             {
                 Name = model.Name
             };
@@ -77,6 +78,44 @@ namespace LibraryManagementSystem.Services.Data
             }
 
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<string> GetCategoryNameByCategoryIdAsync(int categoryId)
+        {
+            var categoryName = await dbContext.BooksCategories
+                                              .Where(bc => bc.CategoryId == categoryId)
+                                              .Select(bc => bc.Category.Name)
+                                              .FirstOrDefaultAsync();
+
+            if (categoryName == null)
+            {
+                return string.Empty;
+            }
+
+            return categoryName;
+        }
+
+        public async Task<string> GetCategoryNameByBookIdAsync(string bookId)
+        {
+            var categoryName = await dbContext.BooksCategories
+                                               .Where(bc => bc.BookId.ToString() == bookId)
+                                               .Select(c => c.Category.Name)
+                                               .FirstOrDefaultAsync();
+
+            if (categoryName == null)
+            {
+                return string.Empty;
+            }
+
+            return categoryName;
+        }
+
+        public async Task<int> GetCategoryIdByBookIdAsync(string bookId)
+        {
+            return await dbContext.BooksCategories
+                                  .Where(bc => bc.BookId.ToString() == bookId)
+                                  .Select(bc => bc.CategoryId)
+                                  .FirstOrDefaultAsync();
         }
     }
 }

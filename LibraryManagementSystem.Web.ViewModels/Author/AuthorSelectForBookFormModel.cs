@@ -1,4 +1,4 @@
-﻿namespace LibraryManagementSystem.Web.ViewModels.Book
+﻿namespace LibraryManagementSystem.Web.ViewModels.Author
 {
     public class AuthorSelectForBookFormModel
     {

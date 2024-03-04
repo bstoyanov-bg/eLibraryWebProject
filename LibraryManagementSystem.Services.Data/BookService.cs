@@ -4,16 +4,21 @@ using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Book;
 using LibraryManagementSystem.Web.ViewModels.Home;
 using Microsoft.EntityFrameworkCore;
+using static LibraryManagementSystem.Common.DataModelsValidationConstants;
 
 namespace LibraryManagementSystem.Services.Data
 {
     public class BookService : IBookService
     {
         private readonly ELibraryDbContext dbContext;
+        private readonly ICategoryService categoryService;
+        private readonly IAuthorService authorService;
 
-        public BookService(ELibraryDbContext dbContext)
+        public BookService(ELibraryDbContext dbContext, ICategoryService categoryService, IAuthorService authorService)
         {
             this.dbContext = dbContext;
+            this.categoryService = categoryService;
+            this.authorService = authorService;
         }
 
         public async Task<IEnumerable<IndexViewModel>> LastTenBooksAsync()
@@ -45,27 +50,18 @@ namespace LibraryManagementSystem.Services.Data
                     YearPublished = b.YearPublished,
                     Publisher = b.Publisher,
                     AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
-                    // TO DO
-                    //Category = 
+                    Category = b.BooksCategories
+                                .Where(bc => bc.BookId == b.Id)
+                                .Select(c => c.Category.Name)
+                                .First(),
                 }).ToListAsync();
         }
 
         public async Task<BookFormModel> GetNewCreateBookModelAsync()
         {
-            var authors = await dbContext.Authors
-               .Select(a => new AuthorSelectForBookFormModel
-               {
-                   Id = a.Id.ToString(),
-                   Name = $"{a.FirstName} {a.LastName}",
-                   Nationality = a.Nationality,
-               }).ToListAsync();
+            var authors = await authorService.GetAllAuthorsForListAsync();
 
-            var categories = await dbContext.Categories
-               .Select(c => new CategorySelectForBookFormModel
-               {
-                   Id = c.Id,
-                   Name = c.Name,
-               }).ToListAsync();
+            var categories = await categoryService.GetAllCategoriesAsync();
 
             BookFormModel model = new BookFormModel
             {
@@ -86,7 +82,7 @@ namespace LibraryManagementSystem.Services.Data
             //Check if book exists in DB ???
 
             // Create a new Book object
-            var book = new Book
+            var book = new LibraryManagementSystem.Data.Models.Book
             {
                 Title = model.Title,
                 ISBN = model.ISBN,
@@ -97,9 +93,72 @@ namespace LibraryManagementSystem.Services.Data
                 AuthorId = Guid.Parse(model.AuthorId),
             };
 
-            await dbContext.AddAsync(book);
+            await dbContext.Books.AddAsync(book);
+            await dbContext.SaveChangesAsync();
+
+            var bookCategory = new BookCategory { BookId = book.Id, CategoryId = model.CategoryId };
+
+            await dbContext.BooksCategories.AddAsync(bookCategory);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<BookFormModel?> GetBookForEditByIdAsync(string bookId)
+        {
+            var authors = await authorService.GetAllAuthorsForListAsync();
+
+            var categories = await categoryService.GetAllCategoriesAsync();
+
+            var bookToEdit = await dbContext.Books.FirstOrDefaultAsync(b => b.Id.ToString() == bookId);
+
+            if (bookToEdit == null)
+            {
+                return new BookFormModel();
+            }
+
+            var categoryId = await categoryService.GetCategoryIdByBookIdAsync(bookId);
+
+            BookFormModel book = new BookFormModel()
+            {
+                Title = bookToEdit.Title,
+                ISBN = bookToEdit.ISBN,
+                YearPublished = bookToEdit.YearPublished,
+                Description = bookToEdit.Description,
+                Publisher = bookToEdit.Publisher,
+                CoverImagePathUrl = bookToEdit.CoverImagePathUrl,
+                AuthorId = bookToEdit.AuthorId.ToString(),
+                Authors = authors,
+                CategoryId = categoryId,
+                Categories = categories,
+            };
+
+            return book;
+        }
+
+        public async Task EditBookAsync(string bookId, BookFormModel model)
+        {
+            var bookToEdit = await dbContext.Books.FirstOrDefaultAsync(b => b.Id.ToString() == bookId);
+
+            if (bookToEdit != null)
+            {
+                bookToEdit.Title = model.Title;
+                bookToEdit.ISBN = model.ISBN;
+                bookToEdit.YearPublished = model.YearPublished;
+                bookToEdit.Description = model.Description;
+                bookToEdit.Publisher = model.Publisher;
+                bookToEdit.CoverImagePathUrl = model.CoverImagePathUrl;
+                bookToEdit.AuthorId = Guid.Parse(model.AuthorId);
+            }
+            await dbContext.SaveChangesAsync();
+
+            var bookCategory = await dbContext.BooksCategories.FirstOrDefaultAsync(bc => bc.BookId == bookToEdit.Id);
+
+            bookCategory.BookId = bookToEdit.Id;
+            bookCategory.CategoryId = model.CategoryId;
+
+            //var bookCategory = new BookCategory { BookId = bookToEdit.Id, CategoryId = model.CategoryId };
+
+            await dbContext.BooksCategories.AddAsync(bookCategory);
             await dbContext.SaveChangesAsync();
         }
     }
 }
-    

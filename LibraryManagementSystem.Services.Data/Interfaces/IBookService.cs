@@ -12,5 +12,9 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<BookFormModel> GetNewCreateBookModelAsync();
 
         Task AddBookAsync(BookFormModel model);
+
+        Task<BookFormModel?> GetBookForEditByIdAsync(string id);
+
+        Task EditBookAsync(string bookId, BookFormModel model);
     }
 }

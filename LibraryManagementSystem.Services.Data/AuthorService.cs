@@ -1,9 +1,7 @@
 ﻿using LibraryManagementSystem.Data;
-using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Author;
 using Microsoft.EntityFrameworkCore;
-using static LibraryManagementSystem.Common.DataModelsValidationConstants;
 
 namespace LibraryManagementSystem.Services.Data
 {
@@ -37,8 +35,8 @@ namespace LibraryManagementSystem.Services.Data
                 Nationality = model.Nationality,
             };
 
-            await dbContext.AddAsync(author);
-            await dbContext.SaveChangesAsync();
+            await this.dbContext.AddAsync(author);
+            await this.dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<AllAuthorsViewModel>> GetAllAuthorsAsync()
@@ -53,12 +51,13 @@ namespace LibraryManagementSystem.Services.Data
                     Nationality = a.Nationality,
                     BooksCount = a.Books.Count,
                 })
-            .ToListAsync();
+                .OrderBy(a => a.FirstName)
+                .ToArrayAsync();
         }
 
         public async Task<AuthorFormModel?> GetAuthorForEditByIdAsync(string authorId)
         {
-            var authorToEdit = await dbContext.Authors.FirstOrDefaultAsync(a => a.Id.ToString() == authorId);
+            var authorToEdit = await this.dbContext.Authors.FirstOrDefaultAsync(a => a.Id.ToString() == authorId);
 
             if (authorToEdit != null)
             {
@@ -80,7 +79,7 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task EditAuthorAsync(string authorId, AuthorFormModel model)
         {
-            var authorToEdit = await dbContext.Authors.FirstOrDefaultAsync(a => a.Id.ToString() == authorId);
+            var authorToEdit = await this.dbContext.Authors.FirstOrDefaultAsync(a => a.Id.ToString() == authorId);
 
             if (authorToEdit != null)
             {
@@ -92,7 +91,20 @@ namespace LibraryManagementSystem.Services.Data
                 authorToEdit.Nationality = model.Nationality;
             }
 
-            await dbContext.SaveChangesAsync();
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<AuthorSelectForBookFormModel>> GetAllAuthorsForListAsync()
+        {
+            return await this.dbContext.Authors
+                .AsNoTracking()
+                .Select(a => new AuthorSelectForBookFormModel
+                {
+                    Id = a.Id.ToString(),
+                    Name = $"{a.FirstName} {a.LastName}",
+                    Nationality = a.Nationality,
+                })
+                .ToListAsync();
         }
     }
 }
