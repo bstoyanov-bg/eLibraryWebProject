@@ -65,6 +65,8 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("Author")]
         public virtual Author Author { get; set; } = null!;
 
+        public bool IsDeleted { get; set; }
+
         public virtual ICollection<BookCategory> BooksCategories { get; set; }
 
         public virtual ICollection<Edition> Editions { get; set; }

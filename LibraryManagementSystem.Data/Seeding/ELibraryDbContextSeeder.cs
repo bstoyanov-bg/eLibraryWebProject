@@ -21,6 +21,7 @@ namespace LibraryManagementSystem.Data.Seeding
                               new AuthorsSeeder(),
                               new CategoriesSeeder(),
                               new BooksSeeder(),
+                              new BooksCategoriesSeeder(),
                           };
 
             foreach (var seeder in seeders)

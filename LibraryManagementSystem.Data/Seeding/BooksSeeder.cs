@@ -18,6 +18,7 @@ namespace LibraryManagementSystem.Data.Seeding
             {
                 new Book
                 {
+                    Id = Guid.Parse("F08224F2-E2FA-426D-BEEE-E2DAA72B5EB6"),
                     ISBN = "978-4-0743-2365-4",
                     Title = "Brief Answers to the Big Questions",
                     YearPublished = DateOnly.ParseExact("2018", "yyyy", CultureInfo.InvariantCulture),
@@ -27,6 +28,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 },
                 new Book
                 {
+                    Id = Guid.Parse("5F14A26F-43EC-46C8-95E9-C1FE18FAC856"),
                     ISBN = "978-9-8176-9173-1",
                     Title = "The Illustrated Theory of Everything: The Origin and Fate of the Universe",
                     YearPublished = DateOnly.ParseExact("2003", "yyyy", CultureInfo.InvariantCulture),
@@ -36,6 +38,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 },
                 new Book
                 {
+                    Id = Guid.Parse("50E9B56F-9BC1-4356-AC0C-E3D5945778BA"),
                     ISBN = "978-3-16-148410-0",
                     Title = "Journey to the Center of the Earth",
                     YearPublished = DateOnly.ParseExact("1874", "yyyy", CultureInfo.InvariantCulture),
@@ -46,6 +49,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 },
                 new Book
                 {
+                    Id = Guid.Parse("3B7822CB-17D3-47FE-8C2B-2CA761F376F1"),
                     ISBN = "978-3-16-148410-1",
                     Title = "Twenty Thousand Leagues Under the Seas",
                     YearPublished = DateOnly.ParseExact("1872", "yyyy", CultureInfo.InvariantCulture),

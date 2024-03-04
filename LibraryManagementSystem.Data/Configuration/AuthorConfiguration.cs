@@ -10,7 +10,7 @@ namespace LibraryManagementSystem.Data.Configuration
         {
             builder
                 .Property(a => a.CreatedOn)
-                .HasDefaultValue(DateTime.UtcNow);
+                .HasDefaultValueSql("GETDATE()");
         }
     }
 }

@@ -17,28 +17,34 @@ namespace LibraryManagementSystem.Data.Seeding
                 {
                     new Category
                     {
+                        Id = 1,
                         Name = "Academic book",
                     },
                     new Category
                     {
+                        Id = 2,
                         Name = "Adventure stories",
                     },
-                    //new Category
-                    //{
-                    //    Name = "Classics",
-                    //},
-                    //new Category
-                    //{
-                    //    Name = "Mystery",
-                    //},
-                    //new Category
-                    //{
-                    //    Name = "Roman",
-                    //},
-                    //new Category
-                    //{
-                    //    Name = "Science fiction",
-                    //}
+                    new Category
+                    {
+                        Id = 3,
+                        Name = "Classics",
+                    },
+                    new Category
+                    {
+                        Id = 4,
+                        Name = "Mystery",
+                    },
+                    new Category
+                    {
+                        Id = 5,
+                        Name = "Roman",
+                    },
+                    new Category
+                    {
+                        Id = 6,
+                        Name = "Science fiction",
+                    }
                 };
 
             await dbContext.Categories.AddRangeAsync(catgeories);

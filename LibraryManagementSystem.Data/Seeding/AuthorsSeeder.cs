@@ -29,6 +29,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         {
                             new Book
                             {
+                                Id = Guid.Parse("F08224F2-E2FA-426D-BEEE-E2DAA72B5EB6"),
                                 ISBN = "978-4-0743-2365-4",
                                 Title = "Brief Answers to the Big Questions",
                                 YearPublished = DateOnly.ParseExact("2018", "yyyy", CultureInfo.InvariantCulture),
@@ -38,6 +39,7 @@ namespace LibraryManagementSystem.Data.Seeding
                             },
                             new Book
                             {
+                                Id = Guid.Parse("5F14A26F-43EC-46C8-95E9-C1FE18FAC856"),
                                 ISBN = "978-9-8176-9173-1",
                                 Title = "The Illustrated Theory of Everything: The Origin and Fate of the Universe",
                                 YearPublished = DateOnly.ParseExact("2003", "yyyy", CultureInfo.InvariantCulture),
@@ -60,6 +62,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         {
                             new Book
                             {
+                                Id = Guid.Parse("50E9B56F-9BC1-4356-AC0C-E3D5945778BA"),
                                 ISBN = "978-3-16-148410-0",
                                 Title = "Journey to the Center of the Earth",
                                 YearPublished = DateOnly.ParseExact("1874", "yyyy", CultureInfo.InvariantCulture),
@@ -70,6 +73,7 @@ namespace LibraryManagementSystem.Data.Seeding
                             },
                             new Book
                             {
+                                Id = Guid.Parse("3B7822CB-17D3-47FE-8C2B-2CA761F376F1"),
                                 ISBN = "978-3-16-148410-1",
                                 Title = "Twenty Thousand Leagues Under the Seas",
                                 YearPublished = DateOnly.ParseExact("1872", "yyyy", CultureInfo.InvariantCulture),
@@ -80,32 +84,35 @@ namespace LibraryManagementSystem.Data.Seeding
                             }
                         }
                     },
-                    //new Author
-                    //{
-                    //    FirstName = "Charles ",
-                    //    LastName = "Dickens",
-                    //    Biography = "Charles John Huffam Dickens was an English novelist and social critic who created some of the world's best-known fictional characters, and is regarded by many as the greatest novelist of the Victorian era. His works enjoyed unprecedented popularity during his lifetime and, by the 20th century, critics and scholars had recognised him as a literary genius. His novels and short stories are widely read today.",
-                    //    BirthDate = DateOnly.ParseExact("07.02.1812", "dd.MM.yyyy", CultureInfo.InvariantCulture),
-                    //    DeathDate = DateOnly.ParseExact("09.06.1870", "dd.MM.yyyy", CultureInfo.InvariantCulture),
-                    //    Nationality = "English",
-                    //},
-                    //new Author
-                    //{
-                    //    FirstName = "Georgi",
-                    //    LastName = "Gospodinov",
-                    //    Biography = "Georgi Gospodinov Georgiev is a Bulgarian writer, poet and playwright. His novel Time Shelter received the 2023 International Booker Prize, shared with translator Angela Rodel, as well as the Strega European Prize. His novel The Physics of Sorrow received the Jan Michalski Prize and the Angelus Award. His works have been translated into 25 languages.",
-                    //    BirthDate = DateOnly.ParseExact("07.01.1968", "dd.MM.yyyy", CultureInfo.InvariantCulture),
-                    //    Nationality = "Bulgarian",
-                    //},
-                    //new Author
-                    //{
-                    //    FirstName = "Franklin",
-                    //    LastName = "Herbert",
-                    //    Biography = "Franklin Patrick Herbert Jr. was an American science fiction author best known for the 1965 novel Dune and its five sequels. Though he became famous for his novels, he also wrote short stories and worked as a newspaper journalist, photographer, book reviewer, ecological consultant, and lecturer.\r\n\r\nThe Dune saga, set in the distant future, and taking place over millennia, explores complex themes, such as the long-term survival of the human species, human evolution, planetary science and ecology, and the intersection of religion, politics, economics and power in a future where humanity has long since developed interstellar travel and settled many thousands of worlds. Dune is the best-selling science fiction novel of all time, and the entire series is considered to be among the classics of the genre.",
-                    //    BirthDate = DateOnly.ParseExact("08.10.1920", "dd.MM.yyyy", CultureInfo.InvariantCulture),
-                    //    DeathDate = DateOnly.ParseExact("11.02.1986", "dd.MM.yyyy", CultureInfo.InvariantCulture),
-                    //    Nationality = "American",
-                    //},
+                    new Author
+                    {
+                        Id = Guid.Parse("1BAAD29E-BB6A-4424-95AE-9DCF01FA6712"),
+                        FirstName = "Charles ",
+                        LastName = "Dickens",
+                        Biography = "Charles John Huffam Dickens was an English novelist and social critic who created some of the world's best-known fictional characters, and is regarded by many as the greatest novelist of the Victorian era. His works enjoyed unprecedented popularity during his lifetime and, by the 20th century, critics and scholars had recognised him as a literary genius. His novels and short stories are widely read today.",
+                        BirthDate = DateOnly.ParseExact("07.02.1812", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                        DeathDate = DateOnly.ParseExact("09.06.1870", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                        Nationality = "English",
+                    },
+                    new Author
+                    {
+                        Id = Guid.Parse("5992BC8E-87F8-41AF-9EFB-E2C354E4BD3B"),
+                        FirstName = "Georgi",
+                        LastName = "Gospodinov",
+                        Biography = "Georgi Gospodinov Georgiev is a Bulgarian writer, poet and playwright. His novel Time Shelter received the 2023 International Booker Prize, shared with translator Angela Rodel, as well as the Strega European Prize. His novel The Physics of Sorrow received the Jan Michalski Prize and the Angelus Award. His works have been translated into 25 languages.",
+                        BirthDate = DateOnly.ParseExact("07.01.1968", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                        Nationality = "Bulgarian",
+                    },
+                    new Author
+                    {
+                        Id = Guid.Parse("7A774B0B-D493-4A9D-AB57-CCCEDC6DDCB8"),
+                        FirstName = "Franklin",
+                        LastName = "Herbert",
+                        Biography = "Franklin Patrick Herbert Jr. was an American science fiction author best known for the 1965 novel Dune and its five sequels. Though he became famous for his novels, he also wrote short stories and worked as a newspaper journalist, photographer, book reviewer, ecological consultant, and lecturer.\r\n\r\nThe Dune saga, set in the distant future, and taking place over millennia, explores complex themes, such as the long-term survival of the human species, human evolution, planetary science and ecology, and the intersection of religion, politics, economics and power in a future where humanity has long since developed interstellar travel and settled many thousands of worlds. Dune is the best-selling science fiction novel of all time, and the entire series is considered to be among the classics of the genre.",
+                        BirthDate = DateOnly.ParseExact("08.10.1920", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                        DeathDate = DateOnly.ParseExact("11.02.1986", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                        Nationality = "American",
+                    },
                 };
 
             await dbContext.Authors.AddRangeAsync(authors);
