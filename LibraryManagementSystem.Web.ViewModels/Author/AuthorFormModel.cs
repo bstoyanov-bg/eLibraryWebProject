@@ -28,7 +28,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Author
         public DateOnly? DeathDate { get; set; }
 
         [Required]
-        [StringLength(NationalityMaxLength, ErrorMessage = "Biography must be between 2 and 50 characters long.",
+        [StringLength(NationalityMaxLength, ErrorMessage = "Nationality must be between 2 and 50 characters long.",
             MinimumLength = NationalityMinLength)]
         public string Nationality { get; set; } = null!;
     }

@@ -22,10 +22,17 @@ namespace LibraryManagementSystem.Services.Data
                 throw new ArgumentNullException(nameof(model));
             }
 
-            //Check if author exists in DB ???
+            var author = await dbContext.Authors.FirstOrDefaultAsync(a => a.FirstName == model.FirstName &&
+                                                                          a.LastName == model.LastName &&
+                                                                          a.BirthDate == model.BirthDate &&
+                                                                          a.Nationality == model.Nationality);
 
-            // Create a new Author object
-            var author = new LibraryManagementSystem.Data.Models.Author
+            if (author != null)
+            {
+                throw new InvalidOperationException("Author with the same name, birth date and nationality already exists.");
+            }
+
+            var newAuthor = new LibraryManagementSystem.Data.Models.Author
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -35,7 +42,7 @@ namespace LibraryManagementSystem.Services.Data
                 Nationality = model.Nationality,
             };
 
-            await this.dbContext.AddAsync(author);
+            await this.dbContext.AddAsync(newAuthor);
             await this.dbContext.SaveChangesAsync();
         }
 

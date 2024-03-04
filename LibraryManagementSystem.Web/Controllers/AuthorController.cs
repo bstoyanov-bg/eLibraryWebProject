@@ -20,9 +20,9 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public IActionResult Add()
         {
-            AuthorFormModel category = new AuthorFormModel();
+            AuthorFormModel author = new AuthorFormModel();
 
-            return View(category);
+            return View(author);
         }
 
         [HttpPost]
@@ -41,7 +41,7 @@ namespace LibraryManagementSystem.Web.Controllers
             }
             catch
             {
-                //TempData[ErrorMessage] = "";
+                TempData[ErrorMessage] = "There was problem with adding the author!";
             }
 
             return this.RedirectToAction("All", "Author");
@@ -51,8 +51,7 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> All()
         {
-            IEnumerable<AllAuthorsViewModel> viewModel =
-                await authorService.GetAllAuthorsAsync();
+            IEnumerable<AllAuthorsViewModel> viewModel = await authorService.GetAllAuthorsAsync();
 
             return View(viewModel);
         }
@@ -61,14 +60,24 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id)
         {
-            var author = await authorService.GetAuthorForEditByIdAsync(id);
-
-            if (author == null)
+            try
             {
-                return RedirectToAction("All", "Author");
-            }
+                var author = await authorService.GetAuthorForEditByIdAsync(id);
 
-            return View(author);
+                if (author == null)
+                {
+                    this.TempData[ErrorMessage] = "Such author does not exists!";
+
+                    return RedirectToAction("All", "Author");
+                }
+
+                return View(author);
+            }
+            catch
+            {
+                return GeneralError();
+            }
+            
         }
 
         [HttpPost]
@@ -79,6 +88,8 @@ namespace LibraryManagementSystem.Web.Controllers
 
             if (!ModelState.IsValid)
             {
+                this.TempData[ErrorMessage] = "Such author does not exists!";
+
                 return View(model);
             }
 
@@ -105,6 +116,14 @@ namespace LibraryManagementSystem.Web.Controllers
             }
 
             return this.RedirectToAction("All", "Author");
+        }
+
+        private IActionResult GeneralError()
+        {
+            TempData[ErrorMessage] =
+                "Unexpected error occurred! Please try again later or contact administrator";
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
