@@ -20,8 +20,7 @@ namespace LibraryManagementSystem.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> All()
         {
-            IEnumerable<AllBooksViewModel> viewModel =
-                await bookService.GetAllBooksAsync();
+            IEnumerable<AllBooksViewModel> viewModel = await bookService.GetAllBooksAsync();
 
             return View(viewModel);
         }
@@ -30,9 +29,16 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Add()
         {
-            BookFormModel model = await bookService.GetNewCreateBookModelAsync();
+            try
+            {
+                BookFormModel model = await bookService.GetNewCreateBookModelAsync();
 
-            return View(model);
+                return View(model);
+            }
+            catch
+            {
+                return GeneralError();
+            }
         }
 
         [HttpPost]
@@ -51,7 +57,7 @@ namespace LibraryManagementSystem.Web.Controllers
             }
             catch
             {
-                //TempData[ErrorMessage] = "";
+                TempData[ErrorMessage] = "There was problem with adding the book!";
             }
 
             return this.RedirectToAction("All", "Book");
@@ -61,34 +67,41 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id)
         {
-            var book = await bookService.GetBookForEditByIdAsync(id);
-
-            if (book == null)
+            try
             {
-                return RedirectToAction("All", "Book");
-            }
+                var book = await bookService.GetBookForEditByIdAsync(id);
 
-            return View(book);
+                if (book == null)
+                {
+                    return RedirectToAction("All", "Book");
+                }
+
+                return View(book);
+            }
+            catch
+            {
+                return GeneralError();
+            }
         }
 
         [HttpPost]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id, BookFormModel model)
         {
-            var book = await bookService.GetBookForEditByIdAsync(id);
-
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            if (book == null)
-            {
-                throw new ArgumentNullException(nameof(book));
-            }
-
             try
             {
+                var book = await bookService.GetBookForEditByIdAsync(id);
+
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                if (book == null)
+                {
+                    throw new ArgumentNullException(nameof(book));
+                }
+
                 book.Title = model.Title;
                 book.ISBN = model.ISBN;
                 book.YearPublished = model.YearPublished;
@@ -107,6 +120,14 @@ namespace LibraryManagementSystem.Web.Controllers
             }
 
             return this.RedirectToAction("All", "Book");
+        }
+
+        private IActionResult GeneralError()
+        {
+            TempData[ErrorMessage] =
+                "Unexpected error occurred! Please try again later or contact administrator";
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

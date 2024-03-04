@@ -1,9 +1,7 @@
 ﻿using LibraryManagementSystem.Data;
-using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Category;
 using Microsoft.EntityFrameworkCore;
-using static LibraryManagementSystem.Common.DataModelsValidationConstants;
 
 namespace LibraryManagementSystem.Services.Data
 {

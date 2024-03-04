@@ -41,7 +41,7 @@ namespace LibraryManagementSystem.Web.Controllers
             }
             catch
             {
-                TempData[ErrorMessage] = "Category with the same name already exists!";
+                TempData[ErrorMessage] = "There was problem with adding the category!";
             }
 
             return this.RedirectToAction("All", "Category");
@@ -51,8 +51,7 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> All()
         {
-            IEnumerable<AllCategoriesViewModel> viewModel =
-                await categoryService.GetAllCategoriesAsync();
+            IEnumerable<AllCategoriesViewModel> viewModel = await categoryService.GetAllCategoriesAsync();
 
             return View(viewModel);
         }
@@ -61,14 +60,21 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(int id)
         {
-            var category = await categoryService.GetCategoryForEditByIdAsync(id);
-
-            if (category == null)
+            try
             {
-                return RedirectToAction("All", "Category");
-            }
+                var category = await categoryService.GetCategoryForEditByIdAsync(id);
 
-            return View(category);
+                if (category == null)
+                {
+                    return RedirectToAction("All", "Category");
+                }
+
+                return View(category);
+            }
+            catch (Exception)
+            {
+                return GeneralError();
+            }
         }
 
         [HttpPost]
@@ -99,6 +105,14 @@ namespace LibraryManagementSystem.Web.Controllers
             }
 
             return this.RedirectToAction("All", "Category");
+        }
+
+        private IActionResult GeneralError()
+        {
+            TempData[ErrorMessage] =
+                "Unexpected error occurred! Please try again later or contact administrator";
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

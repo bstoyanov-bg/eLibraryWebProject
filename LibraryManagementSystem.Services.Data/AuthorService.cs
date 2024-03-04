@@ -16,7 +16,6 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task AddAuthorAsync(AuthorFormModel model)
         {
-            // Validate input
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));
