@@ -25,6 +25,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     Description = "Brief Answers to the Big Questions is a popular science book written by physicist Stephen Hawking, and published by Hodder & Stoughton (hardcover) and Bantam Books (paperback) on 16 October 2018. The book examines some of the universe's greatest mysteries, and promotes the view that science is very important in helping to solve problems on planet Earth. The publisher describes the book as \"a selection of [Hawking's] most profound, accessible, and timely reflections from his personal archive\", and is based on, according to a book reviewer, \"half a million or so words\" from his essays, lectures and keynote speeches.",
                     CoverImagePathUrl = "img/BookCovers/BriefAnswersToTheBigQuestions-BookCover.jpg",
                     AuthorId = Guid.Parse("3CF69D33-43D6-4AD9-8569-0C2A897A66C0"),
+                    IsDeleted = false,
                 },
                 new Book
                 {
@@ -35,6 +36,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     Description = "In physicist Stephen Hawking's brilliant opus, A Brief History of Time, he presented us with a bold new look at our universe, how it began, and how our old views of physics and tired theories about the creation of the universe were no longer relevant. In other words, Hawking gave us a new look at our world, our universe, and ourselves. Now, available for the first time in a deluxe full-color edition with never-before-seen photos and illustrations, Hawking presents an even more comprehensive look at our universe, its creation, and how we see ourselves within it. Imagine sitting in a comfortable room listening to Hawking discuss his latest theories and place them in historical context with science's other great achievements--it would be like hearing Christopher Columbus deliver the news about the new world. Hawking presents a series of seven lectures in which he describes, more clearly than ever, the history of the universe as we know it. He begins with the history of ideas about the universe, from Aristotle's idea that the Earth is round to Hubble's discovery two millennia later that our universe is growing.",
                     CoverImagePathUrl = "img/BookCovers/The-Illustrated-Theory-of-EverythingThe-Origin-and-Fate-of-the-Universe.jpg",
                     AuthorId = Guid.Parse("3CF69D33-43D6-4AD9-8569-0C2A897A66C0"),
+                    IsDeleted = false,
                 },
                 new Book
                 {
@@ -46,6 +48,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     Publisher = "Pierre-Jules Hetzel",
                     CoverImagePathUrl = "img/BookCovers/Journey_to_the_Center_of_the_Earth_Image.jpg",
                     AuthorId = Guid.Parse("92FB2DF0-9C82-4B71-B1FB-4DE8CA702866"),
+                    IsDeleted = false,
                 },
                 new Book
                 {
@@ -57,6 +60,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     Publisher = "Pierre-Jules Hetzel",
                     CoverImagePathUrl = "img/BookCovers/Twenty_Thousand_Leagues_Under_the_Seas_Image.jpg",
                     AuthorId = Guid.Parse("92FB2DF0-9C82-4B71-B1FB-4DE8CA702866"),
+                    IsDeleted = false,
                 },
             };
 

@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Data.Seeding.Contracts;
+﻿using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Data.Seeding.Contracts;
 
 namespace LibraryManagementSystem.Data.Seeding
 {
@@ -18,10 +19,12 @@ namespace LibraryManagementSystem.Data.Seeding
 
             var seeders = new List<ISeeder>
                           {
+                              new RolesSeeder(),
                               new AuthorsSeeder(),
                               new CategoriesSeeder(),
                               new BooksSeeder(),
                               new BooksCategoriesSeeder(),
+                              new UsersSeeder(),
                           };
 
 

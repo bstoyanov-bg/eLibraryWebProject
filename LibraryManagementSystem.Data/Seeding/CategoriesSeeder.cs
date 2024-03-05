@@ -19,26 +19,32 @@ namespace LibraryManagementSystem.Data.Seeding
                     new Category
                     {
                         Name = "Academic book",
+                        IsDeleted = false,
                     },
                     new Category
                     {
                         Name = "Adventure stories",
+                        IsDeleted = false,
                     },
                     new Category
                     {
                         Name = "Classics",
+                        IsDeleted = false,
                     },
                     new Category
                     {
                         Name = "Mystery",
+                        IsDeleted = false,
                     },
                     new Category
                     {
                         Name = "Roman",
+                        IsDeleted = false,
                     },
                     new Category
                     {
                         Name = "Science fiction",
+                        IsDeleted = false,
                     }
                 };
 

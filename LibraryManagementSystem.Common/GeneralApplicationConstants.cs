@@ -9,6 +9,8 @@
         public const string AdminAreaName = "Admin";
         public const string DevelopmentAdminEmail = "admin@elibrary.bg";
 
+        public const string TestUserEmail = "testUser@elibrary.bg";
+
         public const string GlobalDateFormat = "dd.MM.yyyy";
         public const string GlobalYearFormat = "yyyy";
 
