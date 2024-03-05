@@ -24,6 +24,7 @@ namespace LibraryManagementSystem.Data.Seeding
                               new BooksCategoriesSeeder(),
                           };
 
+
             foreach (var seeder in seeders)
             {
                 await seeder.SeedAsync(dbContext, serviceProvider);

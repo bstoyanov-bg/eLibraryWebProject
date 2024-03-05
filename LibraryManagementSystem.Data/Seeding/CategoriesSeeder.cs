@@ -13,36 +13,31 @@ namespace LibraryManagementSystem.Data.Seeding
                 return;
             }
 
+
             IEnumerable<Category> catgeories = new HashSet<Category>
                 {
                     new Category
                     {
-                        Id = 1,
                         Name = "Academic book",
                     },
                     new Category
                     {
-                        Id = 2,
                         Name = "Adventure stories",
                     },
                     new Category
                     {
-                        Id = 3,
                         Name = "Classics",
                     },
                     new Category
                     {
-                        Id = 4,
                         Name = "Mystery",
                     },
                     new Category
                     {
-                        Id = 5,
                         Name = "Roman",
                     },
                     new Category
                     {
-                        Id = 6,
                         Name = "Science fiction",
                     }
                 };

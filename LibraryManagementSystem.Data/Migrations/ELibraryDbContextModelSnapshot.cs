@@ -146,7 +146,7 @@ namespace LibraryManagementSystem.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()")
+                        .HasDefaultValue(new DateTime(2024, 2, 16, 20, 17, 42, 663, DateTimeKind.Utc).AddTicks(8479))
                         .HasComment("Created On");
 
                     b.Property<DateOnly?>("DeathDate")
@@ -173,7 +173,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.Book", b =>
@@ -195,7 +195,7 @@ namespace LibraryManagementSystem.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()")
+                        .HasDefaultValue(new DateTime(2024, 2, 16, 20, 17, 42, 664, DateTimeKind.Utc).AddTicks(1731))
                         .HasComment("Created On");
 
                     b.Property<string>("Description")
@@ -208,11 +208,6 @@ namespace LibraryManagementSystem.Data.Migrations
                         .HasMaxLength(22)
                         .HasColumnType("nvarchar(22)")
                         .HasComment("International Standard Book Number");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.Property<string>("Publisher")
                         .HasMaxLength(100)
@@ -234,7 +229,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.BookCategory", b =>
@@ -251,7 +246,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("BooksCategories");
+                    b.ToTable("BooksCategories", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.Category", b =>
@@ -271,7 +266,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.Edition", b =>
@@ -306,7 +301,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Editions");
+                    b.ToTable("Editions", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.LendedBook", b =>
@@ -338,7 +333,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LendedBooks");
+                    b.ToTable("LendedBooks", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.Rating", b =>
@@ -370,7 +365,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Ratings");
+                    b.ToTable("Ratings", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -403,15 +398,15 @@ namespace LibraryManagementSystem.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f53d878f-21dd-4fff-b529-5f4a01bd2fb1"),
-                            ConcurrencyStamp = "81eaa83e-2714-45f7-af96-e9b6bfb2ef9b",
+                            Id = new Guid("b566f840-e9c1-42da-b169-b1a38f292a61"),
+                            ConcurrencyStamp = "9253f9c5-6c66-407a-a583-60cf7284f4b7",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("ae284a06-28ce-4b25-af95-e83ffa37d898"),
-                            ConcurrencyStamp = "157396e9-43fe-49b3-a258-56ff6c8a9646",
+                            Id = new Guid("8861d25f-dbcd-4f24-8f34-57ea3d6f6ba0"),
+                            ConcurrencyStamp = "2804d939-1eba-4047-9a18-04b2326fc63d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
