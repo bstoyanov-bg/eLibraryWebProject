@@ -19,15 +19,4 @@ namespace LibraryManagementSystem.Data.Configuration
                 .HasDefaultValue(false);
         }
     }
-
-    //public class ApplicationUserConfiguration : IEntityTypeConfiguration<IdentityRole<Guid>>
-    //{
-    //    public void Configure(EntityTypeBuilder<IdentityRole<Guid>> builder)
-    //    {
-    //        builder.HasData(
-    //            new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = AdminRole, NormalizedName = AdminRole.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() },
-    //            new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = UserRole, NormalizedName = UserRole.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() }
-    //        );
-    //    }
-    //}
 }

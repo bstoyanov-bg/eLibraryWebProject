@@ -32,7 +32,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 UserName = "Admin",
                 PasswordHash = "pass.123",
                 Email = DevelopmentAdminEmail,
-                EmailConfirmed = true,
+                PhoneNumber = "111222333",
                 IsDeleted = false,
             };
 
@@ -49,7 +49,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 MaxLoanedBooks = 5,
                 PasswordHash = "pass.123",
                 Email = TestUserEmail,
-                EmailConfirmed = true,
+                PhoneNumber = "444555666",
                 IsDeleted = false,
             };
 
