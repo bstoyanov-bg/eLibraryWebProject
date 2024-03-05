@@ -21,6 +21,10 @@ namespace LibraryManagementSystem.Data.Configuration
                 .WithMany(a => a.Books)
                 .HasForeignKey(b => b.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Property(b => b.IsDeleted)
+                .HasDefaultValue(false);
         }
     }
 }

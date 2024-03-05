@@ -13,10 +13,14 @@ namespace LibraryManagementSystem.Data.Configuration
         public void Configure(EntityTypeBuilder<Edition> builder)
         {
             builder
-                .HasOne(h => h.Book)
-                .WithMany(c => c.Editions)
-                .HasForeignKey(h => h.BookId)
+                .HasOne(e => e.Book)
+                .WithMany(b => b.Editions)
+                .HasForeignKey(e => e.BookId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Property(e => e.IsDeleted)
+                .HasDefaultValue(false);
         }
     }
 }

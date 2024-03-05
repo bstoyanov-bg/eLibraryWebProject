@@ -13,7 +13,7 @@ namespace LibraryManagementSystem.Data.Configuration
         public void Configure(EntityTypeBuilder<BookCategory> builder)
         {
             builder
-                .HasKey(lb => new { lb.BookId, lb.CategoryId });
+                .HasKey(bc => new { bc.BookId, bc.CategoryId });
         }
     }
 }

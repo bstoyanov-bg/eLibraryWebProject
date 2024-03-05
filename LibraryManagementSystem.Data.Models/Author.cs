@@ -52,6 +52,8 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("Created On")]
         public DateTime CreatedOn { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public virtual ICollection<Book> Books { get; set; }
     }
 }

@@ -11,6 +11,10 @@ namespace LibraryManagementSystem.Data.Configuration
             builder
                 .Property(a => a.CreatedOn)
                 .HasDefaultValueSql("GETDATE()");
+
+            builder
+                .Property(a => a.IsDeleted)
+                .HasDefaultValue(false);
         }
     }
 }

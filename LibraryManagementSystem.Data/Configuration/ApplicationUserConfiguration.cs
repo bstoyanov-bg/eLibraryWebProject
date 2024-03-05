@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using LibraryManagementSystem.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static LibraryManagementSystem.Common.UserRoleNames;
 
 namespace LibraryManagementSystem.Data.Configuration
 {
@@ -11,14 +10,24 @@ namespace LibraryManagementSystem.Data.Configuration
     /// The default roles are Admin and User.
     /// </summary>
 
-    public class ApplicationUserConfiguration : IEntityTypeConfiguration<IdentityRole<Guid>>
+    public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
-        public void Configure(EntityTypeBuilder<IdentityRole<Guid>> builder)
+        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-            builder.HasData(
-                new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = AdminRole, NormalizedName = AdminRole.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() },
-                new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = UserRole, NormalizedName = UserRole.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() }
-            );
+            builder
+                .Property(au => au.IsDeleted)
+                .HasDefaultValue(false);
         }
     }
+
+    //public class ApplicationUserConfiguration : IEntityTypeConfiguration<IdentityRole<Guid>>
+    //{
+    //    public void Configure(EntityTypeBuilder<IdentityRole<Guid>> builder)
+    //    {
+    //        builder.HasData(
+    //            new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = AdminRole, NormalizedName = AdminRole.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() },
+    //            new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = UserRole, NormalizedName = UserRole.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() }
+    //        );
+    //    }
+    //}
 }

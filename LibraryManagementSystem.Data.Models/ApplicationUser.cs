@@ -13,7 +13,6 @@ namespace LibraryManagementSystem.Data.Models
 
         public ApplicationUser()
         {
-            
             this.Id = Guid.NewGuid();
 
             this.LendedBooks = new HashSet<LendedBook>();
@@ -57,6 +56,8 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("Maximum number of books allowed to have at the same time")]
         [MaxLength(AllowedBooksMaxLength)]
         public int? MaxLoanedBooks { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<LendedBook> LendedBooks { get; set; }
 

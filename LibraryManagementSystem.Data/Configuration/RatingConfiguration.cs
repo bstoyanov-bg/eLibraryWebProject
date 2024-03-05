@@ -16,15 +16,15 @@ namespace LibraryManagementSystem.Data.Configuration
                 .HasKey(lb => new { lb.BookId, lb.UserId });
 
             builder
-                .HasOne(h => h.Book)
-                .WithMany(c => c.Ratings)
-                .HasForeignKey(h => h.BookId)
+                .HasOne(r => r.Book)
+                .WithMany(b => b.Ratings)
+                .HasForeignKey(r => r.BookId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .HasOne(h => h.User)
-                .WithMany(c => c.Ratings)
-                .HasForeignKey(h => h.UserId)
+                .HasOne(r => r.User)
+                .WithMany(u => u.Ratings)
+                .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder

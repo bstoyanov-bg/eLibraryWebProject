@@ -15,16 +15,16 @@ namespace LibraryManagementSystem.Data.Configuration
             builder.HasKey(lb => lb.Id);
 
             builder
-                .HasOne(h => h.Book)
-                .WithMany(c => c.LendedBooks)
-                .HasForeignKey(h => h.BookId)
+                .HasOne(lb => lb.Book)
+                .WithMany(b => b.LendedBooks)
+                .HasForeignKey(lb => lb.BookId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             builder
-                .HasOne(h => h.User)
-                .WithMany(c => c.LendedBooks)
-                .HasForeignKey(h => h.UserId)
+                .HasOne(lb => lb.User)
+                .WithMany(u => u.LendedBooks)
+                .HasForeignKey(lb => lb.UserId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
         }

@@ -24,6 +24,8 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(NameMaxLength)]
         public string Name { get; set; } = null!;
 
+        public bool IsDeleted { get; set; }
+
         public virtual ICollection<BookCategory> BooksCategories { get; set; }
     }
 }
