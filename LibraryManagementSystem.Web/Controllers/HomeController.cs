@@ -2,6 +2,8 @@ using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using static LibraryManagementSystem.Common.UserRoleNames;
+using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -16,6 +18,11 @@ namespace LibraryManagementSystem.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (this.User.IsInRole(AdminRole))
+            {
+                return this.RedirectToAction("Index", "Home", new { Area = AdminAreaName });
+            }
+
             IEnumerable<IndexViewModel> viewModel = await this.bookService.LastTenBooksAsync();
 
             return View(viewModel);
