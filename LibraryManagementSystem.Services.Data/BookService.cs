@@ -150,15 +150,12 @@ namespace LibraryManagementSystem.Services.Data
             }
             await dbContext.SaveChangesAsync();
 
-            var existingBookCategory = await dbContext.BooksCategories.FirstOrDefaultAsync(bc => bc.BookId == bookToEdit.Id);
+            var bookCategory = await dbContext.BooksCategories.FirstOrDefaultAsync(bc => bc.BookId == bookToEdit.Id);
 
-            if (existingBookCategory != null)
-            {
-                dbContext.BooksCategories.Remove(existingBookCategory);
-                await dbContext.SaveChangesAsync();
-            }
+            bookCategory.BookId = bookToEdit.Id;
+            bookCategory.CategoryId = model.CategoryId;
 
-            var bookCategory = new BookCategory { BookId = bookToEdit.Id, CategoryId = model.CategoryId };
+            //var bookCategory = new BookCategory { BookId = bookToEdit.Id, CategoryId = model.CategoryId };
 
             await dbContext.BooksCategories.AddAsync(bookCategory);
             await dbContext.SaveChangesAsync();

@@ -88,19 +88,28 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id, BookFormModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
             try
             {
                 var book = await bookService.GetBookForEditByIdAsync(id);
 
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
                 if (book == null)
                 {
-                    TempData[ErrorMessage] = "There is no book with such id!";
+                    throw new ArgumentNullException(nameof(book));
                 }
+
+                book.Title = model.Title;
+                book.ISBN = model.ISBN;
+                book.YearPublished = model.YearPublished;
+                book.Description = model.Description;
+                book.Publisher = model.Publisher;
+                book.CoverImagePathUrl = model.CoverImagePathUrl;
+                book.AuthorId = model.AuthorId;
+                book.CategoryId = model.CategoryId;
 
                 await bookService.EditBookAsync(id, model);
                 TempData[SuccessMessage] = "Succesfully edited book";
