@@ -48,7 +48,7 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> All()
         {
             IEnumerable<AllAuthorsViewModel> viewModel = await authorService.GetAllAuthorsAsync();
