@@ -17,7 +17,7 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+            [AllowAnonymous]
         public async Task<IActionResult> All()
         {
             IEnumerable<AllBooksViewModel> viewModel = await bookService.GetAllBooksAsync();

@@ -4,42 +4,106 @@
     ViewData["Title"] = "Add Author";
 }
 
-<h1>Add Author</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <style>
+        .datepicker-dropdown {
+            border-radius: 0 !important;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
 
-<form method="post">
-    <div class="form-group mb-3">
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName" class="form-control" placeholder="" />
-        <span asp-validation-for="FirstName" class="small text-danger"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName" class="form-control" placeholder="" />
-        <span asp-validation-for="LastName" class="small text-danger"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="Biography"></label>
-        <input asp-for="Biography" class="form-control" placeholder="" />
-        <span asp-validation-for="Biography" class="small text-danger"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="BirthDate"></label>
-        <input asp-for="BirthDate" class="form-control" placeholder="" />
-        <span asp-validation-for="BirthDate" class="small text-danger"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="DeathDate"></label>
-        <input asp-for="DeathDate" class="form-control" placeholder="" />
-        <span asp-validation-for="DeathDate" class="small text-danger"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="Nationality"></label>
-        <input asp-for="Nationality" class="form-control" placeholder="" />
-        <span asp-validation-for="Nationality" class="small text-danger"></span>
+            .datepicker-dropdown table {
+                width: 100%;
+            }
+
+                .datepicker-dropdown table thead tr:first-child th {
+                    background-color: #007bff;
+                    color: #fff;
+                    border: none;
+                }
+
+                .datepicker-dropdown table td, .datepicker-dropdown table th {
+                    text-align: center;
+                }
+
+                    .datepicker-dropdown table td.day:hover {
+                        background-color: #f2f2f2;
+                    }
+
+                    .datepicker-dropdown table td.active, .datepicker-dropdown table td.active:hover {
+                        background-color: #007bff;
+                        color: #fff;
+                    }
+    </style>
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Add Author</h1>
+
+        <form method="post">
+            <div class="form-group mb-3">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" placeholder="" />
+                <span asp-validation-for="FirstName" class="small text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" placeholder="" />
+                <span asp-validation-for="LastName" class="small text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Biography"></label>
+                <input asp-for="Biography" class="form-control" placeholder="" />
+                <span asp-validation-for="Biography" class="small text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="BirthDate"></label>
+                <input asp-for="BirthDate" class="form-control" id="birthDate" placeholder="DD-MM-YYYY" />
+                <span asp-validation-for="BirthDate" class="small text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="DeathDate"></label>
+                <input asp-for="DeathDate" class="form-control" id="deathDate" placeholder="DD-MM-YYYY" />
+                <span asp-validation-for="DeathDate" class="small text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Nationality"></label>
+                <input asp-for="Nationality" class="form-control" placeholder="" />
+                <span asp-validation-for="Nationality" class="small text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#birthDate').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                todayHighlight: true
+            });
+            $('#deathDate').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+    </script>
+
+</body>
+</html>
 
 @section Scripts
 {
