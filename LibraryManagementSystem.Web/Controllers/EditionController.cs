@@ -1,4 +1,6 @@
-﻿using LibraryManagementSystem.Services.Data.Interfaces;
+﻿using LibraryManagementSystem.Services.Data;
+using LibraryManagementSystem.Services.Data.Interfaces;
+using LibraryManagementSystem.Web.ViewModels.Book;
 using LibraryManagementSystem.Web.ViewModels.Edition;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +51,56 @@ namespace LibraryManagementSystem.Web.Controllers
             catch
             {
                 TempData[ErrorMessage] = "There was problem with adding the edition to the book!";
+            }
+
+            return this.RedirectToAction("All", "Book");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> Edit(string id)
+        {
+            try
+            {
+                var edition = await editionService.GetEditionForEditByIdAsync(id);
+
+                if (edition == null)
+                {
+                    return RedirectToAction("All", "Book");
+                }
+
+                return View(edition);
+            }
+            catch
+            {
+                return GeneralError();
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> Edit(string id, EditionFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                var book = await editionService.GetEditionForEditByIdAsync(id);
+
+                if (book == null)
+                {
+                    TempData[ErrorMessage] = "There is no edition with such id!";
+                }
+
+                await editionService.EditBookAsync(id, model);
+                TempData[SuccessMessage] = "Succesfully edited book edition";
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with editing the book edition!";
             }
 
             return this.RedirectToAction("All", "Book");
