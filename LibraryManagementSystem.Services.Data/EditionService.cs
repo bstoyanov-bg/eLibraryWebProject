@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.Data;
+using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Edition;
 
@@ -26,6 +27,26 @@ namespace LibraryManagementSystem.Services.Data
             };
 
             return model;
+        }
+
+        public async Task AddEditionAsync(EditionFormModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            // Create a new Edition object
+            var edition = new Edition
+            {
+                Version = model.Version,
+                Publisher = model.Publisher,
+                EditionYear = model.EditionYear,
+                BookId = Guid.Parse(model.BookId),
+            };
+
+            await dbContext.Editions.AddAsync(edition);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

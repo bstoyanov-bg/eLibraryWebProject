@@ -2,8 +2,8 @@
 using LibraryManagementSystem.Web.ViewModels.Edition;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static LibraryManagementSystem.Common.UserRoleNames;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
+using static LibraryManagementSystem.Common.UserRoleNames;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -30,6 +30,28 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 return GeneralError();
             }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> Add(EditionFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await editionService.AddEditionAsync(model);
+                TempData[SuccessMessage] = "Succestully added edition to the book";
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with adding the edition to the book!";
+            }
+
+            return this.RedirectToAction("All", "Book");
         }
 
         private IActionResult GeneralError()
