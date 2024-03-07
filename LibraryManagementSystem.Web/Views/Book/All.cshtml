@@ -15,12 +15,13 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>№</th>
                 <th>Title</th>
                 <th>Year published</th>
                 <th>Publisher</th>
                 <th>Author</th>
                 <th>Category</th>
+                <th>Editions</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -37,6 +38,7 @@ else
                     <td>@book.Publisher</td>
                     <td>@book.AuthorName</td>
                     <td>@book.Category</td>
+                    <td>@book.EditionsCount</td>
                     <td>
                         <a href="@Url.Action("Edit", "Book", new { id = book.Id })" class="btn btn-primary">Edit</a>
                     </td>

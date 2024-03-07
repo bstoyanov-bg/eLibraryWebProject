@@ -13,5 +13,7 @@
         public string AuthorName { get; set; } = null!;
 
         public string Category { get; set; } = null!;
+
+        public int EditionsCount { get; set; }
     }
 }

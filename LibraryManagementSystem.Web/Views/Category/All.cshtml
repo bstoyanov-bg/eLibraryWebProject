@@ -15,8 +15,9 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>№</th>
                 <th>Name</th>
+                <th>Books</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -29,6 +30,7 @@ else
                 <tr>
                     <td>@counter</td>
                     <td>@category.Name</td>
+                    <td>@category.BooksCount</td>
                     <td>
                         <a href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-primary">Edit</a>
                     </td>

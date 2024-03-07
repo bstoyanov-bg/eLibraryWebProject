@@ -45,6 +45,7 @@ namespace LibraryManagementSystem.Services.Data
                 {
                     Id = c.Id,
                     Name = c.Name,
+                    BooksCount = c.BooksCategories.Count(),
                 })
                 .ToListAsync();
         }

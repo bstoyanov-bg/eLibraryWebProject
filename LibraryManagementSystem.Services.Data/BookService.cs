@@ -54,6 +54,7 @@ namespace LibraryManagementSystem.Services.Data
                                 .Where(bc => bc.BookId == b.Id)
                                 .Select(c => c.Category.Name)
                                 .First(),
+                    EditionsCount = b.Editions.Count(),
                 }).ToListAsync();
         }
 
