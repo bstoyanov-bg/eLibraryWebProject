@@ -1,10 +1,10 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
+using LibraryManagementSystem.Web.ViewModels.Author;
 using LibraryManagementSystem.Web.ViewModels.Book;
 using LibraryManagementSystem.Web.ViewModels.Home;
 using Microsoft.EntityFrameworkCore;
-using static LibraryManagementSystem.Common.DataModelsValidationConstants;
 
 namespace LibraryManagementSystem.Services.Data
 {
@@ -162,6 +162,21 @@ namespace LibraryManagementSystem.Services.Data
 
             await dbContext.BooksCategories.AddAsync(bookCategory);
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<BookSelectForEditionFormModel>> GetAllBooksForListAsync()
+        {
+            return await this.dbContext.Books
+                .AsNoTracking()
+                .Select(b => new BookSelectForEditionFormModel
+                {
+                    Id = b.Id.ToString(),
+                    Title = b.Title,
+                    AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
+                    YearPublished = b.YearPublished.ToString() ?? string.Empty,
+                    Publisher = b.Publisher ?? string.Empty,
+                })
+                .ToListAsync();
         }
     }
 }
