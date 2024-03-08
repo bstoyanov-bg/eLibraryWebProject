@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static LibraryManagementSystem.Common.UserRoleNames;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
+using LibraryManagementSystem.Services.Data;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -115,6 +116,26 @@ namespace LibraryManagementSystem.Web.Controllers
             }
 
             return this.RedirectToAction("All", "Author");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            try
+            {
+                AuthorDetailsViewModel author = await authorService.GetAuthorDetailsForUserAsync(id);
+
+                if (author == null)
+                {
+                    return RedirectToAction("All", "Author");
+                }
+
+                return View(author);
+            }
+            catch
+            {
+                return GeneralError();
+            }
         }
 
         private IActionResult GeneralError()

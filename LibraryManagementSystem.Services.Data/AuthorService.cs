@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Author;
+using LibraryManagementSystem.Web.ViewModels.Book;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Services.Data
@@ -111,6 +112,39 @@ namespace LibraryManagementSystem.Services.Data
                     Nationality = a.Nationality,
                 })
                 .ToListAsync();
+        }
+
+        public async Task<AuthorDetailsViewModel> GetAuthorDetailsForUserAsync(string authorId)
+        {
+            var books = await this.dbContext.Books
+                                            .Where(b => b.Author.Id.ToString() == authorId)
+                                            .AsNoTracking()
+                                            .Select(b => new BooksForAuthorDetailsFormModel 
+                                            {
+                                                 Title = b.Title,
+                                                 ISBN = b.ISBN,
+                                                 YearPublished = b.YearPublished,
+                                                 Description = b.Description,
+                                                 Publisher = b.Publisher,
+                                                 CoverImagePathUrl = b.CoverImagePathUrl,
+                                            }).ToListAsync();
+
+            var author = await this.dbContext.Authors
+                                             .Where(a => a.Id.ToString() == authorId)
+                                             .AsNoTracking()
+                                             .Select(a => new AuthorDetailsViewModel 
+                                             { 
+                                                 Id = a.Id.ToString(),
+                                                 FirstName = a.FirstName,
+                                                 LastName = a.LastName,
+                                                 Biography = a.Biography,
+                                                 BirthDate = a.BirthDate,
+                                                 DeathDate = a.DeathDate,
+                                                 Nationality = a.Nationality,
+                                                 Books = books
+                                             }).FirstOrDefaultAsync();
+
+            return author;
         }
     }
 }

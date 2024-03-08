@@ -13,5 +13,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task EditAuthorAsync(string authorId, AuthorFormModel model);
 
         Task<IEnumerable<AuthorSelectForBookFormModel>> GetAllAuthorsForListAsync();
+
+        Task<AuthorDetailsViewModel> GetAuthorDetailsForUserAsync(string authorId);
     }
 }

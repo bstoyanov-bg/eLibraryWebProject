@@ -1,0 +1,59 @@
+﻿@model AuthorDetailsViewModel
+@{
+    ViewBag.Title = "Author Details";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="card w-100">
+        <div class="card-body">
+            <h3 class="card-title text-center">@Model.FirstName @Model.LastName</h3>
+            <p class="mb-0"><span class="fw-bold">Biography: </span>@Model.Biography</p>
+            <p class="mb-0"><span class="fw-bold">Birht date: </span>@Model.BirthDate</p>
+            <p class="mb-0"><span class="fw-bold">Death date: </span>@Model.DeathDate</p>
+            <p class="mb-0"><span class="fw-bold">Nationality: </span>@Model.Nationality</p>
+        </div>
+    </div>
+
+    <h2>Author Books</h2>
+    @if (Model.Books.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th>ISBN</th>
+                    <th>Year Published</th>
+                    <th>Publisher</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model.Books)
+                {
+                    <tr>
+                        <td><img class="d-block w-200" style="max-width: 200px; height: auto;" src="~/@book.CoverImagePathUrl" alt="BookCover-img"></td>
+                        <td>@book.Title</td>
+                        <td>@book.ISBN</td>
+                        <td>@book.YearPublished</td>
+                        <td>@book.Publisher</td>
+                        <td>@book.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No books found for this author.</p>
+    }
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
