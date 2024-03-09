@@ -2,6 +2,8 @@
 {
     public class EditionsForBookDetailsViewModel
     {
+        public string Id { get; set; } = null!;
+
         public string Version { get; set; } = null!;
 
         public string Publisher { get; set; } = null!;

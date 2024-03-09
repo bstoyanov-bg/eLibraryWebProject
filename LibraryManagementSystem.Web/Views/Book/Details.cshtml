@@ -37,6 +37,7 @@
                     <th>Version</th>
                     <th>Publisher</th>
                     <th>Year of Edition</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,6 +47,7 @@
                         <td>@edition.Version</td>
                         <td>@edition.Publisher</td>
                         <td>@edition.EditionYear</td>
+                        <td><a href="@Url.Action("Edit", "Edition", new { id = edition.Id })" class="btn btn-primary">Edit</a></td>
                     </tr>
                 }
             </tbody>

@@ -188,6 +188,7 @@ namespace LibraryManagementSystem.Services.Data
                 .AsNoTracking()
                 .Select(e => new EditionsForBookDetailsViewModel
                 {
+                    Id = e.Id.ToString(),
                     Version = e.Version,
                     EditionYear = e.EditionYear,
                     Publisher = e.Publisher,
