@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IndexViewModel>
+﻿@* @model IEnumerable<IndexViewModel>
 @{
     ViewData["Title"] = "Home Page";
     var books = Model.ToList();
@@ -49,4 +49,79 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
+</div> *@
+
+
+@model IEnumerable<IndexViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+    var books = Model.ToList();
+}
+@if (!books.Any())
+{
+    <div class="mt-4 p-5 bg-light">
+        <h1 class="display-4">Welcome to the best library!</h1>
+        <hr class="my-4">
+        <p class="lead">
+            @if (User.Identity?.IsAuthenticated ?? false)
+            {
+                <a asp-controller="Book" asp-action="Add" class="btn btn-primary btn-lg" role="button">Add Book</a>
+            }
+        </p>
+    </div>
+}
+<div class="mb-5"></div>
+    <h1 class="text-center">Latest Books in eLibrary</h1>
+    <br />
+    <br />
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        @for (int i = 0; i < books.Count(); i += 3)
+        {
+            var activeClass = i == 0 ? "active" : "";
+            <div class="carousel-item @(activeClass)">
+                <div class="row">
+                    @for (int j = i; j < i + 3 && j < books.Count(); j++)
+                    {
+                        var book = books[j];
+                        <div class="col-md-4">
+                            <img class="d-block w-100" style="max-width: 200px; height: auto;" src="~/@book.ImageUrl" alt="BookCover-img">
+                            <br />
+                            <p><strong>Title: </strong>@book.Title</p>
+                            @if (book.Description.Length > 300)
+                            {
+                                <p><strong>Description: </strong>@book.Description.Substring(0, 300)...</p>
+                            }
+                            else
+                            {
+                                <p><strong>Description: </strong>@book.Description</p>
+                            }
+                            <p><strong>Author: </strong>@book.Author</p>
+                            <div class="text-center">
+                                <a class="btn btn-primary" asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">More Details</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#carouselExampleControls').carousel({
+                interval: 6000 // Change every 6 seconds
+            });
+        });
+    </script>
+}
