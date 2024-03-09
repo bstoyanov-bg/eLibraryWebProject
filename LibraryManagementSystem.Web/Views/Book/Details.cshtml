@@ -1,0 +1,63 @@
+﻿@model BookDetailsViewModel
+@{
+    ViewBag.Title = "Book Details";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="card w-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <img class="d-block w-100" style="max-width: 200px; height: auto;" src="~/@Model.CoverImagePathUrl" alt="BookCover-img">
+                </div>
+                <div class="col-md-8">
+                    <h3 class="card-title text-center">Title: @Model.Title</h3>
+                    <br />
+                    <p class="mb-0"><span class="fw-bold">Author: </span>@Model.AuthorName</p>
+                    <p class="mb-0"><span class="fw-bold">Description: </span>@Model.Description</p>
+                    <p class="mb-0"><span class="fw-bold">Category: </span>@Model.CategoryName</p>
+                    <p class="mb-0"><span class="fw-bold">Year published: </span>@Model.YearPublished</p>
+                    <p class="mb-0"><span class="fw-bold">Publisher: </span>@Model.Publisher</p>
+                    <p class="mb-0"><span class="fw-bold">ISBN: </span>@Model.ISBN</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Books Editions</h2>
+    @if (Model.Editions.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Version</th>
+                    <th>Publisher</th>
+                    <th>Year of Edition</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var edition in Model.Editions)
+                {
+                    <tr>
+                        <td>@edition.Version</td>
+                        <td>@edition.Publisher</td>
+                        <td>@edition.EditionYear</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No editions found for this book.</p>
+    }
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

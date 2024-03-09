@@ -1,0 +1,11 @@
+﻿namespace LibraryManagementSystem.Web.ViewModels.Edition
+{
+    public class EditionsForBookDetailsViewModel
+    {
+        public string Version { get; set; } = null!;
+
+        public string Publisher { get; set; } = null!;
+
+        public DateOnly EditionYear { get; set; }
+    }
+}

@@ -41,6 +41,7 @@ else
                     <td>@book.EditionsCount</td>
                     <td>
                         <a href="@Url.Action("Edit", "Book", new { id = book.Id })" class="btn btn-primary">Edit</a>
+                        <a href="@Url.Action("Details", "Book", new { id = book.Id })" class="btn btn-primary">Details</a>
                     </td>
                 </tr>
                 counter++;

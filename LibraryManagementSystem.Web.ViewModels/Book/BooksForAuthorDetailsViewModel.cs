@@ -1,6 +1,6 @@
 ﻿namespace LibraryManagementSystem.Web.ViewModels.Book
 {
-    public class BooksForAuthorDetailsFormModel
+    public class BooksForAuthorDetailsViewModel
     {
         public string Title { get; set; } = null!;
 

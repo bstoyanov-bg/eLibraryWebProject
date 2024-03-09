@@ -18,5 +18,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task EditBookAsync(string bookId, BookFormModel model);
 
         Task<IEnumerable<BookSelectForEditionFormModel>>GetAllBooksForListAsync();
+
+        Task<BookDetailsViewModel> GetBookDetailsForUserAsync(string id);
     }
 }

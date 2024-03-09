@@ -6,7 +6,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Author
     {
         public AuthorDetailsViewModel()
         {
-            Books = new HashSet<BooksForAuthorDetailsFormModel>();
+            Books = new HashSet<BooksForAuthorDetailsViewModel>();
         }
 
         public string Id { get; set; } = null!;
@@ -23,6 +23,6 @@ namespace LibraryManagementSystem.Web.ViewModels.Author
 
         public string Nationality { get; set; } = null!;
 
-        public IEnumerable<BooksForAuthorDetailsFormModel> Books { get; set; } = null!;
+        public IEnumerable<BooksForAuthorDetailsViewModel> Books { get; set; } = null!;
     }
 }

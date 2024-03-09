@@ -119,7 +119,7 @@ namespace LibraryManagementSystem.Services.Data
             var books = await this.dbContext.Books
                                             .Where(b => b.Author.Id.ToString() == authorId)
                                             .AsNoTracking()
-                                            .Select(b => new BooksForAuthorDetailsFormModel 
+                                            .Select(b => new BooksForAuthorDetailsViewModel 
                                             {
                                                  Title = b.Title,
                                                  ISBN = b.ISBN,

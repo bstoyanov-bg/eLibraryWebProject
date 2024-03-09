@@ -1,8 +1,8 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
-using LibraryManagementSystem.Web.ViewModels.Author;
 using LibraryManagementSystem.Web.ViewModels.Book;
+using LibraryManagementSystem.Web.ViewModels.Edition;
 using LibraryManagementSystem.Web.ViewModels.Home;
 using Microsoft.EntityFrameworkCore;
 
@@ -178,6 +178,46 @@ namespace LibraryManagementSystem.Services.Data
                     Publisher = b.Publisher ?? string.Empty,
                 })
                 .ToListAsync();
+        }
+
+        public async Task<BookDetailsViewModel> GetBookDetailsForUserAsync(string bookId)
+        {
+            var editions = await this.dbContext
+                .Editions
+                .Where(e => e.BookId.ToString() == bookId)
+                .AsNoTracking()
+                .Select(e => new EditionsForBookDetailsViewModel
+                {
+                    Version = e.Version,
+                    EditionYear = e.EditionYear,
+                    Publisher = e.Publisher,
+                }).ToListAsync();
+
+            var categoryName = await this.dbContext
+                .Categories
+                .Where(c => c.BooksCategories.Any(bc => bc.BookId == Guid.Parse(bookId)))
+                .Select(c => c.Name)
+                .FirstOrDefaultAsync();
+
+            var book = await this.dbContext
+                .Books
+                .Where(b => b.Id.ToString() == bookId)
+                .AsNoTracking()
+                .Select(b => new BookDetailsViewModel
+                {
+                    Id = b.Id.ToString(),
+                    ISBN = b.ISBN,
+                    Title = b.Title,
+                    YearPublished= b.YearPublished,
+                    Description = b.Description,
+                    Publisher = b.Publisher,
+                    CoverImagePathUrl = b.CoverImagePathUrl,
+                    AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
+                    CategoryName = categoryName ?? string.Empty,
+                    Editions = editions,
+                }).FirstOrDefaultAsync();
+
+            return book;
         }
     }
 }
