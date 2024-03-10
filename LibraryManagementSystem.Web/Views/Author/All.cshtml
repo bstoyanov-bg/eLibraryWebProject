@@ -16,8 +16,7 @@ else
         <thead>
             <tr>
                 <th>№</th>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Nationality</th>
                 <th>Books</th>
                 <th>Actions</th>
@@ -31,13 +30,13 @@ else
             {
                 <tr>
                     <td>@counter</td>
-                    <td>@author.FirstName</td>
-                    <td>@author.LastName</td>
+                    <td>@author.FirstName @author.LastName</td>
                     <td>@author.Nationality</td>
                     <td>@author.BooksCount</td>
                     <td>
-                        <a href="@Url.Action("Edit", "Author", new { id = author.Id })" class="btn btn-primary">Edit</a>
+                        <a href="@Url.Action("Edit", "Author", new { id = author.Id })" class="btn btn-warning">Edit</a>
                         <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="btn btn-primary">Details</a>
+                        <a href="@Url.Action("Delete", "Author", new { id = author.Id })" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
                 counter++;

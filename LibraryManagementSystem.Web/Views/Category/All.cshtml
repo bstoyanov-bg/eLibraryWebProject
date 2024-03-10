@@ -32,7 +32,7 @@ else
                     <td>@category.Name</td>
                     <td>@category.BooksCount</td>
                     <td>
-                        <a href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-primary">Edit</a>
+                        <a href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-warning">Edit</a>
                         <a href="@Url.Action("Delete", "Category", new { id = category.Id })" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>

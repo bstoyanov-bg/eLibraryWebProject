@@ -138,6 +138,22 @@ namespace LibraryManagementSystem.Web.Controllers
             }
         }
 
+        [HttpGet]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                await authorService.DeleteAuthorAsync(id);
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with deleting the author!";
+            }
+
+            return this.RedirectToAction("All", "Author");
+        }
+
         private IActionResult GeneralError()
         {
             TempData[ErrorMessage] =

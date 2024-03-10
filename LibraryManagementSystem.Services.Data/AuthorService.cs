@@ -22,10 +22,12 @@ namespace LibraryManagementSystem.Services.Data
                 throw new ArgumentNullException(nameof(model));
             }
 
-            var author = await dbContext.Authors.FirstOrDefaultAsync(a => a.FirstName == model.FirstName &&
-                                                                          a.LastName == model.LastName &&
-                                                                          a.BirthDate == model.BirthDate &&
-                                                                          a.Nationality == model.Nationality);
+            var author = await dbContext
+                .Authors
+                .FirstOrDefaultAsync(a => a.FirstName == model.FirstName &&
+                                          a.LastName == model.LastName &&
+                                          a.BirthDate == model.BirthDate &&
+                                          a.Nationality == model.Nationality);
 
             if (author != null)
             {
@@ -50,6 +52,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext.Authors
                 .AsNoTracking()
+                .Where(a => a.IsDeleted == false)
                 .Select(a => new AllAuthorsViewModel
                 {
                     Id = a.Id.ToString(),
@@ -64,7 +67,10 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task<AuthorFormModel?> GetAuthorForEditByIdAsync(string authorId)
         {
-            var authorToEdit = await this.dbContext.Authors.FirstOrDefaultAsync(a => a.Id.ToString() == authorId);
+            var authorToEdit = await this.dbContext
+                .Authors
+                .FirstOrDefaultAsync(a => a.Id.ToString() == authorId &&
+                                          a.IsDeleted == false);
 
             if (authorToEdit != null)
             {
@@ -86,7 +92,10 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task EditAuthorAsync(string authorId, AuthorFormModel model)
         {
-            var authorToEdit = await this.dbContext.Authors.FirstOrDefaultAsync(a => a.Id.ToString() == authorId);
+            var authorToEdit = await this.dbContext
+                .Authors
+                .FirstOrDefaultAsync(a => a.Id.ToString() == authorId &&
+                                          a.IsDeleted == false);
 
             if (authorToEdit != null)
             {
@@ -105,6 +114,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext.Authors
                 .AsNoTracking()
+                .Where(a => a.IsDeleted == false)
                 .Select(a => new AuthorSelectForBookFormModel
                 {
                     Id = a.Id.ToString(),
@@ -130,7 +140,8 @@ namespace LibraryManagementSystem.Services.Data
                                             }).ToListAsync();
 
             var author = await this.dbContext.Authors
-                                             .Where(a => a.Id.ToString() == authorId)
+                                             .Where(a => a.Id.ToString() == authorId &&
+                                                         a.IsDeleted == false)
                                              .AsNoTracking()
                                              .Select(a => new AuthorDetailsViewModel 
                                              { 
@@ -145,6 +156,18 @@ namespace LibraryManagementSystem.Services.Data
                                              }).FirstOrDefaultAsync();
 
             return author;
+        }
+
+        public async Task DeleteAuthorAsync(string authorId)
+        {
+            var authorToDelete = await dbContext
+                .Authors
+                .Where(a => a.IsDeleted == false)
+                .FirstAsync(a => a.Id.ToString() == authorId);
+
+            authorToDelete.IsDeleted = true;
+
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }

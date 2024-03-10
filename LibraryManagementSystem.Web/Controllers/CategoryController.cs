@@ -107,7 +107,7 @@ namespace LibraryManagementSystem.Web.Controllers
             return this.RedirectToAction("All", "Category");
         }
 
-        //[HttpPost]
+        [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Delete(int id)
         {
