@@ -17,7 +17,7 @@ else
             <tr>
                 <th>№</th>
                 <th>Name</th>
-                <th>Books</th>
+                <th>Books in category</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -33,6 +33,7 @@ else
                     <td>@category.BooksCount</td>
                     <td>
                         <a href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "Category", new { id = category.Id })" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
                 counter++;

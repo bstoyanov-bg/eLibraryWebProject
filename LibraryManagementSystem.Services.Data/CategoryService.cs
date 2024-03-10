@@ -41,6 +41,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext.Categories
                 .AsNoTracking()
+                .Where(c => c.IsDeleted == false)
                 .Select(c => new AllCategoriesViewModel
                 {
                     Id = c.Id,
@@ -52,7 +53,10 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task<CategoryFormModel?> GetCategoryForEditByIdAsync(int categoryId)
         {
-           var categoryToEdit = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+           var categoryToEdit = await dbContext
+                .Categories
+                .FirstOrDefaultAsync(c => c.Id == categoryId && 
+                                          c.IsDeleted == false);
 
             if (categoryToEdit != null)
             {
@@ -69,7 +73,10 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task EditCategoryAsync(int categoryId, CategoryFormModel model)
         {
-            var categoryToEdit = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+            var categoryToEdit = await dbContext
+                .Categories
+                .FirstOrDefaultAsync(c => c.Id == categoryId &&
+                                          c.IsDeleted == false);
 
             if (categoryToEdit != null)
             {
@@ -115,6 +122,18 @@ namespace LibraryManagementSystem.Services.Data
                                   .Where(bc => bc.BookId.ToString() == bookId)
                                   .Select(bc => bc.CategoryId)
                                   .FirstOrDefaultAsync();
+        }
+
+        public async Task DeleteCategoryAsync(int categoryId)
+        {
+            var categoryToDelete = await dbContext
+                .Categories
+                .Where(c => c.IsDeleted == false)
+                .FirstAsync(c => c.Id == categoryId);
+
+            categoryToDelete.IsDeleted = true;
+
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }

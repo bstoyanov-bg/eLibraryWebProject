@@ -17,5 +17,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<string> GetCategoryNameByBookIdAsync(string bookId);
 
         Task<int> GetCategoryIdByBookIdAsync(string bookId);
+
+        Task DeleteCategoryAsync(int id);
     }
 }

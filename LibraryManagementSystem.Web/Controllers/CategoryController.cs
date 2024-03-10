@@ -107,6 +107,22 @@ namespace LibraryManagementSystem.Web.Controllers
             return this.RedirectToAction("All", "Category");
         }
 
+        //[HttpPost]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await categoryService.DeleteCategoryAsync(id);
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with deleting the category!";
+            }
+
+            return this.RedirectToAction("All", "Category");
+        }
+
         private IActionResult GeneralError()
         {
             TempData[ErrorMessage] =
