@@ -1,6 +1,5 @@
 ﻿using LibraryManagementSystem.Services.Data;
 using LibraryManagementSystem.Services.Data.Interfaces;
-using LibraryManagementSystem.Web.ViewModels.Book;
 using LibraryManagementSystem.Web.ViewModels.Edition;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -95,7 +94,7 @@ namespace LibraryManagementSystem.Web.Controllers
                     TempData[ErrorMessage] = "There is no edition with such id!";
                 }
 
-                await editionService.EditBookAsync(id, model);
+                await editionService.EditBookEditionAsync(id, model);
                 TempData[SuccessMessage] = "Succesfully edited book edition";
             }
             catch
@@ -104,6 +103,24 @@ namespace LibraryManagementSystem.Web.Controllers
             }
 
             return this.RedirectToAction("All", "Book");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var bookId = await editionService.GetBookIdByEditionIdAsync(id);
+
+            try
+            {
+                await editionService.DeleteEditionAsync(id);
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with deleting the edition!";
+            }
+
+            return this.RedirectToAction("Details", "Book", new { id = bookId });
         }
 
         private IActionResult GeneralError()

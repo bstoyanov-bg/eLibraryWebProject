@@ -47,7 +47,8 @@
                         <td>@edition.Version</td>
                         <td>@edition.Publisher</td>
                         <td>@edition.EditionYear</td>
-                        <td><a href="@Url.Action("Edit", "Edition", new { id = edition.Id })" class="btn btn-primary">Edit</a></td>
+                        <td><a href="@Url.Action("Edit", "Edition", new { id = edition.Id })" class="btn btn-warning">Edit</a></td>
+                        <td><a href="@Url.Action("Delete", "Edition", new { id = edition.Id })" class="btn btn-danger">Delete</a></td>
                     </tr>
                 }
             </tbody>

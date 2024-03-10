@@ -3,6 +3,7 @@ using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Edition;
 using Microsoft.EntityFrameworkCore;
+using static LibraryManagementSystem.Common.DataModelsValidationConstants;
 
 
 namespace LibraryManagementSystem.Services.Data
@@ -38,7 +39,7 @@ namespace LibraryManagementSystem.Services.Data
             }
 
             // Create a new Edition object
-            var edition = new Edition
+            var edition = new LibraryManagementSystem.Data.Models.Edition
             {
                 Version = model.Version,
                 Publisher = model.Publisher,
@@ -54,7 +55,10 @@ namespace LibraryManagementSystem.Services.Data
         {
             var books = await bookService.GetAllBooksForListAsync();
 
-            var editionToEdit = await dbContext.Editions.FirstOrDefaultAsync(e => e.Id.ToString() == editionId);
+            var editionToEdit = await dbContext
+                .Editions
+                .FirstOrDefaultAsync(e => e.Id.ToString() == editionId &&
+                                          e.IsDeleted == false);
 
             if (editionToEdit == null)
             {
@@ -73,9 +77,12 @@ namespace LibraryManagementSystem.Services.Data
             return edition;
         }
 
-        public async Task EditBookAsync(string editionId, EditionFormModel model)
+        public async Task EditBookEditionAsync(string editionId, EditionFormModel model)
         {
-            var editionToEdit = await dbContext.Editions.FirstOrDefaultAsync(e => e.Id.ToString() == editionId);
+            var editionToEdit = await dbContext
+                .Editions
+                .FirstOrDefaultAsync(e => e.Id.ToString() == editionId &&
+                                          e.IsDeleted == false);
 
             if (editionToEdit != null)
             {
@@ -85,6 +92,35 @@ namespace LibraryManagementSystem.Services.Data
                 editionToEdit.BookId = Guid.Parse(model.BookId);
             }
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteEditionAsync(string editionId)
+        {
+            var editionToDelete = await dbContext
+                .Editions
+                .Where(e => e.IsDeleted == false)
+                .FirstAsync(e => e.Id.ToString() == editionId);
+
+            editionToDelete.IsDeleted = true;
+
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<string> GetBookIdByEditionIdAsync(string editionId)
+        {
+           var bookId = await this.dbContext
+                                  .Editions
+                                  .AsNoTracking()
+                                  .Where(e => e.Id.ToString() == editionId)
+                                  .Select(e => e.BookId.ToString())
+                                  .FirstOrDefaultAsync();
+
+            if (bookId == null)
+            {
+                return string.Empty;
+            }
+
+            return bookId;
         }
     }
 }

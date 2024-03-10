@@ -8,8 +8,12 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task AddEditionAsync(EditionFormModel model);
 
-        Task<EditionFormModel?> GetEditionForEditByIdAsync(string id);
+        Task<EditionFormModel?> GetEditionForEditByIdAsync(string editionId);
 
-        Task EditBookAsync(string id, EditionFormModel model);
+        Task EditBookEditionAsync(string id, EditionFormModel model);
+
+        Task DeleteEditionAsync(string editionId);
+
+        Task<string> GetBookIdByEditionIdAsync(string editionId);
     }
 }
