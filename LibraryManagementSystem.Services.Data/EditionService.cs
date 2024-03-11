@@ -134,5 +134,13 @@ namespace LibraryManagementSystem.Services.Data
 
             return bookId;
         }
+
+        public async Task<IEnumerable<Edition>> GetAllBookEditionsForBookbyBookId(string bookId)
+        {
+            return await this.dbContext
+                .Editions
+                .Where(e => e.BookId.ToString() == bookId)
+                .ToListAsync();
+        }
     }
 }

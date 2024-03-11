@@ -127,7 +127,7 @@ namespace LibraryManagementSystem.Services.Data
             return await this.dbContext
                 .Books
                 .Where(b => b.IsDeleted == false)
-                .FirstOrDefaultAsync(b => b.Id == Guid.Parse(bookId));
+                .FirstOrDefaultAsync(b => b.Id.ToString() == bookId);
         }
 
         public async Task<BookFormModel?> GetBookForEditByIdAsync(string bookId)
@@ -255,14 +255,13 @@ namespace LibraryManagementSystem.Services.Data
             var bookToDelete = await GetBookByIdAsync(bookId);
 
             IEditionService editionService = editionServiceLazy.Value;
-            foreach (var edition in bookToDelete.Editions)
+
+            var bookEditionsForDelete = await editionService.GetAllBookEditionsForBookbyBookId(bookId);
+
+            foreach (var edition in bookEditionsForDelete)
             {
                 await editionService.DeleteBookEditionAsync(edition.Id.ToString());
             }
-            //foreach (var edition in bookToDelete.Editions)
-            //{
-            //    await this.editionService.DeleteEditionAsync(edition.Id.ToString());
-            //}
 
             bookToDelete.IsDeleted = true;
 

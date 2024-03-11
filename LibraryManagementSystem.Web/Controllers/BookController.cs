@@ -2,10 +2,8 @@
 using LibraryManagementSystem.Web.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static LibraryManagementSystem.Common.UserRoleNames;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
-using LibraryManagementSystem.Services.Data;
-using LibraryManagementSystem.Web.ViewModels.Author;
+using static LibraryManagementSystem.Common.UserRoleNames;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -142,6 +140,7 @@ namespace LibraryManagementSystem.Web.Controllers
             try
             {
                 await bookService.DeleteBookAsync(id);
+                TempData[SuccessMessage] = "Succesfully deleted book";
             }
             catch
             {

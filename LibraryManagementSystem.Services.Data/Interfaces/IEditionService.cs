@@ -18,5 +18,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task DeleteBookEditionAsync(string editionId);
 
         Task<string> GetBookIdByEditionIdAsync(string editionId);
+
+        Task<IEnumerable<Edition>> GetAllBookEditionsForBookbyBookId(string bookId);
     }
 }
