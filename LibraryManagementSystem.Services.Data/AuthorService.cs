@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.Data;
+using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Author;
 using LibraryManagementSystem.Web.ViewModels.Book;
@@ -34,7 +35,7 @@ namespace LibraryManagementSystem.Services.Data
                 throw new InvalidOperationException("Author with the same name, birth date and nationality already exists.");
             }
 
-            var newAuthor = new LibraryManagementSystem.Data.Models.Author
+            var newAuthor = new Author
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -59,18 +60,25 @@ namespace LibraryManagementSystem.Services.Data
                     FirstName = a.FirstName,
                     LastName= a.LastName,
                     Nationality = a.Nationality,
-                    BooksCount = a.Books.Count,
+                    BooksCount = a.Books
+                                  .Where(b => b.IsDeleted == false)
+                                  .Count(),
                 })
                 .OrderBy(a => a.FirstName)
                 .ToArrayAsync();
         }
 
-        public async Task<AuthorFormModel?> GetAuthorForEditByIdAsync(string authorId)
+        public async Task<Author?> GetAuthorByIdAsync(string authorId)
         {
-            var authorToEdit = await this.dbContext
+            return await this.dbContext
                 .Authors
                 .FirstOrDefaultAsync(a => a.Id.ToString() == authorId &&
                                           a.IsDeleted == false);
+        }
+
+        public async Task<AuthorFormModel?> GetAuthorForEditByIdAsync(string authorId)
+        {
+            var authorToEdit = await GetAuthorByIdAsync(authorId);
 
             if (authorToEdit != null)
             {
@@ -92,10 +100,7 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task EditAuthorAsync(string authorId, AuthorFormModel model)
         {
-            var authorToEdit = await this.dbContext
-                .Authors
-                .FirstOrDefaultAsync(a => a.Id.ToString() == authorId &&
-                                          a.IsDeleted == false);
+            var authorToEdit = await GetAuthorByIdAsync(authorId);
 
             if (authorToEdit != null)
             {
@@ -124,7 +129,7 @@ namespace LibraryManagementSystem.Services.Data
                 .ToListAsync();
         }
 
-        public async Task<AuthorDetailsViewModel> GetAuthorDetailsForUserAsync(string authorId)
+        public async Task<AuthorDetailsViewModel?> GetAuthorDetailsForUserAsync(string authorId)
         {
             var books = await this.dbContext.Books
                                             .Where(b => b.Author.Id.ToString() == authorId)

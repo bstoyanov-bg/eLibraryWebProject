@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Web.ViewModels.Author;
+﻿using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Web.ViewModels.Author;
 
 namespace LibraryManagementSystem.Services.Data.Interfaces
 {
@@ -8,13 +9,15 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<IEnumerable<AllAuthorsViewModel>> GetAllAuthorsAsync();
 
+        Task<Author?> GetAuthorByIdAsync(string authorId);
+
         Task<AuthorFormModel?> GetAuthorForEditByIdAsync(string authorId);
 
         Task EditAuthorAsync(string authorId, AuthorFormModel model);
 
         Task<IEnumerable<AuthorSelectForBookFormModel>> GetAllAuthorsForListAsync();
 
-        Task<AuthorDetailsViewModel> GetAuthorDetailsForUserAsync(string authorId);
+        Task<AuthorDetailsViewModel?> GetAuthorDetailsForUserAsync(string authorId);
 
         Task DeleteAuthorAsync(string authorId);
     }
