@@ -14,7 +14,7 @@ namespace LibraryManagementSystem.Data.Models
     {
         public Book() 
         {
-            this.Id = new Guid();
+            this.Id = Guid.NewGuid();
 
             this.BooksCategories = new HashSet<BookCategory>();
             this.Editions = new HashSet<Edition>();

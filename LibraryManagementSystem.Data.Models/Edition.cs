@@ -14,7 +14,7 @@ namespace LibraryManagementSystem.Data.Models
     {
         public Edition()
         {
-            this.Id = new Guid();
+            this.Id = Guid.NewGuid();
         }
 
         [Comment("Primary key")]
