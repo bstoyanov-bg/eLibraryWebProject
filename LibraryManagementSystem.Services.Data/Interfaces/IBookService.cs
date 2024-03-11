@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Web.ViewModels.Book;
+﻿using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Web.ViewModels.Book;
 using LibraryManagementSystem.Web.ViewModels.Home;
 
 namespace LibraryManagementSystem.Services.Data.Interfaces
@@ -9,16 +10,20 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync();
 
+        Task<Book?> GetBookByIdAsync(string bookId);
+
         Task<BookFormModel> GetNewCreateBookModelAsync();
 
         Task AddBookAsync(BookFormModel model);
 
-        Task<BookFormModel?> GetBookForEditByIdAsync(string id);
+        Task<BookFormModel?> GetBookForEditByIdAsync(string bookId);
 
         Task EditBookAsync(string bookId, BookFormModel model);
 
         Task<IEnumerable<BookSelectForEditionFormModel>>GetAllBooksForListAsync();
 
-        Task<BookDetailsViewModel> GetBookDetailsForUserAsync(string id);
+        Task<BookDetailsViewModel> GetBookDetailsForUserAsync(string bookId);
+
+        Task DeleteBookAsync(string bookId);
     }
 }

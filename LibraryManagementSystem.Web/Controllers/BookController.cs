@@ -135,6 +135,22 @@ namespace LibraryManagementSystem.Web.Controllers
             }
         }
 
+        [HttpGet]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                await bookService.DeleteBookAsync(id);
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with deleting the book!";
+            }
+
+            return this.RedirectToAction("All", "Book");
+        }
+
         private IActionResult GeneralError()
         {
             TempData[ErrorMessage] =

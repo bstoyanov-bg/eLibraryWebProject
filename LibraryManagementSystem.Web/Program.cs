@@ -39,6 +39,10 @@ namespace LibraryManagementSystem.Web
             });
 
             builder.Services.AddApplicationServices(typeof(IBookService));
+            builder.Services.AddScoped(provider =>
+            {
+                return new Lazy<IEditionService>(() => provider.GetRequiredService<IEditionService>());
+            });
 
             WebApplication app = builder.Build();
 

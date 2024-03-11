@@ -13,19 +13,26 @@ namespace LibraryManagementSystem.Services.Data
         private readonly ELibraryDbContext dbContext;
         private readonly ICategoryService categoryService;
         private readonly IAuthorService authorService;
+        private readonly Lazy<IEditionService> editionServiceLazy;
+        //private readonly IEditionService editionService;
 
-        public BookService(ELibraryDbContext dbContext, ICategoryService categoryService, IAuthorService authorService)
+        public BookService(ELibraryDbContext dbContext, ICategoryService categoryService, IAuthorService authorService, Lazy<IEditionService> editionServiceLazy/*, IEditionService editionService*/)
         {
             this.dbContext = dbContext;
             this.categoryService = categoryService;
             this.authorService = authorService;
+            this.editionServiceLazy = editionServiceLazy;
+            //this.editionService = editionService;
         }
 
         public async Task<IEnumerable<IndexViewModel>> LastTenBooksAsync()
         {
-            IEnumerable<IndexViewModel> lastTenBooks = await dbContext.Books
+            IEnumerable<IndexViewModel> lastNineAddedBooks = await dbContext
+                .Books
+                .AsNoTracking()
+                .Where(b => b.IsDeleted == false)
                 .OrderByDescending(h => h.CreatedOn)
-                .Take(10)
+                .Take(9)
                 .Select(b => new IndexViewModel()
                 {
                     Id = b.Id.ToString(),
@@ -34,14 +41,16 @@ namespace LibraryManagementSystem.Services.Data
                     Author = $"{b.Author.FirstName} {b.Author.LastName}",
                     ImageUrl = b.CoverImagePathUrl ?? string.Empty,
                 })
-                .ToArrayAsync();
+                .ToListAsync();
 
-            return lastTenBooks;
+            return lastNineAddedBooks;
         }
 
         public async Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync()
         {
-            return await this.dbContext.Books
+            return await this.dbContext
+                .Books
+                .Where(b => b.IsDeleted == false)
                 .AsNoTracking()
                 .Select(b => new AllBooksViewModel
                 {
@@ -54,7 +63,9 @@ namespace LibraryManagementSystem.Services.Data
                                 .Where(bc => bc.BookId == b.Id)
                                 .Select(c => c.Category.Name)
                                 .First(),
-                    EditionsCount = b.Editions.Count(),
+                    EditionsCount = b.Editions
+                                     .Where(e => e.IsDeleted == false)
+                                     .Count(),
                 }).ToListAsync();
         }
 
@@ -80,10 +91,18 @@ namespace LibraryManagementSystem.Services.Data
                 throw new ArgumentNullException(nameof(model));
             }
 
-            //Check if book exists in DB ???
+            var book = await dbContext
+                .Books
+                .Where(b => b.IsDeleted == false)
+                .FirstOrDefaultAsync(a => a.Title == model.Title &&
+                                          a.ISBN == model.ISBN);
 
-            // Create a new Book object
-            var book = new LibraryManagementSystem.Data.Models.Book
+            if (book != null)
+            {
+                throw new InvalidOperationException("Book with the same title and ISBN already exists.");
+            }
+
+            var newBook = new Book
             {
                 Title = model.Title,
                 ISBN = model.ISBN,
@@ -94,13 +113,21 @@ namespace LibraryManagementSystem.Services.Data
                 AuthorId = Guid.Parse(model.AuthorId),
             };
 
-            await dbContext.Books.AddAsync(book);
+            await dbContext.Books.AddAsync(newBook);
             await dbContext.SaveChangesAsync();
 
-            var bookCategory = new BookCategory { BookId = book.Id, CategoryId = model.CategoryId };
+            var bookCategory = new BookCategory { BookId = newBook.Id, CategoryId = model.CategoryId };
 
             await dbContext.BooksCategories.AddAsync(bookCategory);
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Book?> GetBookByIdAsync(string bookId)
+        {
+            return await this.dbContext
+                .Books
+                .Where(b => b.IsDeleted == false)
+                .FirstOrDefaultAsync(b => b.Id == Guid.Parse(bookId));
         }
 
         public async Task<BookFormModel?> GetBookForEditByIdAsync(string bookId)
@@ -109,14 +136,14 @@ namespace LibraryManagementSystem.Services.Data
 
             var categories = await categoryService.GetAllCategoriesAsync();
 
-            var bookToEdit = await dbContext.Books.FirstOrDefaultAsync(b => b.Id.ToString() == bookId);
+            var bookToEdit = await GetBookByIdAsync(bookId);
 
-            if (bookToEdit == null)
-            {
-                return new BookFormModel();
+            var categoryId = this.categoryService.GetCategoryIdByBookIdAsync(bookId);
+
+            if (bookToEdit == null) 
+            { 
+                return null;
             }
-
-            var categoryId = await categoryService.GetCategoryIdByBookIdAsync(bookId);
 
             BookFormModel book = new BookFormModel()
             {
@@ -128,7 +155,7 @@ namespace LibraryManagementSystem.Services.Data
                 CoverImagePathUrl = bookToEdit.CoverImagePathUrl,
                 AuthorId = bookToEdit.AuthorId.ToString(),
                 Authors = authors,
-                CategoryId = categoryId,
+                CategoryId = await categoryId,
                 Categories = categories,
             };
 
@@ -137,7 +164,7 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task EditBookAsync(string bookId, BookFormModel model)
         {
-            var bookToEdit = await dbContext.Books.FirstOrDefaultAsync(b => b.Id.ToString() == bookId);
+            var bookToEdit = await GetBookByIdAsync(bookId);
 
             if (bookToEdit != null)
             {
@@ -167,7 +194,9 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task<IEnumerable<BookSelectForEditionFormModel>> GetAllBooksForListAsync()
         {
-            return await this.dbContext.Books
+            return await this.dbContext
+                .Books
+                .Where(b => b.IsDeleted == false)
                 .AsNoTracking()
                 .Select(b => new BookSelectForEditionFormModel
                 {
@@ -184,8 +213,8 @@ namespace LibraryManagementSystem.Services.Data
         {
             var editions = await this.dbContext
                 .Editions
-                .Where(e => e.BookId.ToString() == bookId)
-                .AsNoTracking()
+                .Where(e => e.BookId.ToString() == bookId &&
+                            e.IsDeleted == false)
                 .Select(e => new EditionsForBookDetailsViewModel
                 {
                     Id = e.Id.ToString(),
@@ -202,14 +231,14 @@ namespace LibraryManagementSystem.Services.Data
 
             var book = await this.dbContext
                 .Books
-                .Where(b => b.Id.ToString() == bookId)
-                .AsNoTracking()
+                .Where(b => b.Id.ToString() == bookId &&
+                            b.IsDeleted == false)
                 .Select(b => new BookDetailsViewModel
                 {
                     Id = b.Id.ToString(),
                     ISBN = b.ISBN,
                     Title = b.Title,
-                    YearPublished= b.YearPublished,
+                    YearPublished = b.YearPublished,
                     Description = b.Description,
                     Publisher = b.Publisher,
                     CoverImagePathUrl = b.CoverImagePathUrl,
@@ -219,6 +248,25 @@ namespace LibraryManagementSystem.Services.Data
                 }).FirstOrDefaultAsync();
 
             return book;
+        }
+
+        public async Task DeleteBookAsync(string bookId)
+        {
+            var bookToDelete = await GetBookByIdAsync(bookId);
+
+            IEditionService editionService = editionServiceLazy.Value;
+            foreach (var edition in bookToDelete.Editions)
+            {
+                await editionService.DeleteBookEditionAsync(edition.Id.ToString());
+            }
+            //foreach (var edition in bookToDelete.Editions)
+            //{
+            //    await this.editionService.DeleteEditionAsync(edition.Id.ToString());
+            //}
+
+            bookToDelete.IsDeleted = true;
+
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }
