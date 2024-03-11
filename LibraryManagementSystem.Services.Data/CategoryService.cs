@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.Data;
+using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Category;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ namespace LibraryManagementSystem.Services.Data
                 throw new InvalidOperationException("Category with the same name already exists.");
             }
 
-            var cat = new LibraryManagementSystem.Data.Models.Category
+            var cat = new Category
             {
                 Name = model.Name
             };
@@ -90,6 +91,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             var categoryName = await dbContext.BooksCategories
                                               .Where(bc => bc.CategoryId == categoryId)
+                                              .AsNoTracking()
                                               .Select(bc => bc.Category.Name)
                                               .FirstOrDefaultAsync();
 
@@ -105,6 +107,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             var categoryName = await dbContext.BooksCategories
                                                .Where(bc => bc.BookId.ToString() == bookId)
+                                               .AsNoTracking()
                                                .Select(c => c.Category.Name)
                                                .FirstOrDefaultAsync();
 
@@ -120,6 +123,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await dbContext.BooksCategories
                                   .Where(bc => bc.BookId.ToString() == bookId)
+                                  .AsNoTracking()
                                   .Select(bc => bc.CategoryId)
                                   .FirstOrDefaultAsync();
         }

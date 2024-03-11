@@ -114,6 +114,7 @@ namespace LibraryManagementSystem.Web.Controllers
             try
             {
                 await categoryService.DeleteCategoryAsync(id);
+                TempData[SuccessMessage] = "Succesfully delited category";
             }
             catch
             {
