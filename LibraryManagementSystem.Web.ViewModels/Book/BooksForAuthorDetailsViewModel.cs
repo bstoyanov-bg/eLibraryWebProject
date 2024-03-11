@@ -13,7 +13,5 @@
         public string? Publisher { get; set; } = null!;
 
         public string? CoverImagePathUrl { get; set; } = null!;
-
-        //public string CategoryName { get; set; } = null!;
     }
 }
