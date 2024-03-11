@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Web.ViewModels.Edition;
+﻿using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Web.ViewModels.Edition;
 
 namespace LibraryManagementSystem.Services.Data.Interfaces
 {
@@ -8,11 +9,13 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task AddEditionAsync(EditionFormModel model);
 
-        Task<EditionFormModel?> GetEditionForEditByIdAsync(string editionId);
+        Task<Edition?> GetEditionByIdAsync(string editionId);
 
-        Task EditBookEditionAsync(string id, EditionFormModel model);
+        Task<EditionFormModel?> GetBookEditionForEditByIdAsync(string editionId);
 
-        Task DeleteEditionAsync(string editionId);
+        Task EditBookEditionAsync(string editionId, EditionFormModel model);
+
+        Task DeleteBookEditionAsync(string editionId);
 
         Task<string> GetBookIdByEditionIdAsync(string editionId);
     }

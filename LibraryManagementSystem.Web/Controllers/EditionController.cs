@@ -61,7 +61,7 @@ namespace LibraryManagementSystem.Web.Controllers
         {
             try
             {
-                var edition = await editionService.GetEditionForEditByIdAsync(id);
+                var edition = await editionService.GetBookEditionForEditByIdAsync(id);
 
                 if (edition == null)
                 {
@@ -80,6 +80,8 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id, EditionFormModel model)
         {
+            var bookId = await editionService.GetBookIdByEditionIdAsync(id);
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -87,9 +89,9 @@ namespace LibraryManagementSystem.Web.Controllers
 
             try
             {
-                var book = await editionService.GetEditionForEditByIdAsync(id);
+                var bookEdition = await editionService.GetBookEditionForEditByIdAsync(id);
 
-                if (book == null)
+                if (bookEdition == null)
                 {
                     TempData[ErrorMessage] = "There is no edition with such id!";
                 }
@@ -102,7 +104,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 TempData[ErrorMessage] = "There was problem with editing the book edition!";
             }
 
-            return this.RedirectToAction("All", "Book");
+            return this.RedirectToAction("Details", "Book", new { id = bookId });
         }
 
         [HttpGet]
@@ -113,7 +115,8 @@ namespace LibraryManagementSystem.Web.Controllers
 
             try
             {
-                await editionService.DeleteEditionAsync(id);
+                await editionService.DeleteBookEditionAsync(id);
+                TempData[SuccessMessage] = "Succesfully deleted book edition";
             }
             catch
             {
