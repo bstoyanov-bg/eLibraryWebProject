@@ -51,7 +51,7 @@
                 <label asp-for="@Model.BookId" class="form-label-add-edit">Select Book</label>
                 <select asp-for="@Model.BookId" class="form-control" aria-required="true">
                     <option value="">-- Select book --</option>
-                    @foreach (var book in Model.Books)
+                    @foreach (var book in Model.BooksDropDown)
                     {
                         <option value="@book.Id">
                             Book Title: @book.Title, 

@@ -1,5 +1,4 @@
-﻿using LibraryManagementSystem.Web.ViewModels.Author;
-using LibraryManagementSystem.Web.ViewModels.Book;
+﻿using LibraryManagementSystem.Web.ViewModels.Book;
 using System.ComponentModel.DataAnnotations;
 using static LibraryManagementSystem.Common.DataModelsValidationConstants.Edition;
 using static LibraryManagementSystem.Common.GeneralApplicationConstants;
@@ -10,7 +9,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Edition
     {
         public EditionFormModel()
         {
-            Books = new HashSet<BookSelectForEditionFormModel>();
+            BooksDropDown = new HashSet<BookSelectForEditionFormModel>();
         }
 
         [Required]
@@ -29,6 +28,6 @@ namespace LibraryManagementSystem.Web.ViewModels.Edition
 
         public string BookId { get; set; } = null!;
 
-        public IEnumerable<BookSelectForEditionFormModel> Books { get; set; }
+        public IEnumerable<BookSelectForEditionFormModel> BooksDropDown { get; set; }
     }
 }
