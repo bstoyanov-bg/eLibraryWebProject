@@ -28,36 +28,27 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="All">All Books</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Author" asp-action="All">Authors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="All">Books</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="All">Categories</a>
                         </li>
                         @if (this.User.Identity?.IsAuthenticated ?? false && this.User.IsInRole(AdminRole))
                         {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Author
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="authorDropdown">
-                                    <li><a class="dropdown-item" href="@Url.Action("Add", "Author")">Add Author</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("All", "Author")">All Authors</a></li>
-                                </ul>
-                            </li>
-
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Add">Add Book</a>
+                                <a class="nav-link text-dark" asp-area="@AdminAreaName" asp-controller="Author" asp-action="Add">Add Author</a>
                             </li>
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Category
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                                    <li><a class="dropdown-item" href="@Url.Action("Add", "Category")">Add Category</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("All", "Category")">All Categories</a></li>
-                                </ul>
-                            </li>
-
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Edition" asp-action="Add">Add Edition</a>
+                                <a class="nav-link text-dark" asp-area="@AdminAreaName" asp-controller="Book" asp-action="Add">Add Book</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="@AdminAreaName" asp-controller="Category" asp-action="Add">Add Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="@AdminAreaName" asp-controller="Edition" asp-action="Add">Add Edition</a>
                             </li>
                         }
                         @if (this.User.Identity?.IsAuthenticated ?? false && this.User.IsInRole(UserRole))
