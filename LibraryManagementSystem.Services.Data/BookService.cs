@@ -296,9 +296,9 @@ namespace LibraryManagementSystem.Services.Data
             booksQuery = queryModel.BookSorting switch
             {
                 BookSorting.Newest => booksQuery
-                    .OrderBy(b => b.CreatedOn),
-                BookSorting.Oldest => booksQuery
                     .OrderByDescending(b => b.CreatedOn),
+                BookSorting.Oldest => booksQuery
+                    .OrderBy(b => b.CreatedOn),
                 BookSorting.ByYearPublishedAscending => booksQuery
                     .OrderBy(b => b.YearPublished),
                 BookSorting.ByYearPublishedDescending => booksQuery
