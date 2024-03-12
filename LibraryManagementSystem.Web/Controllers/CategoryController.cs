@@ -48,7 +48,7 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = AdminRole)]
+        [AllowAnonymous]
         public async Task<IActionResult> All()
         {
             IEnumerable<AllCategoriesViewModel> viewModel = await categoryService.GetAllCategoriesAsync();

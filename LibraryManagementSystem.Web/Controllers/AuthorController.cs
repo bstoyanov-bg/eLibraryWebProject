@@ -49,7 +49,7 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = AdminRole)]
+        [AllowAnonymous]
         public async Task<IActionResult> All()
         {
             IEnumerable<AllAuthorsViewModel> viewModel = await authorService.GetAllAuthorsAsync();
@@ -119,11 +119,12 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Details(string id)
         {
             try
             {
-                AuthorDetailsViewModel author = await authorService.GetAuthorDetailsForUserAsync(id);
+                AuthorDetailsViewModel? author = await authorService.GetAuthorDetailsForUserAsync(id);
 
                 if (author == null)
                 {

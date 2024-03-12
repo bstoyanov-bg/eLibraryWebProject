@@ -17,7 +17,7 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpGet]
-            [AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> All()
         {
             IEnumerable<AllBooksViewModel> viewModel = await bookService.GetAllBooksAsync();
@@ -114,6 +114,7 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Details(string id)
         {
             try
