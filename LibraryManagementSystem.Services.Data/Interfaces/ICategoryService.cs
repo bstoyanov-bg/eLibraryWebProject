@@ -19,5 +19,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<int> GetCategoryIdByBookIdAsync(string bookId);
 
         Task DeleteCategoryAsync(int categoryId);
+
+        Task<IEnumerable<string>> AllCategoryNamesAsync();
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AllBooksViewModel>
+﻿@* @model IEnumerable<AllBooksViewModel>
 
 @{
     ViewData["Title"] = "All Books";
@@ -50,3 +50,159 @@ else
         </tbody>
     </table>
 }
+ *@
+
+
+@model AllBooksQueryModel
+
+@{
+    ViewBag.Title = "All Books";
+}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Enlargement on Hover</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .enlarge-image {
+            transition: transform 0.3s;
+        }
+
+            .enlarge-image:hover {
+                transform: scale(2);
+            }
+    </style>
+</head>
+<body>
+    <h2 class="text-center">@ViewBag.Title</h2>
+    <hr />
+    <form method="get">
+        <div class="row">
+            <div class="form-group col-md-3 justify-content-between">
+                <div class="form-group">
+                    <label asp-for="Category"></label>
+                    <select asp-for="Category" class="form-control">
+                        <option value="">All</option>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category">@category</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="BooksPerPage"></label>
+                <select asp-for="BooksPerPage" class="form-control">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="SearchString"></label>
+                <input asp-for="SearchString" class="form-control" placeholder="">
+            </div>
+            <div class="form-group col-md-3">
+                <div class="form-group">
+                    <label asp-for="BookSorting"></label>
+                    <select asp-for="BookSorting" class="form-control">
+                        <option value="0">Newest</option>
+                        <option value="1">Oldest</option>
+                        <option value="2">Title (Ascending)</option>
+                        <option value="3">Title (Descending)</option>
+                        <option value="4">Year Published (Ascending)</option>
+                        <option value="5">Year Published (Descending)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group mt-3 p-2">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+    </form>
+    <div class="row mb-5">
+        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+            @{
+                var previousPage = Model.CurrentPage - 1;
+                if (previousPage < 1)
+                {
+                    previousPage = 1;
+                }
+
+                int maxPage = (int)Math.Ceiling((double)Model.TotalBooks / Model.BooksPerPage);
+            }
+            <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+               asp-controller="Book"
+               asp-action="All"
+               asp-route-currentPage="@previousPage"
+               asp-route-category="@Model.Category"
+               asp-route-searchTerm="@Model.SearchString"
+               asp-route-sorting="@((int)Model.BookSorting)"><< Previous Page</a>
+        </div>
+        @{
+            bool shouldNextPageBeDisabled = Model.CurrentPage == maxPage || !Model.Books.Any();
+        }
+        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-primary @(shouldNextPageBeDisabled ? "disabled" : string.Empty)"
+               asp-controller="Book"
+               asp-action="All"
+               asp-route-currentPage="@(Model.CurrentPage + 1)"
+               asp-route-category="@Model.Category"
+               asp-route-searchTerm="@Model.SearchString"
+               asp-route-sorting="@((int)Model.BookSorting)">Next Page >></a>
+        </div>
+    </div>
+
+
+    @if (!Model.Books.Any())
+    {
+        <h2 class="text-center">No books found by the given criteria!</h2>
+        <br />
+    }
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="text-align: center; vertical-align: middle;">Book Title</th>
+                    <th style="text-align: center;">Year Published</th>
+                    <th style="text-align: center; vertical-align: middle;">Publisher</th>
+                    <th style="text-align: center; vertical-align: middle;">Author</th>
+                    <th style="text-align: center; vertical-align: middle;">Category</th>
+                    <th style="text-align: center;">Editions Count</th>
+                    <th style="text-align: center; vertical-align: middle;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model.Books)
+                {
+                    <tr>
+                        <td>
+                            <div class="enlarge-image">
+                                <img class="d-block w-50" style="max-width: 100%; height: auto;" src="~/@book.ImageURL" alt="BookCover-img">
+                            </div>
+                        </td>
+                        <td style="text-align: center; vertical-align: middle;">@book.Title</td>
+                        <td style="text-align: center; vertical-align: middle;">@book.YearPublished</td>
+                        <td style="text-align: center; vertical-align: middle;">@book.Publisher</td>
+                        <td style="text-align: center; vertical-align: middle;">@book.AuthorName</td>
+                        <td style="text-align: center; vertical-align: middle;">@book.Category</td>
+                        <td style="text-align: center; vertical-align: middle;">@book.EditionsCount</td>
+                        <td style="text-align: center; vertical-align: middle; white-space: nowrap;">
+                            <a href="@Url.Action("Edit", "Book", new { id = book.Id })" class="btn btn-warning mr-2">Edit</a>
+                            <a href="@Url.Action("Details", "Book", new { id = book.Id })" class="btn btn-primary mr-2">Details</a>
+                            <a href="@Url.Action("Delete", "Book", new { id = book.Id })" class="btn btn-danger mr-2">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

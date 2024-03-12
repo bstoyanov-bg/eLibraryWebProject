@@ -10,6 +10,7 @@
     <ProjectReference Include="..\LibraryManagementSystem.Common\LibraryManagementSystem.Common.csproj" />
     <ProjectReference Include="..\LibraryManagementSystem.Data.Models\LibraryManagementSystem.Data.Models.csproj" />
     <ProjectReference Include="..\LibraryManagementSystem.Data\LibraryManagementSystem.Data.csproj" />
+    <ProjectReference Include="..\LibraryManagementSystem.Services.Data.Models\LibraryManagementSystem.Services.Data.Models.csproj" />
     <ProjectReference Include="..\LibraryManagementSystem.Web.ViewModels\LibraryManagementSystem.Web.ViewModels.csproj" />
   </ItemGroup>
 

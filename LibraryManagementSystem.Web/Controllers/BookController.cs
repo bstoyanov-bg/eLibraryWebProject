@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.Services.Data.Interfaces;
+using LibraryManagementSystem.Services.Data.Models.Book;
 using LibraryManagementSystem.Web.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,19 +11,34 @@ namespace LibraryManagementSystem.Web.Controllers
     public class BookController : BaseController
     {
         private readonly IBookService bookService;
+        private readonly ICategoryService categoryService;
 
-        public BookController(IBookService bookService) 
+        public BookController(IBookService bookService, ICategoryService categoryService) 
         {
             this.bookService = bookService;
+            this.categoryService = categoryService;
         }
+
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> All()
+        //{
+        //    IEnumerable<AllBooksViewModel> viewModel = await bookService.GetAllBooksAsync();
+
+        //    return View(viewModel);
+        //}
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery]AllBooksQueryModel queryModel)
         {
-            IEnumerable<AllBooksViewModel> viewModel = await bookService.GetAllBooksAsync();
+            AllBooksFilteredAndPagedServiceModel serviceModel = await this.bookService.GetAllBooksFilteredAndPagedAsync(queryModel);
 
-            return View(viewModel);
+            queryModel.Books = serviceModel.Books;
+            queryModel.TotalBooks = serviceModel.TotalBooksCount;
+            queryModel.Categories = await this.categoryService.AllCategoryNamesAsync();
+
+            return this.View(queryModel);
         }
 
         [HttpGet]

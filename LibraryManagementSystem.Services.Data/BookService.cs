@@ -1,7 +1,9 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
+using LibraryManagementSystem.Services.Data.Models.Book;
 using LibraryManagementSystem.Web.ViewModels.Book;
+using LibraryManagementSystem.Web.ViewModels.Book.Enums;
 using LibraryManagementSystem.Web.ViewModels.Edition;
 using LibraryManagementSystem.Web.ViewModels.Home;
 using Microsoft.EntityFrameworkCore;
@@ -266,6 +268,71 @@ namespace LibraryManagementSystem.Services.Data
             bookToDelete.IsDeleted = true;
 
             await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<AllBooksFilteredAndPagedServiceModel> GetAllBooksFilteredAndPagedAsync(AllBooksQueryModel queryModel)
+        {
+            IQueryable<Book> booksQuery = this.dbContext
+                .Books
+                .Where(b => b.IsDeleted == false)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(queryModel.Category))
+            {
+                booksQuery = booksQuery
+                    .Where(b => b.BooksCategories
+                    .Any(bc => bc.Category.Name == queryModel.Category));
+            }
+
+            if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
+            {
+                string wildCard = $"%{queryModel.SearchString.ToLower()}%";
+
+                booksQuery = booksQuery
+                    .Where(b => EF.Functions.Like(b.Title, wildCard) ||
+                                EF.Functions.Like(b.Author.FirstName + " " + b.Author.LastName, wildCard));
+            }
+
+            booksQuery = queryModel.BookSorting switch
+            {
+                BookSorting.Newest => booksQuery
+                    .OrderBy(b => b.CreatedOn),
+                BookSorting.Oldest => booksQuery
+                    .OrderByDescending(b => b.CreatedOn),
+                BookSorting.ByYearPublishedAscending => booksQuery
+                    .OrderBy(b => b.YearPublished),
+                BookSorting.ByYearPublishedDescending => booksQuery
+                    .OrderByDescending(b => b.YearPublished),
+                BookSorting.ByTitleAscending => booksQuery
+                    .OrderBy(b => b.Title),
+                BookSorting.ByTitleDescending => booksQuery
+                    .OrderByDescending(b => b.Title),
+                _ => booksQuery
+                    .OrderBy(b => b.Title),
+            };
+
+            IEnumerable<AllBooksViewModel> allBooks = await booksQuery
+                .Skip((queryModel.CurrentPage - 1) * queryModel.BooksPerPage)
+                .Take(queryModel.BooksPerPage)
+                .Select(b => new AllBooksViewModel
+                {
+                    Id = b.Id.ToString(),
+                    Title = b.Title,
+                    YearPublished = b.YearPublished,
+                    Publisher = b.Publisher,
+                    AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
+                    Category = b.BooksCategories.Select(bc => bc.Category.Name).First(),
+                    ImageURL = b.CoverImagePathUrl ?? string.Empty,
+                    EditionsCount = b.Editions.Count(),
+                }).ToListAsync();
+
+            int totalBooks = booksQuery.Count();
+
+            return new AllBooksFilteredAndPagedServiceModel()
+            {
+                TotalBooksCount = totalBooks,
+                Books = allBooks,
+            };
         }
     }
 }

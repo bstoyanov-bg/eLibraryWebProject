@@ -139,5 +139,16 @@ namespace LibraryManagementSystem.Services.Data
 
             await this.dbContext.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<string>> AllCategoryNamesAsync()
+        {
+            IEnumerable<string> allCategoryNames = await this.dbContext
+                .Categories
+                .Where (c => c.IsDeleted == false)
+                .Select(c => c.Name)
+                .ToListAsync();
+
+            return allCategoryNames;
+        }
     }
 }

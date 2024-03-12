@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Services.Data.Models.Book;
 using LibraryManagementSystem.Web.ViewModels.Book;
 using LibraryManagementSystem.Web.ViewModels.Home;
 
@@ -25,5 +26,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<BookDetailsViewModel> GetBookDetailsForUserAsync(string bookId);
 
         Task DeleteBookAsync(string bookId);
+
+        Task<AllBooksFilteredAndPagedServiceModel> GetAllBooksFilteredAndPagedAsync(AllBooksQueryModel queryModel);
     }
 }
