@@ -34,6 +34,8 @@ namespace LibraryManagementSystem.Common
             public const string ISBNRegexPattern = @"\b(?:ISBN(?:-13)?:? ?)?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){3})[- 0-9]{17}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b";
 
             public const string DateFormat = GlobalDateFormat;
+
+            public const int FilePathMaxLength = 260;
         }
 
         public static class Author
