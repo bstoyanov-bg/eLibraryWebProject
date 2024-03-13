@@ -24,6 +24,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
         public string? ISBN { get; set; }
 
         [DisplayFormat(DataFormatString = GlobalYearFormat)]
+        [Display(Name = "Year published")]
         public DateOnly? YearPublished { get; set; }
 
         [Required]
@@ -36,6 +37,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
         public string? Publisher { get; set; } = null!;
 
         [StringLength(CoverImagePathUrlMaxLength)]
+        [Display(Name = "Book cover - image path")]
         public string? CoverImagePathUrl { get; set; } = null!;
 
         public string AuthorId { get; set; } = null!;

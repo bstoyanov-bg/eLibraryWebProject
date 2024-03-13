@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AllAuthorsViewModel>
+﻿@* @model IEnumerable<AllAuthorsViewModel>
 
 @{
     ViewData["Title"] = "All Authors";
@@ -43,4 +43,141 @@ else
             }
         </tbody>
     </table>
+} *@
+
+
+
+@model AllAuthorsQueryModel
+
+@{
+    ViewBag.Title = "All Authors";
 }
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Enlargement on Hover</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .enlarge-image {
+            transition: transform 0.3s;
+        }
+
+            .enlarge-image:hover {
+                transform: scale(2);
+            }
+    </style>
+</head>
+<body>
+    <h2 class="text-center">@ViewBag.Title</h2>
+    <hr />
+    <form method="get">
+        <div class="row">
+            <div class="form-group col-md-2">
+                <label asp-for="AuthorsPerPage"></label>
+                <select asp-for="AuthorsPerPage" class="form-control">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="SearchString"></label>
+                <input asp-for="SearchString" class="form-control" placeholder="">
+            </div>
+            <div class="form-group col-md-3">
+                <div class="form-group">
+                    <label asp-for="AuthorSorting"></label>
+                    <select asp-for="AuthorSorting" class="form-control">
+                        <option value="0">Newest</option>
+                        <option value="1">Oldest</option>
+                        <option value="2">Name (Ascending)</option>
+                        <option value="3">Name (Descending)</option>
+                        <option value="4">Nationality (Ascending)</option>
+                        <option value="5">Nationality (Descending)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group mt-3 p-2">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+    </form>
+    <div class="row mb-5">
+        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+            @{
+                var previousPage = Model.CurrentPage - 1;
+                if (previousPage < 1)
+                {
+                    previousPage = 1;
+                }
+
+                int maxPage = (int)Math.Ceiling((double)Model.TotalAuthors / Model.AuthorsPerPage);
+            }
+            <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+               asp-controller="Author"
+               asp-action="All"
+               asp-route-currentPage="@previousPage"
+               asp-route-searchTerm="@Model.SearchString"
+               asp-route-sorting="@((int)Model.AuthorSorting)"><< Previous Page</a>
+        </div>
+        @{
+            bool shouldNextPageBeDisabled = Model.CurrentPage == maxPage || !Model.Authors.Any();
+        }
+        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-primary @(shouldNextPageBeDisabled ? "disabled" : string.Empty)"
+               asp-controller="Author"
+               asp-action="All"
+               asp-route-currentPage="@(Model.CurrentPage + 1)"
+               asp-route-searchTerm="@Model.SearchString"
+               asp-route-sorting="@((int)Model.AuthorSorting)">Next Page >></a>
+        </div>
+    </div>
+
+
+    @if (!Model.Authors.Any())
+    {
+        <h2 class="text-center">No authors found by the given criteria!</h2>
+        <br />
+    }
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="text-align: center; vertical-align: middle;">Author Name</th>
+                    <th style="text-align: center; vertical-align: middle;">Nationality</th>
+                    <th style="text-align: center; vertical-align: middle;">Books in collection</th>
+                    <th style="text-align: center; vertical-align: middle;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var author in Model.Authors)
+                {
+                    <tr>
+                        @* <td>
+                            <div class="enlarge-image">
+                                <img class="d-block w-50" style="max-width: 100%; height: auto;" src="~/@book.ImageURL" alt="BookCover-img">
+                            </div>
+                        </td> *@
+                        <td style="text-align: center; vertical-align: middle;">@author.FirstName @author.LastName</td>
+                        <td style="text-align: center; vertical-align: middle;">@author.Nationality</td>
+                        <td style="text-align: center; vertical-align: middle;">@author.BooksCount</td>
+                        <td style="text-align: center; vertical-align: middle; white-space: nowrap;">
+                            <a href="@Url.Action("Edit", "Author", new { id = author.Id })" class="btn btn-warning mr-2">Edit</a>
+                            <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="btn btn-primary mr-2">Details</a>
+                            <a href="@Url.Action("Delete", "Author", new { id = author.Id })" class="btn btn-danger mr-2">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div style="height: 60px;"></div>
+</body>
+</html>

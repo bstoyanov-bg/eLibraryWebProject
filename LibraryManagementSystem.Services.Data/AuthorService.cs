@@ -1,7 +1,9 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
+using LibraryManagementSystem.Services.Data.Models.Book;
 using LibraryManagementSystem.Web.ViewModels.Author;
+using LibraryManagementSystem.Web.ViewModels.Author.Enums;
 using LibraryManagementSystem.Web.ViewModels.Book;
 using Microsoft.EntityFrameworkCore;
 
@@ -173,6 +175,61 @@ namespace LibraryManagementSystem.Services.Data
             authorToDelete.IsDeleted = true;
 
             await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<AllAuthorsFilteredAndPagedServiceModel> GetAllAuthorsFilteredAndPagedAsync(AllAuthorsQueryModel queryModel)
+        {
+            IQueryable<Author> authorsQuery = this.dbContext
+                .Authors
+                .Where(a => a.IsDeleted == false)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
+            {
+                string wildCard = $"%{queryModel.SearchString.ToLower()}%";
+
+                authorsQuery = authorsQuery
+                    .Where(a => EF.Functions.Like(a.Nationality, wildCard) ||
+                                EF.Functions.Like(a.FirstName + " " + a.LastName, wildCard));
+            }
+
+            authorsQuery = queryModel.AuthorSorting switch
+            {
+                AuthorSorting.Newest => authorsQuery
+                    .OrderByDescending(a => a.CreatedOn),
+                AuthorSorting.Oldest => authorsQuery
+                    .OrderBy(a => a.CreatedOn),
+                AuthorSorting.ByNameAscending => authorsQuery
+                    .OrderBy(a => a.FirstName),
+                AuthorSorting.ByNameDescending => authorsQuery
+                    .OrderByDescending(a => a.FirstName),
+                AuthorSorting.ByNationalityAscending => authorsQuery
+                    .OrderBy(a => a.Nationality),
+                AuthorSorting.ByNationalityDescending => authorsQuery
+                    .OrderByDescending(a => a.Nationality),
+                _ => authorsQuery
+                    .OrderBy(a => a.FirstName),
+            };
+
+            IEnumerable<AllAuthorsViewModel> allAuthors = await authorsQuery
+                .Skip((queryModel.CurrentPage - 1) * queryModel.AuthorsPerPage)
+                .Take(queryModel.AuthorsPerPage)
+                .Select(a => new AllAuthorsViewModel
+                {
+                    Id = a.Id.ToString(),
+                    FirstName = a.FirstName,
+                    LastName = a.LastName,
+                    Nationality = a.Nationality,
+                    BooksCount = a.Books.Count(),
+                }).ToListAsync();
+
+            int totalAuthors = authorsQuery.Count();
+
+            return new AllAuthorsFilteredAndPagedServiceModel()
+            {
+                TotalAuthorsCount = totalAuthors,
+                Authors = allAuthors,
+            };
         }
     }
 }

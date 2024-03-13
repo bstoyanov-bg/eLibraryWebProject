@@ -1,10 +1,10 @@
 ﻿using LibraryManagementSystem.Services.Data.Interfaces;
+using LibraryManagementSystem.Services.Data.Models.Book;
 using LibraryManagementSystem.Web.ViewModels.Author;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static LibraryManagementSystem.Common.UserRoleNames;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
-using LibraryManagementSystem.Services.Data;
+using static LibraryManagementSystem.Common.UserRoleNames;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -48,13 +48,25 @@ namespace LibraryManagementSystem.Web.Controllers
             return this.RedirectToAction("All", "Author");
         }
 
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> All()
+        //{
+        //    IEnumerable<AllAuthorsViewModel> viewModel = await authorService.GetAllAuthorsAsync();
+
+        //    return View(viewModel);
+        //}
+
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery] AllAuthorsQueryModel queryModel)
         {
-            IEnumerable<AllAuthorsViewModel> viewModel = await authorService.GetAllAuthorsAsync();
+            AllAuthorsFilteredAndPagedServiceModel serviceModel = await this.authorService.GetAllAuthorsFilteredAndPagedAsync(queryModel);
 
-            return View(viewModel);
+            queryModel.Authors = serviceModel.Authors;
+            queryModel.TotalAuthors = serviceModel.TotalAuthorsCount;
+
+            return this.View(queryModel);
         }
 
         [HttpGet]

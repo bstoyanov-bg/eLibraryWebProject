@@ -11,6 +11,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync();
 
+        Task<AllBooksFilteredAndPagedServiceModel> GetAllBooksFilteredAndPagedAsync(AllBooksQueryModel queryModel);
+
         Task<Book?> GetBookByIdAsync(string bookId);
 
         Task<BookFormModel> GetNewCreateBookModelAsync();
@@ -26,7 +28,5 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<BookDetailsViewModel> GetBookDetailsForUserAsync(string bookId);
 
         Task DeleteBookAsync(string bookId);
-
-        Task<AllBooksFilteredAndPagedServiceModel> GetAllBooksFilteredAndPagedAsync(AllBooksQueryModel queryModel);
     }
 }

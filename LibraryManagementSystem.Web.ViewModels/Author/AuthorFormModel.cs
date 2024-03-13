@@ -10,11 +10,13 @@ namespace LibraryManagementSystem.Web.ViewModels.Author
         [Required]
         [StringLength(FirstNameMaxLength, ErrorMessage = "First name must be between 5 and 100 characters long.", 
             MinimumLength = FirstNameMinLength)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; } = null!;
 
         [Required]
         [StringLength(LastNameMaxLength, ErrorMessage = "Last name must be between 5 and 100 characters long.", 
             MinimumLength = LastNameMinLength)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; } = null!;
 
         [StringLength(BiographyMaxLength, ErrorMessage = "Biography must be between 10 and 1500 characters long.",
@@ -22,9 +24,11 @@ namespace LibraryManagementSystem.Web.ViewModels.Author
         public string? Biography { get; set; }
 
         [DisplayFormat(DataFormatString = GlobalYearFormat)]
+        [Display(Name = "Birth date")]
         public DateOnly? BirthDate { get; set; }
 
         [DisplayFormat(DataFormatString = GlobalYearFormat)]
+        [Display(Name = "Death date")]
         public DateOnly? DeathDate { get; set; }
 
         [Required]
