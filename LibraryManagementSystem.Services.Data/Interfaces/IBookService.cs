@@ -28,5 +28,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<BookDetailsViewModel> GetBookDetailsForUserAsync(string bookId);
 
         Task DeleteBookAsync(string bookId);
+
+        //Task AddFileToBookAsync(string bookId, BookFormModel model)
     }
 }

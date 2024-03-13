@@ -14,6 +14,9 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
             Categories  = new HashSet<AllCategoriesViewModel>();
         }
 
+        // Used for Uplode BookFile in Edit View
+        public string? Id { get; set; }
+
         [Required]
         [StringLength(TitleMaxLength, ErrorMessage = "Title must be between 2 and 22 characters long.",
         MinimumLength = TitleMinLength)]
@@ -39,6 +42,9 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
         [StringLength(CoverImagePathUrlMaxLength)]
         [Display(Name = "Book cover - image path")]
         public string? CoverImagePathUrl { get; set; } = null!;
+
+        [StringLength(FilePathMaxLength)]
+        public string? FilePath { get; set; } = null!;
 
         public string AuthorId { get; set; } = null!;
 

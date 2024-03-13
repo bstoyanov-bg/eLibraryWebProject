@@ -149,6 +149,7 @@ namespace LibraryManagementSystem.Services.Data
 
             BookFormModel book = new BookFormModel()
             {
+                Id = bookToEdit.Id.ToString(),
                 Title = bookToEdit.Title,
                 ISBN = bookToEdit.ISBN,
                 YearPublished = bookToEdit.YearPublished,
@@ -334,5 +335,19 @@ namespace LibraryManagementSystem.Services.Data
                 Books = allBooks,
             };
         }
+
+        // NOT NEEDED
+        //public async Task AddFileToBookAsync(string bookId, BookFormModel model)
+        //{
+        //    var bookToAddFile = await GetBookByIdAsync(bookId);
+
+        //    if (bookToAddFile != null)
+        //    {
+        //        bookToAddFile.Id = Guid.Parse(model.Id!);
+        //        bookToAddFile.FilePath = model.FilePath;
+        //    }
+
+        //    await dbContext.SaveChangesAsync();
+        //}
     }
 }

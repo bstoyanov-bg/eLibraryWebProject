@@ -19,6 +19,7 @@ namespace LibraryManagementSystem.Web.Controllers
             this.categoryService = categoryService;
         }
 
+        // NOT NEEDED ANYMORE
         //[HttpGet]
         //[AllowAnonymous]
         //public async Task<IActionResult> All()
@@ -162,6 +163,56 @@ namespace LibraryManagementSystem.Web.Controllers
             catch
             {
                 TempData[ErrorMessage] = "There was problem with deleting the book!";
+            }
+
+            return this.RedirectToAction("All", "Book");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> AddFile(string id)
+        {
+            try
+            {
+                var book = await bookService.GetBookForEditByIdAsync(id);
+
+                if (book == null)
+                {
+                    return RedirectToAction("All", "Book");
+                }
+
+                return View(book);
+            }
+            catch
+            {
+                return GeneralError();
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> AddFile(string id, BookFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                var book = await bookService.GetBookForEditByIdAsync(id);
+
+                if (book == null)
+                {
+                    TempData[ErrorMessage] = "There is no book with such id!";
+                }
+
+                await bookService.EditBookAsync(id, model);
+                TempData[SuccessMessage] = "Succesfully added file to the book!";
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with editing the book!";
             }
 
             return this.RedirectToAction("All", "Book");
