@@ -49,6 +49,10 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(NationalityMaxLength)]
         public string Nationality { get; set; } = null!;
 
+        [Comment("Image of the author")]
+        [MaxLength(ImagePathUrlMaxLength)]
+        public string? ImagePathUrl { get; set; }
+
         [Comment("Created On")]
         public DateTime CreatedOn { get; set; }
 

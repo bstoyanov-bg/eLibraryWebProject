@@ -13,6 +13,10 @@ namespace LibraryManagementSystem.Data.Configuration
         public void Configure(EntityTypeBuilder<Edition> builder)
         {
             builder
+                .Property(e => e.CreatedOn)
+                .HasDefaultValueSql("GETDATE()");
+
+            builder
                 .HasOne(e => e.Book)
                 .WithMany(b => b.Editions)
                 .HasForeignKey(e => e.BookId)

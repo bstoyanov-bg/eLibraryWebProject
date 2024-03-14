@@ -25,6 +25,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         BirthDate = DateOnly.ParseExact("08.01.1942", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         DeathDate = DateOnly.ParseExact("14.03.2018", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         Nationality = "English",
+                        ImagePathUrl = "img/Authors/Stephen_Hawking.jpg",
                         IsDeleted = false,
                         Books = new HashSet<Book>
                         {
@@ -61,6 +62,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         BirthDate = DateOnly.ParseExact("08.02.1828", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         DeathDate = DateOnly.ParseExact("24.03.1905", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         Nationality = "French",
+                        ImagePathUrl = "img/Authors/Jules_Verne.jpg",
                         IsDeleted = false,
                         Books = new HashSet<Book>
                         {

@@ -37,6 +37,13 @@ namespace LibraryManagementSystem.Data.Models
         [DisplayFormat(DataFormatString = GlobalYearFormat)]
         public DateOnly EditionYear { get; set; }
 
+        [Comment("Path of the uploaded file")]
+        [MaxLength(FilePathMaxLength)]
+        public string? FilePath { get; set; }
+
+        [Comment("Created On")]
+        public DateTime CreatedOn { get; set; }
+
         [Comment("BookId")]
         [Required]
         [ForeignKey(nameof(Book))]

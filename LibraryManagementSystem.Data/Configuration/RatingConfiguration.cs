@@ -13,7 +13,11 @@ namespace LibraryManagementSystem.Data.Configuration
         public void Configure(EntityTypeBuilder<Rating> builder)
         {
             builder
-                .HasKey(lb => new { lb.BookId, lb.UserId });
+                .HasKey(r => new { r.BookId, r.UserId });
+
+            builder
+                .Property(r => r.CreatedOn)
+                .HasDefaultValueSql("GETDATE()");
 
             builder
                 .HasOne(r => r.Book)

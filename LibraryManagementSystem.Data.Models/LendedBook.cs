@@ -24,11 +24,11 @@ namespace LibraryManagementSystem.Data.Models
         [Comment("The date when the book was borrowed")]
         [Required]
         [DisplayFormat(DataFormatString = DateFormatt)]
-        public DateOnly LoanDate { get; set; }
+        public DateTime LoanDate { get; set; }
 
         [Comment("The date when the book was returned")]
         [DisplayFormat(DataFormatString = GlobalDateFormat)]
-        public DateOnly? ReturnDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
 
         [Comment("BookId")]
         [Required]

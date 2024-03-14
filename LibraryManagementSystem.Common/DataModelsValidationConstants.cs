@@ -28,14 +28,14 @@ namespace LibraryManagementSystem.Common
             public const int PublisherMinLength = 5;
             public const int PublisherMaxLength = 100;
 
-            public const int CoverImagePathUrlMaxLength = 2083;
+            public const int CoverImagePathUrlMaxLength = 260;
 
             public const int ISBNMaxLength = 22;
             public const string ISBNRegexPattern = @"\b(?:ISBN(?:-13)?:? ?)?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){3})[- 0-9]{17}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b";
 
-            public const string DateFormat = GlobalDateFormat;
-
             public const int FilePathMaxLength = 260;
+
+            public const string DateFormat = GlobalDateFormat;
         }
 
         public static class Author
@@ -52,6 +52,8 @@ namespace LibraryManagementSystem.Common
             public const int NationalityMinLength = 2;
             public const int NationalityMaxLength = 50;
 
+            public const int ImagePathUrlMaxLength = 260;
+
             public const string DateFormatt = GlobalDateFormat;
         }
 
@@ -64,6 +66,8 @@ namespace LibraryManagementSystem.Common
             public const int PublisherMaxLength = 100;
 
             public const int EditionYearMaxLength = 5;
+
+            public const int FilePathMaxLength = 260;
 
             public const string DateFormatt = GlobalDateFormat;
         }

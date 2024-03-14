@@ -25,10 +25,6 @@ namespace LibraryManagementSystem.Data.Configuration
             builder
                 .Property(b => b.IsDeleted)
                 .HasDefaultValue(false);
-
-            builder
-                .Property(b => b.FilePath)
-                .HasValueGenerator((property, entityType) => new FilePathValueGenerator());
         }
     }
 }
