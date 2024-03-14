@@ -45,42 +45,44 @@
 
     <div class="container">
         <h1>Add Edition</h1>
+        <div class="form-group col-md-10">
+            <form method="post">
+                <div class="mb-4">
+                    <label asp-for="@Model.BookId" class="form-label-add-edit">Select Book</label>
+                    <select asp-for="@Model.BookId" class="form-control" aria-required="true">
+                        <option value="">-- Select book --</option>
+                        @foreach (var book in Model.BooksDropDown)
+                        {
+                            <option value="@book.Id">
+                                Book Title: @book.Title,
+                                Author: @book.AuthorName,
+                                Publisher: @book.Publisher,
+                                Year Published: @book.YearPublished
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="@Model.BookId" class="text-danger"></span>
+                </div>
 
-        <form method="post">
-            <div class="mb-4">
-                <label asp-for="@Model.BookId" class="form-label-add-edit">Select Book</label>
-                <select asp-for="@Model.BookId" class="form-control" aria-required="true">
-                    <option value="">-- Select book --</option>
-                    @foreach (var book in Model.BooksDropDown)
-                    {
-                        <option value="@book.Id">
-                            Book Title: @book.Title, 
-                            Author: @book.AuthorName, 
-                            Publisher: @book.Publisher, 
-                            Year Published: @book.YearPublished</option>
-                    }
-                </select>
-                <span asp-validation-for="@Model.BookId" class="text-danger"></span>
-            </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Version"></label>
+                    <input asp-for="Version" class="form-control" placeholder="" />
+                    <span asp-validation-for="Version" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Publisher"></label>
+                    <input asp-for="Publisher" class="form-control" placeholder="" />
+                    <span asp-validation-for="Publisher" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="EditionYear">Year of Edition</label>
+                    <input asp-for="EditionYear" class="form-control" id="editionYear" placeholder="DD.MM.YYYY" />
+                    <span asp-validation-for="EditionYear" class="small text-danger"></span>
+                </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Version"></label>
-                <input asp-for="Version" class="form-control" placeholder="" />
-                <span asp-validation-for="Version" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Publisher"></label>
-                <input asp-for="Publisher" class="form-control" placeholder="" />
-                <span asp-validation-for="Publisher" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="EditionYear">Year of Edition</label>
-                <input asp-for="EditionYear" class="form-control" id="editionYear" placeholder="DD.MM.YYYY" />
-                <span asp-validation-for="EditionYear" class="small text-danger"></span>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

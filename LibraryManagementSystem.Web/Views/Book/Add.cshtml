@@ -47,62 +47,63 @@
         <h1>Add Book</h1>
 
         <form method="post">
-            <div class="form-group mb-3">
-                <label asp-for="Title"></label>
-                <input asp-for="Title" class="form-control" placeholder="" />
-                <span asp-validation-for="Title" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="ISBN"></label>
-                <input asp-for="ISBN" class="form-control" placeholder="" />
-                <span asp-validation-for="ISBN" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="YearPublished"></label>
-                <input asp-for="YearPublished" class="form-control" id="yearPublished" placeholder="DD.MM.YYYY" />
-                <span asp-validation-for="YearPublished" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Description"></label>
-                <textarea asp-for="Description" rows="4" class="form-control" placeholder=""></textarea>
-                <span asp-validation-for="Description" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Publisher"></label>
-                <input asp-for="Publisher" class="form-control" placeholder="" />
-                <span asp-validation-for="Publisher" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="CoverImagePathUrl"></label>
-                <input asp-for="CoverImagePathUrl" class="form-control" placeholder="" />
-                <span asp-validation-for="CoverImagePathUrl" class="small text-danger"></span>
-            </div>
+            <div class ="form-group col-md-10">
+                <div class="form-group mb-3">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" class="form-control" placeholder="" />
+                    <span asp-validation-for="Title" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="ISBN"></label>
+                    <input asp-for="ISBN" class="form-control" placeholder="" />
+                    <span asp-validation-for="ISBN" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="YearPublished"></label>
+                    <input asp-for="YearPublished" class="form-control" id="yearPublished" placeholder="DD.MM.YYYY" />
+                    <span asp-validation-for="YearPublished" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" rows="4" class="form-control" placeholder=""></textarea>
+                    <span asp-validation-for="Description" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Publisher"></label>
+                    <input asp-for="Publisher" class="form-control" placeholder="" />
+                    <span asp-validation-for="Publisher" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="CoverImagePathUrl"></label>
+                    <input asp-for="CoverImagePathUrl" class="form-control" placeholder="" />
+                    <span asp-validation-for="CoverImagePathUrl" class="small text-danger"></span>
+                </div>
 
-            <div class="mb-4">
-                <label asp-for="@Model.AuthorId" class="form-label-add-edit">Select Author</label>
-                <select asp-for="@Model.AuthorId" class="form-control" aria-required="true">
-                    <option value="">-- Select author --</option>
-                    @foreach (var author in Model.Authors)
-                    {
-                        <option value="@author.Id">@author.Name - @author.Nationality</option>
-                    }
-                </select>
-                <span asp-validation-for="@Model.AuthorId" class="text-danger"></span>
-            </div>
-            <div class="mb-4">
-                <label asp-for="@Model.CategoryId" class="form-label-add-edit">Select Category</label>
-                <select asp-for="@Model.CategoryId" class="form-control" aria-required="true">
-                    <option value="">-- Select category --</option>
-                    @foreach (var category in Model.Categories)
-                    {
-                        <option value="@category.Id">@category.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
-            </div>
+                <div class="mb-4">
+                    <label asp-for="@Model.AuthorId" class="form-label-add-edit">Select Author</label>
+                    <select asp-for="@Model.AuthorId" class="form-control" aria-required="true">
+                        <option value="">-- Select author --</option>
+                        @foreach (var author in Model.Authors)
+                        {
+                            <option value="@author.Id">@author.Name - @author.Nationality</option>
+                        }
+                    </select>
+                    <span asp-validation-for="@Model.AuthorId" class="text-danger"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="@Model.CategoryId" class="form-label-add-edit">Select Category</label>
+                    <select asp-for="@Model.CategoryId" class="form-control" aria-required="true">
+                        <option value="">-- Select category --</option>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
+                </div>
+            </divclass>
 
             <button type="submit" class="btn btn-primary">Submit</button>
-            <br />
             <br />
         </form>
     </div>

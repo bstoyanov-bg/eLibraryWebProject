@@ -47,44 +47,46 @@
         <h1>Add Author</h1>
 
         <form method="post">
-            <div class="form-group mb-3">
-                <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" class="form-control" placeholder="" />
-                <span asp-validation-for="FirstName" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="LastName"></label>
-                <input asp-for="LastName" class="form-control" placeholder="" />
-                <span asp-validation-for="LastName" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Biography"></label>
-                <textarea asp-for="Biography" rows="4" class="form-control" placeholder=""></textarea>
-                <span asp-validation-for="Biography" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="BirthDate"></label>
-                <input asp-for="BirthDate" class="form-control" id="birthDate" placeholder="DD-MM-YYYY" />
-                <span asp-validation-for="BirthDate" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="DeathDate"></label>
-                <input asp-for="DeathDate" class="form-control" id="deathDate" placeholder="DD-MM-YYYY" />
-                <span asp-validation-for="DeathDate" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Nationality"></label>
-                <input asp-for="Nationality" class="form-control" placeholder="" />
-                <span asp-validation-for="Nationality" class="small text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="ImagePathUrl"></label>
-                <input asp-for="ImagePathUrl" class="form-control" placeholder="" />
-                <span asp-validation-for="ImagePathUrl" class="small text-danger"></span>
-            </div>
+            <div class="form-group col-md-10">
+                <div class="form-group mb-3">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" class="form-control" placeholder="" />
+                    <span asp-validation-for="FirstName" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" class="form-control" placeholder="" />
+                    <span asp-validation-for="LastName" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Biography"></label>
+                    <textarea asp-for="Biography" rows="4" class="form-control" placeholder=""></textarea>
+                    <span asp-validation-for="Biography" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="BirthDate"></label>
+                    <input asp-for="BirthDate" class="form-control" id="birthDate" placeholder="DD-MM-YYYY" />
+                    <span asp-validation-for="BirthDate" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="DeathDate"></label>
+                    <input asp-for="DeathDate" class="form-control" id="deathDate" placeholder="DD-MM-YYYY" />
+                    <span asp-validation-for="DeathDate" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Nationality"></label>
+                    <input asp-for="Nationality" class="form-control" placeholder="" />
+                    <span asp-validation-for="Nationality" class="small text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="ImagePathUrl"></label>
+                    <input asp-for="ImagePathUrl" class="form-control" placeholder="" />
+                    <span asp-validation-for="ImagePathUrl" class="small text-danger"></span>
+                </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+    </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
