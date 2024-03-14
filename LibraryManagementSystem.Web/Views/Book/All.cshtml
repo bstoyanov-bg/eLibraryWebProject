@@ -52,6 +52,7 @@ else
 }
  *@
 
+ @using static LibraryManagementSystem.Common.UserRoleNames;
 
 @model AllBooksQueryModel
 
@@ -194,10 +195,18 @@ else
                         <td style="text-align: center; vertical-align: middle;">@book.AuthorName</td>
                         <td style="text-align: center; vertical-align: middle;">@book.Category</td>
                         <td style="text-align: center; vertical-align: middle;">@book.EditionsCount</td>
+
                         <td style="text-align: center; vertical-align: middle; white-space: nowrap;">
-                            <a href="@Url.Action("Edit", "Book", new { id = book.Id })" class="btn btn-warning mr-2">Edit</a>
-                            <a href="@Url.Action("Details", "Book", new { id = book.Id })" class="btn btn-primary mr-2">Details</a>
-                            <a href="@Url.Action("Delete", "Book", new { id = book.Id })" class="btn btn-danger mr-2">Delete</a>
+                            @if (this.User.IsInRole(AdminRole))
+                            {
+                                <a href="@Url.Action("Edit", "Book", new { id = book.Id })" class="btn btn-warning mr-2">Edit</a>
+                                <a href="@Url.Action("Details", "Book", new { id = book.Id })" class="btn btn-primary mr-2">Details</a>
+                                <a href="@Url.Action("Delete", "Book", new { id = book.Id })" class="btn btn-danger mr-2">Delete</a>
+                            }
+                            else if (this.User.IsInRole(UserRole))
+                            {
+                                <a href="@Url.Action("Details", "Book", new { id = book.Id })" class="btn btn-primary mr-2">Details</a>
+                            }
                         </td>
                     </tr>
                 }

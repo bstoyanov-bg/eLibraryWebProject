@@ -45,7 +45,7 @@ else
     </table>
 } *@
 
-
+@using static LibraryManagementSystem.Common.UserRoleNames;
 
 @model AllAuthorsQueryModel
 
@@ -160,7 +160,7 @@ else
                 @foreach (var author in Model.Authors)
                 {
                     <tr>
-                        <td>
+                        <td style="width: 200px;">
                             <div class="enlarge-image">
                                 <img class="d-block w-50" style="max-width: 100%; height: auto;" src="~/@author.ImageURL" alt="Author-img">
                             </div>
@@ -169,9 +169,16 @@ else
                         <td style="text-align: center; vertical-align: middle;">@author.Nationality</td>
                         <td style="text-align: center; vertical-align: middle;">@author.BooksCount</td>
                         <td style="text-align: center; vertical-align: middle; white-space: nowrap;">
-                            <a href="@Url.Action("Edit", "Author", new { id = author.Id })" class="btn btn-warning mr-2">Edit</a>
-                            <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="btn btn-primary mr-2">Details</a>
-                            <a href="@Url.Action("Delete", "Author", new { id = author.Id })" class="btn btn-danger mr-2">Delete</a>
+                            @if (this.User.IsInRole(AdminRole))
+                            {
+                                <a href="@Url.Action("Edit", "Author", new { id = author.Id })" class="btn btn-warning mr-2">Edit</a>
+                                <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="btn btn-primary mr-2">Details</a>
+                                <a href="@Url.Action("Delete", "Author", new { id = author.Id })" class="btn btn-danger mr-2">Delete</a>
+                            }
+                            else if (this.User.IsInRole(UserRole))
+                            {
+                                <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="btn btn-primary mr-2">Details</a>
+                            }
                         </td>
                     </tr>
                 }

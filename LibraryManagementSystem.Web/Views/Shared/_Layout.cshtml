@@ -36,7 +36,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="All">Categories</a>
                         </li>
-                        @if (this.User.Identity?.IsAuthenticated ?? false && this.User.IsInRole(AdminRole))
+                        @if (this.User.IsInRole(AdminRole))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="@AdminAreaName" asp-controller="Author" asp-action="Add">Add Author</a>
@@ -51,10 +51,10 @@
                                 <a class="nav-link text-dark" asp-area="@AdminAreaName" asp-controller="Edition" asp-action="Add">Add Edition</a>
                             </li>
                         }
-                        @if (this.User.Identity?.IsAuthenticated ?? false && this.User.IsInRole(UserRole))
+                        @if (this.User.IsInRole(UserRole))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Mine">My Books</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Mine">| My Books</a>
                             </li>
                         }
                     </ul>

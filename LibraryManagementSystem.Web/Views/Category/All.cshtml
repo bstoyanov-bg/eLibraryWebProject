@@ -1,10 +1,14 @@
-﻿@model IEnumerable<AllCategoriesViewModel>
+﻿ @using static LibraryManagementSystem.Common.UserRoleNames;
+
+@model IEnumerable<AllCategoriesViewModel>
 
 @{
     ViewData["Title"] = "All Categories";
 }
 
-<h1>All Categories</h1>
+<div class="mb-4">
+    <h2 class="text-center">@ViewBag.Title</h2>
+</div>
 
 @if (!Model.Any())
 {
@@ -15,10 +19,13 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>№</th>
-                <th>Name</th>
-                <th>Books in category</th>
-                <th>Actions</th>
+                <th style="text-align: center; vertical-align: middle;">№</th>
+                <th style="text-align: center; vertical-align: middle;">Name</th>
+                <th style="text-align: center; vertical-align: middle;">Books in category</th>
+                @if (this.User.IsInRole(AdminRole))
+                {
+                    <th>Actions</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -28,12 +35,15 @@ else
             @foreach (var category in Model)
             {
                 <tr>
-                    <td>@counter</td>
-                    <td>@category.Name</td>
-                    <td>@category.BooksCount</td>
+                    <td style="text-align: center; vertical-align: middle;">@counter</td>
+                    <td style="text-align: center; vertical-align: middle;">@category.Name</td>
+                    <td style="text-align: center; vertical-align: middle;">@category.BooksCount</td>
                     <td>
-                        <a href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-warning">Edit</a>
-                        <a href="@Url.Action("Delete", "Category", new { id = category.Id })" class="btn btn-danger">Delete</a>
+                        @if (this.User.IsInRole(AdminRole))
+                        {
+                            <a href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-warning">Edit</a>
+                            <a href="@Url.Action("Delete", "Category", new { id = category.Id })" class="btn btn-danger">Delete</a>
+                        }
                     </td>
                 </tr>
                 counter++;
