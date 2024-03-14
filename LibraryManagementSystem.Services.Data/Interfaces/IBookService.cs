@@ -9,7 +9,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
     {
         Task<IEnumerable<IndexViewModel>> LastTenBooksAsync();
 
-        Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync();
+        // NOT USED ANYMORE
+        //Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync();
 
         Task<AllBooksFilteredAndPagedServiceModel> GetAllBooksFilteredAndPagedAsync(AllBooksQueryModel queryModel);
 

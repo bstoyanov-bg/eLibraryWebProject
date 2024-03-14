@@ -35,5 +35,9 @@ namespace LibraryManagementSystem.Web.ViewModels.Author
         [StringLength(NationalityMaxLength, ErrorMessage = "Nationality must be between 2 and 50 characters long.",
             MinimumLength = NationalityMinLength)]
         public string Nationality { get; set; } = null!;
+
+        [StringLength(ImagePathUrlMaxLength)]
+        [Display(Name = "Author - image path")]
+        public string? ImagePathUrl { get; set; } = null!;
     }
 }

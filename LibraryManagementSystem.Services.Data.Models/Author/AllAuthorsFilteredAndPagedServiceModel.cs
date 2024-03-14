@@ -1,12 +1,12 @@
 ﻿using LibraryManagementSystem.Web.ViewModels.Author;
 
-namespace LibraryManagementSystem.Services.Data.Models.Book
+namespace LibraryManagementSystem.Services.Data.Models.Author
 {
     public class AllAuthorsFilteredAndPagedServiceModel
     {
         public AllAuthorsFilteredAndPagedServiceModel()
         {
-            this.Authors = new HashSet<AllAuthorsViewModel>();
+            Authors = new HashSet<AllAuthorsViewModel>();
         }
 
         public int TotalAuthorsCount { get; set; }

@@ -1,5 +1,5 @@
 ﻿using LibraryManagementSystem.Data.Models;
-using LibraryManagementSystem.Services.Data.Models.Book;
+using LibraryManagementSystem.Services.Data.Models.Author;
 using LibraryManagementSystem.Web.ViewModels.Author;
 
 namespace LibraryManagementSystem.Services.Data.Interfaces
@@ -8,7 +8,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
     {
         Task AddAuthorAsync(AuthorFormModel model);
 
-        Task<IEnumerable<AllAuthorsViewModel>> GetAllAuthorsAsync();
+        // NOT USED ANYMORE
+        //Task<IEnumerable<AllAuthorsViewModel>> GetAllAuthorsAsync();
 
         Task<AllAuthorsFilteredAndPagedServiceModel> GetAllAuthorsFilteredAndPagedAsync(AllAuthorsQueryModel queryModel);
 

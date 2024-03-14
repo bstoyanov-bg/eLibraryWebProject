@@ -1,5 +1,6 @@
-﻿using LibraryManagementSystem.Services.Data.Interfaces;
-using LibraryManagementSystem.Services.Data.Models.Book;
+﻿using LibraryManagementSystem.Services.Data;
+using LibraryManagementSystem.Services.Data.Interfaces;
+using LibraryManagementSystem.Services.Data.Models.Author;
 using LibraryManagementSystem.Web.ViewModels.Author;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,7 @@ namespace LibraryManagementSystem.Web.Controllers
             return this.RedirectToAction("All", "Author");
         }
 
+        // NOT USED ANYMORE
         //[HttpGet]
         //[AllowAnonymous]
         //public async Task<IActionResult> All()
@@ -96,8 +98,6 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id, AuthorFormModel model)
         {
-            var author = await authorService.GetAuthorForEditByIdAsync(id);
-
             if (!ModelState.IsValid)
             {
                 this.TempData[ErrorMessage] = "Such author does not exists!";
@@ -105,19 +105,14 @@ namespace LibraryManagementSystem.Web.Controllers
                 return View(model);
             }
 
-            if (author == null)
-            {
-                throw new ArgumentNullException(nameof(author));
-            }
-
             try
             {
-                author.FirstName = model.FirstName;
-                author.LastName = model.LastName;
-                author.Biography = model.Biography;
-                author.BirthDate = model.BirthDate;
-                author.DeathDate = model.DeathDate;
-                author.Nationality = model.Nationality;
+                var author = await authorService.GetAuthorForEditByIdAsync(id);
+
+                if (author == null)
+                {
+                    TempData[ErrorMessage] = "There is no author with such id!";
+                }
 
                 await authorService.EditAuthorAsync(id, model);
                 TempData[SuccessMessage] = "Succesfully edited author";

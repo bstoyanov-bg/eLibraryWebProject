@@ -10,6 +10,8 @@
 
         public string Nationality { get; set; } = null!;
 
+        public string? ImageURL { get; set; }
+
         public int BooksCount { get; set; }
     }
 }

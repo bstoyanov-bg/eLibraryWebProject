@@ -9,6 +9,9 @@
 
 <div class="row">
     <div class="card w-100">
+        <div class="col-md-3">
+            <img class="d-block w-100" style="max-width: 200px; height: auto;" src="~/@Model.ImagePathUrl" alt="BookCover-img">
+        </div>
         <div class="card-body">
             <h3 class="card-title text-center">@Model.FirstName @Model.LastName</h3>
             <p class="mb-0"><span class="fw-bold">Biography: </span>@Model.Biography</p>
@@ -36,7 +39,7 @@
                 @foreach (var book in Model.Books)
                 {
                     <tr>
-                        <td><img class="d-block w-200" style="max-width: 200px; height: auto;" src="~/@book.CoverImagePathUrl" alt="BookCover-img"></td>
+                        <td><img class="d-block w-200" style="max-width: 200px; height: auto;" src="~/@book.CoverImagePathUrl" alt="Author-img"></td>
                         <td>@book.Title</td>
                         <td>@book.ISBN</td>
                         <td>@book.YearPublished</td>

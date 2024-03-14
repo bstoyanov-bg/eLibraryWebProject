@@ -48,28 +48,30 @@ namespace LibraryManagementSystem.Services.Data
             return lastNineAddedBooks;
         }
 
-        public async Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync()
-        {
-            return await this.dbContext
-                .Books
-                .Where(b => b.IsDeleted == false)
-                .AsNoTracking()
-                .Select(b => new AllBooksViewModel
-                {
-                    Id = b.Id.ToString(),
-                    Title = b.Title,
-                    YearPublished = b.YearPublished,
-                    Publisher = b.Publisher,
-                    AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
-                    Category = b.BooksCategories
-                                .Where(bc => bc.BookId == b.Id)
-                                .Select(c => c.Category.Name)
-                                .First(),
-                    EditionsCount = b.Editions
-                                     .Where(e => e.IsDeleted == false)
-                                     .Count(),
-                }).ToListAsync();
-        }
+
+        // NOT USED ANYMORE
+        //public async Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync()
+        //{
+        //    return await this.dbContext
+        //        .Books
+        //        .Where(b => b.IsDeleted == false)
+        //        .AsNoTracking()
+        //        .Select(b => new AllBooksViewModel
+        //        {
+        //            Id = b.Id.ToString(),
+        //            Title = b.Title,
+        //            YearPublished = b.YearPublished,
+        //            Publisher = b.Publisher,
+        //            AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
+        //            Category = b.BooksCategories
+        //                        .Where(bc => bc.BookId == b.Id)
+        //                        .Select(c => c.Category.Name)
+        //                        .First(),
+        //            EditionsCount = b.Editions
+        //                             .Where(e => e.IsDeleted == false)
+        //                             .Count(),
+        //        }).ToListAsync();
+        //}
 
         public async Task<BookFormModel> GetNewCreateBookModelAsync()
         {

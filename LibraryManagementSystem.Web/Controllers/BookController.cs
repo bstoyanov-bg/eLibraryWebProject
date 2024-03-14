@@ -19,7 +19,7 @@ namespace LibraryManagementSystem.Web.Controllers
             this.categoryService = categoryService;
         }
 
-        // NOT NEEDED ANYMORE
+        // NOT USED ANYMORE
         //[HttpGet]
         //[AllowAnonymous]
         //public async Task<IActionResult> All()

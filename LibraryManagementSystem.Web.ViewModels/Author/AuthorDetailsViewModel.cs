@@ -23,6 +23,8 @@ namespace LibraryManagementSystem.Web.ViewModels.Author
 
         public string Nationality { get; set; } = null!;
 
+        public string? ImagePathUrl { get; set; } = null!;
+
         public IEnumerable<BooksForAuthorDetailsViewModel> Books { get; set; } = null!;
     }
 }

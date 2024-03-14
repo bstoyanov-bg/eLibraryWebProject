@@ -1,7 +1,7 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
-using LibraryManagementSystem.Services.Data.Models.Book;
+using LibraryManagementSystem.Services.Data.Models.Author;
 using LibraryManagementSystem.Web.ViewModels.Author;
 using LibraryManagementSystem.Web.ViewModels.Author.Enums;
 using LibraryManagementSystem.Web.ViewModels.Book;
@@ -45,30 +45,32 @@ namespace LibraryManagementSystem.Services.Data
                 BirthDate = model.BirthDate,
                 DeathDate = model.DeathDate,
                 Nationality = model.Nationality,
+                ImagePathUrl = model.ImagePathUrl,
             };
 
             await this.dbContext.AddAsync(newAuthor);
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AllAuthorsViewModel>> GetAllAuthorsAsync()
-        {
-            return await this.dbContext.Authors
-                .AsNoTracking()
-                .Where(a => a.IsDeleted == false)
-                .Select(a => new AllAuthorsViewModel
-                {
-                    Id = a.Id.ToString(),
-                    FirstName = a.FirstName,
-                    LastName= a.LastName,
-                    Nationality = a.Nationality,
-                    BooksCount = a.Books
-                                  .Where(b => b.IsDeleted == false)
-                                  .Count(),
-                })
-                .OrderBy(a => a.FirstName)
-                .ToArrayAsync();
-        }
+        // NOT USED ANYMORE
+        //public async Task<IEnumerable<AllAuthorsViewModel>> GetAllAuthorsAsync()
+        //{
+        //    return await this.dbContext.Authors
+        //        .AsNoTracking()
+        //        .Where(a => a.IsDeleted == false)
+        //        .Select(a => new AllAuthorsViewModel
+        //        {
+        //            Id = a.Id.ToString(),
+        //            FirstName = a.FirstName,
+        //            LastName= a.LastName,
+        //            Nationality = a.Nationality,
+        //            BooksCount = a.Books
+        //                          .Where(b => b.IsDeleted == false)
+        //                          .Count(),
+        //        })
+        //        .OrderBy(a => a.FirstName)
+        //        .ToArrayAsync();
+        //}
 
         public async Task<Author?> GetAuthorByIdAsync(string authorId)
         {
@@ -92,6 +94,7 @@ namespace LibraryManagementSystem.Services.Data
                     BirthDate = authorToEdit.BirthDate,
                     DeathDate = authorToEdit.DeathDate,
                     Nationality = authorToEdit.Nationality,
+                    ImagePathUrl= authorToEdit.ImagePathUrl,
                 };
 
                 return author;
@@ -112,6 +115,7 @@ namespace LibraryManagementSystem.Services.Data
                 authorToEdit.BirthDate = model.BirthDate;
                 authorToEdit.DeathDate = model.DeathDate;
                 authorToEdit.Nationality = model.Nationality;
+                authorToEdit.ImagePathUrl = model.ImagePathUrl;
             }
 
             await this.dbContext.SaveChangesAsync();
@@ -159,6 +163,7 @@ namespace LibraryManagementSystem.Services.Data
                                                  BirthDate = a.BirthDate,
                                                  DeathDate = a.DeathDate,
                                                  Nationality = a.Nationality,
+                                                 ImagePathUrl = a.ImagePathUrl,
                                                  Books = books
                                              }).FirstOrDefaultAsync();
 
