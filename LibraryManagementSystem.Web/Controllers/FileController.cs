@@ -1,6 +1,8 @@
 ﻿using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static LibraryManagementSystem.Common.UserRoleNames;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
 
 namespace LibraryManagementSystem.Web.Controllers
@@ -15,6 +17,7 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Upload(string id, IFormFile file, string entityType)
         {
             try
