@@ -12,6 +12,9 @@ namespace LibraryManagementSystem.Web.ViewModels.Edition
             BooksDropDown = new HashSet<BookSelectForEditionFormModel>();
         }
 
+        // Used for Uplode BookFile in Edit View
+        public string? Id { get; set; }
+
         [Required]
         [StringLength(VersionMaxLength, ErrorMessage = "Version must be between 1 and 10 characters long.",
         MinimumLength = VersionMinLength)]
@@ -25,6 +28,9 @@ namespace LibraryManagementSystem.Web.ViewModels.Edition
         [Required]
         [DisplayFormat(DataFormatString = GlobalYearFormat)]
         public DateOnly EditionYear { get; set; }
+
+        [StringLength(FilePathMaxLength)]
+        public string? FilePath { get; set; }
 
         public string BookId { get; set; } = null!;
 

@@ -79,6 +79,7 @@ namespace LibraryManagementSystem.Services.Data
 
             EditionFormModel edition = new EditionFormModel()
             {
+                Id = editionToEdit.Id.ToString(),
                 Version = editionToEdit.Version,
                 Publisher = editionToEdit.Publisher,
                 EditionYear = editionToEdit.EditionYear,

@@ -1,4 +1,6 @@
-﻿namespace LibraryManagementSystem.Web.ViewModels.Edition
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LibraryManagementSystem.Web.ViewModels.Edition
 {
     public class EditionsForBookDetailsViewModel
     {
@@ -9,5 +11,7 @@
         public string Publisher { get; set; } = null!;
 
         public DateOnly EditionYear { get; set; }
+
+        public string? FilePath { get; set; }
     }
 }
