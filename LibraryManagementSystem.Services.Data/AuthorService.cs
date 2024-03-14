@@ -138,7 +138,8 @@ namespace LibraryManagementSystem.Services.Data
         public async Task<AuthorDetailsViewModel?> GetAuthorDetailsForUserAsync(string authorId)
         {
             var books = await this.dbContext.Books
-                                            .Where(b => b.Author.Id.ToString() == authorId)
+                                            .Where(b => b.Author.Id.ToString() == authorId &&
+                                                        b.IsDeleted == false)
                                             .AsNoTracking()
                                             .Select(b => new BooksForAuthorDetailsViewModel 
                                             {
@@ -226,6 +227,7 @@ namespace LibraryManagementSystem.Services.Data
                     LastName = a.LastName,
                     Nationality = a.Nationality,
                     BooksCount = a.Books.Count(),
+                    ImageURL = a.ImagePathUrl,
                 }).ToListAsync();
 
             int totalAuthors = authorsQuery.Count();
