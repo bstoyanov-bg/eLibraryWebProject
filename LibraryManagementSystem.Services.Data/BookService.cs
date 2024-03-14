@@ -162,6 +162,7 @@ namespace LibraryManagementSystem.Services.Data
                 Authors = authors,
                 CategoryId = await categoryId,
                 Categories = categories,
+                FilePath = bookToEdit.FilePath,
             };
 
             return book;
@@ -180,6 +181,7 @@ namespace LibraryManagementSystem.Services.Data
                 bookToEdit.Publisher = model.Publisher;
                 bookToEdit.CoverImagePathUrl = model.CoverImagePathUrl;
                 bookToEdit.AuthorId = Guid.Parse(model.AuthorId);
+                bookToEdit.FilePath = model.FilePath;
             }
             await dbContext.SaveChangesAsync();
 

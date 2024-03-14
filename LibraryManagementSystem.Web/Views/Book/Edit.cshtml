@@ -58,6 +58,28 @@
             <br />
             <button type="submit" class="btn btn-primary">Upload File</button>
         </form>
+
+        @* TO DO --> Remember FileName *@
+
+        @* <form asp-action="Upload" asp-controller="File" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Choose file:</label>
+                @if (!string.IsNullOrEmpty(Model.FileName))
+                {
+                    <input type="text" class="form-control" value="@Model.FileName" disabled />
+                    <input type="hidden" name="file" value="@Model.FileName" />
+                }
+                else
+                {
+                    <input type="file" name="file" id="file" class="form-control-file" />
+                }
+            </div>
+            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="hidden" name="entityType" value="Book" />
+            <br />
+            <button type="submit" class="btn btn-primary">Upload File</button>
+        </form> *@
+
         <br />
         <br />
 

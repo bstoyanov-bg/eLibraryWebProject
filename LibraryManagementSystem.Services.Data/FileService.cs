@@ -65,13 +65,16 @@ public class FileService : IFileService
             throw new InvalidOperationException($"{type.Name} not found.");
         }
 
-        var uploadsFolder = Path.Combine(environment.WebRootPath, $"BookFiles\\{type.Name}s");
+        // img/BookCovers/The_Illustrated_Theory_of_Everything_The_Origin_and_Fate_of_the_Universe.jpg
+        //var uploadsFolder = Path.Combine(environment.WebRootPath, $"BookFiles\\{type.Name}s");
+        var uploadsFolder = $"BookFiles/{type.Name}s/";
         if (!Directory.Exists(uploadsFolder))
         {
             Directory.CreateDirectory(uploadsFolder);
         }
 
-        var filePath = Path.Combine(uploadsFolder, file.FileName);
+        //var filePath = Path.Combine(uploadsFolder, file.FileName);
+        var filePath = $"{uploadsFolder}{file.FileName}";
         using (var stream = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(stream);
