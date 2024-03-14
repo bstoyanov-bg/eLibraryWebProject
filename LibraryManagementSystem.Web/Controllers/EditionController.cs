@@ -1,5 +1,4 @@
-﻿using LibraryManagementSystem.Services.Data;
-using LibraryManagementSystem.Services.Data.Interfaces;
+﻿using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Edition;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

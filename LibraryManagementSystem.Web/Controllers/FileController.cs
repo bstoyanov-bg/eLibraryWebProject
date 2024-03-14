@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using static LibraryManagementSystem.Common.NotificationMessageConstants;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -27,16 +28,21 @@ namespace LibraryManagementSystem.Web.Controllers
                 Type type = entityType == nameof(Book) ? typeof(Book) : typeof(Edition);
 
                 var filePath = await fileService.UploadFile(id, file, entityType);
+                TempData[SuccessMessage] = $"Successfully uploaded {entityType} file";
                 return RedirectToAction("Index", "Home");
             }
-            catch (ArgumentException ex)
+            catch
             {
-                return BadRequest(ex.Message);
+                return GeneralError();
             }
-            catch (InvalidOperationException ex)
-            {
-                return NotFound(ex.Message);
-            }
+        }
+
+        private IActionResult GeneralError()
+        {
+            TempData[ErrorMessage] =
+                "Unexpected error occurred! Please try again later or contact administrator";
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
