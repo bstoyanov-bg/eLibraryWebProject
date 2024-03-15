@@ -73,10 +73,10 @@
                         @foreach (var book in Model.BooksDropDown)
                         {
                             <option value="@book.Id">
-                                Book Title: @book.Title,
-                                Author: @book.AuthorName,
-                                Publisher: @book.Publisher,
-                                Year Published: @book.YearPublished
+                                <strong>Title:</strong> @book.Title |
+                                <strong>Author:</strong> @book.AuthorName |
+                                <strong>Publisher:</strong> @book.Publisher |
+                                <strong>Year:</strong> @book.YearPublished
                             </option>
                         }
                     </select>

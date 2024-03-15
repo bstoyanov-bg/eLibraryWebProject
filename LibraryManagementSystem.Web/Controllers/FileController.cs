@@ -32,7 +32,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 var filePath = await fileService.UploadFile(id, file, entityType);
                 TempData[SuccessMessage] = $"Successfully uploaded {entityType} file";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("All", "Book");
             }
             catch
             {

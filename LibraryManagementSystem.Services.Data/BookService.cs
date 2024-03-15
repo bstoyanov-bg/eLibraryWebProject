@@ -328,7 +328,7 @@ namespace LibraryManagementSystem.Services.Data
                     AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
                     Category = b.BooksCategories.Select(bc => bc.Category.Name).First(),
                     ImageURL = b.CoverImagePathUrl ?? string.Empty,
-                    EditionsCount = b.Editions.Count(),
+                    EditionsCount = b.Editions.Where(e => e.IsDeleted == false).Count(),
                 }).ToListAsync();
 
             int totalBooks = booksQuery.Count();
