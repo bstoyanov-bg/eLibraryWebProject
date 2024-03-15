@@ -1,51 +1,4 @@
-﻿@* @model IEnumerable<AllAuthorsViewModel>
-
-@{
-    ViewData["Title"] = "All Authors";
-}
-
-<h1>All Authors</h1>
-
-@if (!Model.Any())
-{
-    <p>No authors found.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>№</th>
-                <th>Name</th>
-                <th>Nationality</th>
-                <th>Books</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                int counter = 1;
-            }
-            @foreach (var author in Model)
-            {
-                <tr>
-                    <td>@counter</td>
-                    <td>@author.FirstName @author.LastName</td>
-                    <td>@author.Nationality</td>
-                    <td>@author.BooksCount</td>
-                    <td>
-                        <a href="@Url.Action("Edit", "Author", new { id = author.Id })" class="btn btn-warning">Edit</a>
-                        <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="btn btn-primary">Details</a>
-                        <a href="@Url.Action("Delete", "Author", new { id = author.Id })" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-                counter++;
-            }
-        </tbody>
-    </table>
-} *@
-
-@using static LibraryManagementSystem.Common.UserRoleNames;
+﻿@using static LibraryManagementSystem.Common.UserRoleNames;
 
 @model AllAuthorsQueryModel
 
@@ -171,13 +124,13 @@ else
                         <td style="text-align: center; vertical-align: middle; white-space: nowrap;">
                             @if (this.User.IsInRole(AdminRole))
                             {
-                                <a href="@Url.Action("Edit", "Author", new { id = author.Id })" class="btn btn-warning mr-2">Edit</a>
-                                <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="btn btn-primary mr-2">Details</a>
-                                <a href="@Url.Action("Delete", "Author", new { id = author.Id })" class="btn btn-danger mr-2">Delete</a>
+                                <a href="@Url.Action("Edit", "Author", new { id = author.Id })" class="btn btn-warning">Edit</a>
+                                <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="btn btn-primary">Details</a>
+                                <a href="@Url.Action("Delete", "Author", new { id = author.Id })" class="btn btn-danger">Delete</a>
                             }
                             else if (this.User.IsInRole(UserRole))
                             {
-                                <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="btn btn-primary mr-2">Details</a>
+                                <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="btn btn-primary">Details</a>
                             }
                         </td>
                     </tr>

@@ -1,4 +1,6 @@
-﻿@model AuthorFormModel
+﻿@using static LibraryManagementSystem.Common.GeneralApplicationConstants;
+
+@model AuthorFormModel
 
 @{
     ViewData["Title"] = "Add Author";
@@ -65,12 +67,12 @@
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="BirthDate"></label>
-                    <input asp-for="BirthDate" class="form-control" id="birthDate" placeholder="DD-MM-YYYY" />
+                    <input asp-for="BirthDate" class="form-control" id="birthDate" placeholder="dd.mm.yyyy" />
                     <span asp-validation-for="BirthDate" class="small text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="DeathDate"></label>
-                    <input asp-for="DeathDate" class="form-control" id="deathDate" placeholder="DD-MM-YYYY" />
+                    <input asp-for="DeathDate" class="form-control" id="deathDate" placeholder="dd.mm.yyyy" />
                     <span asp-validation-for="DeathDate" class="small text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
@@ -83,8 +85,9 @@
                     <input asp-for="ImagePathUrl" class="form-control" placeholder="" />
                     <span asp-validation-for="ImagePathUrl" class="small text-danger"></span>
                 </div>
+            </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
     </div>
@@ -97,12 +100,12 @@
     <script>
         $(document).ready(function () {
             $('#birthDate').datepicker({
-                format: 'dd-mm-yyyy',
+                format: GlobalDateFormat,
                 autoclose: true,
                 todayHighlight: true
             });
             $('#deathDate').datepicker({
-                format: 'dd-mm-yyyy',
+                format: GlobalDateFormat,
                 autoclose: true,
                 todayHighlight: true
             });

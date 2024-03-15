@@ -1,4 +1,6 @@
-﻿@model EditionFormModel
+﻿@using static LibraryManagementSystem.Common.GeneralApplicationConstants;
+
+@model EditionFormModel
 
 @{
     ViewData["Title"] = "Edit book edition";
@@ -95,7 +97,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="EditionYear">Year of Edition</label>
-                    <input asp-for="EditionYear" class="form-control" id="editionYear" placeholder="DD.MM.YYYY" />
+                    <input asp-for="EditionYear" class="form-control" id="editionYear" placeholder="dd.mm.yyyy" />
                     <span asp-validation-for="EditionYear" class="small text-danger"></span>
                 </div>
 
@@ -112,7 +114,7 @@
     <script>
         $(document).ready(function () {
             $('#editionYear').datepicker({
-                format: 'dd.mm.yyyy',
+                format: GlobalDateFormat,
                 autoclose: true,
                 todayHighlight: true
             });
