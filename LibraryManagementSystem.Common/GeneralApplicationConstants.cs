@@ -11,7 +11,7 @@
 
         public const string TestUserEmail = "testUser@elibrary.bg";
 
-        public const string GlobalDateFormat = "dd.MM.yyyy";
+        public const string GlobalDateFormat = "dd.mm.yyyy";
         public const string GlobalYearFormat = "yyyy";
 
         // This is the Maximum number of books allowed user (Member) to have at the same time.

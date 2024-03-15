@@ -161,8 +161,10 @@
 
     <script>
         $(document).ready(function () {
+            var dateFormat = '@GlobalDateFormat';
+
             $('#yearPublished').datepicker({
-                format: 'GlobalDateFormat',
+                format: dateFormat,
                 autoclose: true,
                 todayHighlight: true
             });

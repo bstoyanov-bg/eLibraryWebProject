@@ -97,13 +97,15 @@
 
     <script>
         $(document).ready(function () {
+            var dateFormat = '@GlobalDateFormat';
+
             $('#birthDate').datepicker({
-                format: 'GlobalDateFormat',
+                format: dateFormat,
                 autoclose: true,
                 todayHighlight: true
             });
             $('#deathDate').datepicker({
-                format: 'GlobalDateFormat',
+                format: dateFormat,
                 autoclose: true,
                 todayHighlight: true
             });

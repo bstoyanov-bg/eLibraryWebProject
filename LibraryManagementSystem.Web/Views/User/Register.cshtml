@@ -112,8 +112,10 @@
 
     <script>
         $(document).ready(function () {
+            var dateFormat = '@GlobalDateFormat';
+
             $('#dateOfBirth').datepicker({
-                format: 'GlobalDateFormat',
+                format: dateFormat,
                 autoclose: true,
                 todayHighlight: true
             });
