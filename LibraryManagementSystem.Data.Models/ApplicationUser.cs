@@ -15,7 +15,7 @@ namespace LibraryManagementSystem.Data.Models
         {
             this.Id = Guid.NewGuid();
 
-            this.LendedBooks = new HashSet<LendedBook>();
+            this.LendedBooks = new HashSet<LendedBooks>();
             this.Ratings = new HashSet<Rating>();
         }
 
@@ -59,7 +59,7 @@ namespace LibraryManagementSystem.Data.Models
 
         public bool IsDeleted { get; set; }
 
-        public virtual ICollection<LendedBook> LendedBooks { get; set; }
+        public virtual ICollection<LendedBooks> LendedBooks { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }
     }

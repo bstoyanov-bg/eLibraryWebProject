@@ -8,9 +8,9 @@ namespace LibraryManagementSystem.Data.Configuration
     /// This configuration class is used for custom additions to the fluent api of the LendedBooks entity.
     /// </summary> 
 
-    public class LendedBooksConfiguration : IEntityTypeConfiguration<LendedBook>
+    public class LendedBooksConfiguration : IEntityTypeConfiguration<LendedBooks>
     {
-        public void Configure(EntityTypeBuilder<LendedBook> builder)
+        public void Configure(EntityTypeBuilder<LendedBooks> builder)
         {
             builder.HasKey(lb => lb.Id);
 

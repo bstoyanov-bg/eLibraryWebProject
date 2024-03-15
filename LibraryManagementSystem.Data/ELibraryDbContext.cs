@@ -26,7 +26,7 @@ namespace LibraryManagementSystem.Data
 
         public DbSet<Edition> Editions { get; set; } = null!;
 
-        public DbSet<LendedBook> LendedBooks { get; set; } = null!;
+        public DbSet<LendedBooks> LendedBooks { get; set; } = null!;
 
         public DbSet<Rating> Ratings { get; set; } = null!;
 

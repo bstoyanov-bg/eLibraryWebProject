@@ -19,7 +19,7 @@ namespace LibraryManagementSystem.Data.Models
             this.BooksCategories = new HashSet<BookCategory>();
             this.Editions = new HashSet<Edition>();
             this.Ratings = new HashSet<Rating>();
-            this.LendedBooks = new HashSet<LendedBook>();
+            this.LendedBooks = new HashSet<LendedBooks>();
         }
 
         [Comment("Primary key")]
@@ -77,6 +77,6 @@ namespace LibraryManagementSystem.Data.Models
 
         public virtual ICollection<Rating> Ratings { get; set; }
 
-        public virtual ICollection<LendedBook> LendedBooks { get; set; }
+        public virtual ICollection<LendedBooks> LendedBooks { get; set; }
     }
 }
