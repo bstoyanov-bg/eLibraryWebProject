@@ -305,9 +305,9 @@ namespace LibraryManagementSystem.Services.Data
                 BookSorting.Oldest => booksQuery
                     .OrderBy(b => b.CreatedOn),
                 BookSorting.ByYearPublishedAscending => booksQuery
-                    .OrderBy(b => b.YearPublished),
-                BookSorting.ByYearPublishedDescending => booksQuery
                     .OrderByDescending(b => b.YearPublished),
+                BookSorting.ByYearPublishedDescending => booksQuery
+                    .OrderBy(b => b.YearPublished),
                 BookSorting.ByTitleAscending => booksQuery
                     .OrderBy(b => b.Title),
                 BookSorting.ByTitleDescending => booksQuery

@@ -1,4 +1,6 @@
-﻿@model BookDetailsViewModel
+﻿ @using static LibraryManagementSystem.Common.UserRoleNames;
+
+@model BookDetailsViewModel
 @{
     ViewBag.Title = "Book Details";
 }
@@ -34,21 +36,30 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Version</th>
-                    <th>Publisher</th>
-                    <th>Year of Edition</th>
-                    <th>Actions</th>
+                    <th style="text-align: center; vertical-align: middle;">Version</th>
+                    <th style="text-align: center; vertical-align: middle;">Publisher</th>
+                    <th style="text-align: center; vertical-align: middle;">Year of Edition</th>
+                    <th style="text-align: center; vertical-align: middle;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var edition in Model.Editions)
                 {
                     <tr>
-                        <td>@edition.Version</td>
-                        <td>@edition.Publisher</td>
-                        <td>@edition.EditionYear</td>
-                        <td><a href="@Url.Action("Edit", "Edition", new { id = edition.Id })" class="btn btn-warning">Edit</a></td>
-                        <td><a href="@Url.Action("Delete", "Edition", new { id = edition.Id })" class="btn btn-danger">Delete</a></td>
+                        <td style="text-align: center; vertical-align: middle;">@edition.Version</td>
+                        <td style="text-align: center; vertical-align: middle;">@edition.Publisher</td>
+                        <td style="text-align: center; vertical-align: middle;">@edition.EditionYear</td>
+                        <td style="text-align: center; vertical-align: middle; white-space: nowrap;">
+                        @if (this.User.IsInRole(AdminRole))
+                        {
+                            <a href="@Url.Action("Edit", "Edition", new { id = edition.Id })" class="btn btn-warning">Edit</a>
+                            <a href="@Url.Action("Delete", "Edition", new { id = edition.Id })" class="btn btn-danger">Delete</a>
+                        }
+                        else if (this.User.IsInRole(UserRole))
+                        {
+                            @* If User has this bokk he can download it !!!*@
+                            <a href="@Url.Action("Download", "File", new { id = edition.Id })" class="btn btn-primary">Download</a>
+                        }
                     </tr>
                 }
             </tbody>
