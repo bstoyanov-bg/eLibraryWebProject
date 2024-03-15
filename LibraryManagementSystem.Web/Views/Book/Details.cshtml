@@ -31,7 +31,7 @@
                     <p class="mb-0"><span class="fw-bold">ISBN: </span>@Model.ISBN</p>
                 </div>
                 <div class="col-md-3 d-flex justify-content-center">
-                    @if (!await lendedBooksService.DoesUserHaveBookInCollectionAsync(User.GetId()!.ToString(), Model.Id))
+                    @if (this.User.IsInRole(UserRole) && !await lendedBooksService.DoesUserHaveBookInCollectionAsync(User.GetId()!.ToString(), Model.Id))
                     {
                         <form asp-action="Get" asp-controller="LendedBooks" method="post">
                             <input type="hidden" name="id" value="@Model.Id" />

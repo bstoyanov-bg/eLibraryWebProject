@@ -4,20 +4,27 @@
     ViewData["Title"] = "Add Category";
 }
 
-<div class="container">
-    <h1>Add Category</h1>
-    <div class="form-group col-md-8">
-        <form method="post">
-            <div class="form-group mb-4">
-                <label asp-for="Name"><b>Name:</b></label>
-                <input asp-for="Name" class="form-control" placeholder="" />
-                <span asp-validation-for="Name" class="small text-danger"></span>
-            </div>
+<!DOCTYPE html>
+<html>
+<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+    <div class="container">
+        <h1>Add Category</h1>
+        <div class="form-group col-md-8">
+            <form method="post">
+                <div class="form-group mb-4">
+                    <label asp-for="Name">Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="" />
+                    <span asp-validation-for="Name" class="small text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
-</div>
+</body>
+</html>
 
 @section Scripts
 {
