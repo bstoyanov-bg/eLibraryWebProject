@@ -1,0 +1,16 @@
+﻿@model IEnumerable<MyBooksViewModel>
+
+@{
+    ViewBag.Title = "My Books";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    @foreach (var book in Model)
+    {
+        <partial name="_BookPartial" model="@book" />
+    }
+</div>
+

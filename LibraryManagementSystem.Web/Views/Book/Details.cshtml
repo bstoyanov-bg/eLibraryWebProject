@@ -1,9 +1,13 @@
-﻿ @using static LibraryManagementSystem.Common.UserRoleNames;
+﻿ @using LibraryManagementSystem.Services.Data.Interfaces
+@using LibraryManagementSystem.Web.Infrastructure.Extensions
+ @using static LibraryManagementSystem.Common.UserRoleNames;
 
 @model BookDetailsViewModel
 @{
     ViewBag.Title = "Book Details";
 }
+
+@inject ILendedBooksService lendedBooksService
 
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -13,8 +17,8 @@
     <div class="card w-100 mb-4" >
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
-                    <img class="d-block w-100" style="max-width: 200px; height: auto;" src="~/@Model.CoverImagePathUrl" alt="BookCover-img">
+                <div class="col-md-3 d-flex justify-content-center align-items-center">
+                    <img class="d-block" style="max-width: 200px; height: auto;" src="~/@Model.CoverImagePathUrl" alt="BookCover-img">
                 </div>
                 <div class="col-md-8">
                     <h3 class="card-title text-center">Title: @Model.Title</h3>
@@ -26,6 +30,16 @@
                     <p class="mb-0"><span class="fw-bold">Publisher: </span>@Model.Publisher</p>
                     <p class="mb-0"><span class="fw-bold">ISBN: </span>@Model.ISBN</p>
                 </div>
+                <div class="col-md-3 d-flex justify-content-center">
+                    @if (!await lendedBooksService.DoesUserHaveBookInCollectionAsync(User.GetId()!.ToString(), Model.Id))
+                    {
+                        <form asp-action="Get" asp-controller="LendedBooks" method="post">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-success">Get Book</button>
+                        </form>
+                    }
+                </div>
+
             </div>
         </div>
     </div>
