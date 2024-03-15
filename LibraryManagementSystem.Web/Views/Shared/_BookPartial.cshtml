@@ -1,4 +1,10 @@
-﻿@model MyBooksViewModel
+﻿@using LibraryManagementSystem.Services.Data.Interfaces
+@using LibraryManagementSystem.Web.Infrastructure.Extensions
+@using static LibraryManagementSystem.Common.UserRoleNames;
+
+@model MyBooksViewModel
+
+@inject ILendedBooksService lendedBooksService
 
 <div class="col-md-4">
     <div class="card mb-3">
@@ -10,11 +16,19 @@
             <h6>Author: <b>@Model.Category</b></h6>
             <h6>Category: <b>@Model.AuthorName</b></h6>
             <br />
-            <a asp-area="" asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id"
-               class="btn btn-primary">Details</a>
-
-            @* @if (User.Identity?.IsAuthenticated ?? false)
-            {
+            <div class="d-flex justify-content-center">
+                <a asp-area="" asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
+                @if (this.User.IsInRole(UserRole) && await lendedBooksService.IsBookReturnedAsync(User.GetId()!.ToString(), Model.Id))
+                {
+                    <form asp-action="Return" asp-controller="LendedBooks" method="post" class="ml-2">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-warning">Return Book</button>
+                    </form>
+                }
+            </div>
+        
+         @* @   if (User.Identity?.IsAuthenticated ?? false)
+            {
             @if ((isUserAgent && isAgentOwnerOfTheHouse) || User.IsAdmin())
             {
             <a asp-area="" asp-controller="House" asp-action="Edit" asp-route-id="@Model.Id"

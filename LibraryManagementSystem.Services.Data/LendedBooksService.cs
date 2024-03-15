@@ -57,10 +57,11 @@ namespace LibraryManagementSystem.Services.Data
                 }).ToListAsync();
         }
 
-        public async Task<bool> CkeckIfBookIsAlreadyAddedToUserCollection(string userId, Book book)
+        public async Task<bool> IsBookAddedToUserCollectionAsync(string userId, string bookId)
         {
             return await this.dbContext.LendedBooks
-                .AnyAsync(lb => lb.User.Id.ToString() == userId && lb.BookId == book.Id);
+                .AnyAsync(lb => lb.User.Id.ToString() == userId && 
+                                lb.BookId.ToString() == bookId);
         }
 
         public async Task<int> GetCountOfActiveBooksForUserAsync(string userId)
@@ -71,6 +72,15 @@ namespace LibraryManagementSystem.Services.Data
                 .Where(lb => lb.UserId.ToString() == userId &&
                              lb.ReturnDate == null)
                 .CountAsync();
+        }
+
+        public async Task<bool> IsBookReturnedAsync(string userId, string bookId)
+        {
+            return await this.dbContext
+                .LendedBooks
+                .AnyAsync(lb => lb.User.Id.ToString() == userId &&
+                                lb.BookId.ToString() == bookId &&
+                                lb.ReturnDate == null);
         }
     }
 }

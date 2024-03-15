@@ -34,7 +34,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 var userId = GetUserId();
 
-                var checkBook = this.lendedBooksService.CkeckIfBookIsAlreadyAddedToUserCollection(userId, book);
+                var checkBook = this.lendedBooksService.IsBookAddedToUserCollectionAsync(userId, book.Id.ToString());
 
                 // I remove the button from UI if the book is added to collection, but i will leave this check.
                 if (await checkBook == true)

@@ -11,8 +11,10 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<IEnumerable<MyBooksViewModel>> GetMyBooksAsync(string userId);
 
-        Task<bool> CkeckIfBookIsAlreadyAddedToUserCollection(string userId, Book book);
+        Task<bool> IsBookAddedToUserCollectionAsync(string userId, string bookId);
 
         Task<int> GetCountOfActiveBooksForUserAsync(string userId);
+
+        Task<bool> IsBookReturnedAsync(string userId, string bookId);
     }
 }
