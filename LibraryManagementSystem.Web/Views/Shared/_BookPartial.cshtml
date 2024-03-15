@@ -1,57 +1,27 @@
-﻿@* @using HouseRentingSystem.Services.Data.Interfaces
-@using HouseRentingSystem.Web.Infrastructure.Extensions *@
-@model MyBooksViewModel
-
-@* @inject IAgentService AgentService
-@inject IHouseService HouseService
-@{
-    bool isUserAgent = await AgentService.AgentExistsByUserIdAsync(User.GetId()!);
-    bool isAgentOwnerOfTheHouse = await AgentService.HasHouseWithIdAsync(User.GetId(), Model.Id);
-    bool isHouseRentedByUser = await HouseService.IsRentedByUserWithIdAsync(Model.Id, User.GetId()!);
-} *@
+﻿@model MyBooksViewModel
 
 <div class="col-md-4">
     <div class="card mb-3">
-        <img class="card-img-top" src="@Model.ImageURL" alt="Book-Image">
+        <div class="d-flex justify-content-center align-items-center">
+            <img class="d-block" style="max-width: 200px; height: auto;" src="~/@Model.ImageURL" alt="BookCover-img">
+        </div>
         <div class="card-body text-center">
             <h4>@Model.Title</h4>
             <h6>Author: <b>@Model.Category</b></h6>
             <h6>Category: <b>@Model.AuthorName</b></h6>
             <br />
-            <a asp-area="" asp-controller="House" asp-action="Details" asp-route-id="@Model.Id"
-               class="btn btn-success">Details</a>
+            <a asp-area="" asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id"
+               class="btn btn-primary">Details</a>
 
             @* @if (User.Identity?.IsAuthenticated ?? false)
             {
-                @if ((isUserAgent && isAgentOwnerOfTheHouse) || User.IsAdmin())
-                {
-                    <a asp-area="" asp-controller="House" asp-action="Edit" asp-route-id="@Model.Id"
-                       class="btn btn-warning">Edit</a>
-                    <a asp-area="" asp-controller="House" asp-action="Delete" asp-route-id="@Model.Id"
-                       class="btn btn-danger">Delete</a>
-                }
-                <p></p>
-
-                @if (!Model.IsRented)
-                {
-                    @if (!isUserAgent || User.IsAdmin())
-                    {
-                        <form class="input-group-sm" asp-area="" asp-controller="House"
-                              asp-action="Rent" asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Rent" />
-                        </form>
-                    }
-                }
-                else
-                {
-                    @if (!isUserAgent && isHouseRentedByUser)
-                    {
-                        <form asp-area="" asp-controller="House" asp-action="Leave"
-                              asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Leave" />
-                        </form>
-                    }
-                }
+            @if ((isUserAgent && isAgentOwnerOfTheHouse) || User.IsAdmin())
+            {
+            <a asp-area="" asp-controller="House" asp-action="Edit" asp-route-id="@Model.Id"
+            class="btn btn-warning">Edit</a>
+            <a asp-area="" asp-controller="House" asp-action="Delete" asp-route-id="@Model.Id"
+            class="btn btn-danger">Delete</a>
+            }
             } *@
         </div>
     </div>

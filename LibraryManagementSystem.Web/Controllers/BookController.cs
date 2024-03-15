@@ -70,7 +70,7 @@ namespace LibraryManagementSystem.Web.Controllers
             try
             {
                 await bookService.AddBookAsync(model);
-                TempData[SuccessMessage] = "Succestully added book";
+                TempData[SuccessMessage] = "Succesfully added book";
             }
             catch
             {

@@ -17,5 +17,7 @@
         public string? ImageURL { get; set; }
 
         public int EditionsCount { get; set; }
+
+        public string? FilePath { get; set; }
     }
 }
