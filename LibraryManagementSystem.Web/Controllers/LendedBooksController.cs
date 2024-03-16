@@ -34,23 +34,23 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 var userId = GetUserId();
 
-                var checkBook = this.lendedBooksService.IsBookAddedToUserCollectionAsync(userId, book.Id.ToString());
+                var checkBook = await this.lendedBooksService.IsBookActiveInUserCollectionAsync(userId, book.Id.ToString());
 
                 // I remove the button from UI if the book is added to collection, but i will leave this check.
-                if (await checkBook == true)
+                if (checkBook == true)
                 {
                     TempData[WarningMessage] = "Book is already added to user collection!";
                 }
 
-                var userActiveBooks = this.lendedBooksService.GetCountOfActiveBooksForUserAsync(userId);
+                var userActiveBooks = await this.lendedBooksService.GetCountOfActiveBooksForUserAsync(userId);
 
-                if (await userActiveBooks <= MaxNumberOfBooksAllowed)
+                if (userActiveBooks > MaxNumberOfBooksAllowed)
                 {
                     TempData[WarningMessage] = "You have reached the maximum number of book that you can add to your collection!";
                     return RedirectToAction("All", "Book");
                 }
 
-                await lendedBooksService.AddBookToCollectionAsync(userId, book);
+                await lendedBooksService.AddBookToCollectionAsync(userId, book.Id.ToString());
                 TempData[SuccessMessage] = "You have succesfully added book to your collection!";
             }
             catch
@@ -67,6 +67,32 @@ namespace LibraryManagementSystem.Web.Controllers
             var model = await lendedBooksService.GetMyBooksAsync(GetUserId());
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Return(string id)
+        {
+            var book = await bookService.GetBookByIdAsync(id);
+
+            if (book == null)
+            {
+                TempData[WarningMessage] = "There is no book with such id!";
+                return RedirectToAction("All", "Book");
+            }
+
+            var userId = GetUserId();
+
+            try
+            {
+                await lendedBooksService.ReturnBookAsync(userId, book.Id.ToString());
+                TempData[SuccessMessage] = "You have succesfully returned book.";
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with returning the book!";
+            }
+
+            return RedirectToAction("All", "Book");
         }
     }
 }

@@ -157,7 +157,7 @@
                             {
                                 <a href="@Url.Action("Details", "Book", new { id = book.Id })" class="btn btn-primary" style="margin-bottom: 10px;">Details</a>
 
-                                @if (!await lendedBooksService.IsBookAddedToUserCollectionAsync(User.GetId()!.ToString(), book.Id))
+                                @if (!await lendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), book.Id))
                                 {
                                     <form asp-action="Get" asp-controller="LendedBooks" method="post">
                                         <input type="hidden" name="id" value="@book.Id" />

@@ -28,7 +28,8 @@
             </div>
         
          @* @   if (User.Identity?.IsAuthenticated ?? false)
-            {
+  
+          {
             @if ((isUserAgent && isAgentOwnerOfTheHouse) || User.IsAdmin())
             {
             <a asp-area="" asp-controller="House" asp-action="Edit" asp-route-id="@Model.Id"

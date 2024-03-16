@@ -270,7 +270,7 @@ namespace LibraryManagementSystem.Services.Data
                 await editionService.DeleteBookEditionAsync(edition.Id.ToString());
             }
 
-            bookToDelete.IsDeleted = true;
+            bookToDelete!.IsDeleted = true;
 
             await this.dbContext.SaveChangesAsync();
         }

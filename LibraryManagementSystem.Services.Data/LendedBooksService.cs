@@ -15,12 +15,12 @@ namespace LibraryManagementSystem.Services.Data
             this.dbContext = dbContext;
         }
 
-        public async Task AddBookToCollectionAsync(string userId, Book book)
+        public async Task AddBookToCollectionAsync(string userId, string bookId)
         {
                 var userBook = new LendedBooks
                 {
                     LoanDate = DateTime.UtcNow,
-                    BookId = book.Id,
+                    BookId = Guid.Parse(bookId),
                     UserId = Guid.Parse(userId),
                 };
 
@@ -28,12 +28,13 @@ namespace LibraryManagementSystem.Services.Data
                 await dbContext.SaveChangesAsync();
         }
 
-        public async Task<bool> DoesUserHaveBookInCollectionAsync(string userId, string bookId)
+        public async Task<bool> IsBookActiveInUserCollectionAsync(string userId, string bookId)
         {
             bool result = await this.dbContext
                 .LendedBooks
                 .AnyAsync(lb => lb.BookId.ToString() == bookId &&
-                                lb.UserId.ToString() == userId);
+                                lb.UserId.ToString() == userId &&
+                                lb.ReturnDate == null);
 
             return result;
         }
@@ -42,7 +43,8 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await dbContext
                 .LendedBooks
-                .Where(lb => lb.UserId.ToString() == userId)
+                .Where(lb => lb.UserId.ToString() == userId &&
+                             lb.ReturnDate == null)
                 .Select(b => new MyBooksViewModel
                 {
                     Id = b.BookId.ToString(),
@@ -55,13 +57,6 @@ namespace LibraryManagementSystem.Services.Data
                     EditionsCount = b.Book.Editions.Count(),
                     FilePath = b.Book.FilePath,
                 }).ToListAsync();
-        }
-
-        public async Task<bool> IsBookAddedToUserCollectionAsync(string userId, string bookId)
-        {
-            return await this.dbContext.LendedBooks
-                .AnyAsync(lb => lb.User.Id.ToString() == userId && 
-                                lb.BookId.ToString() == bookId);
         }
 
         public async Task<int> GetCountOfActiveBooksForUserAsync(string userId)
@@ -81,6 +76,20 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync(lb => lb.User.Id.ToString() == userId &&
                                 lb.BookId.ToString() == bookId &&
                                 lb.ReturnDate == null);
+        }
+
+        public async Task ReturnBookAsync(string userId, string bookId)
+        {
+            var bookToReturn = await this.dbContext
+                .LendedBooks
+                .Where(lb => lb.UserId.ToString() == userId &&
+                             lb.BookId.ToString() == bookId &&
+                             lb.ReturnDate == null)
+                .FirstAsync();
+
+            bookToReturn!.ReturnDate = DateTime.UtcNow;
+
+            await dbContext.SaveChangesAsync();
         }
     }
 }
