@@ -1,11 +1,37 @@
-﻿@model IEnumerable<MyBooksViewModel>
+﻿@using LibraryManagementSystem.Services.Data
+@using LibraryManagementSystem.Services.Data.Interfaces
+@using LibraryManagementSystem.Web.Infrastructure.Extensions
+@using static LibraryManagementSystem.Common.UserRoleNames;
+
+@model IEnumerable<MyBooksViewModel>
 
 @{
     ViewBag.Title = "My Books";
 }
 
+@inject ILendedBooksService lendedBooksService
+
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
+<br />
+<br />
+
+@if (!Model.Any())
+{
+    <h2 class="text-center">There are no books in your collection.</h2>
+    <br />
+}
+
+@if (this.User.IsInRole(UserRole) &&
+      await lendedBooksService.AreThereAnyNotReturnedBookAsync(User.GetId()!.ToString()))
+{
+    <form asp-action="ReturnAll" asp-controller="LendedBooks" method="post" class="ml-2">
+        <input type="hidden" name="id" />
+        <button type="submit" class="btn btn-danger">Return All Books</button>
+    </form>
+    <br />
+    <br />
+}
 
 <div class="row">
     @foreach (var book in Model)

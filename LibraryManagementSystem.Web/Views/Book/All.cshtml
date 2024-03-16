@@ -127,7 +127,10 @@
                     <th style="text-align: center; vertical-align: middle;">Author</th>
                     <th style="text-align: center; vertical-align: middle;">Category</th>
                     <th style="text-align: center;">Editions Count</th>
-                    <th style="text-align: center; vertical-align: middle;">Actions</th>
+                    @if (!User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <th style="text-align: center; vertical-align: middle;">Actions</th>
+                    }
                 </tr>
             </thead>
             <tbody>

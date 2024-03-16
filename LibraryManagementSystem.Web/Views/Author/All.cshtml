@@ -106,7 +106,10 @@
                     <th style="text-align: center; vertical-align: middle;">Author Name</th>
                     <th style="text-align: center; vertical-align: middle;">Nationality</th>
                     <th style="text-align: center; vertical-align: middle;">Books in collection</th>
-                    <th style="text-align: center; vertical-align: middle;">Actions</th>
+                    @if (!User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <th style="text-align: center; vertical-align: middle;">Actions</th>
+                    }
                 </tr>
             </thead>
             <tbody>

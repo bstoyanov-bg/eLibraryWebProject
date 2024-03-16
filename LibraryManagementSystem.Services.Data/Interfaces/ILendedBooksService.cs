@@ -15,5 +15,9 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<bool> IsBookReturnedAsync(string userId, string bookId);
 
         Task ReturnBookAsync(string userId, string bookId);
+
+        Task ReturnAllBooksAsync(string userId);
+
+        Task<bool> AreThereAnyNotReturnedBookAsync(string userId);
     }
 }

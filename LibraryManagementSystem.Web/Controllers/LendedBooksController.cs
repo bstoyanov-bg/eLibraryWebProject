@@ -94,5 +94,23 @@ namespace LibraryManagementSystem.Web.Controllers
 
             return RedirectToAction("All", "Book");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ReturnAll()
+        {
+            var userId = GetUserId();
+
+            try
+            {
+                await lendedBooksService.ReturnAllBooksAsync(userId);
+                TempData[SuccessMessage] = "You have succesfully returned all books.";
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with returning the book!";
+            }
+
+            return RedirectToAction("All", "Book");
+        }
     }
 }

@@ -17,15 +17,15 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task AddBookToCollectionAsync(string userId, string bookId)
         {
-                var userBook = new LendedBooks
-                {
-                    LoanDate = DateTime.UtcNow,
-                    BookId = Guid.Parse(bookId),
-                    UserId = Guid.Parse(userId),
-                };
+            var userBook = new LendedBooks
+            {
+                LoanDate = DateTime.UtcNow,
+                BookId = Guid.Parse(bookId),
+                UserId = Guid.Parse(userId),
+            };
 
-                await dbContext.LendedBooks.AddAsync(userBook);
-                await dbContext.SaveChangesAsync();
+            await dbContext.LendedBooks.AddAsync(userBook);
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task<bool> IsBookActiveInUserCollectionAsync(string userId, string bookId)
@@ -90,6 +90,32 @@ namespace LibraryManagementSystem.Services.Data
             bookToReturn!.ReturnDate = DateTime.UtcNow;
 
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task ReturnAllBooksAsync(string userId)
+        {
+            var booksToReturn = await this.dbContext
+                .LendedBooks
+                .Where(lb => lb.UserId.ToString() == userId &&
+                             lb.ReturnDate == null)
+                .ToListAsync();
+
+            foreach (var bookToReturn in booksToReturn)
+            {
+                bookToReturn.ReturnDate = DateTime.UtcNow;
+            }
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> AreThereAnyNotReturnedBookAsync(string userId)
+        {
+            bool notReturnedBook = await this.dbContext
+                .LendedBooks
+                .AnyAsync(lb => lb.UserId.ToString() == userId && 
+                                lb.ReturnDate == null);
+
+            return notReturnedBook;
         }
     }
 }
