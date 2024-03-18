@@ -156,7 +156,7 @@ namespace LibraryManagementSystem.Services.Data
         }
 
         // ready
-        public async Task<IEnumerable<Edition>> GetAllBookEditionsForBookByBookId(string bookId)
+        public async Task<IEnumerable<Edition>> GetAllBookEditionsByBookIdAsync(string bookId)
         {
             return await this.dbContext
                 .Editions

@@ -39,9 +39,9 @@ namespace LibraryManagementSystem.Web.Controllers
 
             try
             {
-                bool doesAuthorExist = await this.authorService.AuthorExistByNameAndNationalityAsync(model.FirstName, model.LastName, model.Nationality);
+                bool authorExists = await this.authorService.AuthorExistByNameAndNationalityAsync(model.FirstName, model.LastName, model.Nationality);
 
-                if (doesAuthorExist)
+                if (authorExists)
                 {
                     TempData[ErrorMessage] = "Author with the same Name and Nationality already exists!";
 
@@ -59,16 +59,6 @@ namespace LibraryManagementSystem.Web.Controllers
 
             return this.RedirectToAction("All", "Author");
         }
-
-        // NOT USED ANYMORE
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> All()
-        //{
-        //    IEnumerable<AllAuthorsViewModel> viewModel = await authorService.GetAllAuthorsAsync();
-
-        //    return View(viewModel);
-        //}
 
         // ready
         [HttpGet]
@@ -114,9 +104,9 @@ namespace LibraryManagementSystem.Web.Controllers
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id, AuthorFormModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             bool authorExists = await this.authorService.AuthorExistByIdAsync(id);
@@ -159,6 +149,7 @@ namespace LibraryManagementSystem.Web.Controllers
             try
             {
                 await authorService.DeleteAuthorAsync(id);
+
                 TempData[SuccessMessage] = "Succesfully deleted author.";
             }
             catch
@@ -184,7 +175,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
             try
             {
-                AuthorDetailsViewModel? author = await authorService.GetAuthorDetailsForUserAsync(id);
+                AuthorDetailsViewModel author = await authorService.GetAuthorDetailsForUserAsync(id);
 
                 return View(author);
             }

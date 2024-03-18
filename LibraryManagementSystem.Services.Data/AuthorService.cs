@@ -135,9 +135,9 @@ namespace LibraryManagementSystem.Services.Data
                     Nationality = a.Nationality,
                     ImagePathUrl = a.ImagePathUrl,
                     Books = books
-                }).FirstOrDefaultAsync();
+                }).FirstAsync();
 
-            return author!;
+            return author;
         }
 
         // ready
@@ -236,25 +236,5 @@ namespace LibraryManagementSystem.Services.Data
                 })
                 .ToListAsync();
         }
-
-        // NOT USED ANYMORE
-        //public async Task<IEnumerable<AllAuthorsViewModel>> GetAllAuthorsAsync()
-        //{
-        //    return await this.dbContext.Authors
-        //        .AsNoTracking()
-        //        .Where(a => a.IsDeleted == false)
-        //        .Select(a => new AllAuthorsViewModel
-        //        {
-        //            Id = a.Id.ToString(),
-        //            FirstName = a.FirstName,
-        //            LastName= a.LastName,
-        //            Nationality = a.Nationality,
-        //            BooksCount = a.Books
-        //                          .Where(b => b.IsDeleted == false)
-        //                          .Count(),
-        //        })
-        //        .OrderBy(a => a.FirstName)
-        //        .ToArrayAsync();
-        //}
     }
 }

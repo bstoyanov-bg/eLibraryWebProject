@@ -32,6 +32,6 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         // ready
         Task<string> GetBookIdByEditionIdAsync(string editionId);
 
-        Task<IEnumerable<Edition>> GetAllBookEditionsForBookByBookId(string bookId);
+        Task<IEnumerable<Edition>> GetAllBookEditionsByBookIdAsync(string bookId);
     }
 }

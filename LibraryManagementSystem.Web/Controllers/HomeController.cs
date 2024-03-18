@@ -23,7 +23,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 return this.RedirectToAction("Index", "Home", new { Area = AdminAreaName});
             }
 
-            IEnumerable<IndexViewModel> viewModel = await this.bookService.LastTenBooksAsync();
+            IEnumerable<IndexViewModel> viewModel = await this.bookService.LastNineBooksAsync();
 
             return View(viewModel);
         }

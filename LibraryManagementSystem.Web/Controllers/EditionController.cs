@@ -67,16 +67,14 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 await editionService.AddEditionAsync(model);
 
-                TempData[SuccessMessage] = $"Successfully added edition to {model.BooksDropDown
-                    .Where(b => b.Id == model.BookId)
-                    .Select(b => b.Title)}.";
+                TempData[SuccessMessage] = $"Successfully added edition to the Book.";
             }
             catch
             {
                 TempData[ErrorMessage] = "There was problem with adding the edition to the book!";
             }
 
-            return this.RedirectToAction("All", "Book");
+            return this.RedirectToAction("Details", "Book", new { id = model.BookId });
         }
 
         // ready
@@ -112,9 +110,9 @@ namespace LibraryManagementSystem.Web.Controllers
         {
             var bookId = await editionService.GetBookIdByEditionIdAsync(id);
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             try
