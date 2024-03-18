@@ -23,7 +23,7 @@
 }
 
 @if (this.User.IsInRole(UserRole) &&
-      await lendedBooksService.AreThereAnyNotReturnedBookAsync(User.GetId()!.ToString()))
+     await lendedBooksService.AreThereAnyNotReturnedBooksAsync(User.GetId()!.ToString()))
 {
     <form asp-action="ReturnAll" asp-controller="LendedBooks" method="post" class="ml-2">
         <input type="hidden" name="id" />
