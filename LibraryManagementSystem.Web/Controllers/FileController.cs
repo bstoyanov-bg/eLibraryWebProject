@@ -22,16 +22,34 @@ namespace LibraryManagementSystem.Web.Controllers
         {
             try
             {
+                // Check file Length
+                if (file == null || file.Length == 0)
+                {
+                    TempData[ErrorMessage] = "No file uploaded!";
+
+                    return this.RedirectToAction("All", "Book", new { id });
+                }
+
+                // Check File extension
+                if (!file.FileName.EndsWith(".txt"))
+                {
+                    TempData[ErrorMessage] = "Only .txt files are allowed.!";
+
+                    return this.RedirectToAction("All", "Book", new { id });
+                }
+
                 // Check if entityType is valid
                 if (entityType != nameof(Book) && entityType != nameof(Edition))
                 {
-                    return BadRequest("Invalid entity type.");
+                    TempData[ErrorMessage] = "Invalid entity type.!";
+
+                    return this.RedirectToAction("All", "Book", new {id});
                 }
 
-                Type type = entityType == nameof(Book) ? typeof(Book) : typeof(Edition);
-
                 var filePath = await fileService.UploadFile(id, file, entityType);
-                TempData[SuccessMessage] = $"Successfully uploaded {entityType} file";
+
+                TempData[SuccessMessage] = $"Successfully uploaded {entityType} file.";
+
                 return RedirectToAction("All", "Book");
             }
             catch

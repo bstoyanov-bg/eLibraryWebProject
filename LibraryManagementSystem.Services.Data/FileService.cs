@@ -1,79 +1,31 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
 public class FileService : IFileService
 {
-    private readonly IWebHostEnvironment environment;
+    //private readonly IWebHostEnvironment environment;
     private readonly ELibraryDbContext dbContext;
 
-    public FileService(IWebHostEnvironment environment, ELibraryDbContext dbContext)
+    public FileService(ELibraryDbContext dbContext /*IWebHostEnvironment environment*/)
     {
-        this.environment = environment;
+        //this.environment = environment;
         this.dbContext = dbContext;
     }
 
     public async Task<string> UploadFile(string id, IFormFile file, string entityType)
     {
-        if (file == null || file.Length == 0)
-        {
-            throw new ArgumentException("No file uploaded.");
-        }
-
-        if (!file.FileName.EndsWith(".txt"))
-        {
-            throw new ArgumentException("Only .txt files are allowed.");
-        }
-
-        //Check Assemblies
-
-        //Type? textType;
-        //string typeName = $"LibraryManagementSystem.Data.Models.{entityType}";
-        //var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-        //foreach (var assembly in assemblies)
-        //{
-        //    textType = assembly.GetType(typeName);
-        //    if (textType != null)
-        //        break;
-        //}
-
-        Type? type;
-
-        if (entityType == "Book")
-        {
-            type = typeof(Book);
-        }
-        else 
-        {
-            type = typeof(Edition);
-        }
-
-        // Cannot get the type this way ???? :(
-        //var typeStr = $"LibraryManagementSystem.Data.Models.{entityType}, LibraryManagementSystem";
-        //Type? type = Type.GetType(typeStr);
-
-        if (type == null)
-        {
-            throw new ArgumentException("Invalid entity type.");
-        }
+        Type type = entityType == nameof(Book) ? typeof(Book) : typeof(Edition);
 
         var entity = await dbContext.FindAsync(type, Guid.Parse(id));
-        if (entity == null)
-        {
-            throw new InvalidOperationException($"{type.Name} not found.");
-        }
 
-        // img/BookCovers/The_Illustrated_Theory_of_Everything_The_Origin_and_Fate_of_the_Universe.jpg
-        //var uploadsFolder = Path.Combine(environment.WebRootPath, $"BookFiles\\{type.Name}s");
         var uploadsFolder = $"BookFiles/{type.Name}s/";
         if (!Directory.Exists(uploadsFolder))
         {
             Directory.CreateDirectory(uploadsFolder);
         }
 
-        //var filePath = Path.Combine(uploadsFolder, file.FileName);
         var filePath = $"{uploadsFolder}{file.FileName}";
         using (var stream = new FileStream(filePath, FileMode.Create))
         {
@@ -89,7 +41,7 @@ public class FileService : IFileService
         }
         else
         {
-            throw new InvalidOperationException("FilePath property not found.");
+            throw new InvalidOperationException("FilePath property not found!");
         }
 
         return filePath;
