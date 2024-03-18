@@ -16,6 +16,7 @@ namespace LibraryManagementSystem.Web.Controllers
             this.categoryService = categoryService;
         }
 
+        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public IActionResult Add()
@@ -25,18 +26,29 @@ namespace LibraryManagementSystem.Web.Controllers
             return View(category);
         }
 
+        // ready
         [HttpPost]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Add(CategoryFormModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             try
             {
+                bool doesCategoryExist = await this.categoryService.CategoryExistByNameAsync(model.Name);
+
+                if (doesCategoryExist)
+                {
+                    this.TempData[ErrorMessage] = "Category with the same name already exists!";
+
+                    return this.RedirectToAction("All", "Category");
+                }
+
                 await categoryService.AddCategoryAsync(model);
+
                 TempData[SuccessMessage] = "Succestully created category";
             }
             catch
@@ -47,56 +59,65 @@ namespace LibraryManagementSystem.Web.Controllers
             return this.RedirectToAction("All", "Category");
         }
 
+        // ready
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> All()
         {
-            IEnumerable<AllCategoriesViewModel> viewModel = await categoryService.GetAllCategoriesAsync();
+            IEnumerable<AllCategoriesViewModel> allcategories = await categoryService.GetAllCategoriesAsync();
 
-            return View(viewModel);
+            return View(allcategories);
         }
 
+        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(int id)
         {
             try
             {
-                var category = await categoryService.GetCategoryForEditByIdAsync(id);
+                bool categoryExists = await this.categoryService.CategoryExistByIdAsync(id);
 
-                if (category == null)
+                if (!categoryExists)
                 {
+                    TempData[ErrorMessage] = "Category with the provided id does not exist!";
+
                     return RedirectToAction("All", "Category");
                 }
 
+                var category = await categoryService.GetCategoryForEditByIdAsync(id);
+
                 return View(category);
             }
-            catch (Exception)
+            catch
             {
                 return GeneralError();
             }
         }
 
+        // ready
         [HttpPost]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(int id, CategoryFormModel model)
         {
-            var category = await categoryService.GetCategoryForEditByIdAsync(id);
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            if (category == null)
+            bool categoryExists = await this.categoryService.CategoryExistByIdAsync(id);
+
+            if (!categoryExists)
             {
-                throw new ArgumentNullException(nameof(category));
+                TempData[ErrorMessage] = "Category with the provided id does not exist!";
+
+                return RedirectToAction("All", "Category");
             }
 
             try
             {
-                category.Name = model.Name;
                 await categoryService.EditCategoryAsync(id, model);
+
                 TempData[SuccessMessage] = "Succesfully edited category";
             }
             catch
@@ -107,14 +128,24 @@ namespace LibraryManagementSystem.Web.Controllers
             return this.RedirectToAction("All", "Category");
         }
 
+        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Delete(int id)
         {
+            bool categoryExists = await this.categoryService.CategoryExistByIdAsync(id);
+
+            if (!categoryExists)
+            {
+                TempData[ErrorMessage] = "Category with the provided id does not exist!";
+
+                return RedirectToAction("All", "Category");
+            }
+
             try
             {
                 await categoryService.DeleteCategoryAsync(id);
-                TempData[SuccessMessage] = "Succesfully delited category";
+                TempData[SuccessMessage] = "Succesfully delited category.";
             }
             catch
             {

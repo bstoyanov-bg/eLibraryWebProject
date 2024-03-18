@@ -37,7 +37,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
             queryModel.Books = serviceModel.Books;
             queryModel.TotalBooks = serviceModel.TotalBooksCount;
-            queryModel.Categories = await this.categoryService.AllCategoryNamesAsync();
+            queryModel.Categories = await this.categoryService.GetAllCategoriesNamesAsync();
 
             return this.View(queryModel);
         }

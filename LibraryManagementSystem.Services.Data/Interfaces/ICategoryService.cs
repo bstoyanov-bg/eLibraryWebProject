@@ -4,22 +4,36 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 {
     public interface ICategoryService
     {
-        Task AddCategoryAsync(CategoryFormModel model);
+        // ready
+        Task AddCategoryAsync(CategoryFormModel categoryModel);
 
-        Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync();
+        Task EditCategoryAsync(int categoryId, CategoryFormModel categoryModel);
 
-        Task<CategoryFormModel?> GetCategoryForEditByIdAsync(int categoryId);
-
-        Task EditCategoryAsync(int categoryId, CategoryFormModel model);
-
-        Task<string> GetCategoryNameByCategoryIdAsync(int categoryId);
-
-        Task<string> GetCategoryNameByBookIdAsync(string bookId);
-
-        Task<int> GetCategoryIdByBookIdAsync(string bookId);
-
+        // ready
         Task DeleteCategoryAsync(int categoryId);
 
-        Task<IEnumerable<string>> AllCategoryNamesAsync();
+        // ready
+        Task<CategoryFormModel> GetCategoryForEditByIdAsync(int categoryId);
+
+        // ready
+        Task<bool> CategoryExistByNameAsync(string categoryName);
+
+        // ready
+        Task<bool> CategoryExistByIdAsync(int categoryId);
+
+        //// REMOVE
+        //Task<string> GetCategoryNameByCategoryIdAsync(int categoryId);
+        //// REMOVE
+        //Task<string> GetCategoryNameByBookIdAsync(string bookId);
+
+        // ready
+        Task<int> GetCategoryIdByBookIdAsync(string bookId);
+
+
+        // ready
+        Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync();
+
+        // ready
+        Task<IEnumerable<string>> GetAllCategoriesNamesAsync();
     }
 }

@@ -15,64 +15,20 @@ namespace LibraryManagementSystem.Services.Data
             this.dbContext = dbContext;
         }
 
-        public async Task AddCategoryAsync(CategoryFormModel model)
+
+        // ready
+        public async Task AddCategoryAsync(CategoryFormModel categoryModel)
         {
-            if (model == null)
+            var category = new Category
             {
-                throw new ArgumentNullException(nameof(model));
-            }
-
-            var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Name == model.Name);
-
-            if (category != null)
-            {
-                throw new InvalidOperationException("Category with the same name already exists.");
-            }
-
-            var cat = new Category
-            {
-                Name = model.Name
+                Name = categoryModel.Name
             };
 
-            await dbContext.AddAsync(cat);
+            await dbContext.AddAsync(category);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync()
-        {
-            return await this.dbContext.Categories
-                .AsNoTracking()
-                .Where(c => c.IsDeleted == false)
-                .Select(c => new AllCategoriesViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    BooksCount = c.BooksCategories.Count(),
-                })
-                .ToListAsync();
-        }
-
-        public async Task<CategoryFormModel?> GetCategoryForEditByIdAsync(int categoryId)
-        {
-           var categoryToEdit = await dbContext
-                .Categories
-                .FirstOrDefaultAsync(c => c.Id == categoryId && 
-                                          c.IsDeleted == false);
-
-            if (categoryToEdit != null)
-            {
-                CategoryFormModel category = new CategoryFormModel()
-                {
-                    Name = categoryToEdit.Name,
-                };
-
-                return category;
-            }
-
-            return null;
-        }
-
-        public async Task EditCategoryAsync(int categoryId, CategoryFormModel model)
+        public async Task EditCategoryAsync(int categoryId, CategoryFormModel categoryModel)
         {
             var categoryToEdit = await dbContext
                 .Categories
@@ -81,53 +37,13 @@ namespace LibraryManagementSystem.Services.Data
 
             if (categoryToEdit != null)
             {
-                categoryToEdit.Name = model.Name;
+                categoryToEdit.Name = categoryModel.Name;
             }
 
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<string> GetCategoryNameByCategoryIdAsync(int categoryId)
-        {
-            var categoryName = await dbContext.BooksCategories
-                                              .Where(bc => bc.CategoryId == categoryId)
-                                              .AsNoTracking()
-                                              .Select(bc => bc.Category.Name)
-                                              .FirstOrDefaultAsync();
-
-            if (categoryName == null)
-            {
-                return string.Empty;
-            }
-
-            return categoryName;
-        }
-
-        public async Task<string> GetCategoryNameByBookIdAsync(string bookId)
-        {
-            var categoryName = await dbContext.BooksCategories
-                                               .Where(bc => bc.BookId.ToString() == bookId)
-                                               .AsNoTracking()
-                                               .Select(c => c.Category.Name)
-                                               .FirstOrDefaultAsync();
-
-            if (categoryName == null)
-            {
-                return string.Empty;
-            }
-
-            return categoryName;
-        }
-
-        public async Task<int> GetCategoryIdByBookIdAsync(string bookId)
-        {
-            return await dbContext.BooksCategories
-                                  .Where(bc => bc.BookId.ToString() == bookId)
-                                  .AsNoTracking()
-                                  .Select(bc => bc.CategoryId)
-                                  .FirstOrDefaultAsync();
-        }
-
+        // ready
         public async Task DeleteCategoryAsync(int categoryId)
         {
             var categoryToDelete = await dbContext
@@ -140,15 +56,109 @@ namespace LibraryManagementSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<string>> AllCategoryNamesAsync()
+        // ready
+        public async Task<CategoryFormModel> GetCategoryForEditByIdAsync(int categoryId)
         {
-            IEnumerable<string> allCategoryNames = await this.dbContext
+            var categoryToEdit = await dbContext
+                 .Categories
+                 .FirstAsync(c => c.Id == categoryId &&
+                                  c.IsDeleted == false);
+
+            return new CategoryFormModel
+            {
+                Name = categoryToEdit.Name,
+            };
+        }
+
+    // ready
+    public async Task<bool> CategoryExistByNameAsync(string categoryName)
+        {
+            return await this.dbContext
                 .Categories
-                .Where (c => c.IsDeleted == false)
+                .AsNoTracking()
+                .Where(c => c.IsDeleted == false)
+                .AnyAsync(c => c.Name == categoryName);
+        }
+
+        // ready
+        public async Task<bool> CategoryExistByIdAsync(int categoryId)
+        {
+            return await this.dbContext
+                .Categories
+                .AsNoTracking()
+                .Where(c => c.IsDeleted == false)
+                .AnyAsync(c => c.Id == categoryId);
+        }
+
+        //// REMOVE
+        //public async Task<string> GetCategoryNameByCategoryIdAsync(int categoryId)
+        //{
+        //    var categoryName = await dbContext.BooksCategories
+        //                                      .Where(bc => bc.CategoryId == categoryId)
+        //                                      .AsNoTracking()
+        //                                      .Select(bc => bc.Category.Name)
+        //                                      .FirstOrDefaultAsync();
+
+        //    if (categoryName == null)
+        //    {
+        //        return string.Empty;
+        //    }
+
+        //    return categoryName;
+        //}
+
+        //// REMOVE
+        //public async Task<string> GetCategoryNameByBookIdAsync(string bookId)
+        //{
+        //    var categoryName = await dbContext.BooksCategories
+        //                                       .Where(bc => bc.BookId.ToString() == bookId)
+        //                                       .AsNoTracking()
+        //                                       .Select(c => c.Category.Name)
+        //                                       .FirstOrDefaultAsync();
+
+        //    if (categoryName == null)
+        //    {
+        //        return string.Empty;
+        //    }
+
+        //    return categoryName;
+        //}
+
+        // ready
+        public async Task<int> GetCategoryIdByBookIdAsync(string bookId)
+        {
+            return await dbContext.BooksCategories
+                                  .Where(bc => bc.BookId.ToString() == bookId)
+                                  .AsNoTracking()
+                                  .Select(bc => bc.CategoryId)
+                                  .FirstAsync();
+        }
+
+        // ready
+        public async Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync()
+        {
+            return await this.dbContext
+                .Categories
+                .AsNoTracking()
+                .Where(c => c.IsDeleted == false)
+                .Select(c => new AllCategoriesViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    BooksCount = c.BooksCategories.Count(),
+                })
+                .ToListAsync();
+        }
+
+        // ready
+        public async Task<IEnumerable<string>> GetAllCategoriesNamesAsync()
+        {
+            return await this.dbContext
+                .Categories
+                .AsNoTracking()
+                .Where(c => c.IsDeleted == false)
                 .Select(c => c.Name)
                 .ToListAsync();
-
-            return allCategoryNames;
         }
     }
 }
