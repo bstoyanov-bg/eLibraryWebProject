@@ -98,40 +98,6 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync(c => c.Id == categoryId);
         }
 
-        //// REMOVE
-        //public async Task<string> GetCategoryNameByCategoryIdAsync(int categoryId)
-        //{
-        //    var categoryName = await dbContext.BooksCategories
-        //                                      .Where(bc => bc.CategoryId == categoryId)
-        //                                      .AsNoTracking()
-        //                                      .Select(bc => bc.Category.Name)
-        //                                      .FirstOrDefaultAsync();
-
-        //    if (categoryName == null)
-        //    {
-        //        return string.Empty;
-        //    }
-
-        //    return categoryName;
-        //}
-
-        //// REMOVE
-        //public async Task<string> GetCategoryNameByBookIdAsync(string bookId)
-        //{
-        //    var categoryName = await dbContext.BooksCategories
-        //                                       .Where(bc => bc.BookId.ToString() == bookId)
-        //                                       .AsNoTracking()
-        //                                       .Select(c => c.Category.Name)
-        //                                       .FirstOrDefaultAsync();
-
-        //    if (categoryName == null)
-        //    {
-        //        return string.Empty;
-        //    }
-
-        //    return categoryName;
-        //}
-
         // ready
         public async Task<int> GetCategoryIdByBookIdAsync(string bookId)
         {

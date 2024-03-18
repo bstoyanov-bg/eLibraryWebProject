@@ -25,11 +25,6 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         // ready
         Task<bool> CategoryExistByIdAsync(int categoryId);
 
-        //// REMOVE
-        //Task<string> GetCategoryNameByCategoryIdAsync(int categoryId);
-        //// REMOVE
-        //Task<string> GetCategoryNameByBookIdAsync(string bookId);
-
         // ready
         Task<int> GetCategoryIdByBookIdAsync(string bookId);
 
