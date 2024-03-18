@@ -19,16 +19,7 @@ namespace LibraryManagementSystem.Web.Controllers
             this.categoryService = categoryService;
         }
 
-        // NOT USED ANYMORE
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> All()
-        //{
-        //    IEnumerable<AllBooksViewModel> viewModel = await bookService.GetAllBooksAsync();
-
-        //    return View(viewModel);
-        //}
-
+        // ready
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery]AllBooksQueryModel queryModel)
@@ -42,13 +33,14 @@ namespace LibraryManagementSystem.Web.Controllers
             return this.View(queryModel);
         }
 
+        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Add()
         {
             try
             {
-                BookFormModel model = await bookService.GetNewCreateBookModelAsync();
+                BookFormModel model = await bookService.GetCreateNewBookModelAsync();
 
                 return View(model);
             }
@@ -58,40 +50,56 @@ namespace LibraryManagementSystem.Web.Controllers
             }
         }
 
+        // ready
         [HttpPost]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Add(BookFormModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             try
             {
+                bool bookExists = await this.bookService.BookExistByTitleAndAuthorIdAsync(model.Title, model.AuthorId);
+
+                if (bookExists)
+                {
+                    TempData[ErrorMessage] = "Book with the same Title and Author already exists!";
+
+                    return this.RedirectToAction("All", "Book");
+                }
+
                 await bookService.AddBookAsync(model);
-                TempData[SuccessMessage] = "Succesfully added book";
+
+                TempData[SuccessMessage] = $"Successfully added Book.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with adding the book!";
+                TempData[ErrorMessage] = "There was problem with adding the Book!";
             }
 
             return this.RedirectToAction("All", "Book");
         }
 
+        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id)
         {
             try
             {
-                var book = await bookService.GetBookForEditByIdAsync(id);
+                bool bookExists = await this.bookService.BookExistByIdAsync(id);
 
-                if (book == null)
+                if (!bookExists)
                 {
-                    return RedirectToAction("All", "Book");
+                    TempData[ErrorMessage] = "Such Book does not exists!";
+
+                    return this.RedirectToAction("All", "Book");
                 }
+
+                var book = await bookService.GetBookForEditByIdAsync(id);
 
                 return View(book);
             }
@@ -101,6 +109,7 @@ namespace LibraryManagementSystem.Web.Controllers
             }
         }
 
+        // ready
         [HttpPost]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id, BookFormModel model)
@@ -112,53 +121,46 @@ namespace LibraryManagementSystem.Web.Controllers
 
             try
             {
-                var book = await bookService.GetBookForEditByIdAsync(id);
+                bool bookExists = await this.bookService.BookExistByIdAsync(id);
 
-                if (book == null)
+                if (!bookExists)
                 {
-                    TempData[ErrorMessage] = "There is no book with such id!";
+                    TempData[ErrorMessage] = "Such Book does not exists!";
+
+                    return this.RedirectToAction("All", "Book");
                 }
 
                 await bookService.EditBookAsync(id, model);
-                TempData[SuccessMessage] = "Succesfully edited book";
+
+                TempData[SuccessMessage] = "Succesfully edited Book.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with editing the book!";
+                TempData[ErrorMessage] = "There was problem with editing the Book!";
             }
 
-            return this.RedirectToAction("All", "Book");
+            return this.RedirectToAction("Details", "Book", new { id });
         }
 
-        [HttpGet]
-        [Authorize(Roles = "Administrator, User")]
-        public async Task<IActionResult> Details(string id)
-        {
-            try
-            {
-                BookDetailsViewModel book = await bookService.GetBookDetailsForUserAsync(id);
-
-                if (book == null)
-                {
-                    return RedirectToAction("All", "Book");
-                }
-
-                return View(book);
-            }
-            catch
-            {
-                return GeneralError();
-            }
-        }
-
+        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Delete(string id)
         {
+            bool bookExists = await this.bookService.BookExistByIdAsync(id);
+
+            if (!bookExists)
+            {
+                TempData[ErrorMessage] = "Such Book does not exists!";
+
+                return this.RedirectToAction("All", "Book");
+            }
+
             try
             {
                 await bookService.DeleteBookAsync(id);
-                TempData[SuccessMessage] = "Succesfully deleted book";
+
+                TempData[SuccessMessage] = "Succesfully deleted Book.";
             }
             catch
             {
@@ -168,18 +170,23 @@ namespace LibraryManagementSystem.Web.Controllers
             return this.RedirectToAction("All", "Book");
         }
 
+        // ready
         [HttpGet]
-        [Authorize(Roles = AdminRole)]
-        public async Task<IActionResult> AddFile(string id)
+        [Authorize(Roles = "Administrator, User")]
+        public async Task<IActionResult> Details(string id)
         {
+            bool bookExists = await this.bookService.BookExistByIdAsync(id);
+
+            if (!bookExists)
+            {
+                TempData[ErrorMessage] = "Such Book does not exists!";
+
+                return RedirectToAction("All", "Book");
+            }
+
             try
             {
-                var book = await bookService.GetBookForEditByIdAsync(id);
-
-                if (book == null)
-                {
-                    return RedirectToAction("All", "Book");
-                }
+                BookDetailsViewModel book = await bookService.GetBookDetailsForUserAsync(id);
 
                 return View(book);
             }
@@ -187,35 +194,6 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 return GeneralError();
             }
-        }
-
-        [HttpPost]
-        [Authorize(Roles = AdminRole)]
-        public async Task<IActionResult> AddFile(string id, BookFormModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            try
-            {
-                var book = await bookService.GetBookForEditByIdAsync(id);
-
-                if (book == null)
-                {
-                    TempData[ErrorMessage] = "There is no book with such id!";
-                }
-
-                await bookService.EditBookAsync(id, model);
-                TempData[SuccessMessage] = "Succesfully added file to the book!";
-            }
-            catch
-            {
-                TempData[ErrorMessage] = "There was problem with editing the book!";
-            }
-
-            return this.RedirectToAction("All", "Book");
         }
 
         private IActionResult GeneralError()
@@ -227,4 +205,3 @@ namespace LibraryManagementSystem.Web.Controllers
         }
     }
 }
-

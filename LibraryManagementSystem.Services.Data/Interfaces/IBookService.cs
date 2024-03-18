@@ -7,34 +7,40 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 {
     public interface IBookService
     {
-        Task<IEnumerable<IndexViewModel>> LastTenBooksAsync();
+        // ready
+        Task AddBookAsync(BookFormModel model);
 
-        // NOT USED ANYMORE
-        //Task<IEnumerable<AllBooksViewModel>> GetAllBooksAsync();
+        // ready
+        Task EditBookAsync(string bookId, BookFormModel model);
 
-        Task<AllBooksFilteredAndPagedServiceModel> GetAllBooksFilteredAndPagedAsync(AllBooksQueryModel queryModel);
+        // ready
+        Task DeleteBookAsync(string bookId);
 
         // ready
         Task<Book?> GetBookByIdAsync(string bookId);
 
-        Task<BookFormModel> GetNewCreateBookModelAsync();
-
-        Task AddBookAsync(BookFormModel model);
-
-        Task<BookFormModel?> GetBookForEditByIdAsync(string bookId);
-
-        Task EditBookAsync(string bookId, BookFormModel model);
+        // ready
+        Task<BookFormModel> GetCreateNewBookModelAsync();
 
         // ready
-        Task<IEnumerable<BookSelectForEditionFormModel>>GetAllBooksForListAsync();
+        Task<BookFormModel?> GetBookForEditByIdAsync(string bookId);
 
+        // ready
         Task<BookDetailsViewModel> GetBookDetailsForUserAsync(string bookId);
 
-        Task DeleteBookAsync(string bookId);
+        // ready
+        Task<AllBooksFilteredAndPagedServiceModel> GetAllBooksFilteredAndPagedAsync(AllBooksQueryModel queryModel);
 
         // ready
         Task<bool> BookExistByIdAsync(string bookId);
 
-        //Task AddFileToBookAsync(string bookId, BookFormModel model)
+        // ready
+        Task<bool> BookExistByTitleAndAuthorIdAsync(string title, string authorId);
+
+        // ready
+        Task<IEnumerable<IndexViewModel>> LastNineBooksAsync();
+
+        // ready
+        Task<IEnumerable<BookSelectForEditionFormModel>>GetAllBooksForListAsync();
     }
 }
