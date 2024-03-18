@@ -203,7 +203,8 @@ namespace LibraryManagementSystem.Services.Data
             return await this.dbContext
                 .Authors
                 .AsNoTracking()
-                .Where(a => a.FirstName == firstName &&
+                .Where(a => a.IsDeleted == false &&
+                            a.FirstName == firstName &&
                             a.LastName == lastName &&
                             a.Nationality == nationality)
                 .AnyAsync();
