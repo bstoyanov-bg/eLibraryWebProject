@@ -18,26 +18,10 @@ namespace LibraryManagementSystem.Services.Data
             this.dbContext = dbContext;
         }
 
+        // ready
         public async Task AddAuthorAsync(AuthorFormModel model)
         {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
-
-            var author = await dbContext
-                .Authors
-                .FirstOrDefaultAsync(a => a.FirstName == model.FirstName &&
-                                          a.LastName == model.LastName &&
-                                          a.BirthDate == model.BirthDate &&
-                                          a.Nationality == model.Nationality);
-
-            if (author != null)
-            {
-                throw new InvalidOperationException("Author with the same name, birth date and nationality already exists.");
-            }
-
-            var newAuthor = new Author
+            var author = new Author
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -48,61 +32,11 @@ namespace LibraryManagementSystem.Services.Data
                 ImagePathUrl = model.ImagePathUrl,
             };
 
-            await this.dbContext.AddAsync(newAuthor);
+            await this.dbContext.AddAsync(author);
             await this.dbContext.SaveChangesAsync();
         }
 
-        // NOT USED ANYMORE
-        //public async Task<IEnumerable<AllAuthorsViewModel>> GetAllAuthorsAsync()
-        //{
-        //    return await this.dbContext.Authors
-        //        .AsNoTracking()
-        //        .Where(a => a.IsDeleted == false)
-        //        .Select(a => new AllAuthorsViewModel
-        //        {
-        //            Id = a.Id.ToString(),
-        //            FirstName = a.FirstName,
-        //            LastName= a.LastName,
-        //            Nationality = a.Nationality,
-        //            BooksCount = a.Books
-        //                          .Where(b => b.IsDeleted == false)
-        //                          .Count(),
-        //        })
-        //        .OrderBy(a => a.FirstName)
-        //        .ToArrayAsync();
-        //}
-
-        public async Task<Author?> GetAuthorByIdAsync(string authorId)
-        {
-            return await this.dbContext
-                .Authors
-                .FirstOrDefaultAsync(a => a.Id.ToString() == authorId &&
-                                          a.IsDeleted == false);
-        }
-
-        public async Task<AuthorFormModel?> GetAuthorForEditByIdAsync(string authorId)
-        {
-            var authorToEdit = await GetAuthorByIdAsync(authorId);
-
-            if (authorToEdit != null)
-            {
-                AuthorFormModel author = new AuthorFormModel()
-                {
-                    FirstName = authorToEdit.FirstName,
-                    LastName = authorToEdit.LastName,
-                    Biography = authorToEdit.Biography,
-                    BirthDate = authorToEdit.BirthDate,
-                    DeathDate = authorToEdit.DeathDate,
-                    Nationality = authorToEdit.Nationality,
-                    ImagePathUrl= authorToEdit.ImagePathUrl,
-                };
-
-                return author;
-            }
-
-            return null;
-        }
-
+        // ready
         public async Task EditAuthorAsync(string authorId, AuthorFormModel model)
         {
             var authorToEdit = await GetAuthorByIdAsync(authorId);
@@ -121,68 +55,92 @@ namespace LibraryManagementSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AuthorSelectForBookFormModel>> GetAllAuthorsForListAsync()
-        {
-            return await this.dbContext.Authors
-                .AsNoTracking()
-                .Where(a => a.IsDeleted == false)
-                .Select(a => new AuthorSelectForBookFormModel
-                {
-                    Id = a.Id.ToString(),
-                    Name = $"{a.FirstName} {a.LastName}",
-                    Nationality = a.Nationality,
-                })
-                .ToListAsync();
-        }
-
-        public async Task<AuthorDetailsViewModel?> GetAuthorDetailsForUserAsync(string authorId)
-        {
-            var books = await this.dbContext.Books
-                                            .Where(b => b.Author.Id.ToString() == authorId &&
-                                                        b.IsDeleted == false)
-                                            .AsNoTracking()
-                                            .Select(b => new BooksForAuthorDetailsViewModel 
-                                            {
-                                                 Title = b.Title,
-                                                 ISBN = b.ISBN,
-                                                 YearPublished = b.YearPublished,
-                                                 Description = b.Description,
-                                                 Publisher = b.Publisher,
-                                                 CoverImagePathUrl = b.CoverImagePathUrl,
-                                            }).ToListAsync();
-
-            var author = await this.dbContext.Authors
-                                             .Where(a => a.Id.ToString() == authorId &&
-                                                         a.IsDeleted == false)
-                                             .AsNoTracking()
-                                             .Select(a => new AuthorDetailsViewModel 
-                                             { 
-                                                 Id = a.Id.ToString(),
-                                                 FirstName = a.FirstName,
-                                                 LastName = a.LastName,
-                                                 Biography = a.Biography,
-                                                 BirthDate = a.BirthDate,
-                                                 DeathDate = a.DeathDate,
-                                                 Nationality = a.Nationality,
-                                                 ImagePathUrl = a.ImagePathUrl,
-                                                 Books = books
-                                             }).FirstOrDefaultAsync();
-
-            return author;
-        }
-
+        // ready
         public async Task DeleteAuthorAsync(string authorId)
         {
-            var authorToDelete = await dbContext
-                .Authors
-                .Where(a => a.IsDeleted == false)
-                .FirstAsync(a => a.Id.ToString() == authorId);
+            var authorToDelete = await GetAuthorByIdAsync(authorId);
 
-            authorToDelete.IsDeleted = true;
+            if (authorToDelete != null)
+            {
+                authorToDelete.IsDeleted = true;
+            }
 
             await this.dbContext.SaveChangesAsync();
         }
 
+        // ready
+        public async Task<Author?> GetAuthorByIdAsync(string authorId)
+        {
+            return await this.dbContext
+                .Authors
+                .FirstOrDefaultAsync(a => a.IsDeleted == false &&
+                                          a.Id.ToString() == authorId);
+        }
+
+        // ready
+        public async Task<AuthorFormModel?> GetAuthorForEditByIdAsync(string authorId)
+        {
+            var authorToEdit = await GetAuthorByIdAsync(authorId);
+
+            if (authorToEdit != null)
+            {
+                AuthorFormModel author = new AuthorFormModel()
+                {
+                    FirstName = authorToEdit.FirstName,
+                    LastName = authorToEdit.LastName,
+                    Biography = authorToEdit.Biography,
+                    BirthDate = authorToEdit.BirthDate,
+                    DeathDate = authorToEdit.DeathDate,
+                    Nationality = authorToEdit.Nationality,
+                    ImagePathUrl = authorToEdit.ImagePathUrl,
+                };
+
+                return author;
+            }
+
+            return null;
+        }
+
+        // ready
+        public async Task<AuthorDetailsViewModel> GetAuthorDetailsForUserAsync(string authorId)
+        {
+            var books = await this.dbContext
+                .Books
+                .Where(b => b.Author.Id.ToString() == authorId &&
+                            b.IsDeleted == false)
+                .AsNoTracking()
+                .Select(b => new BooksForAuthorDetailsViewModel
+                {
+                    Title = b.Title,
+                    ISBN = b.ISBN,
+                    YearPublished = b.YearPublished,
+                    Description = b.Description,
+                    Publisher = b.Publisher,
+                    CoverImagePathUrl = b.CoverImagePathUrl,
+                }).ToListAsync();
+
+            var author = await this.dbContext
+                .Authors
+                .Where(a => a.Id.ToString() == authorId &&
+                            a.IsDeleted == false)
+                .AsNoTracking()
+                .Select(a => new AuthorDetailsViewModel
+                {
+                    Id = a.Id.ToString(),
+                    FirstName = a.FirstName,
+                    LastName = a.LastName,
+                    Biography = a.Biography,
+                    BirthDate = a.BirthDate,
+                    DeathDate = a.DeathDate,
+                    Nationality = a.Nationality,
+                    ImagePathUrl = a.ImagePathUrl,
+                    Books = books
+                }).FirstOrDefaultAsync();
+
+            return author!;
+        }
+
+        // ready
         public async Task<AllAuthorsFilteredAndPagedServiceModel> GetAllAuthorsFilteredAndPagedAsync(AllAuthorsQueryModel queryModel)
         {
             IQueryable<Author> authorsQuery = this.dbContext
@@ -238,5 +196,64 @@ namespace LibraryManagementSystem.Services.Data
                 Authors = allAuthors,
             };
         }
+
+        // ready
+        public async Task<bool> AuthorExistByNameAndNationalityAsync(string firstName, string lastName, string nationality)
+        {
+            return await this.dbContext
+                .Authors
+                .AsNoTracking()
+                .Where(a => a.FirstName == firstName &&
+                            a.LastName == lastName &&
+                            a.Nationality == nationality)
+                .AnyAsync();
+        }
+
+        // ready
+        public async Task<bool> AuthorExistByIdAsync(string authorId)
+        {
+            return await this.dbContext
+                .Authors
+                .AsNoTracking()
+                .Where(a => a.IsDeleted == false &&
+                            a.Id.ToString() == authorId)
+                .AnyAsync();
+        }
+
+        // ready
+        public async Task<IEnumerable<AuthorsSelectForBookFormModel>> GetAllAuthorsForListAsync()
+        {
+            return await this.dbContext
+                .Authors
+                .AsNoTracking()
+                .Where(a => a.IsDeleted == false)
+                .Select(a => new AuthorsSelectForBookFormModel
+                {
+                    Id = a.Id.ToString(),
+                    Name = $"{a.FirstName} {a.LastName}",
+                    Nationality = a.Nationality,
+                })
+                .ToListAsync();
+        }
+
+        // NOT USED ANYMORE
+        //public async Task<IEnumerable<AllAuthorsViewModel>> GetAllAuthorsAsync()
+        //{
+        //    return await this.dbContext.Authors
+        //        .AsNoTracking()
+        //        .Where(a => a.IsDeleted == false)
+        //        .Select(a => new AllAuthorsViewModel
+        //        {
+        //            Id = a.Id.ToString(),
+        //            FirstName = a.FirstName,
+        //            LastName= a.LastName,
+        //            Nationality = a.Nationality,
+        //            BooksCount = a.Books
+        //                          .Where(b => b.IsDeleted == false)
+        //                          .Count(),
+        //        })
+        //        .OrderBy(a => a.FirstName)
+        //        .ToArrayAsync();
+        //}
     }
 }

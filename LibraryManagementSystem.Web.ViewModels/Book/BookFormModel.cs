@@ -10,7 +10,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
     {
         public BookFormModel()
         {
-            Authors  = new HashSet<AuthorSelectForBookFormModel>();
+            Authors  = new HashSet<AuthorsSelectForBookFormModel>();
             Categories  = new HashSet<AllCategoriesViewModel>();
         }
 
@@ -50,7 +50,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
 
         public int CategoryId { get; set; }
 
-        public IEnumerable<AuthorSelectForBookFormModel> Authors { get; set; }
+        public IEnumerable<AuthorsSelectForBookFormModel> Authors { get; set; }
 
         public IEnumerable<AllCategoriesViewModel> Categories { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace LibraryManagementSystem.Web.ViewModels.Author
 {
-    public class AuthorSelectForBookFormModel
+    public class AuthorsSelectForBookFormModel
     {
         public string Id { get; set; } = null!;
 
