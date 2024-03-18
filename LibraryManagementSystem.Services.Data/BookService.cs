@@ -126,12 +126,23 @@ namespace LibraryManagementSystem.Services.Data
             await dbContext.SaveChangesAsync();
         }
 
+        // ready
         public async Task<Book?> GetBookByIdAsync(string bookId)
         {
             return await this.dbContext
                 .Books
                 .Where(b => b.IsDeleted == false)
                 .FirstOrDefaultAsync(b => b.Id.ToString() == bookId);
+        }
+
+        // ready
+        public async Task<bool> BookExistByIdAsync(string bookId)
+        {
+            return await this.dbContext
+                .Books
+                .Where(b => b.IsDeleted == false &&
+                            b.Id.ToString() == bookId)
+                .AnyAsync();
         }
 
         public async Task<BookFormModel?> GetBookForEditByIdAsync(string bookId)
@@ -199,6 +210,7 @@ namespace LibraryManagementSystem.Services.Data
             await dbContext.SaveChangesAsync();
         }
 
+        // ready
         public async Task<IEnumerable<BookSelectForEditionFormModel>> GetAllBooksForListAsync()
         {
             return await this.dbContext
@@ -263,11 +275,11 @@ namespace LibraryManagementSystem.Services.Data
 
             IEditionService editionService = editionServiceLazy.Value;
 
-            var bookEditionsForDelete = await editionService.GetAllBookEditionsForBookbyBookId(bookId);
+            var bookEditionsForDelete = await editionService.GetAllBookEditionsForBookByBookId(bookId);
 
             foreach (var edition in bookEditionsForDelete)
             {
-                await editionService.DeleteBookEditionAsync(edition.Id.ToString());
+                await editionService.DeleteEditionAsync(edition.Id.ToString());
             }
 
             bookToDelete!.IsDeleted = true;
