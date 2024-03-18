@@ -30,10 +30,7 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task EditCategoryAsync(int categoryId, CategoryFormModel categoryModel)
         {
-            var categoryToEdit = await dbContext
-                .Categories
-                .FirstOrDefaultAsync(c => c.Id == categoryId &&
-                                          c.IsDeleted == false);
+            var categoryToEdit = await GetCategoryByIdAsync(categoryId);
 
             if (categoryToEdit != null)
             {
@@ -46,32 +43,43 @@ namespace LibraryManagementSystem.Services.Data
         // ready
         public async Task DeleteCategoryAsync(int categoryId)
         {
-            var categoryToDelete = await dbContext
-                .Categories
-                .Where(c => c.IsDeleted == false)
-                .FirstAsync(c => c.Id == categoryId);
+            var categoryToDelete = await GetCategoryByIdAsync(categoryId);
 
-            categoryToDelete.IsDeleted = true;
+            if (categoryToDelete != null)
+            {
+                categoryToDelete.IsDeleted = true;
+            }
 
             await this.dbContext.SaveChangesAsync();
         }
 
         // ready
-        public async Task<CategoryFormModel> GetCategoryForEditByIdAsync(int categoryId)
+        public async Task<Category?> GetCategoryByIdAsync(int categoryId)
         {
-            var categoryToEdit = await dbContext
+            return await dbContext
                  .Categories
-                 .FirstAsync(c => c.Id == categoryId &&
-                                  c.IsDeleted == false);
-
-            return new CategoryFormModel
-            {
-                Name = categoryToEdit.Name,
-            };
+                 .FirstOrDefaultAsync(c => c.IsDeleted == false &&
+                                  c.Id == categoryId);
         }
 
-    // ready
-    public async Task<bool> CategoryExistByNameAsync(string categoryName)
+        // ready
+        public async Task<CategoryFormModel?> GetCategoryForEditByIdAsync(int categoryId)
+        {
+            var categoryToEdit = await GetCategoryByIdAsync(categoryId);
+
+            if (categoryToEdit != null)
+            {
+                return new CategoryFormModel
+                {
+                    Name = categoryToEdit.Name,
+                };
+            }
+
+            return null;
+        }
+
+        // ready
+        public async Task<bool> CategoryExistByNameAsync(string categoryName)
         {
             return await this.dbContext
                 .Categories

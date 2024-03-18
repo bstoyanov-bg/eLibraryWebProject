@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Web.ViewModels.Category;
+﻿using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Web.ViewModels.Category;
 
 namespace LibraryManagementSystem.Services.Data.Interfaces
 {
@@ -13,7 +14,10 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task DeleteCategoryAsync(int categoryId);
 
         // ready
-        Task<CategoryFormModel> GetCategoryForEditByIdAsync(int categoryId);
+        Task<Category?> GetCategoryByIdAsync(int categoryId);
+
+        // ready
+        Task<CategoryFormModel?> GetCategoryForEditByIdAsync(int categoryId);
 
         // ready
         Task<bool> CategoryExistByNameAsync(string categoryName);
@@ -28,7 +32,6 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         // ready
         Task<int> GetCategoryIdByBookIdAsync(string bookId);
-
 
         // ready
         Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync();

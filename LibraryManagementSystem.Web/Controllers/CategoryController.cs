@@ -42,14 +42,14 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (doesCategoryExist)
                 {
-                    this.TempData[ErrorMessage] = "Category with the same name already exists!";
+                    TempData[ErrorMessage] = "Category with the same name already exists!";
 
                     return this.RedirectToAction("All", "Category");
                 }
 
                 await categoryService.AddCategoryAsync(model);
 
-                TempData[SuccessMessage] = "Succestully created category";
+                TempData[SuccessMessage] = "Successfully added category.";
             }
             catch
             {
@@ -145,7 +145,7 @@ namespace LibraryManagementSystem.Web.Controllers
             try
             {
                 await categoryService.DeleteCategoryAsync(id);
-                TempData[SuccessMessage] = "Succesfully delited category.";
+                TempData[SuccessMessage] = "Succesfully deleted category.";
             }
             catch
             {
