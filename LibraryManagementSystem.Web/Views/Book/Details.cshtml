@@ -10,11 +10,16 @@
 @inject ILendedBooksService lendedBooksService
 
 
+
+
+
+
+
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
 <div class="row">
-    <div class="card w-100 mb-4" >
+    <div class="card w-100 mb-4">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3 d-flex justify-content-center align-items-center">
@@ -31,13 +36,35 @@
                     <p class="mb-0"><span class="fw-bold">ISBN: </span>@Model.ISBN</p>
                 </div>
                 <div class="col-md-3 d-flex justify-content-center">
-                    @if (this.User.IsInRole(UserRole) && 
-                            !await lendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id))
+                    @if (this.User.IsInRole(UserRole) &&
+                    !await lendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id))
                     {
                         <form asp-action="Get" asp-controller="LendedBooks" method="post">
                             <input type="hidden" name="id" value="@Model.Id" />
                             <button type="submit" class="btn btn-success">Get Book</button>
                         </form>
+                    }
+                    else if (this.User.IsInRole(UserRole) &&
+                    await lendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id))
+                    {
+                        @* If the User has this BOOK in his collection he can Download or View the file in browser*@
+                        <div style="display: flex; gap: 10px;">
+                            <div>
+                                <form asp-action="DownloadFile" asp-controller="File" method="get">
+                                    <input type="hidden" name="id" value="@Model.Id" />
+                                    <input type="hidden" name="entityType" value="Book" />
+                                    <button type="submit" class="btn btn-info">Download</button>
+                                </form>
+                            </div>
+
+                            <div>
+                                <form asp-action="GetTextFileContent" asp-controller="File" method="get">
+                                    <input type="hidden" name="id" value="@Model.Id" />
+                                    <input type="hidden" name="entityType" value="Book" />
+                                    <button type="submit" class="btn btn-info">View File</button>
+                                </form>
+                            </div>
+                        </div>
                     }
                 </div>
 
@@ -65,16 +92,27 @@
                         <td style="text-align: center; vertical-align: middle;">@edition.Publisher</td>
                         <td style="text-align: center; vertical-align: middle;">@edition.EditionYear</td>
                         <td style="text-align: center; vertical-align: middle; white-space: nowrap;">
-                        @if (this.User.IsInRole(AdminRole))
-                        {
-                            <a href="@Url.Action("Edit", "Edition", new { id = edition.Id })" class="btn btn-warning">Edit</a>
-                            <a href="@Url.Action("Delete", "Edition", new { id = edition.Id })" class="btn btn-danger">Delete</a>
-                        }
-                        else if (this.User.IsInRole(UserRole))
-                        {
-                            @* If User has this bokk he can download it !!!*@
-                            <a href="@Url.Action("Download", "File", new { id = edition.Id })" class="btn btn-primary">Download</a>
-                        }
+                            @if (this.User.IsInRole(AdminRole))
+                            {
+                                <a href="@Url.Action("Edit", "Edition", new { id = edition.Id })" class="btn btn-warning">Edit</a>
+                                <a href="@Url.Action("Delete", "Edition", new { id = edition.Id })" class="btn btn-danger">Delete</a>
+                            }
+                            else if (this.User.IsInRole(UserRole))
+                            {
+                                @* If the User has this EDITION in his collection he can Download or View the file in browser*@
+
+                                <form asp-action="DownloadFile" asp-controller="File" method="get" style="display: inline;">
+                                    <input type="hidden" name="id" value="@edition.Id" />
+                                    <input type="hidden" name="entityType" value="Edition" />
+                                    <button type="submit" class="btn btn-info">Download</button>
+                                </form>
+
+                                <form asp-action="GetTextFileContent" asp-controller="File" method="get" style="display: inline;">
+                                    <input type="hidden" name="id" value="@edition.Id" />
+                                    <input type="hidden" name="entityType" value="Edition" />
+                                    <button type="submit" class="btn btn-info">View File</button>
+                                </form>
+                            }
                     </tr>
                 }
             </tbody>
@@ -85,7 +123,6 @@
         <p>No editions found for this book.</p>
     }
 </div>
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
