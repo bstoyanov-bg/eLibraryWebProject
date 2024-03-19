@@ -2,8 +2,8 @@
 using LibraryManagementSystem.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static LibraryManagementSystem.Common.UserRoleNames;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
+using static LibraryManagementSystem.Common.UserRoleNames;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -18,7 +18,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = AdminRole)]
-        public async Task<IActionResult> Upload(string id, IFormFile file, string entityType)
+        public async Task<IActionResult> UploadFile(string id, IFormFile file, string entityType)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 {
                     TempData[ErrorMessage] = "No file uploaded!";
 
-                    return this.RedirectToAction("All", "Book", new { id });
+                    return this.RedirectToAction("Edit", "Book", new { id });
                 }
 
                 // Check File extension
@@ -35,7 +35,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 {
                     TempData[ErrorMessage] = "Only .txt files are allowed.!";
 
-                    return this.RedirectToAction("All", "Book", new { id });
+                    return this.RedirectToAction("Edit", "Book", new { id });
                 }
 
                 // Check if entityType is valid
@@ -43,10 +43,10 @@ namespace LibraryManagementSystem.Web.Controllers
                 {
                     TempData[ErrorMessage] = "Invalid entity type.!";
 
-                    return this.RedirectToAction("All", "Book", new {id});
+                    return this.RedirectToAction("Edit", "Book", new {id});
                 }
 
-                var filePath = await fileService.UploadFile(id, file, entityType);
+                var filePath = await fileService.UploadFileAsync(id, file, entityType);
 
                 TempData[SuccessMessage] = $"Successfully uploaded {entityType} file.";
 
@@ -54,16 +54,52 @@ namespace LibraryManagementSystem.Web.Controllers
             }
             catch
             {
-                return GeneralError();
+                TempData[ErrorMessage] = "There was problem with uploding the file!";
             }
+
+            return RedirectToAction("All", "Book");
         }
 
-        private IActionResult GeneralError()
+        [HttpGet]
+        public async Task<IActionResult> DownloadFile(string id, string entityType)
         {
-            TempData[ErrorMessage] =
-                "Unexpected error occurred! Please try again later or contact administrator";
+            try
+            {
+                // Check if entityType is valid
+                if (entityType != nameof(Book) && entityType != nameof(Edition))
+                {
+                    TempData[ErrorMessage] = "Invalid entity type.!";
 
-            return RedirectToAction("Index", "Home");
+                    return this.RedirectToAction("All", "Book", new { id });
+                }
+
+                var fileStreamResult = await fileService.DownloadFileAsync(id, entityType);
+                return fileStreamResult;
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with downloading the file!";
+            }
+            return this.RedirectToAction("All", "Book", new { id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTextFileContent(string id, string entityType)
+        {
+            try
+            {
+                string filePath = await this.fileService.GetFilePathAsync(id, entityType);
+
+                var fileContent = await this.fileService.GetFileContentAsync(filePath);
+
+                return Content(fileContent);
+            }
+            catch
+            {
+                TempData[ErrorMessage] = "There was problem with getting the text file!";
+            }
+
+            return this.RedirectToAction("All", "Book", new { id });
         }
     }
 }
