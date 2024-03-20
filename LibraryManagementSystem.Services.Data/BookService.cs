@@ -50,8 +50,7 @@ namespace LibraryManagementSystem.Services.Data
             await dbContext.SaveChangesAsync();
         }
 
-        // ready --> Maybe there must be a lot of Methods for Check, Remove and Add BookCategory,
-        //           because now this Method does a lot of things ??????
+        // ready 
         public async Task EditBookAsync(string bookId, BookFormModel model)
         {
             var bookToEdit = await GetBookByIdAsync(bookId);
@@ -289,10 +288,18 @@ namespace LibraryManagementSystem.Services.Data
             return await this.dbContext
                 .Books
                 .AsNoTracking()
-                .Where(e => e.IsDeleted == false &&
-                            e.Title == title &&
-                            e.AuthorId == Guid.Parse(authorId))
+                .Where(b => b.IsDeleted == false &&
+                            b.Title == title &&
+                            b.AuthorId == Guid.Parse(authorId))
                 .AnyAsync();
+        }
+
+
+        public async Task<bool> HasUserRatedBookAsync(string userId)
+        {
+            return await this.dbContext
+                .Ratings
+                .AnyAsync(r => r.UserId.ToString() == userId);
         }
 
         // ready

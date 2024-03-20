@@ -1,0 +1,39 @@
+﻿@using static LibraryManagementSystem.Common.UserRoleNames;
+
+@model RatingFormModel
+
+@{
+    ViewBag.Title = "Give Rating";
+}
+
+<div class="container">
+    <br />
+    <h3 class="text-center">Give your rating to Book with Title:<br /></h3>
+    <h2 class="text-center"><br /><strong>@ViewBag.BookTitle</strong></h2>
+    <br />
+    <br />
+    <div class="d-flex justify-content-center align-items-center">
+        <img class="d-block" style="max-width: 200px; height: auto;" src="~/@ViewBag.BookImage" alt="BookCover-img">
+    </div>
+
+    <form method="post">
+        <div class="form-group col-md-10">
+            <div class="form-group mb-3">
+                <label asp-for="BookRating"></label>
+                <input asp-for="BookRating" class="form-control"  placeholder="" />
+                <span asp-validation-for="BookRating" class="small text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Comment"></label>
+                <input asp-for="Comment" class="form-control" placeholder="" />
+                <span asp-validation-for="Comment" class="small text-danger"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

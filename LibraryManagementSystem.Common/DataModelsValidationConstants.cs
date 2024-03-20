@@ -107,6 +107,9 @@ namespace LibraryManagementSystem.Common
             public const int CommentMinLength = 5;
             public const int CommentMaxLength = 1000;
 
+            public const string RatingMinValue = "0";
+            public const string RatingMaxValue = "10";
+
             public const string DateFormat = GlobalDateFormat;
         }
 

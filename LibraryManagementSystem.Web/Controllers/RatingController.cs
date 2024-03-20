@@ -17,15 +17,35 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Give(string id)
         {
-            RatingFormModel rating = new RatingFormModel();
+            try
+            {
+                bool bookExists = await this.bookService.BookExistByIdAsync(id);
 
-            return View(rating);
+                if (!bookExists)
+                {
+                    TempData[ErrorMessage] = "Such Book does not exists!";
+
+                    return this.RedirectToAction("All", "Book");
+                }
+
+                var book = await this.bookService.GetBookByIdAsync(id);
+
+                ViewBag.BookTitle = book!.Title;
+                ViewBag.BookImage = book!.CoverImagePathUrl;
+            }
+            catch
+            {
+                GeneralError();
+            }
+
+            RatingFormModel model = new RatingFormModel();
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(RatingFormModel model)
+        public async Task<IActionResult> Give(RatingFormModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -43,18 +63,37 @@ namespace LibraryManagementSystem.Web.Controllers
                     return this.RedirectToAction("All", "Book");
                 }
 
+                var book = await this.bookService.GetBookByIdAsync(model.BookId);
+
+                ViewBag.BookTitle = book!.Title;
+
                 var userId = GetUserId();
 
-                await authorService.AddAuthorAsync(model);
+                bool userRatedBook = await this.bookService.HasUserRatedBookAsync(userId);
 
-                TempData[SuccessMessage] = "Successfully added author.";
+                if (userRatedBook)
+                {
+                    TempData[ErrorMessage] = "You have already Rated the Book!";
+                }
+
+                await this.ratingService.GiveRatingAsync(model);
+
+                TempData[SuccessMessage] = "Successfully gave rating to the Book.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with adding the author!";
+                TempData[ErrorMessage] = "There was problem with giving rating to the Book!";
             }
 
-            return this.RedirectToAction("All", "Author");
+            return this.RedirectToAction("Details", "Book", new { id = model.BookId });
+        }
+
+        private IActionResult GeneralError()
+        {
+            TempData[ErrorMessage] =
+                "Unexpected error occurred! Please try again later or contact administrator";
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

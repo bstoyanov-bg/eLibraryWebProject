@@ -32,7 +32,7 @@ namespace LibraryManagementSystem.Services.Data
                 ImagePathUrl = model.ImagePathUrl,
             };
 
-            await this.dbContext.AddAsync(author);
+            await this.dbContext.Authors.AddAsync(author);
             await this.dbContext.SaveChangesAsync();
         }
 

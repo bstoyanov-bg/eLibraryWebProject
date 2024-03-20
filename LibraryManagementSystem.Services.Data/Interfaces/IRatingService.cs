@@ -4,6 +4,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 {
     public interface IRatingService
     {
-        Task AddRatingAsync(RatingFormModel model);
+        Task GiveRatingAsync(RatingFormModel model);
+
+        //Task<RatingFormModel> GetCreateNewRatingModelAsync(string bookId);
     }
 }
