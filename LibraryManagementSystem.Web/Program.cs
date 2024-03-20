@@ -1,4 +1,4 @@
-using LibraryManagementSystem.Data;
+    using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Data.Seeding;
 using LibraryManagementSystem.Services.Data.Interfaces;
@@ -68,10 +68,12 @@ namespace LibraryManagementSystem.Web
             if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error/500");
+                app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
                 app.UseHsts();
             }
 
