@@ -3,6 +3,7 @@ using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Data.Seeding;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.Infrastructure.Extensions;
+using LibraryManagementSystem.Web.Infrastructure.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +44,14 @@ namespace LibraryManagementSystem.Web
             {
                 return new Lazy<IEditionService>(() => provider.GetRequiredService<IEditionService>());
             });
+
+            builder.Services
+                .AddControllersWithViews()
+                .AddMvcOptions(options =>
+                {
+                    // Custom DecimalModelBinder
+                    options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                });
 
             WebApplication app = builder.Build();
 
