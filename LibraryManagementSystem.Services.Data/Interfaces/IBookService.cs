@@ -38,7 +38,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<bool> BookExistByTitleAndAuthorIdAsync(string title, string authorId);
 
 
-        Task<bool> HasUserRatedBookAsync(string userId);
+        Task<bool> HasUserRatedBookAsync(string userId, string bookId);
 
         // ready
         Task<IEnumerable<IndexViewModel>> LastNineBooksAsync();

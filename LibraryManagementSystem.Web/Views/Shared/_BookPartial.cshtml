@@ -29,3 +29,94 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+@* <!-- Add Bootstrap modal markup -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to return this book?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="confirmReturnBtn">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <div class="d-flex justify-content-center align-items-center">
+            <img class="d-block" style="max-width: 200px; height: auto;" src="~/@Model.ImageURL" alt="BookCover-img">
+        </div>
+        <div class="card-body text-center">
+            <h4>@Model.Title</h4>
+            <h6>Author: <b>@Model.AuthorName</b></h6>
+            <h6>Category: <b>@Model.Category</b></h6>
+            <br />
+            <div class="d-flex justify-content-center">
+                <a asp-area="" asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
+
+                <!-- Button to trigger the modal -->
+                @if (this.User.IsInRole(UserRole) && await lendedBooksService.IsBookReturnedAsync(User.GetId()!.ToString(), Model.Id))
+                {
+                    <button type="button" class="btn btn-warning ml-2" id="openConfirmationModal">Return Book</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to handle modal interaction -->
+<script>
+    $(document).ready(function () {
+        // Show the modal when the button is clicked
+        $('#openConfirmationModal').click(function () {
+            $('#confirmationModal').modal('show');
+        });
+
+        // Handle the click event of the Yes button
+        $('#confirmReturnBtn').click(function () {
+            // Submit the form when confirmed
+            $('form#returnForm').submit();
+        });
+    });
+</script>
+
+<!-- JavaScript to handle modal interaction -->
+<script>
+    $(document).ready(function () {
+        // Show the modal when the button is clicked
+        $('#openConfirmationModal').click(function () {
+            $('#confirmationModal').modal('show');
+        });
+
+        // Handle the click event of the Yes button
+        $('#confirmReturnBtn').click(function () {
+            // Change the form action to the desired URL
+            $('form#returnForm').attr('action', '/LendedBooks/Return'); // Change the URL as needed
+            // Submit the form
+            $('form#returnForm').submit();
+        });
+
+        // Handle the click event of the No button
+        $('#closeConfirmationModal').click(function () {
+            $('#confirmationModal').attr('action', '/Book/All'); // Change the URL as needed
+            $('#confirmationModal').submit();
+        });
+    });
+</script> *@

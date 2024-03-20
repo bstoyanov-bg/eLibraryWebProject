@@ -34,14 +34,31 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 ViewBag.BookTitle = book!.Title;
                 ViewBag.BookImage = book!.CoverImagePathUrl;
+                ViewBag.BookId = book!.Id.ToString();
+
+                var userId = GetUserId();
+
+                ViewBag.UserId = userId;
+
+                bool userRatedBook = await this.bookService.HasUserRatedBookAsync(userId, book!.Id.ToString());
+
+                if (userRatedBook)
+                {
+                    TempData[ErrorMessage] = "You have already Rated the Book!";
+
+                    return this.RedirectToAction("All", "Book");
+                }
+
+                
+
+                RatingFormModel rating = new RatingFormModel();
+
+                return View(rating);
             }
             catch
             {
-                GeneralError();
+                return GeneralError();
             }
-
-            RatingFormModel model = new RatingFormModel();
-            return View(model);
         }
 
         [HttpPost]
@@ -56,7 +73,7 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 bool bookExists = await this.bookService.BookExistByIdAsync(model.BookId);
 
-                if (bookExists)
+                if (!bookExists)
                 {
                     TempData[ErrorMessage] = "Such Book does not exists!";
 
@@ -64,17 +81,6 @@ namespace LibraryManagementSystem.Web.Controllers
                 }
 
                 var book = await this.bookService.GetBookByIdAsync(model.BookId);
-
-                ViewBag.BookTitle = book!.Title;
-
-                var userId = GetUserId();
-
-                bool userRatedBook = await this.bookService.HasUserRatedBookAsync(userId);
-
-                if (userRatedBook)
-                {
-                    TempData[ErrorMessage] = "You have already Rated the Book!";
-                }
 
                 await this.ratingService.GiveRatingAsync(model);
 

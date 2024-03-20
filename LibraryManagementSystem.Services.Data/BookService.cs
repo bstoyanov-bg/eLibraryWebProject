@@ -295,11 +295,12 @@ namespace LibraryManagementSystem.Services.Data
         }
 
 
-        public async Task<bool> HasUserRatedBookAsync(string userId)
+        public async Task<bool> HasUserRatedBookAsync(string userId, string bookId)
         {
             return await this.dbContext
                 .Ratings
-                .AnyAsync(r => r.UserId.ToString() == userId);
+                .AnyAsync(r => r.UserId.ToString() == userId &&
+                               r.BookId.ToString() == bookId);
         }
 
         // ready

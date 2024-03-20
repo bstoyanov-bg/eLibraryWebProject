@@ -34,19 +34,12 @@ namespace LibraryManagementSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        //public async Task<RatingFormModel> GetCreateNewRatingModelAsync(string bookId)
+        //public RatingFormModel GetCreateNewRatingModelAsync(string bookId, string userId)
         //{
-        //    var book = await this.bookService.GetBookByIdAsync(bookId);
-
         //    RatingFormModel model = new RatingFormModel
         //    {
-        //        BookTitle = book!.Title,
-        //        AuthorName = $"{book!.Author.FirstName} {book!.Author.LastName}",
-        //        Category = book.BooksCategories
-        //                       .Where(b => b.BookId.ToString() == bookId)
-        //                       .Select(c => c.Category.Name)
-        //                       .First(),
-        //        ImageURL = book.CoverImagePathUrl,
+        //        BookId = bookId,
+        //        UserId = userId,
         //    };
 
         //    return model;

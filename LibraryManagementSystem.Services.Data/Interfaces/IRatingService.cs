@@ -6,6 +6,6 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
     {
         Task GiveRatingAsync(RatingFormModel model);
 
-        //Task<RatingFormModel> GetCreateNewRatingModelAsync(string bookId);
+        //Task<RatingFormModel> GetCreateNewRatingModelAsync(string bookId, string userId);
     }
 }

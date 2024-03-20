@@ -6,7 +6,6 @@ namespace LibraryManagementSystem.Web.ViewModels.Rating
     public class RatingFormModel
     {
         [Required]
-        [MaxLength(BookRatingMaxLength)]
         [Range(typeof(decimal), RatingMinValue, RatingMaxValue)]
         [Display(Name = "Give your Rating:")]
         public decimal BookRating { get; set; }
