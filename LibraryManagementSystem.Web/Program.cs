@@ -30,7 +30,7 @@ namespace LibraryManagementSystem.Web
                 options.Password.RequireNonAlphanumeric = builder.Configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumeric");
                 options.Password.RequireDigit = builder.Configuration.GetValue<bool>("Identity:Password:RequireDigit");
             })
-                // Add identity Roles
+                // Add identity Roles.
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ELibraryDbContext>();
 
@@ -49,13 +49,13 @@ namespace LibraryManagementSystem.Web
                 .AddControllersWithViews()
                 .AddMvcOptions(options =>
                 {
-                    // Custom DecimalModelBinder
+                    // Custom DecimalModelBinder.
                     options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
                 });
 
             WebApplication app = builder.Build();
 
-            // Seed data when the application starts
+            // Seed data when the application starts.
             using (var serviceScope = app.Services.CreateScope())
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ELibraryDbContext>();
@@ -73,6 +73,7 @@ namespace LibraryManagementSystem.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error/500");
+                // Custom Error pages with status code.
                 app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
                 app.UseHsts();
             }
@@ -85,7 +86,7 @@ namespace LibraryManagementSystem.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //Suggest using top level route registrations UseEndpoints
+            //Suggest using top level route registrations UseEndpoints.
             #pragma warning disable ASP0014
             // Add Admin area routing.
             app.UseEndpoints(endpoints =>

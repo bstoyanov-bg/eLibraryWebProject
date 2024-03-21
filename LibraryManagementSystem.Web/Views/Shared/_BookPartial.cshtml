@@ -6,6 +6,155 @@
 
 @inject ILendedBooksService lendedBooksService
 
+<!-- Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Do you want to rate this Book?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="confirmNoBtn" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="confirmYesBtn">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <div class="d-flex justify-content-center align-items-center">
+            <img class="d-block" style="max-width: 200px; height: auto;" src="~/@Model.ImageURL" alt="BookCover-img">
+        </div>
+        <div class="card-body text-center">
+            <h4>@Model.Title</h4>
+            <h6>Author: <b>@Model.AuthorName</b></h6>
+            <h6>Category: <b>@Model.Category</b></h6>
+            <br />
+            <div class="d-flex justify-content-center">
+                <a asp-area="" asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
+                @if (this.User.IsInRole(UserRole) && await lendedBooksService.IsBookReturnedAsync(User.GetId()!.ToString(), Model.Id))
+                {
+                    <form id="returnForm" class="ml-2">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="button" class="btn btn-warning" id="returnBookBtn">Return Book</button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Handle the click event of the "Return Book" button
+        $('#returnBookBtn').click(function () {
+            // Show the confirmation modal
+            $('#confirmationModal').modal('show');
+        });
+
+        // Handle the click event of the "YES" button in the confirmation modal
+        $('#confirmYesBtn').click(function () {
+            var bookId = '@Model.Id'; // Get the book ID from the Razor model
+
+            // Perform a POST request to the "Return" action in the "LendedBooks" controller
+            $.ajax({
+                url: '@Url.Action("Return", "LendedBooks")' + '?id=' + bookId,
+                type: 'POST',
+                data: { id: bookId },
+                success: function (response) {
+                    // Optionally handle success response
+                    console.log('Book returned successfully');
+
+                    // Redirect to RatingController/Give action with the ID included
+                    $.ajax({
+                        url: '@Url.Action("Give", "Rating")' + '?id=' + bookId,
+                        type: 'GET',
+                        success: function (response) {
+                            // Optionally handle success response
+                            console.log('Rating action performed successfully');
+
+                            // Redirect to the same route after both actions are completed
+                            window.location.href = '@Url.Action("Give", "Rating")' + '?id=' + bookId;
+                        },
+                        error: function (xhr, status, error) {
+                            // Optionally handle error response
+                            console.error('Error performing Rating action:', error);
+                            // Redirect to the same route even if there's an error
+                            window.location.href = window.location.href;
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    // Optionally handle error response
+                    console.error('Error returning book:', error);
+                    // Redirect to the same route even if there's an error
+                    window.location.href = window.location.href;
+                }
+            });
+        });
+
+        // Handle the click event of the "No" button in the confirmation modal
+        $('#confirmNoBtn').click(function () {
+            // Perform a POST request to the "Return" action in the "LendedBooks" controller
+            var bookId = '@Model.Id'; // Get the book ID from the Razor model
+            $.ajax({
+                url: '@Url.Action("Return", "LendedBooks")',
+                type: 'POST',
+                data: { id: bookId },
+                success: function (response) {
+                    // Optionally handle success response
+                    console.log('Book returned successfully');
+                    // Redirect to BookController/All action
+                    window.location.href = '@Url.Action("Mine", "LendedBooks")';
+                },
+                error: function (xhr, status, error) {
+                    // Optionally handle error response
+                    console.error('Error returning book:', error);
+                    // Redirect to BookController/All action
+                    window.location.href = '@Url.Action("All", "Book")';
+                }
+            });
+        });
+
+        // Handle the modal close event
+        $('#confirmationModal').on('hidden.bs.modal', function () {
+            // Perform a POST request to the "Return" action in the "LendedBooks" controller
+            var bookId = '@Model.Id'; // Get the book ID from the Razor model
+            $.ajax({
+                url: '@Url.Action("Return", "LendedBooks")',
+                type: 'POST',
+                data: { id: bookId },
+                success: function (response) {
+                    // Optionally handle success response
+                    console.log('Book returned successfully');
+                    // Redirect to BookController/All action
+                    window.location.href = '@Url.Action("Mine", "LendedBooks")';
+                },
+                error: function (xhr, status, error) {
+                    // Optionally handle error response
+                    console.error('Error returning book:', error);
+                    // Redirect to BookController/All action
+                    window.location.href = '@Url.Action("All", "Book")';
+                }
+            });
+        });
+    });
+</script>
+
+
+@* @using LibraryManagementSystem.Services.Data.Interfaces
+@using LibraryManagementSystem.Web.Infrastructure.Extensions
+@using static LibraryManagementSystem.Common.UserRoleNames;
+
+@model MyBooksViewModel
+
+@inject ILendedBooksService lendedBooksService
+
 <div class="col-md-4">
     <div class="card mb-3">
         <div class="d-flex justify-content-center align-items-center">
@@ -28,95 +177,4 @@
             </div>
         </div>
     </div>
-</div>
-
-
-
-
-
-
-
-
-@* <!-- Add Bootstrap modal markup -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to return this book?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" id="confirmReturnBtn">Yes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-4">
-    <div class="card mb-3">
-        <div class="d-flex justify-content-center align-items-center">
-            <img class="d-block" style="max-width: 200px; height: auto;" src="~/@Model.ImageURL" alt="BookCover-img">
-        </div>
-        <div class="card-body text-center">
-            <h4>@Model.Title</h4>
-            <h6>Author: <b>@Model.AuthorName</b></h6>
-            <h6>Category: <b>@Model.Category</b></h6>
-            <br />
-            <div class="d-flex justify-content-center">
-                <a asp-area="" asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
-
-                <!-- Button to trigger the modal -->
-                @if (this.User.IsInRole(UserRole) && await lendedBooksService.IsBookReturnedAsync(User.GetId()!.ToString(), Model.Id))
-                {
-                    <button type="button" class="btn btn-warning ml-2" id="openConfirmationModal">Return Book</button>
-                }
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- JavaScript to handle modal interaction -->
-<script>
-    $(document).ready(function () {
-        // Show the modal when the button is clicked
-        $('#openConfirmationModal').click(function () {
-            $('#confirmationModal').modal('show');
-        });
-
-        // Handle the click event of the Yes button
-        $('#confirmReturnBtn').click(function () {
-            // Submit the form when confirmed
-            $('form#returnForm').submit();
-        });
-    });
-</script>
-
-<!-- JavaScript to handle modal interaction -->
-<script>
-    $(document).ready(function () {
-        // Show the modal when the button is clicked
-        $('#openConfirmationModal').click(function () {
-            $('#confirmationModal').modal('show');
-        });
-
-        // Handle the click event of the Yes button
-        $('#confirmReturnBtn').click(function () {
-            // Change the form action to the desired URL
-            $('form#returnForm').attr('action', '/LendedBooks/Return'); // Change the URL as needed
-            // Submit the form
-            $('form#returnForm').submit();
-        });
-
-        // Handle the click event of the No button
-        $('#closeConfirmationModal').click(function () {
-            $('#confirmationModal').attr('action', '/Book/All'); // Change the URL as needed
-            $('#confirmationModal').submit();
-        });
-    });
-</script> *@
+</div> *@
