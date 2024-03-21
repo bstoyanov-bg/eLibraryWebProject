@@ -7,7 +7,7 @@
 @inject ILendedBooksService lendedBooksService
 
 @* PopUp window (Modal) *@
-<div class="modal fade" id="confirmationModalAll" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -15,12 +15,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Do you want to return All Books in your collection?<br /><br />
-                <strong>Note: </strong>You can give rating to each one of the books that you have lended in the Details page of the Book!
+                Do you want to provide feedback by giving a rating and comment for the Book you are returning?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="confirmNoBtnAll" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" id="confirmYesBtnAll">Yes</button>
+                <button type="button" class="btn btn-secondary" id="confirmNoBtn" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="confirmYesBtn">Yes</button>
             </div>
         </div>
     </div>
