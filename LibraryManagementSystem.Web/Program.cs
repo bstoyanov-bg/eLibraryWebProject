@@ -5,6 +5,7 @@ using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.Infrastructure.Extensions;
 using LibraryManagementSystem.Web.Infrastructure.ModelBinders;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Web
@@ -53,8 +54,10 @@ namespace LibraryManagementSystem.Web
                 .AddControllersWithViews()
                 .AddMvcOptions(options =>
                 {
-                    // Custom DecimalModelBinder.
+                    // Custom Decimal Model Binder.
                     options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                    // Prevent Cross-Site Request Forgery (CSRF).
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
                 });
 
             WebApplication app = builder.Build();
