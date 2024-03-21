@@ -11,6 +11,27 @@
 
 @inject ILendedBooksService lendedBooksService
 
+@* PopUp window (Modal) *@
+<div class="modal fade" id="confirmationModalAll" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Do you want to return All Books in your collection?<br /><br />
+                <strong>Note: </strong>You can give rating to each one of the books that you have lended in the Details page of the Book!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="confirmNoBtnAll" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="confirmYesBtnAll">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 <br />
@@ -22,16 +43,59 @@
     <br />
 }
 
-@if (this.User.IsInRole(UserRole) &&
-     await lendedBooksService.AreThereAnyNotReturnedBooksAsync(User.GetId()!.ToString()))
+@if (this.User.IsInRole(UserRole))
 {
-    <form asp-action="ReturnAll" asp-controller="LendedBooks" method="post" class="ml-2">
-        <input type="hidden" name="id" />
-        <button type="submit" class="btn btn-danger">Return All Books</button>
-    </form>
+    if (await lendedBooksService.GetCountOfActiveBooksForUserAsync(User.GetId()!.ToString()) > 1)
+    {
+        <form id="returnForm" class="ml-2">
+            <button type="button" class="btn btn-danger" id="returnAllBooksBtn">Return All Books</button>
+        </form>
+    }
     <br />
     <br />
 }
+
+<script>
+    $(document).ready(function () {
+        // 0. Handle the click event of the "Return Book" button
+        $('#returnAllBooksBtn').click(function () {
+            // Show the confirmation modal
+            $('#confirmationModalAll').modal('show');
+        });
+
+        // 1. Handle the click event of the "YES" button in the confirmation modal
+        $('#confirmYesBtnAll').click(function () {
+
+            // Perform a POST request to the "ReturnAll" action in the "LendedBooks" controller
+            $.ajax({
+                url: '@Url.Action("ReturnAll", "LendedBooks")',
+                type: 'POST',
+                success: function (response) {
+                    console.log('Books returned successfully');
+                    // Redirect to BooksController/All action
+                    window.location.href = '@Url.Action("All", "Book")';
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error returning books:', error);
+                    // Redirect to BooksController/All action
+                    window.location.href = '@Url.Action("All", "Book")';
+                }
+            });
+        });
+
+        // 2. Handle the click event of the "No" button in the confirmation modal
+        $('#confirmNoBtnAll').click(function () {
+            // Close the confirmation modal without performing any action
+            $('#confirmationModalAll').modal('hide');
+        });
+
+        // 3. Handle the modal close event
+        $('#confirmationModalAll').on('hidden.bs.modal', function () {
+            // Close the confirmation modal without performing any action
+            $('#confirmationModalAll').modal('hide');
+        });
+    });
+</script>
 
 <div class="row">
     @foreach (var book in Model)

@@ -6,27 +6,29 @@
 
 @inject ILendedBooksService lendedBooksService
 
-<!-- Modal -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+@* PopUp window (Modal) *@
+<div class="modal fade" id="confirmationModalAll" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Do you want to rate this Book?
+                Do you want to return All Books in your collection?<br /><br />
+                <strong>Note: </strong>You can give rating to each one of the books that you have lended in the Details page of the Book!
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="confirmNoBtn" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" id="confirmYesBtn">Yes</button>
+                <button type="button" class="btn btn-secondary" id="confirmNoBtnAll" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="confirmYesBtnAll">Yes</button>
             </div>
         </div>
     </div>
 </div>
 
+
 <div class="col-md-4">
-    <div class="card mb-3">
+    <div class="card mb-3 pt-3">
         <div class="d-flex justify-content-center align-items-center">
             <img class="d-block" style="max-width: 200px; height: auto;" src="~/@Model.ImageURL" alt="BookCover-img">
         </div>
@@ -51,13 +53,13 @@
 
 <script>
     $(document).ready(function () {
-        // Handle the click event of the "Return Book" button
+        // 0. Handle the click event of the "Return Book" button
         $('#returnBookBtn').click(function () {
             // Show the confirmation modal
             $('#confirmationModal').modal('show');
         });
 
-        // Handle the click event of the "YES" button in the confirmation modal
+        // 1. Handle the click event of the "YES" button in the confirmation modal
         $('#confirmYesBtn').click(function () {
             var bookId = '@Model.Id'; // Get the book ID from the Razor model
 
@@ -67,7 +69,6 @@
                 type: 'POST',
                 data: { id: bookId },
                 success: function (response) {
-                    // Optionally handle success response
                     console.log('Book returned successfully');
 
                     // Redirect to RatingController/Give action with the ID included
@@ -75,30 +76,23 @@
                         url: '@Url.Action("Give", "Rating")' + '?id=' + bookId,
                         type: 'GET',
                         success: function (response) {
-                            // Optionally handle success response
                             console.log('Rating action performed successfully');
 
-                            // Redirect to the same route after both actions are completed
+                            // Redirect to RatingController/Give action with the ID included after both actions are completed !!!!!
                             window.location.href = '@Url.Action("Give", "Rating")' + '?id=' + bookId;
                         },
                         error: function (xhr, status, error) {
-                            // Optionally handle error response
                             console.error('Error performing Rating action:', error);
-                            // Redirect to the same route even if there's an error
-                            window.location.href = window.location.href;
                         }
                     });
                 },
                 error: function (xhr, status, error) {
-                    // Optionally handle error response
                     console.error('Error returning book:', error);
-                    // Redirect to the same route even if there's an error
-                    window.location.href = window.location.href;
                 }
             });
         });
 
-        // Handle the click event of the "No" button in the confirmation modal
+        // 2. Handle the click event of the "No" button in the confirmation modal
         $('#confirmNoBtn').click(function () {
             // Perform a POST request to the "Return" action in the "LendedBooks" controller
             var bookId = '@Model.Id'; // Get the book ID from the Razor model
@@ -107,21 +101,21 @@
                 type: 'POST',
                 data: { id: bookId },
                 success: function (response) {
-                    // Optionally handle success response
                     console.log('Book returned successfully');
-                    // Redirect to BookController/All action
+
+                    // Redirect to LendedBooksController/Mine action
                     window.location.href = '@Url.Action("Mine", "LendedBooks")';
                 },
                 error: function (xhr, status, error) {
-                    // Optionally handle error response
                     console.error('Error returning book:', error);
+
                     // Redirect to BookController/All action
                     window.location.href = '@Url.Action("All", "Book")';
                 }
             });
         });
 
-        // Handle the modal close event
+        // 3. Handle the modal close event
         $('#confirmationModal').on('hidden.bs.modal', function () {
             // Perform a POST request to the "Return" action in the "LendedBooks" controller
             var bookId = '@Model.Id'; // Get the book ID from the Razor model
@@ -130,14 +124,14 @@
                 type: 'POST',
                 data: { id: bookId },
                 success: function (response) {
-                    // Optionally handle success response
                     console.log('Book returned successfully');
-                    // Redirect to BookController/All action
+
+                    // Redirect to LendedBooksController/Mine action
                     window.location.href = '@Url.Action("Mine", "LendedBooks")';
                 },
                 error: function (xhr, status, error) {
-                    // Optionally handle error response
                     console.error('Error returning book:', error);
+
                     // Redirect to BookController/All action
                     window.location.href = '@Url.Action("All", "Book")';
                 }
@@ -145,36 +139,3 @@
         });
     });
 </script>
-
-
-@* @using LibraryManagementSystem.Services.Data.Interfaces
-@using LibraryManagementSystem.Web.Infrastructure.Extensions
-@using static LibraryManagementSystem.Common.UserRoleNames;
-
-@model MyBooksViewModel
-
-@inject ILendedBooksService lendedBooksService
-
-<div class="col-md-4">
-    <div class="card mb-3">
-        <div class="d-flex justify-content-center align-items-center">
-            <img class="d-block" style="max-width: 200px; height: auto;" src="~/@Model.ImageURL" alt="BookCover-img">
-        </div>
-        <div class="card-body text-center">
-            <h4>@Model.Title</h4>
-            <h6>Author: <b>@Model.AuthorName</b></h6>
-            <h6>Category: <b>@Model.Category</b></h6>
-            <br />
-            <div class="d-flex justify-content-center">
-                <a asp-area="" asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
-                @if (this.User.IsInRole(UserRole) && await lendedBooksService.IsBookReturnedAsync(User.GetId()!.ToString(), Model.Id))
-                {
-                    <form asp-action="Return" asp-controller="LendedBooks" method="post" class="ml-2">
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="submit" class="btn btn-warning">Return Book</button>
-                    </form>
-                }
-            </div>
-        </div>
-    </div>
-</div> *@

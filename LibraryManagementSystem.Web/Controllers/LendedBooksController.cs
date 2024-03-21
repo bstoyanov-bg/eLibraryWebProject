@@ -109,7 +109,6 @@ namespace LibraryManagementSystem.Web.Controllers
                 TempData[ErrorMessage] = "There was problem with returning the Book!";
             }
 
-            //return RedirectToAction("Give", "Rating", new {id});
             return RedirectToAction("Mine", "LendedBooks");
         }
 
@@ -127,7 +126,7 @@ namespace LibraryManagementSystem.Web.Controllers
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with returning the Book!";
+                TempData[ErrorMessage] = "There was problem with returning the Books!";
             }
 
             return RedirectToAction("All", "Book");
