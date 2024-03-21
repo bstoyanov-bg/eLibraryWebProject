@@ -44,6 +44,10 @@ namespace LibraryManagementSystem.Web
             {
                 return new Lazy<IEditionService>(() => provider.GetRequiredService<IEditionService>());
             });
+            builder.Services.AddScoped(provider =>
+            {
+                return new Lazy<IRatingService>(() => provider.GetRequiredService<IRatingService>());
+            });
 
             builder.Services
                 .AddControllersWithViews()

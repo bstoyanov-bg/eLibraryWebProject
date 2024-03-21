@@ -8,22 +8,47 @@
 }
 
 @inject ILendedBooksService lendedBooksService
-
-
-
-
-
-
+@inject IRatingService RatingService
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
+
+<head>
+    <style>
+        .fa-star {
+            font-size: 2em; /* Adjust size as needed */
+        }
+
+        .gold-star {
+            color: gold;
+        }
+
+        .rating-value {
+            font-size: 1.8em; /* Adjust size as needed */
+            margin-left: 10px; /* Adjust the amount of space as needed */
+        }
+    </style>
+</head>
 
 <div class="row">
     <div class="card w-100 mb-4">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3 d-flex justify-content-center align-items-center">
-                    <img class="d-block" style="max-width: 200px; height: auto;" src="~/@Model.CoverImagePathUrl" alt="BookCover-img">
+                    <div class="image-container text-center mb-3">
+                        <img class="d-block mb-3" style="max-width: 200px; height: auto;" src="~/@Model.CoverImagePathUrl" alt="BookCover-img">
+                        <i class="fas fa-star fa-2x gold-star"></i>
+                        <span class="rating-value">
+                            @if (@Model.Rating == 0)
+                            {
+                                @Model.Rating.ToString("0.00")
+                            }
+                            else
+                            {
+                                @Model.Rating
+                            }
+                        </span>
+                    </div>
                 </div>
                 <div class="col-md-8">
                     <h3 class="card-title text-center">Title: @Model.Title</h3>
@@ -64,6 +89,18 @@
                                     <button type="submit" class="btn btn-info">View File</button>
                                 </form>
                             </div>
+                        </div>
+                    }
+
+                    @if (this.User.IsInRole(UserRole) &&
+                    !await RatingService.HasUserGaveRatingToBookAsync(User.GetId()!.ToString(), Model.Id) &&
+                    !await lendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id))
+                    {
+                        <div style="margin-left: 20px;">
+                            <form asp-action="Give" asp-controller="Rating" method="get">
+                                <input type="hidden" name="id" value="@Model.Id" />
+                                <button type="submit" class="btn btn-warning">Give Rating</button>
+                            </form>
                         </div>
                     }
                 </div>

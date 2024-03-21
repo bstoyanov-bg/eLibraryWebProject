@@ -7,8 +7,10 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         // ready
         Task AddBookToCollectionAsync(string userId, string bookId);
 
+        // ready
         Task ReturnBookAsync(string userId, string bookId);
 
+        // ready
         Task ReturnAllBooksAsync(string userId);
 
         // ready

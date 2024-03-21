@@ -40,7 +40,7 @@
                 <a asp-area="" asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
                 @if (this.User.IsInRole(UserRole) && await lendedBooksService.IsBookReturnedAsync(User.GetId()!.ToString(), Model.Id))
                 {
-                    <form id="returnForm" class="ml-2">
+                    <form id="returnForm" class="ml-2" style="margin-left: 20px;">
                         <input type="hidden" name="id" value="@Model.Id" />
                         <button type="button" class="btn btn-warning" id="returnBookBtn">Return Book</button>
                     </form>

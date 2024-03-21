@@ -15,15 +15,22 @@ namespace LibraryManagementSystem.Services.Data
         private readonly ELibraryDbContext dbContext;
         private readonly ICategoryService categoryService;
         private readonly IAuthorService authorService;
+        private readonly Lazy<IRatingService> ratingServiceLazy;
         private readonly Lazy<IEditionService> editionServiceLazy;
         //private readonly IEditionService editionService;
 
-        public BookService(ELibraryDbContext dbContext, ICategoryService categoryService, IAuthorService authorService, Lazy<IEditionService> editionServiceLazy/*, IEditionService editionService*/)
+        public BookService(ELibraryDbContext dbContext, 
+                            ICategoryService categoryService, 
+                              IAuthorService authorService,
+                        Lazy<IRatingService> ratingServiceLazy,
+                       Lazy<IEditionService> editionServiceLazy
+                         /*, IEditionService editionService*/)
         {
             this.dbContext = dbContext;
             this.categoryService = categoryService;
             this.authorService = authorService;
             this.editionServiceLazy = editionServiceLazy;
+            this.ratingServiceLazy = ratingServiceLazy;
             //this.editionService = editionService;
         }
 
@@ -185,6 +192,10 @@ namespace LibraryManagementSystem.Services.Data
                 .Select(c => c.Name)
                 .FirstAsync();
 
+            IRatingService ratingService = ratingServiceLazy.Value;
+
+            var bookRating = await ratingService.GetAverageRatingForBookAsync(bookId);
+
             var book = await this.dbContext
                 .Books
                 .Where(b => b.Id.ToString() == bookId &&
@@ -201,6 +212,7 @@ namespace LibraryManagementSystem.Services.Data
                     AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
                     CategoryName = categoryName,
                     Editions = editions,
+                    Rating = (decimal)bookRating,
                 }).FirstAsync();
 
             return book;

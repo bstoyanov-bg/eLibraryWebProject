@@ -7,7 +7,6 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
         public BookDetailsViewModel()
         {
             Editions = new HashSet<EditionsForBookDetailsViewModel>();
-            //Ratings = new HashSet<RatingsForBookDetailsViewModel>();
         }
 
         public string Id { get; set; } = null!;
@@ -28,8 +27,8 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
 
         public string CategoryName { get; set; } = null!;
 
-        public IEnumerable<EditionsForBookDetailsViewModel> Editions { get; set; } = null!;
+        public decimal Rating { get; set; }
 
-        //public IEnumerable<RatingsForBookDetailsViewModel> Ratings { get; set; } = null!;
+        public IEnumerable<EditionsForBookDetailsViewModel> Editions { get; set; } = null!;
     }
 }

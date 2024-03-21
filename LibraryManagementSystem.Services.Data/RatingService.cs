@@ -2,6 +2,7 @@
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Rating;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Services.Data
 {
@@ -44,5 +45,36 @@ namespace LibraryManagementSystem.Services.Data
 
         //    return model;
         //}
+
+        public async Task<decimal?> GetAverageRatingForBookAsync(string bookId)
+        {
+            // Query the Ratings table for ratings of the given book
+            var ratingsForBook = await dbContext
+                .Ratings
+                .Where(r => r.BookId.ToString() == bookId)
+                .ToListAsync();
+
+            if (ratingsForBook.Any())
+            {
+                // Calculate the average rating
+                decimal averageRating = ratingsForBook.Average(r => r.BookRating);
+                return averageRating;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public async Task<bool> HasUserGaveRatingToBookAsync(string userId, string bookId)
+        {
+            var has = await this.dbContext
+                .Ratings
+                .Where(r => r.UserId.ToString() == userId &&
+                             r.BookId.ToString() == bookId &&
+                             r.BookRating != 0)
+                .AnyAsync();
+
+            return has;
+        }
     }
 }
