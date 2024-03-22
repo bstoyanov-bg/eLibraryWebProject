@@ -20,7 +20,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = UserRole)]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> GetBook(string id)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Return(string id)
+        public async Task<IActionResult> ReturnBook(string id)
         {
             bool bookExists = await this.bookService.BookExistByIdAsync(id);
 

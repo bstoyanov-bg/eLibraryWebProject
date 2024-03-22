@@ -162,7 +162,7 @@
 
                                 @if (!await lendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), book.Id))
                                 {
-                                    <form asp-action="Get" asp-controller="LendedBooks" method="post">
+                                    <form asp-action="GetBook" asp-controller="LendedBooks" method="post">
                                         <input type="hidden" name="id" value="@book.Id" />
                                         <button type="submit" class="btn btn-success">Get Book</button>
                                     </form>

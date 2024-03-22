@@ -58,8 +58,7 @@ namespace LibraryManagementSystem.Services.Data
             return await this.dbContext
                 .Ratings
                 .Where(r => r.UserId.ToString() == userId &&
-                             r.BookId.ToString() == bookId &&
-                             r.BookRating != 0)
+                             r.BookId.ToString() == bookId)
                 .AnyAsync();
         }
     }

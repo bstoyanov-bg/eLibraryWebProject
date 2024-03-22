@@ -43,6 +43,7 @@
                 <a asp-area="" asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
                 @if (this.User.IsInRole(UserRole) && isBookReturned)
                 {
+                    @* User has this BOOK in collection and can return it and if he confirm the popup can rate the BOOK!*@
                     <form id="returnForm" class="ml-2" style="margin-left: 20px;">
                         <input type="hidden" name="id" value="@Model.Id" />
                         <button type="button" class="btn btn-warning returnBookBtn" data-book-id="@Model.Id">Return Book</button>
@@ -78,7 +79,7 @@
 
             // Perform a POST request to the "Return" action in the "LendedBooks" controller
             $.ajax({
-                url: '@Url.Action("Return", "LendedBooks")' + '?id=' + bookId,
+                url: '@Url.Action("ReturnBook", "LendedBooks")' + '?id=' + bookId,
                 type: 'POST',
                 headers: {
                     RequestVerificationToken: token
@@ -114,7 +115,7 @@
 
             // Perform a POST request to the "Return" action in the "LendedBooks" controller
             $.ajax({
-                url: '@Url.Action("Return", "LendedBooks")',
+                url: '@Url.Action("ReturnBook", "LendedBooks")',
                 type: 'POST',
                 headers: {
                     RequestVerificationToken: token
@@ -141,7 +142,7 @@
 
             // Perform a POST request to the "Return" action in the "LendedBooks" controller
             $.ajax({
-                url: '@Url.Action("Return", "LendedBooks")',
+                url: '@Url.Action("ReturnBook", "LendedBooks")',
                 type: 'POST',
                 headers: {
                     RequestVerificationToken: token

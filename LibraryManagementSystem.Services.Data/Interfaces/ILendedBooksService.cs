@@ -12,6 +12,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<bool> IsBookActiveInUserCollectionAsync(string userId, string bookId);
 
+        Task<bool> BookExistsInUserHistoryCollectionAsync(string userId, string bookId);
+
         Task<bool> IsBookReturnedAsync(string userId, string bookId);
 
         Task<bool> AreThereAnyNotReturnedBooksAsync(string userId);

@@ -8,6 +8,7 @@
 
 @{
     bool isBookActiveForUser = await LendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id);
+    bool bookExistInUserCollection = await LendedBooksService.BookExistsInUserHistoryCollectionAsync(User.GetId()!.ToString(), Model.Id);
     bool didUserGiveRating = await RatingService.HasUserGaveRatingToBookAsync(User.GetId()!.ToString(), Model.Id);
 }
 
@@ -69,15 +70,15 @@
                 <div class="col-md-3 d-flex justify-content-center">
                     @if (this.User.IsInRole(UserRole) && !isBookActiveForUser)
                     {
-                        <form asp-action="Get" asp-controller="LendedBooks" method="post">
+                        @* User does not have this BOOK in his collection and he can Add it!*@
+                        <form asp-action="GetBook" asp-controller="LendedBooks" method="post">
                             <input type="hidden" name="id" value="@Model.Id" />
                             <button type="submit" class="btn btn-success">Get Book</button>
                         </form>
                     }
-                    @* HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH *@
-                    else if (this.User.IsInRole(UserRole) && isBookActiveForUser)
+                    else
                     {
-                        @* If the User has this BOOK in his collection he can Download or View the file in browser*@
+                        @* If the User has this BOOK in his collection he can Download or View the file in browser!*@
                         <div style="display: flex; gap: 10px;">
                             <div>
                                 <form asp-action="DownloadFile" asp-controller="File" method="get">
@@ -97,8 +98,9 @@
                         </div>
                     }
 
-                    @if (this.User.IsInRole(UserRole) && !didUserGiveRating && !isBookActiveForUser)
+                    @if (this.User.IsInRole(UserRole) && bookExistInUserCollection && !didUserGiveRating)
                     {
+                        @* User had this BOOK in collection but didn't rate it first time!*@
                         <div style="margin-left: 20px;">
                             <form asp-action="Give" asp-controller="Rating" method="get">
                                 <input type="hidden" name="id" value="@Model.Id" />
@@ -137,7 +139,7 @@
                                 <a href="@Url.Action("Edit", "Edition", new { id = edition.Id })" class="btn btn-warning">Edit</a>
                                 <a href="@Url.Action("Delete", "Edition", new { id = edition.Id })" class="btn btn-danger">Delete</a>
                             }
-                            else if (this.User.IsInRole(UserRole))
+                            else if (this.User.IsInRole(UserRole) && isBookActiveForUser)
                             {
                                 @* If the User has this EDITION in his collection he can Download or View the file in browser*@
 

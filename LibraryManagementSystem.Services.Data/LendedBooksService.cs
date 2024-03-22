@@ -60,13 +60,21 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task<bool> IsBookActiveInUserCollectionAsync(string userId, string bookId)
         {
-            bool result = await this.dbContext
+            return await this.dbContext
                 .LendedBooks
                 .AnyAsync(lb => lb.BookId.ToString() == bookId &&
                                 lb.UserId.ToString() == userId &&
                                 lb.ReturnDate == null);
 
-            return result;
+        }
+
+        public async Task<bool> BookExistsInUserHistoryCollectionAsync(string userId, string bookId)
+        {
+            return await this.dbContext
+                .LendedBooks
+                .AnyAsync(lb => lb.BookId.ToString() == bookId &&
+                                lb.UserId.ToString() == userId &&
+                                lb.ReturnDate != null);
         }
 
         public async Task<bool> IsBookReturnedAsync(string userId, string bookId)
