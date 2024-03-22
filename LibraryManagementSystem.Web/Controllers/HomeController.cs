@@ -1,9 +1,8 @@
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using static LibraryManagementSystem.Common.UserRoleNames;
 using static LibraryManagementSystem.Common.GeneralApplicationConstants;
+using static LibraryManagementSystem.Common.UserRoleNames;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -35,6 +34,15 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 return View("Error404");
             }
+            else if (statusCode == 403)
+            {
+                return View("Error403");
+            }
+            else if (statusCode == 500)
+            {
+                return View("Error500");
+            }
+
             return View();
         }
     }
