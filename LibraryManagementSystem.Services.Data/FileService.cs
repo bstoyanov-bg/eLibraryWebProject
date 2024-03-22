@@ -3,6 +3,7 @@ using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 public class FileService : IFileService
 {
@@ -17,26 +18,26 @@ public class FileService : IFileService
     {
         Type type = entityType == nameof(Book) ? typeof(Book) : typeof(Edition);
 
-        var entity = await dbContext.FindAsync(type, Guid.Parse(id));
+        object? entity = await this.dbContext.FindAsync(type, Guid.Parse(id));
 
-        var uploadsFolder = $"BookFiles/{type.Name}s/";
+        string uploadsFolder = $"BookFiles/{type.Name}s/";
         if (!Directory.Exists(uploadsFolder))
         {
             Directory.CreateDirectory(uploadsFolder);
         }
 
-        var filePath = $"{uploadsFolder}{file.FileName}";
+        string filePath = $"{uploadsFolder}{file.FileName}";
         using (var stream = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(stream);
         }
 
         // Update entity with the file path
-        var property = type.GetProperty("FilePath");
+        PropertyInfo? property = type.GetProperty("FilePath");
         if (property != null)
         {
             property.SetValue(entity, filePath);
-            await dbContext.SaveChangesAsync();
+            await this.dbContext.SaveChangesAsync();
         }
         else
         {
@@ -50,15 +51,15 @@ public class FileService : IFileService
     {
         Type type = entityType == nameof(Book) ? typeof(Book) : typeof(Edition);
 
-        var entity = await this.dbContext.FindAsync(type, Guid.Parse(id));
+        object? entity = await this.dbContext.FindAsync(type, Guid.Parse(id));
 
-        var property = type.GetProperty("FilePath");
+        PropertyInfo? property = type.GetProperty("FilePath");
         if (property == null)
         {
             throw new InvalidOperationException("FilePath property not found!");
         }
 
-        var filePath = (string?)property.GetValue(entity); // Note the use of string? for filePath
+        string? filePath = (string?)property.GetValue(entity);
 
         if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
         {
@@ -66,7 +67,7 @@ public class FileService : IFileService
         }
 
         // Retrieve the file content
-        var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
         // Return the file as a stream with content type set to text/plain for .txt files
         return new FileStreamResult(fileStream, "text/plain")
@@ -79,15 +80,15 @@ public class FileService : IFileService
     {
         Type type = entityType == nameof(Book) ? typeof(Book) : typeof(Edition);
 
-        var entity = await this.dbContext.FindAsync(type, Guid.Parse(id));
+        object? entity = await this.dbContext.FindAsync(type, Guid.Parse(id));
 
-        var property = type.GetProperty("FilePath");
+        PropertyInfo? property = type.GetProperty("FilePath");
         if (property == null)
         {
             throw new InvalidOperationException("FilePath property not found!");
         }
 
-        var filePath = (string?)property.GetValue(entity);
+        string? filePath = (string?)property.GetValue(entity);
 
         if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
         {
@@ -101,15 +102,14 @@ public class FileService : IFileService
     {
         try
         {
-            using (var reader = new StreamReader(filePath))
+            using (StreamReader reader = new StreamReader(filePath))
             {
                 string fileContent = await reader.ReadToEndAsync();
                 return fileContent;
             }
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Error reading file: {ex.Message}");
             throw;
         }
     }

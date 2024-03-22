@@ -1,4 +1,4 @@
-﻿namespace LibraryManagementSystem.Web.ViewModels.Book
+﻿namespace LibraryManagementSystem.Web.ViewModels.Category
 {
     public class CategorySelectForBookFormModel
     {

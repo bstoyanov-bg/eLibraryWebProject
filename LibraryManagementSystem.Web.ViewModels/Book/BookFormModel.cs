@@ -10,8 +10,8 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
     {
         public BookFormModel()
         {
-            Authors  = new HashSet<AuthorsSelectForBookFormModel>();
-            Categories  = new HashSet<AllCategoriesViewModel>();
+            this.Authors  = new HashSet<AuthorsSelectForBookFormModel>();
+            this.Categories  = new HashSet<AllCategoriesViewModel>();
         }
 
         // Used for Uplode BookFile in Edit View

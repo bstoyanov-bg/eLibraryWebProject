@@ -28,7 +28,7 @@ namespace LibraryManagementSystem.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterFormModel model)
         { 
-            if (!ModelState.IsValid) 
+            if (!this.ModelState.IsValid) 
             {
                 return this.View();
             }
@@ -53,7 +53,7 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 foreach (IdentityError error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    this.ModelState.AddModelError(string.Empty, error.Description);
                 }
 
                 return this.View(model);
@@ -61,25 +61,26 @@ namespace LibraryManagementSystem.Web.Controllers
 
             await this.signInManager.SignInAsync(user, isPersistent: false);
 
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public async Task<IActionResult> Login(string? returnUrl = null)
         {
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             LoginFormModel model = new LoginFormModel()
             {
                 ReturnUrl = returnUrl,
             };
+
             return this.View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginFormModel model) 
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return this.View(model);
             }
@@ -88,7 +89,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
             if(!result.Succeeded)
             {
-                TempData[ErrorMessage] = "There was an error while logging you in!";
+                this.TempData[ErrorMessage] = "There was an error while logging you in!";
 
                 return this.View(model);
             }

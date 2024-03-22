@@ -25,7 +25,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 // Check file Length
                 if (file == null || file.Length == 0)
                 {
-                    TempData[ErrorMessage] = "No file uploaded!";
+                    this.TempData[ErrorMessage] = "No file uploaded!";
 
                     return this.RedirectToAction("Edit", "Book", new { id });
                 }
@@ -33,7 +33,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 // Check File extension
                 if (!file.FileName.EndsWith(".txt"))
                 {
-                    TempData[ErrorMessage] = "Only .txt files are allowed.!";
+                    this.TempData[ErrorMessage] = "Only .txt files are allowed.!";
 
                     return this.RedirectToAction("Edit", "Book", new { id });
                 }
@@ -41,23 +41,23 @@ namespace LibraryManagementSystem.Web.Controllers
                 // Check if entityType is valid
                 if (entityType != nameof(Book) && entityType != nameof(Edition))
                 {
-                    TempData[ErrorMessage] = "Invalid entity type.!";
+                    this.TempData[ErrorMessage] = "Invalid entity type.!";
 
                     return this.RedirectToAction("Edit", "Book", new {id});
                 }
 
-                var filePath = await fileService.UploadFileAsync(id, file, entityType);
+                string filePath = await this.fileService.UploadFileAsync(id, file, entityType);
 
-                TempData[SuccessMessage] = $"Successfully uploaded {entityType} file.";
+                this.TempData[SuccessMessage] = $"Successfully uploaded {entityType} file.";
 
-                return RedirectToAction("All", "Book");
+                return this.RedirectToAction("All", "Book");
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with uploding the file!";
+                this.TempData[ErrorMessage] = "There was problem with uploding the file!";
             }
 
-            return RedirectToAction("All", "Book");
+            return this.RedirectToAction("All", "Book");
         }
 
         [HttpGet]
@@ -68,18 +68,19 @@ namespace LibraryManagementSystem.Web.Controllers
                 // Check if entityType is valid
                 if (entityType != nameof(Book) && entityType != nameof(Edition))
                 {
-                    TempData[ErrorMessage] = "Invalid entity type.!";
+                    this.TempData[ErrorMessage] = "Invalid entity type.!";
 
                     return this.RedirectToAction("All", "Book", new { id });
                 }
 
-                var fileStreamResult = await fileService.DownloadFileAsync(id, entityType);
+                FileStreamResult fileStreamResult = await this.fileService.DownloadFileAsync(id, entityType);
                 return fileStreamResult;
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with downloading the file!";
+                this.TempData[ErrorMessage] = "There was problem with downloading the file!";
             }
+
             return this.RedirectToAction("All", "Book", new { id });
         }
 
@@ -90,13 +91,13 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 string filePath = await this.fileService.GetFilePathAsync(id, entityType);
 
-                var fileContent = await this.fileService.GetFileContentAsync(filePath);
+                string fileContent = await this.fileService.GetFileContentAsync(filePath);
 
-                return Content(fileContent);
+                return this.Content(fileContent);
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with getting the text file!";
+                this.TempData[ErrorMessage] = "There was problem with getting the text file!";
             }
 
             return this.RedirectToAction("All", "Book", new { id });

@@ -25,39 +25,37 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (!bookExists)
                 {
-                    TempData[ErrorMessage] = "Such Book does not exists!";
+                    this.TempData[ErrorMessage] = "Such Book does not exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
 
                 var book = await this.bookService.GetBookByIdAsync(id);
 
-                ViewBag.BookTitle = book!.Title;
-                ViewBag.BookImage = book!.CoverImagePathUrl;
-                ViewBag.BookId = book!.Id.ToString();
+                this.ViewBag.BookTitle = book!.Title;
+                this.ViewBag.BookImage = book!.CoverImagePathUrl;
+                this.ViewBag.BookId = book!.Id.ToString();
 
-                var userId = GetUserId();
+                string userId = GetUserId();
 
-                ViewBag.UserId = userId;
+                this.ViewBag.UserId = userId;
 
                 bool userRatedBook = await this.bookService.HasUserRatedBookAsync(userId, book!.Id.ToString());
 
                 if (userRatedBook)
                 {
-                    TempData[ErrorMessage] = "You have already Rated the Book!";
+                    this.TempData[ErrorMessage] = "You have already Rated the Book!";
 
                     return this.RedirectToAction("All", "Book");
                 }
 
-                
-
                 RatingFormModel rating = new RatingFormModel();
 
-                return View(rating);
+                return this.View(rating);
             }
             catch
             {
-                return GeneralError();
+                return this.GeneralError();
             }
         }
 
@@ -75,7 +73,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (!bookExists)
                 {
-                    TempData[ErrorMessage] = "Such Book does not exists!";
+                    this.TempData[ErrorMessage] = "Such Book does not exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
@@ -84,11 +82,11 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 await this.ratingService.GiveRatingAsync(model);
 
-                TempData[SuccessMessage] = "Successfully gave rating to the Book.";
+                this.TempData[SuccessMessage] = "Successfully gave rating to the Book.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with giving rating to the Book!";
+                this.TempData[ErrorMessage] = "There was problem with giving rating to the Book!";
             }
 
             return this.RedirectToAction("Details", "Book", new { id = model.BookId });
@@ -96,10 +94,9 @@ namespace LibraryManagementSystem.Web.Controllers
 
         private IActionResult GeneralError()
         {
-            TempData[ErrorMessage] =
-                "Unexpected error occurred! Please try again later or contact administrator";
+            TempData[ErrorMessage] = "Unexpected error occurred! Please try again later or contact administrator";
 
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

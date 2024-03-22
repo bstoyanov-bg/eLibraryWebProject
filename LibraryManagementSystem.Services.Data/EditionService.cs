@@ -17,12 +17,11 @@ namespace LibraryManagementSystem.Services.Data
             this.bookService = bookService;
         }
 
-        // ready
         public async Task AddEditionAsync(EditionFormModel model)
         {
-            var book = await bookService.GetBookByIdAsync(model.BookId);
+            Book? book = await this.bookService.GetBookByIdAsync(model.BookId);
 
-            var edition = new Edition
+            Edition edition = new Edition
             {
                 Version = model.Version,
                 Publisher = model.Publisher,
@@ -37,10 +36,9 @@ namespace LibraryManagementSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        // ready
         public async Task EditBookEditionAsync(string editionId, EditionFormModel model)
         {
-            var editionToEdit = await GetEditionByIdAsync(editionId);
+            Edition? editionToEdit = await this.GetEditionByIdAsync(editionId);
 
             if (editionToEdit != null)
             {
@@ -53,10 +51,9 @@ namespace LibraryManagementSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        // ready
         public async Task DeleteEditionAsync(string editionId)
         {
-            var editionToDelete = await GetEditionByIdAsync(editionId);
+            Edition? editionToDelete = await this.GetEditionByIdAsync(editionId);
 
             if (editionToDelete != null)
             {
@@ -66,19 +63,17 @@ namespace LibraryManagementSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        // ready
         public async Task<Edition?> GetEditionByIdAsync(string editionId)
         {
-            return await dbContext
+            return await this.dbContext
                 .Editions
                 .Where(e => e.IsDeleted == false)
                 .FirstOrDefaultAsync(e => e.Id.ToString() == editionId);
         }
 
-        // ready
         public async Task<EditionFormModel> GetCreateNewEditionModelAsync()
         {
-            var books = await bookService.GetAllBooksForListAsync();
+            var books = await this.bookService.GetAllBooksForListAsync();
 
             EditionFormModel model = new EditionFormModel
             {
@@ -88,12 +83,11 @@ namespace LibraryManagementSystem.Services.Data
             return model;
         }
 
-        // ready
         public async Task<EditionFormModel?> GetEditionForEditByIdAsync(string editionId)
         {
-            var books = await bookService.GetAllBooksForListAsync();
+            var books = await this.bookService.GetAllBooksForListAsync();
 
-            var editionToEdit = await GetEditionByIdAsync(editionId);
+            Edition? editionToEdit = await this.GetEditionByIdAsync(editionId);
 
             if (editionToEdit != null)
             {
@@ -113,7 +107,6 @@ namespace LibraryManagementSystem.Services.Data
             return null;
         }
 
-        // ready
         public async Task<bool> EditionExistByIdAsync(string editionId)
         {
             return await this.dbContext
@@ -124,7 +117,6 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync();
         }
 
-        // ready
         public async Task<bool> EditionExistByVersionPublisherAndBookIdAsync(string version, string publisher, string bookId)
         {
             return await this.dbContext
@@ -137,15 +129,14 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync();
         }
 
-        // ready
         public async Task<string> GetBookIdByEditionIdAsync(string editionId)
         {
-           var bookId = await this.dbContext
-                                  .Editions
-                                  .AsNoTracking()
-                                  .Where(e => e.Id.ToString() == editionId)
-                                  .Select(e => e.BookId.ToString())
-                                  .FirstOrDefaultAsync();
+           string? bookId = await this.dbContext
+               .Editions
+               .AsNoTracking()
+               .Where(e => e.Id.ToString() == editionId)
+               .Select(e => e.BookId.ToString())
+               .FirstOrDefaultAsync();
 
             if (bookId == null)
             {
@@ -155,7 +146,6 @@ namespace LibraryManagementSystem.Services.Data
             return bookId;
         }
 
-        // ready
         public async Task<IEnumerable<Edition>> GetAllBookEditionsByBookIdAsync(string bookId)
         {
             return await this.dbContext

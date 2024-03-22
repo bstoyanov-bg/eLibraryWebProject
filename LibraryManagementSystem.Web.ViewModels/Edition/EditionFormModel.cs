@@ -9,7 +9,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Edition
     {
         public EditionFormModel()
         {
-            BooksDropDown = new HashSet<BookSelectForEditionFormModel>();
+            this.BooksDropDown = new HashSet<BookSelectForEditionFormModel>();
         }
 
         // Used for Uplode BookFile in Edit View

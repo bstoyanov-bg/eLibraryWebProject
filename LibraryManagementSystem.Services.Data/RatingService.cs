@@ -19,9 +19,9 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task GiveRatingAsync(RatingFormModel model)
         {
-            var book = await bookService.GetBookByIdAsync(model.BookId);
+            Book? book = await bookService.GetBookByIdAsync(model.BookId);
 
-            var rating = new Rating
+            Rating rating = new Rating
             {
                 BookRating = model.BookRating,
                 Comment = model.Comment,
@@ -35,28 +35,15 @@ namespace LibraryManagementSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        //public RatingFormModel GetCreateNewRatingModelAsync(string bookId, string userId)
-        //{
-        //    RatingFormModel model = new RatingFormModel
-        //    {
-        //        BookId = bookId,
-        //        UserId = userId,
-        //    };
-
-        //    return model;
-        //}
-
         public async Task<decimal?> GetAverageRatingForBookAsync(string bookId)
         {
-            // Query the Ratings table for ratings of the given book
-            var ratingsForBook = await dbContext
+            var ratingsForBook = await this.dbContext
                 .Ratings
                 .Where(r => r.BookId.ToString() == bookId)
                 .ToListAsync();
 
             if (ratingsForBook.Any())
             {
-                // Calculate the average rating
                 decimal averageRating = ratingsForBook.Average(r => r.BookRating);
                 return averageRating;
             }
@@ -65,16 +52,15 @@ namespace LibraryManagementSystem.Services.Data
                 return 0;
             }
         }
+
         public async Task<bool> HasUserGaveRatingToBookAsync(string userId, string bookId)
         {
-            var has = await this.dbContext
+            return await this.dbContext
                 .Ratings
                 .Where(r => r.UserId.ToString() == userId &&
                              r.BookId.ToString() == bookId &&
                              r.BookRating != 0)
                 .AnyAsync();
-
-            return has;
         }
     }
 }

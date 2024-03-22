@@ -1,10 +1,13 @@
 ﻿@using LibraryManagementSystem.Services.Data.Interfaces
 @using LibraryManagementSystem.Web.Infrastructure.Extensions
 @using static LibraryManagementSystem.Common.UserRoleNames;
-
 @model MyBooksViewModel
 
-@inject ILendedBooksService lendedBooksService
+@inject ILendedBooksService LendedBooksService
+
+@{
+    bool isBookReturned = await LendedBooksService.IsBookReturnedAsync(User.GetId()!.ToString(), Model.Id);
+}
 
 @* PopUp window (Modal) *@
 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -38,7 +41,7 @@
             <br />
             <div class="d-flex justify-content-center">
                 <a asp-area="" asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
-                @if (this.User.IsInRole(UserRole) && await lendedBooksService.IsBookReturnedAsync(User.GetId()!.ToString(), Model.Id))
+                @if (this.User.IsInRole(UserRole) && isBookReturned)
                 {
                     <form id="returnForm" class="ml-2" style="margin-left: 20px;">
                         <input type="hidden" name="id" value="@Model.Id" />

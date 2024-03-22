@@ -18,10 +18,9 @@ namespace LibraryManagementSystem.Services.Data
             this.dbContext = dbContext;
         }
 
-        // ready
         public async Task AddAuthorAsync(AuthorFormModel model)
         {
-            var author = new Author
+            Author author = new Author
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -36,10 +35,9 @@ namespace LibraryManagementSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        // ready
         public async Task EditAuthorAsync(string authorId, AuthorFormModel model)
         {
-            var authorToEdit = await GetAuthorByIdAsync(authorId);
+            Author? authorToEdit = await GetAuthorByIdAsync(authorId);
 
             if (authorToEdit != null)
             {
@@ -55,10 +53,9 @@ namespace LibraryManagementSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        // ready
         public async Task DeleteAuthorAsync(string authorId)
         {
-            var authorToDelete = await GetAuthorByIdAsync(authorId);
+            Author? authorToDelete = await GetAuthorByIdAsync(authorId);
 
             if (authorToDelete != null)
             {
@@ -68,7 +65,6 @@ namespace LibraryManagementSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        // ready
         public async Task<Author?> GetAuthorByIdAsync(string authorId)
         {
             return await this.dbContext
@@ -77,10 +73,9 @@ namespace LibraryManagementSystem.Services.Data
                                           a.Id.ToString() == authorId);
         }
 
-        // ready
         public async Task<AuthorFormModel?> GetAuthorForEditByIdAsync(string authorId)
         {
-            var authorToEdit = await GetAuthorByIdAsync(authorId);
+            Author? authorToEdit = await this.GetAuthorByIdAsync(authorId);
 
             if (authorToEdit != null)
             {
@@ -101,7 +96,6 @@ namespace LibraryManagementSystem.Services.Data
             return null;
         }
 
-        // ready
         public async Task<AuthorDetailsViewModel> GetAuthorDetailsForUserAsync(string authorId)
         {
             var books = await this.dbContext
@@ -120,7 +114,7 @@ namespace LibraryManagementSystem.Services.Data
                     CoverImagePathUrl = b.CoverImagePathUrl,
                 }).ToListAsync();
 
-            var author = await this.dbContext
+            AuthorDetailsViewModel author = await this.dbContext
                 .Authors
                 .Where(a => a.Id.ToString() == authorId &&
                             a.IsDeleted == false)
@@ -141,7 +135,6 @@ namespace LibraryManagementSystem.Services.Data
             return author;
         }
 
-        // ready
         public async Task<AllAuthorsFilteredAndPagedServiceModel> GetAllAuthorsFilteredAndPagedAsync(AllAuthorsQueryModel queryModel)
         {
             IQueryable<Author> authorsQuery = this.dbContext
@@ -198,7 +191,6 @@ namespace LibraryManagementSystem.Services.Data
             };
         }
 
-        // ready
         public async Task<bool> AuthorExistByNameAndNationalityAsync(string firstName, string lastName, string nationality)
         {
             return await this.dbContext
@@ -211,7 +203,6 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync();
         }
 
-        // ready
         public async Task<bool> AuthorExistByIdAsync(string authorId)
         {
             return await this.dbContext
@@ -222,7 +213,6 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync();
         }
 
-        // ready
         public async Task<IEnumerable<AuthorsSelectForBookFormModel>> GetAllAuthorsForListAsync()
         {
             return await this.dbContext

@@ -6,7 +6,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
     {
         public BookDetailsViewModel()
         {
-            Editions = new HashSet<EditionsForBookDetailsViewModel>();
+            this.Editions = new HashSet<EditionsForBookDetailsViewModel>();
         }
 
         public string Id { get; set; } = null!;

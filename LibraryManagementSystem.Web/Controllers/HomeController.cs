@@ -24,7 +24,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
             IEnumerable<IndexViewModel> viewModel = await this.bookService.LastNineBooksAsync();
 
-            return View(viewModel);
+            return this.View(viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -32,18 +32,18 @@ namespace LibraryManagementSystem.Web.Controllers
         {
             if (statusCode == 400 || statusCode == 404)
             {
-                return View("Error404");
+                return this.View("Error404");
             }
             else if (statusCode == 403)
             {
-                return View("Error403");
+                return this.View("Error403");
             }
             else if (statusCode == 500)
             {
-                return View("Error500");
+                return this.View("Error500");
             }
 
-            return View();
+            return this.View();
         }
     }
 }

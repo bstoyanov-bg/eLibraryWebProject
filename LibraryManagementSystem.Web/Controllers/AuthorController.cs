@@ -17,17 +17,15 @@ namespace LibraryManagementSystem.Web.Controllers
             this.authorService = authorService;
         }
 
-        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public IActionResult Add()
         {
             AuthorFormModel author = new AuthorFormModel();
 
-            return View(author);
+            return this.View(author);
         }
 
-        // ready
         [HttpPost]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Add(AuthorFormModel model)
@@ -43,24 +41,23 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (authorExists)
                 {
-                    TempData[ErrorMessage] = "Author with the same Name and Nationality already exists!";
+                    this.TempData[ErrorMessage] = "Author with the same Name and Nationality already exists!";
 
                     return this.RedirectToAction("All", "Author");
                 }
 
-                await authorService.AddAuthorAsync(model);
+                await this.authorService.AddAuthorAsync(model);
 
-                TempData[SuccessMessage] = "Successfully added author.";
+                this.TempData[SuccessMessage] = "Successfully added author.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with adding the author!";
+                this.TempData[ErrorMessage] = "There was problem with adding the author!";
             }
 
             return this.RedirectToAction("All", "Author");
         }
 
-        // ready
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery] AllAuthorsQueryModel queryModel)
@@ -73,7 +70,6 @@ namespace LibraryManagementSystem.Web.Controllers
             return this.View(queryModel);
         }
 
-        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id)
@@ -84,22 +80,21 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (!authorExists)
                 {
-                    TempData[ErrorMessage] = "Such author does not exists!";
+                    this.TempData[ErrorMessage] = "Such author does not exists!";
 
                     return RedirectToAction("All", "Author");
                 }
 
-                var author = await authorService.GetAuthorForEditByIdAsync(id);
+                AuthorFormModel? author = await this.authorService.GetAuthorForEditByIdAsync(id);
 
-                return View(author);
+                return this.View(author);
             }
             catch
             {
-                return GeneralError();
+                return this.GeneralError();
             }
         }
 
-        // ready
         [HttpPost]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id, AuthorFormModel model)
@@ -113,26 +108,25 @@ namespace LibraryManagementSystem.Web.Controllers
 
             if (!authorExists)
             {
-                TempData[ErrorMessage] = "Such author does not exists!";
+                this.TempData[ErrorMessage] = "Such author does not exists!";
 
-                return RedirectToAction("All", "Author");
+                return this.RedirectToAction("All", "Author");
             }
 
             try
             {
-                await authorService.EditAuthorAsync(id, model);
+                await this.authorService.EditAuthorAsync(id, model);
 
-                TempData[SuccessMessage] = "Succesfully edited author.";
+                this.TempData[SuccessMessage] = "Succesfully edited author.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with editing the author!";
+                this.TempData[ErrorMessage] = "There was problem with editing the author!";
             }
 
             return this.RedirectToAction("All", "Author");
         }
 
-        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Delete(string id)
@@ -143,18 +137,18 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 this.TempData[ErrorMessage] = "Such author does not exists!";
 
-                return RedirectToAction("All", "Author");
+                return this.RedirectToAction("All", "Author");
             }
 
             try
             {
-                await authorService.DeleteAuthorAsync(id);
+                await this.authorService.DeleteAuthorAsync(id);
 
-                TempData[SuccessMessage] = "Succesfully deleted author.";
+                this.TempData[SuccessMessage] = "Succesfully deleted author.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with deleting the author!";
+                this.TempData[ErrorMessage] = "There was problem with deleting the author!";
             }
 
             return this.RedirectToAction("All", "Author");
@@ -168,29 +162,28 @@ namespace LibraryManagementSystem.Web.Controllers
 
             if (!authorExists)
             {
-                TempData[ErrorMessage] = "Such author does not exists!";
+                this.TempData[ErrorMessage] = "Such author does not exists!";
 
-                return RedirectToAction("All", "Author");
+                return this.RedirectToAction("All", "Author");
             }
 
             try
             {
-                AuthorDetailsViewModel author = await authorService.GetAuthorDetailsForUserAsync(id);
+                AuthorDetailsViewModel author = await this.authorService.GetAuthorDetailsForUserAsync(id);
 
-                return View(author);
+                return this.View(author);
             }
             catch
             {
-                return GeneralError();
+                return this.GeneralError();
             }
         }
 
         private IActionResult GeneralError()
         {
-            TempData[ErrorMessage] =
-                "Unexpected error occurred! Please try again later or contact administrator";
+            this.TempData[ErrorMessage] = "Unexpected error occurred! Please try again later or contact administrator";
 
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

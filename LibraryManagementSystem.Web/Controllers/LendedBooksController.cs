@@ -18,7 +18,6 @@ namespace LibraryManagementSystem.Web.Controllers
             this.bookService = bookService;
         }
 
-        // ready
         [HttpPost]
         [Authorize(Roles = UserRole)]
         public async Task<IActionResult> Get(string id)
@@ -29,52 +28,50 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (!bookExists)
                 {
-                    TempData[ErrorMessage] = "Such Book does not exists!";
+                    this.TempData[ErrorMessage] = "Such Book does not exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
 
-                var userId = GetUserId();
+                string userId = GetUserId();
 
-                var bookExistsInCollection = await this.lendedBooksService.IsBookActiveInUserCollectionAsync(userId, id);
+                bool bookExistsInCollection = await this.lendedBooksService.IsBookActiveInUserCollectionAsync(userId, id);
 
                 // I remove the button from UI if the book is added to collection. Double ckeck!
                 if (bookExistsInCollection == true)
                 {
-                    TempData[WarningMessage] = "Book is already added to user collection!";
+                    this.TempData[WarningMessage] = "Book is already added to user collection!";
                 }
 
-                var userActiveBooks = await this.lendedBooksService.GetCountOfActiveBooksForUserAsync(userId);
+                int userActiveBooks = await this.lendedBooksService.GetCountOfActiveBooksForUserAsync(userId);
 
                 if (userActiveBooks >= MaxNumberOfBooksAllowed)
                 {
-                    TempData[WarningMessage] = "You have reached the maximum number of book that you can add to your collection!";
+                    this.TempData[WarningMessage] = "You have reached the maximum number of book that you can add to your collection!";
 
-                    return RedirectToAction("All", "Book");
+                    return this.RedirectToAction("All", "Book");
                 }
 
-                await lendedBooksService.AddBookToCollectionAsync(userId, id);
+                await this.lendedBooksService.AddBookToCollectionAsync(userId, id);
 
-                TempData[SuccessMessage] = "You have succesfully added book to your collection.";
+                this.TempData[SuccessMessage] = "You have succesfully added book to your collection.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with adding the book to collection!";
+                this.TempData[ErrorMessage] = "There was problem with adding the book to collection!";
             }
 
             return this.RedirectToAction("Mine", "LendedBooks");
         }
 
-        // ready
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
-            var model = await lendedBooksService.GetMyBooksAsync(GetUserId());
+            var model = await this.lendedBooksService.GetMyBooksAsync(GetUserId());
 
-            return View(model);
+            return this.View(model);
         }
 
-        // ready
         [HttpPost]
         public async Task<IActionResult> Return(string id)
         {
@@ -82,54 +79,53 @@ namespace LibraryManagementSystem.Web.Controllers
 
             if (!bookExists)
             {
-                TempData[ErrorMessage] = "Such Book does not exists!";
+                this.TempData[ErrorMessage] = "Such Book does not exists!";
 
                 return this.RedirectToAction("All", "Book");
             }
 
-            var userId = GetUserId();
+            string userId = GetUserId();
 
             bool isBookReturned = await this.lendedBooksService.IsBookReturnedAsync(userId, id);
 
             if (!isBookReturned)
             {
-                TempData[ErrorMessage] = "The Book is already returned.";
+                this.TempData[ErrorMessage] = "The Book is already returned.";
 
                 return this.RedirectToAction("All", "Book");
             }
 
             try
             {
-                await lendedBooksService.ReturnBookAsync(userId, id);
+                await this.lendedBooksService.ReturnBookAsync(userId, id);
 
-                TempData[SuccessMessage] = "You have succesfully returned Book.";
+                this.TempData[SuccessMessage] = "You have succesfully returned Book.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with returning the Book!";
+                this.TempData[ErrorMessage] = "There was problem with returning the Book!";
             }
 
-            return RedirectToAction("Mine", "LendedBooks");
+            return this.RedirectToAction("Mine", "LendedBooks");
         }
 
-        // ready
         [HttpPost]
         public async Task<IActionResult> ReturnAll()
         {
-            var userId = GetUserId();
+            string userId = GetUserId();
 
             try
             {
-                await lendedBooksService.ReturnAllBooksAsync(userId);
+                await this.lendedBooksService.ReturnAllBooksAsync(userId);
 
-                TempData[SuccessMessage] = "You have succesfully returned all Books.";
+                this.TempData[SuccessMessage] = "You have succesfully returned all Books.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with returning the Books!";
+                this.TempData[ErrorMessage] = "There was problem with returning the Books!";
             }
 
-            return RedirectToAction("All", "Book");
+            return this.RedirectToAction("All", "Book");
         }
     }
 }

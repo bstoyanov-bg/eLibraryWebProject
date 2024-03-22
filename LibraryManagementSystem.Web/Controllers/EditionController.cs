@@ -18,24 +18,22 @@ namespace LibraryManagementSystem.Web.Controllers
             this.bookService = bookService;
         }
 
-        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Add()
         {
             try
             {
-                EditionFormModel model = await editionService.GetCreateNewEditionModelAsync();
+                EditionFormModel model = await this.editionService.GetCreateNewEditionModelAsync();
 
-                return View(model);
+                return this.View(model);
             }
             catch
             {
-                return GeneralError();
+                return this.GeneralError();
             }
         }
 
-        // ready
         [HttpPost]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Add(EditionFormModel model)
@@ -47,11 +45,11 @@ namespace LibraryManagementSystem.Web.Controllers
 
             try
             {
-                bool bookExists = await bookService.BookExistByIdAsync(model.BookId);
+                bool bookExists = await this.bookService.BookExistByIdAsync(model.BookId);
 
                 if (!bookExists)
                 {
-                    TempData[ErrorMessage] = "Such book does not exists!";
+                    this.TempData[ErrorMessage] = "Such book does not exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
@@ -60,24 +58,23 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (editionExists)
                 {
-                    TempData[ErrorMessage] = "Edition with the same Book, Version and Publisher already exists!";
+                    this.TempData[ErrorMessage] = "Edition with the same Book, Version and Publisher already exists!";
 
                     return this.RedirectToAction("Details", "Book", new { id = model.BookId });
                 }
 
-                await editionService.AddEditionAsync(model);
+                await this.editionService.AddEditionAsync(model);
 
-                TempData[SuccessMessage] = $"Successfully added edition to the Book.";
+                this.TempData[SuccessMessage] = $"Successfully added edition to the Book.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with adding the edition to the book!";
+                this.TempData[ErrorMessage] = "There was problem with adding the edition to the book!";
             }
 
             return this.RedirectToAction("Details", "Book", new { id = model.BookId });
         }
 
-        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id)
@@ -88,27 +85,26 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (!editionExists)
                 {
-                    TempData[ErrorMessage] = "Such Book-Edition does not exists!";
+                    this.TempData[ErrorMessage] = "Such Book-Edition does not exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
 
-                var edition = await editionService.GetEditionForEditByIdAsync(id);
+                var edition = await this.editionService.GetEditionForEditByIdAsync(id);
 
-                return View(edition);
+                return this.View(edition);
             }
             catch
             {
-                return GeneralError();
+                return this.GeneralError();
             }
         }
 
-        // ready
         [HttpPost]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id, EditionFormModel model)
         {
-            var bookId = await editionService.GetBookIdByEditionIdAsync(id);
+            var bookId = await this.editionService.GetBookIdByEditionIdAsync(id);
 
             if (!this.ModelState.IsValid)
             {
@@ -117,51 +113,51 @@ namespace LibraryManagementSystem.Web.Controllers
 
             try
             {
-                bool bookExists = await bookService.BookExistByIdAsync(model.BookId);
+                bool bookExists = await this.bookService.BookExistByIdAsync(model.BookId);
 
                 if (!bookExists)
                 {
-                    TempData[ErrorMessage] = "Such book does not exists!";
+                    this.TempData[ErrorMessage] = "Such book does not exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
 
-                var editionExists = await editionService.EditionExistByIdAsync(id);
+                var editionExists = await this.editionService.EditionExistByIdAsync(id);
 
                 if (!editionExists)
                 {
-                    TempData[ErrorMessage] = "There is no edition with such id!";
+                    this.TempData[ErrorMessage] = "There is no edition with such id!";
 
                     return this.RedirectToAction("All", "Book");
                 }
 
-                await editionService.EditBookEditionAsync(id, model);
+                await this.editionService.EditBookEditionAsync(id, model);
 
-                TempData[SuccessMessage] = "Succesfully edited Book-Edition";
+                this.TempData[SuccessMessage] = "Succesfully edited Book-Edition";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with editing the Book-Edition!";
+                this.TempData[ErrorMessage] = "There was problem with editing the Book-Edition!";
             }
 
             return this.RedirectToAction("Details", "Book", new { id = bookId });
         }
 
-        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Delete(string id)
         {
-            var bookId = await editionService.GetBookIdByEditionIdAsync(id);
+            var bookId = await this.editionService.GetBookIdByEditionIdAsync(id);
                 
             try
             {
-                await editionService.DeleteEditionAsync(id);
-                TempData[SuccessMessage] = "Succesfully deleted Book-Edition";
+                await this.editionService.DeleteEditionAsync(id);
+
+                this.TempData[SuccessMessage] = "Succesfully deleted Book-Edition";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with deleting the Book-Edition!";
+                this.TempData[ErrorMessage] = "There was problem with deleting the Book-Edition!";
             }
 
             return this.RedirectToAction("Details", "Book", new { id = bookId });
@@ -169,10 +165,9 @@ namespace LibraryManagementSystem.Web.Controllers
 
         private IActionResult GeneralError()
         {
-            TempData[ErrorMessage] =
-                "Unexpected error occurred! Please try again later or contact administrator";
+            TempData[ErrorMessage] = "Unexpected error occurred! Please try again later or contact administrator";
 
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

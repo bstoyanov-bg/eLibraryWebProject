@@ -6,7 +6,7 @@ namespace LibraryManagementSystem.Services.Data.Models.Author
     {
         public AllAuthorsFilteredAndPagedServiceModel()
         {
-            Authors = new HashSet<AllAuthorsViewModel>();
+            this.Authors = new HashSet<AllAuthorsViewModel>();
         }
 
         public int TotalAuthorsCount { get; set; }

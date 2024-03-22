@@ -19,7 +19,6 @@ namespace LibraryManagementSystem.Web.Controllers
             this.categoryService = categoryService;
         }
 
-        // ready
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery]AllBooksQueryModel queryModel)
@@ -33,7 +32,6 @@ namespace LibraryManagementSystem.Web.Controllers
             return this.View(queryModel);
         }
 
-        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Add()
@@ -42,15 +40,14 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 BookFormModel model = await bookService.GetCreateNewBookModelAsync();
 
-                return View(model);
+                return this.View(model);
             }
             catch
             {
-                return GeneralError();
+                return this.GeneralError();
             }
         }
 
-        // ready
         [HttpPost]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Add(BookFormModel model)
@@ -66,24 +63,23 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (bookExists)
                 {
-                    TempData[ErrorMessage] = "Book with the same Title and Author already exists!";
+                    this.TempData[ErrorMessage] = "Book with the same Title and Author already exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
 
-                await bookService.AddBookAsync(model);
+                await this.bookService.AddBookAsync(model);
 
-                TempData[SuccessMessage] = $"Successfully added Book.";
+                this.TempData[SuccessMessage] = $"Successfully added Book.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with adding the Book!";
+                this.TempData[ErrorMessage] = "There was problem with adding the Book!";
             }
 
             return this.RedirectToAction("All", "Book");
         }
 
-        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id)
@@ -94,29 +90,28 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (!bookExists)
                 {
-                    TempData[ErrorMessage] = "Such Book does not exists!";
+                    this.TempData[ErrorMessage] = "Such Book does not exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
 
-                var book = await bookService.GetBookForEditByIdAsync(id);
+                BookFormModel? book = await this.bookService.GetBookForEditByIdAsync(id);
 
-                return View(book);
+                return this.View(book);
             }
             catch
             {
-                return GeneralError();
+                return this.GeneralError();
             }
         }
 
-        // ready
         [HttpPost]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Edit(string id, BookFormModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             try
@@ -125,24 +120,23 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (!bookExists)
                 {
-                    TempData[ErrorMessage] = "Such Book does not exists!";
+                    this.TempData[ErrorMessage] = "Such Book does not exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
 
-                await bookService.EditBookAsync(id, model);
+                await this.bookService.EditBookAsync(id, model);
 
-                TempData[SuccessMessage] = "Succesfully edited Book.";
+                this.TempData[SuccessMessage] = "Succesfully edited Book.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with editing the Book!";
+                this.TempData[ErrorMessage] = "There was problem with editing the Book!";
             }
 
             return this.RedirectToAction("Details", "Book", new { id });
         }
 
-        // ready
         [HttpGet]
         [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Delete(string id)
@@ -151,26 +145,25 @@ namespace LibraryManagementSystem.Web.Controllers
 
             if (!bookExists)
             {
-                TempData[ErrorMessage] = "Such Book does not exists!";
+                this.TempData[ErrorMessage] = "Such Book does not exists!";
 
                 return this.RedirectToAction("All", "Book");
             }
 
             try
             {
-                await bookService.DeleteBookAsync(id);
+                await this.bookService.DeleteBookAsync(id);
 
-                TempData[SuccessMessage] = "Succesfully deleted Book.";
+                this.TempData[SuccessMessage] = "Succesfully deleted Book.";
             }
             catch
             {
-                TempData[ErrorMessage] = "There was problem with deleting the book!";
+                this.TempData[ErrorMessage] = "There was problem with deleting the book!";
             }
 
             return this.RedirectToAction("All", "Book");
         }
 
-        // ready
         [HttpGet]
         [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Details(string id)
@@ -179,29 +172,28 @@ namespace LibraryManagementSystem.Web.Controllers
 
             if (!bookExists)
             {
-                TempData[ErrorMessage] = "Such Book does not exists!";
+                this.TempData[ErrorMessage] = "Such Book does not exists!";
 
-                return RedirectToAction("All", "Book");
+                return this.RedirectToAction("All", "Book");
             }
 
             try
             {
-                BookDetailsViewModel book = await bookService.GetBookDetailsForUserAsync(id);
+                BookDetailsViewModel book = await this.bookService.GetBookDetailsForUserAsync(id);
 
-                return View(book);
+                return this.View(book);
             }
             catch
             {
-                return GeneralError();
+                return this.GeneralError();
             }
         }
 
         private IActionResult GeneralError()
         {
-            TempData[ErrorMessage] =
-                "Unexpected error occurred! Please try again later or contact administrator";
+            TempData[ErrorMessage] = "Unexpected error occurred! Please try again later or contact administrator";
 
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

@@ -18,9 +18,9 @@
 
     @*Script for FontAwsome *@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
-
 </head>
 <body>
+
     <header>
         <partial name="_NotificationsPartial" />
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -68,6 +68,7 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -79,13 +80,14 @@
             &copy; eLibrary @ReleaseYear
             @if (DateTime.UtcNow.Year != ReleaseYear)
             {
-                @Html.Raw($" - {DateTime.UtcNow.Year}")
-                ;
+                @Html.Raw($" - {DateTime.UtcNow.Year}");
             }
         </div>
     </footer>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

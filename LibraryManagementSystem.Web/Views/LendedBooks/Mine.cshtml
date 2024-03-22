@@ -2,14 +2,18 @@
 @using LibraryManagementSystem.Services.Data.Interfaces
 @using LibraryManagementSystem.Web.Infrastructure.Extensions
 @using static LibraryManagementSystem.Common.UserRoleNames;
-
 @model IEnumerable<MyBooksViewModel>
+
+@inject ILendedBooksService LendedBooksService
+
+@{
+    var countOfActiveUserBooks = await LendedBooksService.GetCountOfActiveBooksForUserAsync(User.GetId()!.ToString());
+}
 
 @{
     ViewBag.Title = "My Books";
 }
 
-@inject ILendedBooksService lendedBooksService
 
 @* PopUp window (Modal) *@
 <div class="modal fade" id="confirmationModalAll" tabindex="-1" aria-labelledby="exampleModalLabelAll" aria-hidden="true">
@@ -45,7 +49,7 @@
 
 @if (this.User.IsInRole(UserRole))
 {
-    if (await lendedBooksService.GetCountOfActiveBooksForUserAsync(User.GetId()!.ToString()) > 1)
+    if (countOfActiveUserBooks > 1)
     {
         <form id="returnForm" class="ml-2">
             <button type="button" class="btn btn-danger" id="returnAllBooksBtn">Return All Books</button>

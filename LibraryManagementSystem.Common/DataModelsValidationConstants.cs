@@ -1,7 +1,6 @@
 ﻿using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
 namespace LibraryManagementSystem.Common
-
 {
     /// <summary>
     /// Constants and regular expressions for data model validations.

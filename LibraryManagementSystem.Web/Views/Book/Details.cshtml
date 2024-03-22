@@ -1,14 +1,20 @@
 ﻿@using LibraryManagementSystem.Services.Data.Interfaces
 @using LibraryManagementSystem.Web.Infrastructure.Extensions
 @using static LibraryManagementSystem.Common.UserRoleNames;
-
 @model BookDetailsViewModel
+
+@inject ILendedBooksService LendedBooksService
+@inject IRatingService RatingService
+
+@{
+    bool isBookActiveForUser = await LendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id);
+    bool didUserGiveRating = await RatingService.HasUserGaveRatingToBookAsync(User.GetId()!.ToString(), Model.Id);
+}
+
 @{
     ViewBag.Title = "Book Details";
 }
 
-@inject ILendedBooksService lendedBooksService
-@inject IRatingService RatingService
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
@@ -61,16 +67,15 @@
                     <p class="mb-0"><span class="fw-bold">ISBN: </span>@Model.ISBN</p>
                 </div>
                 <div class="col-md-3 d-flex justify-content-center">
-                    @if (this.User.IsInRole(UserRole) &&
-                    !await lendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id))
+                    @if (this.User.IsInRole(UserRole) && !isBookActiveForUser)
                     {
                         <form asp-action="Get" asp-controller="LendedBooks" method="post">
                             <input type="hidden" name="id" value="@Model.Id" />
                             <button type="submit" class="btn btn-success">Get Book</button>
                         </form>
                     }
-                    else if (this.User.IsInRole(UserRole) &&
-                    await lendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id))
+                    @* HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH *@
+                    else if (this.User.IsInRole(UserRole) && isBookActiveForUser) 
                     {
                         @* If the User has this BOOK in his collection he can Download or View the file in browser*@
                         <div style="display: flex; gap: 10px;">
@@ -92,9 +97,7 @@
                         </div>
                     }
 
-                    @if (this.User.IsInRole(UserRole) &&
-                    !await RatingService.HasUserGaveRatingToBookAsync(User.GetId()!.ToString(), Model.Id) &&
-                    !await lendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id))
+                    @if (this.User.IsInRole(UserRole) && !didUserGiveRating && !isBookActiveForUser)
                     {
                         <div style="margin-left: 20px;">
                             <form asp-action="Give" asp-controller="Rating" method="get">
