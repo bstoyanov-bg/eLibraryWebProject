@@ -48,11 +48,11 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 await this.categoryService.AddCategoryAsync(model);
 
-                this.TempData[SuccessMessage] = "Successfully added category.";
+                this.TempData[SuccessMessage] = "Successfully added Category.";
             }
             catch
             {
-                this.TempData[ErrorMessage] = "There was problem with adding the category!";
+                this.TempData[ErrorMessage] = "There was problem with adding the Category!";
             }
 
             return this.RedirectToAction("All", "Category");
@@ -114,11 +114,11 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 await this.categoryService.EditCategoryAsync(id, model);
 
-                this.TempData[SuccessMessage] = "Succesfully edited category";
+                this.TempData[SuccessMessage] = "Succesfully edited Category";
             }
             catch
             {
-                this.TempData[ErrorMessage] = "There was problem with editing the category!";
+                this.TempData[ErrorMessage] = "There was problem with editing the Category!";
             }
 
             return this.RedirectToAction("All", "Category");
@@ -141,11 +141,11 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 await this.categoryService.DeleteCategoryAsync(id);
 
-                this.TempData[SuccessMessage] = "Succesfully deleted category.";
+                this.TempData[SuccessMessage] = "Succesfully deleted Category.";
             }
             catch
             {
-                this.TempData[ErrorMessage] = "There was problem with deleting the category!";
+                this.TempData[ErrorMessage] = "There was problem with deleting the Category!";
             }
 
             return this.RedirectToAction("All", "Category");

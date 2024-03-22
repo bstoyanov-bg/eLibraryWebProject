@@ -48,11 +48,11 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 await this.authorService.AddAuthorAsync(model);
 
-                this.TempData[SuccessMessage] = "Successfully added author.";
+                this.TempData[SuccessMessage] = "Successfully added Author.";
             }
             catch
             {
-                this.TempData[ErrorMessage] = "There was problem with adding the author!";
+                this.TempData[ErrorMessage] = "There was problem with adding the Author!";
             }
 
             return this.RedirectToAction("All", "Author");
@@ -80,7 +80,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (!authorExists)
                 {
-                    this.TempData[ErrorMessage] = "Such author does not exists!";
+                    this.TempData[ErrorMessage] = "Such Author does not exists!";
 
                     return RedirectToAction("All", "Author");
                 }
@@ -108,7 +108,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
             if (!authorExists)
             {
-                this.TempData[ErrorMessage] = "Such author does not exists!";
+                this.TempData[ErrorMessage] = "Such Author does not exists!";
 
                 return this.RedirectToAction("All", "Author");
             }
@@ -117,11 +117,11 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 await this.authorService.EditAuthorAsync(id, model);
 
-                this.TempData[SuccessMessage] = "Succesfully edited author.";
+                this.TempData[SuccessMessage] = "Succesfully edited Author.";
             }
             catch
             {
-                this.TempData[ErrorMessage] = "There was problem with editing the author!";
+                this.TempData[ErrorMessage] = "There was problem with editing the Author!";
             }
 
             return this.RedirectToAction("All", "Author");
@@ -135,7 +135,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
             if (!authorExists)
             {
-                this.TempData[ErrorMessage] = "Such author does not exists!";
+                this.TempData[ErrorMessage] = "Such Author does not exists!";
 
                 return this.RedirectToAction("All", "Author");
             }
@@ -144,11 +144,11 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 await this.authorService.DeleteAuthorAsync(id);
 
-                this.TempData[SuccessMessage] = "Succesfully deleted author.";
+                this.TempData[SuccessMessage] = "Succesfully deleted Author.";
             }
             catch
             {
-                this.TempData[ErrorMessage] = "There was problem with deleting the author!";
+                this.TempData[ErrorMessage] = "There was problem with deleting the Author!";
             }
 
             return this.RedirectToAction("All", "Author");
@@ -162,7 +162,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
             if (!authorExists)
             {
-                this.TempData[ErrorMessage] = "Such author does not exists!";
+                this.TempData[ErrorMessage] = "Such Author does not exists!";
 
                 return this.RedirectToAction("All", "Author");
             }

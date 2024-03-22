@@ -49,7 +49,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (!bookExists)
                 {
-                    this.TempData[ErrorMessage] = "Such book does not exists!";
+                    this.TempData[ErrorMessage] = "Such Book does not exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
@@ -65,11 +65,11 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 await this.editionService.AddEditionAsync(model);
 
-                this.TempData[SuccessMessage] = $"Successfully added edition to the Book.";
+                this.TempData[SuccessMessage] = $"Successfully added Edition to the Book.";
             }
             catch
             {
-                this.TempData[ErrorMessage] = "There was problem with adding the edition to the book!";
+                this.TempData[ErrorMessage] = "There was problem with adding the Edition to the Book!";
             }
 
             return this.RedirectToAction("Details", "Book", new { id = model.BookId });
@@ -117,7 +117,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (!bookExists)
                 {
-                    this.TempData[ErrorMessage] = "Such book does not exists!";
+                    this.TempData[ErrorMessage] = "Such Book does not exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
@@ -126,14 +126,14 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 if (!editionExists)
                 {
-                    this.TempData[ErrorMessage] = "There is no edition with such id!";
+                    this.TempData[ErrorMessage] = "Such Book-Edition does not exists!";
 
                     return this.RedirectToAction("All", "Book");
                 }
 
                 await this.editionService.EditBookEditionAsync(id, model);
 
-                this.TempData[SuccessMessage] = "Succesfully edited Book-Edition";
+                this.TempData[SuccessMessage] = "Succesfully edited Book-Edition.";
             }
             catch
             {
@@ -148,12 +148,21 @@ namespace LibraryManagementSystem.Web.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var bookId = await this.editionService.GetBookIdByEditionIdAsync(id);
-                
+
+            var editionExists = await this.editionService.EditionExistByIdAsync(id);
+
+            if (!editionExists)
+            {
+                this.TempData[ErrorMessage] = "Such Book-Edition does not exists!";
+
+                return this.RedirectToAction("All", "Book");
+            }
+
             try
             {
                 await this.editionService.DeleteEditionAsync(id);
 
-                this.TempData[SuccessMessage] = "Succesfully deleted Book-Edition";
+                this.TempData[SuccessMessage] = "Succesfully deleted Book-Edition.";
             }
             catch
             {

@@ -37,28 +37,28 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 bool bookExistsInCollection = await this.lendedBooksService.IsBookActiveInUserCollectionAsync(userId, id);
 
-                // I remove the button from UI if the book is added to collection. Double ckeck!
+                // I remove the button from UI if the book is added to collection. But Double ckeck!
                 if (bookExistsInCollection == true)
                 {
-                    this.TempData[WarningMessage] = "Book is already added to user collection!";
+                    this.TempData[ErrorMessage] = "Book is already added to user collection!";
                 }
 
                 int userActiveBooks = await this.lendedBooksService.GetCountOfActiveBooksForUserAsync(userId);
 
                 if (userActiveBooks >= MaxNumberOfBooksAllowed)
                 {
-                    this.TempData[WarningMessage] = "You have reached the maximum number of book that you can add to your collection!";
+                    this.TempData[ErrorMessage] = "You have reached the maximum number of Books that you can add to your collection!";
 
                     return this.RedirectToAction("All", "Book");
                 }
 
                 await this.lendedBooksService.AddBookToCollectionAsync(userId, id);
 
-                this.TempData[SuccessMessage] = "You have succesfully added book to your collection.";
+                this.TempData[SuccessMessage] = "You have succesfully added Book to your collection.";
             }
             catch
             {
-                this.TempData[ErrorMessage] = "There was problem with adding the book to collection!";
+                this.TempData[ErrorMessage] = "There was problem with adding the Book to collection!";
             }
 
             return this.RedirectToAction("Mine", "LendedBooks");

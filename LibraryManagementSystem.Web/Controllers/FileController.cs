@@ -25,7 +25,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 // Check file Length
                 if (file == null || file.Length == 0)
                 {
-                    this.TempData[ErrorMessage] = "No file uploaded!";
+                    this.TempData[ErrorMessage] = "No file is chosen for upload!";
 
                     return this.RedirectToAction("Edit", "Book", new { id });
                 }
@@ -33,7 +33,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 // Check File extension
                 if (!file.FileName.EndsWith(".txt"))
                 {
-                    this.TempData[ErrorMessage] = "Only .txt files are allowed.!";
+                    this.TempData[ErrorMessage] = "Only .txt files are allowed!";
 
                     return this.RedirectToAction("Edit", "Book", new { id });
                 }
@@ -41,7 +41,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 // Check if entityType is valid
                 if (entityType != nameof(Book) && entityType != nameof(Edition))
                 {
-                    this.TempData[ErrorMessage] = "Invalid entity type.!";
+                    this.TempData[ErrorMessage] = "Invalid entity type!";
 
                     return this.RedirectToAction("Edit", "Book", new {id});
                 }

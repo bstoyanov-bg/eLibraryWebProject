@@ -82,7 +82,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 await this.ratingService.GiveRatingAsync(model);
 
-                this.TempData[SuccessMessage] = "Successfully gave rating to the Book.";
+                this.TempData[SuccessMessage] = "Successfully rated to the Book.";
             }
             catch
             {
