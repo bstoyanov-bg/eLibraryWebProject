@@ -24,7 +24,7 @@ else
                 <th style="text-align: center; vertical-align: middle;">Books in category</th>
                 @if (this.User.IsInRole(AdminRole))
                 {
-                    <th>Actions</th>
+                    <th style="text-align: center; vertical-align: middle;">Actions</th>
                 }
             </tr>
         </thead>
@@ -38,11 +38,11 @@ else
                     <td style="text-align: center; vertical-align: middle;">@counter</td>
                     <td style="text-align: center; vertical-align: middle;">@category.Name</td>
                     <td style="text-align: center; vertical-align: middle;">@category.BooksCount</td>
-                    <td>
+                    <td style="text-align: center; vertical-align: middle;">
                         @if (this.User.IsInRole(AdminRole))
                         {
-                            <a href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-warning">Edit</a>
-                            <a href="@Url.Action("Delete", "Category", new { id = category.Id })" class="btn btn-danger">Delete</a>
+                            <a style="text-align: center; vertical-align: middle;" href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-warning">Edit</a>
+                            <a style="text-align: center; vertical-align: middle;" href="@Url.Action("Delete", "Category", new { id = category.Id })" class="btn btn-danger">Delete</a>
                         }
                     </td>
                 </tr>

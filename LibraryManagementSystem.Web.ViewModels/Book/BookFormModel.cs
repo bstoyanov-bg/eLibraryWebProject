@@ -24,6 +24,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
 
         [RegularExpression(ISBNRegexPattern)]
         [StringLength(ISBNMaxLength, ErrorMessage = "ISBN number must be max 22 characters long.")]
+        [Display(Name = "ISBN example pattern: 111-11-111-1111-1")]
         public string? ISBN { get; set; }
 
         [DisplayFormat(DataFormatString = GlobalYearFormat)]

@@ -210,6 +210,7 @@ namespace LibraryManagementSystem.Services.Data
                     Publisher = b.Publisher,
                     CoverImagePathUrl = b.CoverImagePathUrl,
                     AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
+                    AuthorId = b.AuthorId.ToString(),
                     CategoryName = categoryName,
                     Editions = editions,
                     Rating = (decimal)bookRating,

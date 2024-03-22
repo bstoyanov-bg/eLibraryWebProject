@@ -175,6 +175,29 @@
         </table>
     </div>
 
-    <div style="height: 60px;"></div>
+    <div style="height: 40px;"></div>
+
+    <button onclick="topFunction()" id="backToTopBtn" title="Go to top" style="display: none;">Back to Top</button>
+
+    <script>
+        var button = document.getElementById("backToTopBtn");
+
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                button.style.display = "block";
+            } else {
+                button.style.display = "none";
+            }
+        }
+
+        function topFunction() {
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+
+    <div style="height: 80px;"></div>
+
 </body>
 </html>

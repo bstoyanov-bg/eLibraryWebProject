@@ -1,14 +1,13 @@
 ﻿@using static LibraryManagementSystem.Common.NotificationMessageConstants;
 
-@if(TempData.ContainsKey(ErrorMessage))
+@if (TempData.ContainsKey(ErrorMessage))
 {
     <script>toastr.error('@TempData[ErrorMessage]');</script>
 }
 
 @if (TempData.ContainsKey(WarningMessage))
 {
-    <script>
-        toastr.warning('@TempData[WarningMessage]');</script>
+    <script>toastr.warning('@TempData[WarningMessage]');</script>
 }
 
 @if (TempData.ContainsKey(InformationMessage))

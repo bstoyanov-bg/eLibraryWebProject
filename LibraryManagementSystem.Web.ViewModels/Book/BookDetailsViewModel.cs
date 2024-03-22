@@ -25,6 +25,8 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
 
         public string AuthorName { get; set; } = null!;
 
+        public string AuthorId { get; set; } = null!;
+
         public string CategoryName { get; set; } = null!;
 
         public decimal Rating { get; set; }

@@ -111,6 +111,7 @@ namespace LibraryManagementSystem.Services.Data
                 .AsNoTracking()
                 .Select(b => new BooksForAuthorDetailsViewModel
                 {
+                    Id = b.Id.ToString(),
                     Title = b.Title,
                     ISBN = b.ISBN,
                     YearPublished = b.YearPublished,

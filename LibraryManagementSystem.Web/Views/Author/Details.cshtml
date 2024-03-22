@@ -42,7 +42,9 @@
                 {
                     <tr>
                         <td><img class="d-block w-200" style="max-width: 150px; height: auto;" src="~/@book.CoverImagePathUrl" alt="Author-img"></td>
-                        <td style="min-width: 200px;">@book.Title</td>
+                        <td style="min-width: 200px;">
+                            @Html.ActionLink(book.Title, "Details", "Book", new { id = book.Id }, null)
+                        </td>
                         <td style="text-align: center; vertical-align: middle;">@book.YearPublished</td>
                         <td>@book.Description</td>
                     </tr>
