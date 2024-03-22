@@ -7,25 +7,24 @@
 @inject ILendedBooksService LendedBooksService
 
 @{
-    var countOfActiveUserBooks = await LendedBooksService.GetCountOfActiveBooksForUserAsync(User.GetId()!.ToString());
+    var countOfActiveUserBooks = await this.LendedBooksService.GetCountOfActiveBooksForUserAsync(User.GetId()!.ToString());
 }
 
 @{
     ViewBag.Title = "My Books";
 }
 
-
 @* PopUp window (Modal) *@
-<div class="modal fade" id="confirmationModalAll" tabindex="-1" aria-labelledby="exampleModalLabelAll" aria-hidden="true">
+<div class="modal fade" id="confirmationModalAll" tabindex="-1" aria-labelledby="ModalLabelAll" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabelAll">Confirmation</h5>
+                <h5 class="modal-title" id="ModalLabelAll">Confirmation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 Do you want to return All Books in your collection?<br /><br />
-                <strong>Note: </strong>You can give rating to each one of the books that you have lended in the Details page of the Book!
+                <strong>Note: </strong>You can give rating to each one of the books that you have lended in the Details page of the current Book!
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="confirmNoBtnAll" data-bs-dismiss="modal">No</button>
@@ -59,13 +58,19 @@
     <br />
 }
 
+@Html.AntiForgeryToken()
+
 <script>
     $(document).ready(function () {
+        // Get Verification Token !!!
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
         // 0. Handle the click event of the "Return Book" button
         $('#returnAllBooksBtn').click(function () {
             // Show the confirmation modal
             $('#confirmationModalAll').modal('show');
         });
+
 
         // 1. Handle the click event of the "YES" button in the confirmation modal
         $('#confirmYesBtnAll').click(function () {
@@ -74,6 +79,9 @@
             $.ajax({
                 url: '@Url.Action("ReturnAll", "LendedBooks")',
                 type: 'POST',
+                headers: {
+                    RequestVerificationToken: token
+                },
                 success: function (response) {
                     console.log('Books returned successfully');
                     // Redirect to BooksController/All action
@@ -102,9 +110,8 @@
 </script>
 
 <div class="row">
-    @foreach (var book in Model)
+    @foreach (MyBooksViewModel book in Model)
     {
         <partial name="_BookPartial" model="@book" />
     }
 </div>
-

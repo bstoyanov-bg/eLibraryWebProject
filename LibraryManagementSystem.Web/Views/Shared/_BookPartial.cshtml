@@ -10,11 +10,11 @@
 }
 
 @* PopUp window (Modal) *@
-<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                <h5 class="modal-title" id="ModalLabel">Confirmation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -45,7 +45,7 @@
                 {
                     <form id="returnForm" class="ml-2" style="margin-left: 20px;">
                         <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="button" class="btn btn-warning" id="returnBookBtn">Return Book</button>
+                        <button type="button" class="btn btn-warning returnBookBtn" data-book-id="@Model.Id">Return Book</button>
                     </form>
                 }
             </div>
@@ -53,22 +53,36 @@
     </div>
 </div>
 
+@Html.AntiForgeryToken()
+
 <script>
     $(document).ready(function () {
-        // 0. Handle the click event of the "Return Book" button
-        $('#returnBookBtn').click(function () {
+        // Get Verification Token
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        // Handle the click event of the "Return Book" button
+        $(document).on('click', '.returnBookBtn', function () {
+            // Get the bookId from the data attribute
+            var bookId = $(this).data('book-id');
+
             // Show the confirmation modal
             $('#confirmationModal').modal('show');
+
+            // Store the bookId in a data attribute of the modal
+            $('#confirmationModal').data('book-id', bookId);
         });
 
-        // 1. Handle the click event of the "YES" button in the confirmation modal
-        $('#confirmYesBtn').click(function () {
-            var bookId = '@Model.Id'; // Get the book ID from the Razor model
+        // Handle the click event of the "YES" button in the confirmation modal
+        $(document).on('click', '#confirmYesBtn', function () {
+            var bookId = $('#confirmationModal').data('book-id');
 
             // Perform a POST request to the "Return" action in the "LendedBooks" controller
             $.ajax({
                 url: '@Url.Action("Return", "LendedBooks")' + '?id=' + bookId,
                 type: 'POST',
+                headers: {
+                    RequestVerificationToken: token
+                },
                 data: { id: bookId },
                 success: function (response) {
                     console.log('Book returned successfully');
@@ -80,7 +94,7 @@
                         success: function (response) {
                             console.log('Rating action performed successfully');
 
-                            // Redirect to RatingController/Give action with the ID included after both actions are completed !!!!!
+                            // Redirect to RatingController/Give action with the ID included after both actions are completed
                             window.location.href = '@Url.Action("Give", "Rating")' + '?id=' + bookId;
                         },
                         error: function (xhr, status, error) {
@@ -94,13 +108,17 @@
             });
         });
 
-        // 2. Handle the click event of the "No" button in the confirmation modal
-        $('#confirmNoBtn').click(function () {
+        // Handle the click event of the "No" button in the confirmation modal
+        $(document).on('click', '#confirmNoBtn', function () {
+            var bookId = $('#confirmationModal').data('book-id');
+
             // Perform a POST request to the "Return" action in the "LendedBooks" controller
-            var bookId = '@Model.Id'; // Get the book ID from the Razor model
             $.ajax({
                 url: '@Url.Action("Return", "LendedBooks")',
                 type: 'POST',
+                headers: {
+                    RequestVerificationToken: token
+                },
                 data: { id: bookId },
                 success: function (response) {
                     console.log('Book returned successfully');
@@ -117,13 +135,17 @@
             });
         });
 
-        // 3. Handle the modal close event
+        // Handle the modal close event
         $('#confirmationModal').on('hidden.bs.modal', function () {
+            var bookId = $(this).data('book-id');
+
             // Perform a POST request to the "Return" action in the "LendedBooks" controller
-            var bookId = '@Model.Id'; // Get the book ID from the Razor model
             $.ajax({
                 url: '@Url.Action("Return", "LendedBooks")',
                 type: 'POST',
+                headers: {
+                    RequestVerificationToken: token
+                },
                 data: { id: bookId },
                 success: function (response) {
                     console.log('Book returned successfully');
