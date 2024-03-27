@@ -112,6 +112,7 @@ namespace LibraryManagementSystem.Services.Data
                     Name = c.Name,
                     BooksCount = c.BooksCategories.Count(),
                 })
+                .OrderBy(c => c.Name)
                 .ToListAsync();
         }
 
