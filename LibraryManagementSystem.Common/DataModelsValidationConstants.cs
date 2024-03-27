@@ -82,6 +82,9 @@ namespace LibraryManagementSystem.Common
             public const int LastNameMinLength = 2;
             public const int LastNameMaxLength = 30;
 
+            public const int UsernameMinLength = 6;
+            public const int UsernameMaxLength = 20;
+
             public const int AddressMinLength = 5;
             public const int AddressMaxLength = 50;
 

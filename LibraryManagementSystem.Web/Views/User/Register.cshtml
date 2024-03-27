@@ -51,9 +51,14 @@
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">
-                    <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder="" />
+                    <input asp-for="Email" class="form-control" autocomplete="" aria-required="true" placeholder="" />
                     <label asp-for="Email">Email</label>
                     <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Username" class="form-control" autocomplete="" aria-required="true" placeholder="" />
+                    <label asp-for="Username">Username</label>
+                    <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
                     <input asp-for="FirstName" class="form-control" autocomplete="off" aria-required="true" placeholder="" />
@@ -104,6 +109,8 @@
             </form>
         </div>
     </div>
+
+    <div style="height: 80px;"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

@@ -42,6 +42,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 Address = model.Address,
                 Country = model.Country,
                 City = model.City,
+                UserName = model.Username,
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
 
