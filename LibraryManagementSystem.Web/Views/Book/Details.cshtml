@@ -16,14 +16,13 @@
     ViewBag.Title = "Book Details";
 }
 
-
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
 <head>
     <style>
         .fa-star {
-            font-size: 2em; /* Adjust size as needed */
+            font-size: 1.5em;
         }
 
         .gold-star {
@@ -31,9 +30,8 @@
         }
 
         .rating-value {
-            font-size: 1.8em; /* Adjust size as needed */
-            margin-left: 10px; /* Adjust the amount of space as needed */
-        }
+            font-size: 1.5em;
+            margin-left: 10px;
     </style>
 </head>
 
@@ -44,13 +42,14 @@
                 <div class="col-md-3 d-flex justify-content-center align-items-center">
                     <div class="image-container text-center mb-3">
                         <img class="d-block mb-3" style="max-width: 200px; height: auto;" src="~/@Model.CoverImagePathUrl" alt="BookCover-img">
-                        <i class="fas fa-star fa-2x gold-star"></i>
-                        <span class="rating-value">
-                            @if (@Model.Rating == 0)
+                        <span class="rating-stars">
+                            @for (int i = 0; i < Math.Floor(Model.Rating); i++)
                             {
-                                @Model.Rating.ToString("0.00")
+                                <i class="fas fa-star fa-2x gold-star"></i>
                             }
-                            else
+                        </span>
+                        <span class="rating-value">
+                            @if (Model.Rating != 0)
                             {
                                 @Model.Rating
                             }
