@@ -16,7 +16,7 @@ namespace LibraryManagementSystem.Web
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-            var connectionString =
+            string connectionString =
                 builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services.AddDbContext<ELibraryDbContext>(options =>
@@ -63,9 +63,9 @@ namespace LibraryManagementSystem.Web
             WebApplication app = builder.Build();
 
             // Seed data when the application starts.
-            using (var serviceScope = app.Services.CreateScope())
+            using (IServiceScope serviceScope = app.Services.CreateScope())
             {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ELibraryDbContext>();
+                ELibraryDbContext dbContext = serviceScope.ServiceProvider.GetRequiredService<ELibraryDbContext>();
 
                 dbContext.Database.Migrate();
 

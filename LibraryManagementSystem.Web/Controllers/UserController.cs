@@ -42,6 +42,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 Address = model.Address,
                 Country = model.Country,
                 City = model.City,
+                SecurityStamp = Guid.NewGuid().ToString(),
             };
 
             await this.userManager.SetEmailAsync(user, model.Email);

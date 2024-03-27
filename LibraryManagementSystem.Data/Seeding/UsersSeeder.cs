@@ -34,6 +34,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 Email = DevelopmentAdminEmail,
                 PhoneNumber = "111222333",
                 IsDeleted = false,
+                SecurityStamp = Guid.NewGuid().ToString(),
             };
 
             ApplicationUser user = new ApplicationUser
@@ -51,6 +52,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 Email = TestUserEmail,
                 PhoneNumber = "444555666",
                 IsDeleted = false,
+                SecurityStamp = Guid.NewGuid().ToString(),
             };
 
             await userManager.CreateAsync(admin, admin.PasswordHash);
