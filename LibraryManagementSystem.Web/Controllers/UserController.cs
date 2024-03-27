@@ -80,23 +80,52 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginFormModel model) 
+        public async Task<IActionResult> Login(LoginFormModel model)
         {
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return this.View(model);
             }
 
             var result = await this.signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 this.TempData[ErrorMessage] = "There was an error while logging you in!";
-
                 return this.View(model);
             }
 
-            return this.Redirect(model.ReturnUrl ?? "/Home/Index");
+            var user = await this.userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                // Update Security Stamp upon successful login
+                await this.userManager.UpdateSecurityStampAsync(user);
+            }
+            else
+            {
+                this.TempData[ErrorMessage] = "There was an error while logging you in!";
+            }
+
+            return Redirect(model.ReturnUrl ?? "/Home/Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await this.signInManager.SignOutAsync();
+
+            // Update Security Stamp upon logout to invalidate any existing tokens
+            var user = await userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                await this.userManager.UpdateSecurityStampAsync(user);
+            }
+            else
+            {
+                this.TempData[ErrorMessage] = "There was an error while logging you out!";
+            }
+
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }
