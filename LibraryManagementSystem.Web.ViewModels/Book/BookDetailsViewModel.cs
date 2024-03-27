@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.Web.ViewModels.Edition;
+using LibraryManagementSystem.Web.ViewModels.Rating;
 
 namespace LibraryManagementSystem.Web.ViewModels.Book
 {
@@ -7,6 +8,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
         public BookDetailsViewModel()
         {
             this.Editions = new HashSet<EditionsForBookDetailsViewModel>();
+            this.Comments = new HashSet<CommentViewModel>();
         }
 
         public string Id { get; set; } = null!;
@@ -32,5 +34,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
         public decimal Rating { get; set; }
 
         public IEnumerable<EditionsForBookDetailsViewModel> Editions { get; set; } = null!;
+
+        public IEnumerable<CommentViewModel> Comments { get; set; } = null!;
     }
 }

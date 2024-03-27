@@ -113,6 +113,10 @@
         </div>
     </div>
 
+    <div id="commentsSection">
+        <partial name="_CommentsPartial" />
+    </div>
+
     <h2>Book Editions:</h2>
     @if (Model.Editions.Any())
     {
@@ -164,6 +168,22 @@
         <p>No editions found for this book.</p>
     }
 </div>
+
+$(document).ready(function () {
+    $('#commentsSection').click(function () {
+        $.ajax({
+            url: '@Url.Action("GetComments", "Book")',
+            type: 'GET',
+            data: { bookId: '@Model.Id' },
+            success: function (result) {
+                $('#commentsSection').html(result);
+            },
+            error: function (xhr, status, error) {
+                console.log('Error:', error);
+            }
+        });
+    });
+});
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

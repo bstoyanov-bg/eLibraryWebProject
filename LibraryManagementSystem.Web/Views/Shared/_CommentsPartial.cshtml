@@ -1,0 +1,19 @@
+﻿@using static LibraryManagementSystem.Common.GeneralApplicationConstants;
+
+@model IEnumerable<CommentViewModel>
+
+@foreach (var comment in Model)
+{
+    <div class="comment">
+        <div class="user-info">
+            <span class="user-name">@comment.Username</span>
+            <span class="comment-date">@comment.CreatedOn.ToString()</span>
+        </div>
+        <div class="comment-text">
+            @comment.BookComment
+        </div>
+        <div class="rating">
+            Rating: @comment.BookRating
+        </div>
+    </div>
+}
