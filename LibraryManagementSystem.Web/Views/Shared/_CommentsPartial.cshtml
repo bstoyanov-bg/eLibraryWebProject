@@ -2,18 +2,47 @@
 
 @model IEnumerable<CommentViewModel>
 
-@foreach (var comment in Model)
-{
-    <div class="comment">
-        <div class="user-info">
-            <span class="user-name">@comment.Username</span>
-            <span class="comment-date">@comment.CreatedOn.ToString()</span>
+<style>
+    .fa-star {
+        font-size: 1em;
+    }
+
+    .gold-star {
+        color: gold;
+    }
+
+    .rating-value {
+        font-size: 1.5em;
+        margin-left: 10px;
+    }
+
+    .comment-box {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+    }
+</style>
+
+<div class="comment-section" style="height: 400px; overflow-y: auto;">
+    @foreach (var comment in Model)
+    {
+        <div class="comment-box mb-4">
+            <div class="user-info mb-2">
+                <span class="user-name"><strong>@comment.Username</strong></span>
+                <span class="comment-date">@comment.CreatedOn.ToString()</span>
+            </div>
+            <div class="comment-text mb-2">
+                @comment.BookComment
+            </div>
+            <div class="rating mb-2">
+                <span class="rating-stars">
+                    @for (int i = 0; i < Math.Floor(comment.BookRating); i++)
+                    {
+                        <i class="fas fa-star fa-2x gold-star"></i>
+                    }
+                </span>
+                <strong>Rating: @comment.BookRating</strong>
+            </div>
         </div>
-        <div class="comment-text">
-            @comment.BookComment
-        </div>
-        <div class="rating">
-            Rating: @comment.BookRating
-        </div>
-    </div>
-}
+
+    }
+</div>

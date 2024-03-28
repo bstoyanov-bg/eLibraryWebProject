@@ -113,9 +113,32 @@
         </div>
     </div>
 
-    <div id="commentsSection">
-        <partial name="_CommentsPartial" />
+    <div class="comments mb-5">
+        <p>
+            <button id="loadCommentsButton" class="btn btn-primary" type="button" data-book-id="@Model.Id" data-bs-toggle="collapse"
+                    data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+                See comments
+            </button>
+        </p>
+        <div style="min-height: 120px;">
+            <div class="collapse collapse-horizontal" id="collapseWidthExample">
+                <div class="card card-body">
+                    <h3>Comments and ratings:</h3>
+                    <br />
+                    <div class="comments-content">
+                        @foreach (var comment in Model.Comments)
+                        {
+                            <partial name="_CommentsPartial" model="@Model.Id" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
+
 
     <h2>Book Editions:</h2>
     @if (Model.Editions.Any())
@@ -169,21 +192,38 @@
     }
 </div>
 
-$(document).ready(function () {
-    $('#commentsSection').click(function () {
-        $.ajax({
-            url: '@Url.Action("GetComments", "Book")',
-            type: 'GET',
-            data: { bookId: '@Model.Id' },
-            success: function (result) {
-                $('#commentsSection').html(result);
-            },
-            error: function (xhr, status, error) {
-                console.log('Error:', error);
-            }
+@Html.AntiForgeryToken()
+
+<script>
+    $(document).ready(function () {
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        $('#loadCommentsButton').click(function () {
+            var bookId = $(this).data('book-id');
+
+            // Load comments via AJAX
+            $.ajax({
+                url: '/Rating/GetComments',
+                type: 'GET',
+                headers: {
+                    'RequestVerificationToken': token
+                },
+                data: { id: bookId },
+                success: function (data) {
+                    // Update comments content with the response
+                    $('.comments-content').html(data);
+                    // Show comments content
+                    $('.comments-content').show();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error loading comments:', error);
+                }
+            });
         });
     });
-});
+</script>
+
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

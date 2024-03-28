@@ -82,7 +82,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 await this.ratingService.GiveRatingAsync(model);
 
-                this.TempData[SuccessMessage] = "Successfully rated to the Book.";
+                this.TempData[SuccessMessage] = "Successfully rated the Book.";
             }
             catch
             {
@@ -90,6 +90,14 @@ namespace LibraryManagementSystem.Web.Controllers
             }
 
             return this.RedirectToAction("Details", "Book", new { id = model.BookId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetComments(string id)
+        {
+            var comments = await this.ratingService.GetCommentsForBookAsync(id);
+
+            return this.PartialView("_CommentsPartial", comments);
         }
 
         private IActionResult GeneralError()

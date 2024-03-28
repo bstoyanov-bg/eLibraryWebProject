@@ -35,6 +35,22 @@ namespace LibraryManagementSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<CommentViewModel>> GetCommentsForBookAsync(string bookId)
+        {
+            return await this.dbContext
+                .Ratings
+                .Where(r => r.BookId == Guid.Parse(bookId))
+                .OrderByDescending(r => r.CreatedOn)
+                .Select(r => new CommentViewModel
+                {
+                    BookId = r.BookId.ToString(),
+                    BookComment = r.Comment,
+                    BookRating = r.BookRating,
+                    Username = r.User.UserName!,
+                    CreatedOn = r.CreatedOn,
+                }).ToListAsync();
+        }
+
         public async Task<decimal?> GetAverageRatingForBookAsync(string bookId)
         {
             var ratingsForBook = await this.dbContext

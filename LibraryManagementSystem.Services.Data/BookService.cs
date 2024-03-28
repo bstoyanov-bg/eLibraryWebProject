@@ -165,6 +165,7 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task<BookDetailsViewModel> GetBookDetailsForUserAsync(string bookId)
         {
+            // Refactor
             var editions = await this.dbContext
                 .Editions
                 .Where(e => e.BookId.ToString() == bookId &&
@@ -177,15 +178,16 @@ namespace LibraryManagementSystem.Services.Data
                     Publisher = e.Publisher,
                 }).ToListAsync();
 
+            // Refactor
             string categoryName = await this.dbContext
                 .Categories
                 .Where(c => c.BooksCategories.Any(bc => bc.BookId == Guid.Parse(bookId)))
                 .Select(c => c.Name)
                 .FirstAsync();
-
+    
             IRatingService ratingService = this.ratingServiceLazy.Value;
 
-            var bookRating = await ratingService.GetAverageRatingForBookAsync(bookId);
+            decimal? bookRating = await ratingService.GetAverageRatingForBookAsync(bookId);
 
             BookDetailsViewModel book = await this.dbContext
                 .Books

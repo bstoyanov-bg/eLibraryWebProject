@@ -6,6 +6,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
     {
         Task GiveRatingAsync(RatingFormModel model);
 
+        Task<IEnumerable<CommentViewModel>> GetCommentsForBookAsync(string bookId);
+
         Task<decimal?> GetAverageRatingForBookAsync(string bookId);
 
         Task<bool> HasUserGaveRatingToBookAsync(string userId, string bookId);
