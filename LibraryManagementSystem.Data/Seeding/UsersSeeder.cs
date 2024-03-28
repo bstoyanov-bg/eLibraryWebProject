@@ -34,7 +34,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 Email = DevelopmentAdminEmail,
                 PhoneNumber = "111222333",
                 IsDeleted = false,
-                SecurityStamp = Guid.NewGuid().ToString(),
+                SecurityStamp = "49CC835AFE4D41B5AB5DC8CB6886ACD0",
             };
 
             ApplicationUser user = new ApplicationUser
@@ -47,12 +47,12 @@ namespace LibraryManagementSystem.Data.Seeding
                 Country = "Bulgaria",
                 City = "Sofia",
                 UserName = "User-Username",
-                MaxLoanedBooks = 5,
+                MaxLoanedBooks = MaxNumberOfBooksAllowed,
                 PasswordHash = "pass.123",
                 Email = TestUserEmail,
                 PhoneNumber = "444555666",
                 IsDeleted = false,
-                SecurityStamp = Guid.NewGuid().ToString(),
+                SecurityStamp = "6D9FB13AE0D145F496E624C798A5268E",
             };
 
             await userManager.CreateAsync(admin, admin.PasswordHash);

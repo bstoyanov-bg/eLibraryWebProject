@@ -3,7 +3,9 @@ using LibraryManagementSystem.Web.ViewModels.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
+using static LibraryManagementSystem.Common.UserRoleNames;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -12,7 +14,7 @@ namespace LibraryManagementSystem.Web.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public UserController(SignInManager<ApplicationUser> signInManager, 
+        public UserController(SignInManager<ApplicationUser> signInManager,
                                 UserManager<ApplicationUser> userManager)
         {
             this.signInManager = signInManager;
@@ -26,9 +28,10 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterFormModel model)
-        { 
-            if (!this.ModelState.IsValid) 
+        {
+            if (!this.ModelState.IsValid)
             {
                 return this.View();
             }
@@ -37,17 +40,19 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
+                UserName = model.Username,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 Address = model.Address,
                 Country = model.Country,
                 City = model.City,
-                UserName = model.Username,
+                DateOfBirth = model.DateOfBirth,
+                MaxLoanedBooks = MaxNumberOfBooksAllowed,
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
 
             await this.userManager.SetEmailAsync(user, model.Email);
-            await this.userManager.SetUserNameAsync(user, model.Email);
+            await this.userManager.SetUserNameAsync(user, model.Username);
 
             IdentityResult result = await this.userManager.CreateAsync(user, model.Password);
 
@@ -61,25 +66,24 @@ namespace LibraryManagementSystem.Web.Controllers
                 return this.View(model);
             }
 
+            await this.userManager.AddToRoleAsync(user, UserRole);
             await this.signInManager.SignInAsync(user, isPersistent: false);
 
             return this.RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login(string? returnUrl = null)
+        public async Task<IActionResult> Login()
         {
             await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            LoginFormModel model = new LoginFormModel()
-            {
-                ReturnUrl = returnUrl,
-            };
+            LoginFormModel model = new LoginFormModel();
 
             return this.View(model);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginFormModel model)
         {
             if (!ModelState.IsValid)
@@ -87,7 +91,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 return this.View(model);
             }
 
-            var result = await this.signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+            var result = await this.signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
 
             if (!result.Succeeded)
             {
@@ -95,7 +99,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 return this.View(model);
             }
 
-            var user = await this.userManager.FindByEmailAsync(model.Email);
+            var user = await this.userManager.FindByNameAsync(model.Username);
             if (user != null)
             {
                 // Update Security Stamp upon successful login
@@ -106,10 +110,11 @@ namespace LibraryManagementSystem.Web.Controllers
                 this.TempData[ErrorMessage] = "There was an error while logging you in!";
             }
 
-            return Redirect(model.ReturnUrl ?? "/Home/Index");
+            return this.RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await this.signInManager.SignOutAsync();

@@ -10,13 +10,14 @@
     <div class="col-md-4 offset-md-4">
         <section>
             <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
+                <h2>Use your account to log in.</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                @Html.AntiForgeryToken()
                 <div class="form-floating mb-3">
-                    <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Email" class="form-label">Email</label>
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <input asp-for="Username" class="form-control" aria-required="true" placeholder="" />
+                    <label asp-for="Username" class="form-label">Username</label>
+                    <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
                     <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />

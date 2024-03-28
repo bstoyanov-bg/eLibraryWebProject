@@ -4,9 +4,11 @@ using LibraryManagementSystem.Data.Seeding;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.Infrastructure.Extensions;
 using LibraryManagementSystem.Web.Infrastructure.ModelBinders;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace LibraryManagementSystem.Web
 {
@@ -37,7 +39,10 @@ namespace LibraryManagementSystem.Web
 
             builder.Services.ConfigureApplicationCookie(cfg =>
             {
-                cfg.LoginPath = "/User/Login";
+                cfg.Cookie.HttpOnly = true;
+                cfg.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                cfg.LoginPath = "/User/Login"; // Your login page route
+                cfg.LogoutPath = "/User/Logout"; // Your custom logout page route
             });
 
             builder.Services.AddApplicationServices(typeof(IBookService));

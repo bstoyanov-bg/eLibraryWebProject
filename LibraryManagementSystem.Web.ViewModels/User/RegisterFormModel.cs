@@ -7,6 +7,7 @@ namespace LibraryManagementSystem.Web.ViewModels.User
     {
         [Required]
         [EmailAddress]
+        [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         public string Email { get; set; } = null!;
 
@@ -49,6 +50,7 @@ namespace LibraryManagementSystem.Web.ViewModels.User
         public string City { get; set; } = null!;
 
         [Required]
+        [DataType(DataType.PhoneNumber)]
         [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
         public string PhoneNumber { get; set; } = null!;
     }

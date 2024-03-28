@@ -4,9 +4,14 @@ namespace LibraryManagementSystem.Web.ViewModels.User
 {
     public class LoginFormModel
     {
+        //[Required]
+        //[EmailAddress]
+        //[DataType(DataType.EmailAddress)]
+        //public string Email { get; set; } = null!;
+
+        // User is going to login with username!!!
         [Required]
-        [EmailAddress]
-        public string Email { get; set; } = null!;
+        public string Username { get; set; } = null!;
 
         [Required]
         [DataType(DataType.Password)]
@@ -14,7 +19,5 @@ namespace LibraryManagementSystem.Web.ViewModels.User
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
-
-        public string? ReturnUrl { get; set; }
     }
 }
