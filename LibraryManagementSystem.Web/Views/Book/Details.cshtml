@@ -116,12 +116,12 @@
     <div class="comments mb-5">
         <p>
             <button id="loadCommentsButton" class="btn btn-primary" type="button" data-book-id="@Model.Id" data-bs-toggle="collapse"
-                    data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+                    data-bs-target="#collapseWidth" aria-expanded="false" aria-controls="collapseWidth">
                 See comments
             </button>
         </p>
         <div style="min-height: 120px;">
-            <div class="collapse collapse-horizontal" id="collapseWidthExample">
+            <div class="collapse collapse-horizontal" id="collapseWidth">
                 <div class="card card-body">
                     <h3>Comments and ratings:</h3>
                     <br />
@@ -135,10 +135,6 @@
             </div>
         </div>
     </div>
-
-
-
-
 
     <h2>Book Editions:</h2>
     @if (Model.Editions.Any())
@@ -222,8 +218,6 @@
         });
     });
 </script>
-
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

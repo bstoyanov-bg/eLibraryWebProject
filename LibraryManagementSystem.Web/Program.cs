@@ -39,10 +39,9 @@ namespace LibraryManagementSystem.Web
 
             builder.Services.ConfigureApplicationCookie(cfg =>
             {
-                cfg.Cookie.HttpOnly = true;
                 cfg.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                cfg.LoginPath = "/User/Login"; // Your login page route
-                cfg.LogoutPath = "/User/Logout"; // Your custom logout page route
+                cfg.LoginPath = "/User/Login";
+                cfg.LogoutPath = "/User/Logout";
             });
 
             builder.Services.AddApplicationServices(typeof(IBookService));

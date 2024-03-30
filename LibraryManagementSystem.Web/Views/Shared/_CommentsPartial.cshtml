@@ -22,27 +22,33 @@
     }
 </style>
 
-<div class="comment-section" style="height: 400px; overflow-y: auto;">
-    @foreach (var comment in Model)
+<div class="comment-section" style="height: 200px; overflow-y: auto;">
+    @if (Model.Any())
     {
-        <div class="comment-box mb-4">
-            <div class="user-info mb-2">
-                <span class="user-name"><strong>@comment.Username</strong></span>
-                <span class="comment-date">@comment.CreatedOn.ToString()</span>
+        @foreach (var comment in Model)
+        {
+            <div class="comment-box mb-4">
+                <div class="user-info mb-2">
+                    <span class="user-name"><strong>@comment.Username</strong></span>
+                    <span class="comment-date">@comment.CreatedOn.ToString()</span>
+                </div>
+                <div class="comment-text mb-2">
+                    @comment.BookComment
+                </div>
+                <div class="rating mb-2">
+                    <span class="rating-stars">
+                        @for (int i = 0; i < Math.Floor(comment.BookRating); i++)
+                        {
+                            <i class="fas fa-star fa-2x gold-star"></i>
+                        }
+                    </span>
+                    <strong>Rating: @comment.BookRating</strong>
+                </div>
             </div>
-            <div class="comment-text mb-2">
-                @comment.BookComment
-            </div>
-            <div class="rating mb-2">
-                <span class="rating-stars">
-                    @for (int i = 0; i < Math.Floor(comment.BookRating); i++)
-                    {
-                        <i class="fas fa-star fa-2x gold-star"></i>
-                    }
-                </span>
-                <strong>Rating: @comment.BookRating</strong>
-            </div>
-        </div>
-
+        }
+    }
+    else
+    {
+        <p>There are no comments about this Book.</p>
     }
 </div>
