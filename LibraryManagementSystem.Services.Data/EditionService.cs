@@ -98,6 +98,7 @@ namespace LibraryManagementSystem.Services.Data
                     Publisher = editionToEdit.Publisher,
                     EditionYear = editionToEdit.EditionYear,
                     BookId = editionToEdit.BookId.ToString(),
+                    FilePath = editionToEdit.FilePath,
                     BooksDropDown = books,
                 };
 

@@ -41,7 +41,6 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
         public string? Publisher { get; set; } = null!;
 
         [StringLength(CoverImagePathUrlMaxLength)]
-        [Display(Name = "Book cover - image path")]
         public string? CoverImagePathUrl { get; set; } = null!;
 
         [StringLength(FilePathMaxLength)]

@@ -54,12 +54,12 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(CoverImagePathUrlMaxLength)]
         public string? CoverImagePathUrl { get; set; }
 
-        [Comment("Created On")]
-        public DateTime CreatedOn { get; set; }
-
         [Comment("Path of the uploaded file")]
         [MaxLength(FilePathMaxLength)]
         public string? FilePath { get; set; }
+
+        [Comment("Created On")]
+        public DateTime CreatedOn { get; set; }
 
         [Comment("AuthorId")]
         [Required]

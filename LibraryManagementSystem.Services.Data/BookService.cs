@@ -31,28 +31,6 @@ namespace LibraryManagementSystem.Services.Data
             this.ratingServiceLazy = ratingServiceLazy;
         }
 
-        public async Task AddBookAsync(BookFormModel model)
-        {
-            Book book = new Book
-            {
-                Title = model.Title,
-                ISBN = model.ISBN,
-                YearPublished = model.YearPublished,
-                Description = model.Description,
-                Publisher = model.Publisher,
-                CoverImagePathUrl = model.CoverImagePathUrl,
-                AuthorId = Guid.Parse(model.AuthorId),
-            };
-
-            await this.dbContext.Books.AddAsync(book);
-            await this.dbContext.SaveChangesAsync();
-
-            BookCategory bookCategory = new BookCategory { BookId = book.Id, CategoryId = model.CategoryId };
-
-            await this.dbContext.BooksCategories.AddAsync(bookCategory);
-            await this.dbContext.SaveChangesAsync();
-        }
-
         public async Task EditBookAsync(string bookId, BookFormModel model)
         {
             Book? bookToEdit = await GetBookByIdAsync(bookId);
@@ -104,6 +82,30 @@ namespace LibraryManagementSystem.Services.Data
             }
 
             await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Book> AddBookAsync(BookFormModel model)
+        {
+            Book book = new Book
+            {
+                Title = model.Title,
+                ISBN = model.ISBN,
+                YearPublished = model.YearPublished,
+                Description = model.Description,
+                Publisher = model.Publisher,
+                CoverImagePathUrl = model.CoverImagePathUrl,
+                AuthorId = Guid.Parse(model.AuthorId),
+            };
+
+            await this.dbContext.Books.AddAsync(book);
+            await this.dbContext.SaveChangesAsync();
+
+            BookCategory bookCategory = new BookCategory { BookId = book.Id, CategoryId = model.CategoryId };
+
+            await this.dbContext.BooksCategories.AddAsync(bookCategory);
+            await this.dbContext.SaveChangesAsync();
+
+            return book;
         }
 
         public async Task<Book?> GetBookByIdAsync(string bookId)

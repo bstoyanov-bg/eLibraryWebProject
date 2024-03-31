@@ -48,8 +48,8 @@
     <div class="container">
         <h1>Add Book</h1>
 
-        <form method="post">
-            <div class ="form-group col-md-10">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group col-md-10">
                 <div class="form-group mb-3">
                     <label asp-for="Title"></label>
                     <input asp-for="Title" class="form-control" placeholder="" />
@@ -76,8 +76,13 @@
                     <span asp-validation-for="Publisher" class="small text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
-                    <label asp-for="CoverImagePathUrl"></label>
-                    <input asp-for="CoverImagePathUrl" class="form-control" placeholder="" />
+                    <label asp-for="CoverImagePathUrl">Select Cover Image for Upload</label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input asp-for="CoverImagePathUrl" type="file" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                    </div>
                     <span asp-validation-for="CoverImagePathUrl" class="small text-danger"></span>
                 </div>
 
@@ -112,7 +117,7 @@
 
     <div style="height: 80px;"></div>
 
-    
+
 
     <script>
         $(document).ready(function () {

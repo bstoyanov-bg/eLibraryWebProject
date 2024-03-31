@@ -68,9 +68,11 @@ namespace LibraryManagementSystem.Web.Controllers
                     return this.RedirectToAction("All", "Book");
                 }
 
-                await this.bookService.AddBookAsync(model);
+                var addedBook = await this.bookService.AddBookAsync(model);
 
                 this.TempData[SuccessMessage] = $"Successfully added Book.";
+
+                return this.RedirectToAction("Edit", "Book", new { id = addedBook.Id });
             }
             catch
             {

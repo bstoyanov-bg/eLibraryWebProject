@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
@@ -8,25 +9,32 @@ using System.Reflection;
 public class FileService : IFileService
 {
     private readonly ELibraryDbContext dbContext;
+    private readonly IWebHostEnvironment hostEnvironment;
 
-    public FileService(ELibraryDbContext dbContext)
+    public FileService(ELibraryDbContext dbContext, IWebHostEnvironment hostEnvironment)
     {
         this.dbContext = dbContext;
+        this.hostEnvironment = hostEnvironment;
     }
 
     public async Task<string> UploadFileAsync(string id, IFormFile file, string entityType)
-    {
+        {
         Type type = entityType == nameof(Book) ? typeof(Book) : typeof(Edition);
 
         object? entity = await this.dbContext.FindAsync(type, Guid.Parse(id));
 
-        string uploadsFolder = $"BookFiles/{type.Name}s/";
+        // Map the physical path of the wwwroot folder
+        string uploadsFolder = Path.Combine(this.hostEnvironment.WebRootPath, "BookFiles", type.Name + "s");
+
         if (!Directory.Exists(uploadsFolder))
         {
             Directory.CreateDirectory(uploadsFolder);
         }
 
-        string filePath = $"{uploadsFolder}{file.FileName}";
+        string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+        // Save the file to the wwwroot folder
         using (var stream = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(stream);

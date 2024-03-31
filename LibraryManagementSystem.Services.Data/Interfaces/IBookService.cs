@@ -7,11 +7,11 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 {
     public interface IBookService
     {
-        Task AddBookAsync(BookFormModel model);
-
         Task EditBookAsync(string bookId, BookFormModel model);
 
         Task DeleteBookAsync(string bookId);
+
+        Task<Book> AddBookAsync(BookFormModel model);
 
         Task<Book?> GetBookByIdAsync(string bookId);
 
