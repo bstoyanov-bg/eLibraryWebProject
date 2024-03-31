@@ -18,23 +18,6 @@ namespace LibraryManagementSystem.Services.Data
             this.dbContext = dbContext;
         }
 
-        public async Task AddAuthorAsync(AuthorFormModel model)
-        {
-            Author author = new Author
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Biography = model.Biography,
-                BirthDate = model.BirthDate,
-                DeathDate = model.DeathDate,
-                Nationality = model.Nationality,
-                ImageFilePath = model.ImageFilePath,
-            };
-
-            await this.dbContext.Authors.AddAsync(author);
-            await this.dbContext.SaveChangesAsync();
-        }
-
         public async Task EditAuthorAsync(string authorId, AuthorFormModel model)
         {
             Author? authorToEdit = await GetAuthorByIdAsync(authorId);
@@ -63,6 +46,25 @@ namespace LibraryManagementSystem.Services.Data
             }
 
             await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Author> AddAuthorAsync(AuthorFormModel model)
+        {
+            Author author = new Author
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Biography = model.Biography,
+                BirthDate = model.BirthDate,
+                DeathDate = model.DeathDate,
+                Nationality = model.Nationality,
+                ImageFilePath = model.ImageFilePath,
+            };
+
+            await this.dbContext.Authors.AddAsync(author);
+            await this.dbContext.SaveChangesAsync();
+
+            return author;
         }
 
         public async Task<Author?> GetAuthorByIdAsync(string authorId)

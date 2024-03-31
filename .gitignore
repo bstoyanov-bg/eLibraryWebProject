@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 /LibraryManagementSystem.Data/Migrations/ELibraryDbContextModelSnapshot.cs
 /.gitignore
+/LibraryManagementSystem.Web/wwwroot/BookFiles/Editions/7c4460e4-d4cc-4e26-8d18-898f68ae7fa7_edition_1.txt
+/LibraryManagementSystem.Web/wwwroot/BookFiles/Editions/84eff6a2-54f5-4d13-9b3b-abf0dd1325e3_Brief_Answers_to_the_Big_Questions.png
+/LibraryManagementSystem.Web/wwwroot/BookFiles/Editions/a7726003-f476-4f22-afff-5e26d40ea46d_Brief_Answers_to_the_Big_Questions.png

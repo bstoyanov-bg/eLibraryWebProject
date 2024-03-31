@@ -23,24 +23,28 @@ public class FileService : IFileService
 
         object? entity = await this.dbContext.FindAsync(type, Guid.Parse(id));
 
-        // Map the physical path of the wwwroot folder
-        string uploadsFolder = Path.Combine(this.hostEnvironment.WebRootPath, "BookFiles", type.Name + "s");
+        // Relative path within the wwwroot directory
+        string relativeFolderPath = Path.Combine("BookFiles", type.Name + "s");
+
+        // Full physical path
+        string uploadsFolder = Path.Combine(this.hostEnvironment.WebRootPath, relativeFolderPath);
 
         if (!Directory.Exists(uploadsFolder))
         {
             Directory.CreateDirectory(uploadsFolder);
         }
 
-        string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+        string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
+        string filePath = Path.Combine(relativeFolderPath, uniqueFileName); // Relative file path
 
         // Save the file to the wwwroot folder
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        string fullFilePath = Path.Combine(uploadsFolder, uniqueFileName);
+        using (var stream = new FileStream(fullFilePath, FileMode.Create))
         {
             await file.CopyToAsync(stream);
         }
 
-        // Update entity with the file path
+        // Update entity with the relative file path
         PropertyInfo? property = type.GetProperty("FilePath");
         if (property != null)
         {
@@ -61,8 +65,11 @@ public class FileService : IFileService
 
         object? entity = await this.dbContext.FindAsync(type, Guid.Parse(id));
 
-        // Map the physical path of the wwwroot folder
-        string uploadsFolder = Path.Combine(this.hostEnvironment.WebRootPath, "img", type.Name + "Covers");
+        // Relative path within the wwwroot directory
+        string relativeFolderPath = Path.Combine("img", type.Name + "Covers");
+
+        // Full physical path
+        string uploadsFolder = Path.Combine(this.hostEnvironment.WebRootPath, relativeFolderPath);
 
         if (!Directory.Exists(uploadsFolder))
         {
@@ -70,16 +77,17 @@ public class FileService : IFileService
         }
 
         string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+        string filePath = Path.Combine(relativeFolderPath, uniqueFileName); // Relative file path
 
         // Save the file to the wwwroot folder
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        string fullFilePath = Path.Combine(uploadsFolder, uniqueFileName);
+        using (var stream = new FileStream(fullFilePath, FileMode.Create))
         {
             await file.CopyToAsync(stream);
         }
 
         // Update entity with the file path
-        PropertyInfo? property = type.GetProperty("FilePath");
+        PropertyInfo? property = type.GetProperty("ImageFilePath");
         if (property != null)
         {
             property.SetValue(entity, filePath);

@@ -74,8 +74,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 // Here should be executed BOOK IMAGE UPLOAD
 
-                await this.fileService.UploadFileAsync(addedBook.Id.ToString(), bookImage, "BookImage");
-
+                await this.fileService.UploadImageFileAsync(addedBook.Id.ToString(), bookImage, "Book");
 
 
 

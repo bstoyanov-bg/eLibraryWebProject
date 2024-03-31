@@ -6,11 +6,11 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 {
     public interface IAuthorService
     {
-        Task AddAuthorAsync(AuthorFormModel model);
-
         Task EditAuthorAsync(string authorId, AuthorFormModel model);
 
         Task DeleteAuthorAsync(string authorId);
+
+        Task<Author> AddAuthorAsync(AuthorFormModel model);
 
         Task<Author?> GetAuthorByIdAsync(string authorId);
 

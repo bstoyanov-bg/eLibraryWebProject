@@ -38,10 +38,10 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
 
         [StringLength(PublisherMaxLength, ErrorMessage = "Publisher name must be between 5 and 100 characters long.",
         MinimumLength = PublisherMinLength)]
-        public string? Publisher { get; set; } = null!;
+        public string? Publisher { get; set; }
 
         [StringLength(CoverImagePathUrlMaxLength)]
-        public string? ImageFilePath { get; set; } = null!;
+        public string? ImageFilePath { get; set; }
 
         [StringLength(FilePathMaxLength)]
         public string? FilePath { get; set; }

@@ -102,16 +102,26 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 string filePath = await this.fileService.UploadImageFileAsync(id, file, entityType);
 
-                this.TempData[SuccessMessage] = $"Successfully uploaded {entityType} file.";
+                this.TempData[SuccessMessage] = $"Successfully uploaded {entityType} image file.";
 
-                return this.RedirectToAction("All", "Book");
+                if (entityType == nameof(Book))
+                {
+                    return this.RedirectToAction("Edit", "Book", new { id });
+                }
+
+                return this.RedirectToAction("Edit", "Author", new { id });
             }
             catch
             {
                 this.TempData[ErrorMessage] = "There was problem with uploding the file!";
             }
 
-            return this.RedirectToAction("All", "Book");
+            if (entityType == nameof(Book))
+            {
+                return this.RedirectToAction("Edit", "Book", new { id });
+            }
+
+            return this.RedirectToAction("Edit", "Author", new { id });
         }
 
         [HttpGet]

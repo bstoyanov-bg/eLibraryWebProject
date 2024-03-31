@@ -11,10 +11,12 @@ namespace LibraryManagementSystem.Web.Controllers
     public class AuthorController : BaseController
     {
         private readonly IAuthorService authorService;
+        private readonly IFileService fileService;
 
-        public AuthorController(IAuthorService authorService)
+        public AuthorController(IAuthorService authorService, IFileService fileService)
         {
             this.authorService = authorService;
+            this.fileService = fileService;
         }
 
         [HttpGet]
@@ -28,7 +30,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = AdminRole)]
-        public async Task<IActionResult> Add(AuthorFormModel model)
+        public async Task<IActionResult> Add(AuthorFormModel model, IFormFile authorImage)
         {
             if (!this.ModelState.IsValid)
             {
@@ -46,7 +48,9 @@ namespace LibraryManagementSystem.Web.Controllers
                     return this.RedirectToAction("All", "Author");
                 }
 
-                await this.authorService.AddAuthorAsync(model);
+                var addedAuthor = await this.authorService.AddAuthorAsync(model);
+
+                await this.fileService.UploadImageFileAsync(addedAuthor.Id.ToString(), authorImage, "Author");
 
                 this.TempData[SuccessMessage] = "Successfully added Author.";
             }
