@@ -12,11 +12,13 @@ namespace LibraryManagementSystem.Web.Controllers
     {
         private readonly IBookService bookService;
         private readonly ICategoryService categoryService;
+        private readonly IFileService fileService;
 
-        public BookController(IBookService bookService, ICategoryService categoryService) 
+        public BookController(IBookService bookService, ICategoryService categoryService, IFileService fileService)
         {
             this.bookService = bookService;
             this.categoryService = categoryService;
+            this.fileService = fileService;
         }
 
         [HttpGet]
@@ -50,7 +52,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = AdminRole)]
-        public async Task<IActionResult> Add(BookFormModel model)
+        public async Task<IActionResult> Add(BookFormModel model, IFormFile bookImage)
         {
             if (!this.ModelState.IsValid)
             {
@@ -69,6 +71,13 @@ namespace LibraryManagementSystem.Web.Controllers
                 }
 
                 var addedBook = await this.bookService.AddBookAsync(model);
+
+                // Here should be executed BOOK IMAGE UPLOAD
+
+                await this.fileService.UploadFileAsync(addedBook.Id.ToString(), bookImage, "BookImage");
+
+
+
 
                 this.TempData[SuccessMessage] = $"Successfully added Book.";
 

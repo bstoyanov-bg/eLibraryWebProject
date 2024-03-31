@@ -60,6 +60,60 @@ namespace LibraryManagementSystem.Web.Controllers
             return this.RedirectToAction("All", "Book");
         }
 
+        [HttpPost]
+        [Authorize(Roles = AdminRole)]
+        public async Task<IActionResult> UploadImageFile(string id, IFormFile file, string entityType)
+        {
+            try
+            {
+                // Check file Length
+                if (file == null || file.Length == 0)
+                {
+                    this.TempData[ErrorMessage] = "No file is chosen for upload!";
+
+                    if (entityType == nameof(Book))
+                    {
+                        return this.RedirectToAction("Edit", "Book", new { id });
+                    }
+
+                    return this.RedirectToAction("Edit", "Author", new { id });
+                }
+
+                // Check File extension
+                if (!file.FileName.EndsWith(".txt") && !file.FileName.EndsWith(".jpg"))
+                {
+                    this.TempData[ErrorMessage] = "Only .txt or .jpg files are allowed!";
+
+                    if (entityType == nameof(Book))
+                    {
+                        return this.RedirectToAction("Edit", "Book", new { id });
+                    }
+
+                    return this.RedirectToAction("Edit", "Author", new { id });
+                }
+
+                // Check if entityType is valid
+                if (entityType != nameof(Book) && entityType != nameof(Author))
+                {
+                    this.TempData[ErrorMessage] = "Invalid entity type!";
+
+                    return this.RedirectToAction("Index", "Home", new { id });
+                }
+
+                string filePath = await this.fileService.UploadImageFileAsync(id, file, entityType);
+
+                this.TempData[SuccessMessage] = $"Successfully uploaded {entityType} file.";
+
+                return this.RedirectToAction("All", "Book");
+            }
+            catch
+            {
+                this.TempData[ErrorMessage] = "There was problem with uploding the file!";
+            }
+
+            return this.RedirectToAction("All", "Book");
+        }
+
         [HttpGet]
         public async Task<IActionResult> DownloadFile(string id, string entityType)
         {

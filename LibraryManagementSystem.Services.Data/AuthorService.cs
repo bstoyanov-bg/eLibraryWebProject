@@ -28,7 +28,7 @@ namespace LibraryManagementSystem.Services.Data
                 BirthDate = model.BirthDate,
                 DeathDate = model.DeathDate,
                 Nationality = model.Nationality,
-                ImagePathUrl = model.ImagePathUrl,
+                ImageFilePath = model.ImageFilePath,
             };
 
             await this.dbContext.Authors.AddAsync(author);
@@ -47,7 +47,7 @@ namespace LibraryManagementSystem.Services.Data
                 authorToEdit.BirthDate = model.BirthDate;
                 authorToEdit.DeathDate = model.DeathDate;
                 authorToEdit.Nationality = model.Nationality;
-                authorToEdit.ImagePathUrl = model.ImagePathUrl;
+                authorToEdit.ImageFilePath = model.ImageFilePath;
             }
 
             await this.dbContext.SaveChangesAsync();
@@ -87,7 +87,7 @@ namespace LibraryManagementSystem.Services.Data
                     BirthDate = authorToEdit.BirthDate,
                     DeathDate = authorToEdit.DeathDate,
                     Nationality = authorToEdit.Nationality,
-                    ImagePathUrl = authorToEdit.ImagePathUrl,
+                    ImageFilePath = authorToEdit.ImageFilePath,
                 };
 
                 return author;
@@ -111,7 +111,7 @@ namespace LibraryManagementSystem.Services.Data
                     YearPublished = b.YearPublished,
                     Description = b.Description,
                     Publisher = b.Publisher,
-                    CoverImagePathUrl = b.CoverImagePathUrl,
+                    ImageFilePath = b.ImageFilePath,
                 }).ToListAsync();
 
             AuthorDetailsViewModel author = await this.dbContext
@@ -128,7 +128,7 @@ namespace LibraryManagementSystem.Services.Data
                     BirthDate = a.BirthDate,
                     DeathDate = a.DeathDate,
                     Nationality = a.Nationality,
-                    ImagePathUrl = a.ImagePathUrl,
+                    ImageFilePath = a.ImageFilePath,
                     Books = books
                 }).FirstAsync();
 
@@ -179,7 +179,7 @@ namespace LibraryManagementSystem.Services.Data
                     LastName = a.LastName,
                     Nationality = a.Nationality,
                     BooksCount = a.Books.Count(),
-                    ImageURL = a.ImagePathUrl,
+                    ImageFilePath = a.ImageFilePath,
                 }).ToListAsync();
 
             int totalAuthors = authorsQuery.Count();

@@ -14,7 +14,7 @@
 
         public string Category { get; set; } = null!;
 
-        public string? ImageURL { get; set; }
+        public string? ImageFilePath { get; set; }
 
         public int EditionsCount { get; set; }
     }

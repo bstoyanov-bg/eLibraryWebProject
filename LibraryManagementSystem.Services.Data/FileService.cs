@@ -18,13 +18,51 @@ public class FileService : IFileService
     }
 
     public async Task<string> UploadFileAsync(string id, IFormFile file, string entityType)
-        {
+    {
         Type type = entityType == nameof(Book) ? typeof(Book) : typeof(Edition);
 
         object? entity = await this.dbContext.FindAsync(type, Guid.Parse(id));
 
         // Map the physical path of the wwwroot folder
         string uploadsFolder = Path.Combine(this.hostEnvironment.WebRootPath, "BookFiles", type.Name + "s");
+
+        if (!Directory.Exists(uploadsFolder))
+        {
+            Directory.CreateDirectory(uploadsFolder);
+        }
+
+        string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+        // Save the file to the wwwroot folder
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        // Update entity with the file path
+        PropertyInfo? property = type.GetProperty("FilePath");
+        if (property != null)
+        {
+            property.SetValue(entity, filePath);
+            await this.dbContext.SaveChangesAsync();
+        }
+        else
+        {
+            throw new InvalidOperationException("FilePath property not found!");
+        }
+
+        return filePath;
+    }
+
+    public async Task<string> UploadImageFileAsync(string id, IFormFile file, string entityType)
+    {
+        Type type = entityType == nameof(Book) ? typeof(Book) : typeof(Author);
+
+        object? entity = await this.dbContext.FindAsync(type, Guid.Parse(id));
+
+        // Map the physical path of the wwwroot folder
+        string uploadsFolder = Path.Combine(this.hostEnvironment.WebRootPath, "img", type.Name + "Covers");
 
         if (!Directory.Exists(uploadsFolder))
         {

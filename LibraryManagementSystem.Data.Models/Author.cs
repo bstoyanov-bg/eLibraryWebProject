@@ -51,7 +51,7 @@ namespace LibraryManagementSystem.Data.Models
 
         [Comment("Image of the author")]
         [MaxLength(ImagePathUrlMaxLength)]
-        public string? ImagePathUrl { get; set; }
+        public string? ImageFilePath { get; set; }
 
         [Comment("Created On")]
         public DateTime CreatedOn { get; set; }

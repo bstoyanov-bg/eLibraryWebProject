@@ -12,7 +12,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3 d-flex justify-content-center align-items-center">
-                    <img class="d-block w-100" style="max-width: 200px; height: auto;" src="~/@Model.ImagePathUrl" alt="AuthorCover-img">
+                    <img class="d-block w-100" style="max-width: 200px; height: auto;" src="~/@Model.ImageFilePath" alt="AuthorCover-img">
                 </div>
                 <div class="col-md-8">
                     <h3 class="card-title text-center">@Model.FirstName @Model.LastName</h3>
@@ -42,7 +42,7 @@
                 @foreach (var book in Model.Books)
                 {
                     <tr>
-                        <td><img class="d-block w-200" style="max-width: 150px; height: auto;" src="~/@book.CoverImagePathUrl" alt="Author-img"></td>
+                        <td><img class="d-block w-200" style="max-width: 150px; height: auto;" src="~/@book.ImageFilePath" alt="Author-img"></td>
                         <td style="min-width: 200px;">
                             @Html.ActionLink(book.Title, "Details", "Book", new { id = book.Id }, null)
                         </td>

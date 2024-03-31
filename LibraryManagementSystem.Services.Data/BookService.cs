@@ -42,7 +42,7 @@ namespace LibraryManagementSystem.Services.Data
                 bookToEdit.YearPublished = model.YearPublished;
                 bookToEdit.Description = model.Description;
                 bookToEdit.Publisher = model.Publisher;
-                bookToEdit.CoverImagePathUrl = model.CoverImagePathUrl;
+                bookToEdit.ImageFilePath = model.ImageFilePath;
                 bookToEdit.AuthorId = Guid.Parse(model.AuthorId);
                 bookToEdit.FilePath = model.FilePath;
             }
@@ -93,7 +93,7 @@ namespace LibraryManagementSystem.Services.Data
                 YearPublished = model.YearPublished,
                 Description = model.Description,
                 Publisher = model.Publisher,
-                CoverImagePathUrl = model.CoverImagePathUrl,
+                ImageFilePath = model.ImageFilePath,
                 AuthorId = Guid.Parse(model.AuthorId),
             };
 
@@ -151,7 +151,7 @@ namespace LibraryManagementSystem.Services.Data
                     YearPublished = bookToEdit.YearPublished,
                     Description = bookToEdit.Description,
                     Publisher = bookToEdit.Publisher,
-                    CoverImagePathUrl = bookToEdit.CoverImagePathUrl,
+                    ImageFilePath = bookToEdit.ImageFilePath,
                     AuthorId = bookToEdit.AuthorId.ToString(),
                     Authors = authors,
                     CategoryId = categoryId,
@@ -203,7 +203,7 @@ namespace LibraryManagementSystem.Services.Data
                     YearPublished = b.YearPublished,
                     Description = b.Description,
                     Publisher = b.Publisher,
-                    CoverImagePathUrl = b.CoverImagePathUrl,
+                    ImageFilePath = b.ImageFilePath,
                     AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
                     AuthorId = b.AuthorId.ToString(),
                     CategoryName = categoryName,
@@ -266,7 +266,7 @@ namespace LibraryManagementSystem.Services.Data
                     Publisher = b.Publisher,
                     AuthorName = $"{b.Author.FirstName} {b.Author.LastName}",
                     Category = b.BooksCategories.Select(bc => bc.Category.Name).First(),
-                    ImageURL = b.CoverImagePathUrl ?? string.Empty,
+                    ImageFilePath = b.ImageFilePath ?? string.Empty,
                     EditionsCount = b.Editions.Where(e => e.IsDeleted == false).Count(),
                 }).ToListAsync();
 
@@ -321,7 +321,7 @@ namespace LibraryManagementSystem.Services.Data
                     Title = b.Title,
                     Description = b.Description,
                     Author = $"{b.Author.FirstName} {b.Author.LastName}",
-                    ImageUrl = b.CoverImagePathUrl ?? string.Empty,
+                    ImageFilePath = b.ImageFilePath ?? string.Empty,
                 })
                 .ToListAsync();
 

@@ -7,6 +7,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
     {
         Task<string> UploadFileAsync(string id, IFormFile file, string type);
 
+        Task<string> UploadImageFileAsync(string id, IFormFile file, string type);
+
         Task<FileStreamResult> DownloadFileAsync(string id, string entityType);
 
         Task<string> GetFilePathAsync(string id, string entityType);

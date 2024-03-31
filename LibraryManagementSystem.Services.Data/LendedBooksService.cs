@@ -120,7 +120,7 @@ namespace LibraryManagementSystem.Services.Data
                     Publisher = b.Book.Publisher,
                     AuthorName = $"{b.Book.Author.FirstName} {b.Book.Author.LastName}",
                     Category = b.Book.BooksCategories.Select(bc => bc.Category.Name).First(),
-                    ImageURL = b.Book.CoverImagePathUrl,
+                    ImageFilePath = b.Book.ImageFilePath,
                     EditionsCount = b.Book.Editions.Count(),
                     FilePath = b.Book.FilePath,
                 }).ToListAsync();

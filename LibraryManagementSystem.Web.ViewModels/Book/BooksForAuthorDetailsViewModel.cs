@@ -14,6 +14,6 @@
 
         public string? Publisher { get; set; } = null!;
 
-        public string? CoverImagePathUrl { get; set; } = null!;
+        public string? ImageFilePath { get; set; } = null!;
     }
 }

@@ -38,6 +38,6 @@ namespace LibraryManagementSystem.Web.ViewModels.Author
 
         [StringLength(ImagePathUrlMaxLength)]
         [Display(Name = "Author - image path")]
-        public string? ImagePathUrl { get; set; } = null!;
+        public string? ImageFilePath { get; set; } = null!;
     }
 }

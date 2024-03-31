@@ -33,7 +33,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 var book = await this.bookService.GetBookByIdAsync(id);
 
                 this.ViewBag.BookTitle = book!.Title;
-                this.ViewBag.BookImage = book!.CoverImagePathUrl;
+                this.ViewBag.BookImage = book!.ImageFilePath;
                 this.ViewBag.BookId = book!.Id.ToString();
 
                 string userId = GetUserId();

@@ -23,7 +23,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
 
         public string? Publisher { get; set; }
 
-        public string? CoverImagePathUrl { get; set; }
+        public string? ImageFilePath { get; set; }
 
         public string AuthorName { get; set; } = null!;
 

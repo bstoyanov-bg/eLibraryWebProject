@@ -52,7 +52,7 @@ namespace LibraryManagementSystem.Data.Models
 
         [Comment("Cover image of the book")]
         [MaxLength(CoverImagePathUrlMaxLength)]
-        public string? CoverImagePathUrl { get; set; }
+        public string? ImageFilePath { get; set; }
 
         [Comment("Path of the uploaded file")]
         [MaxLength(FilePathMaxLength)]

@@ -10,6 +10,6 @@
 
         public string Author { get; set; } = null!;
 
-        public string ImageUrl { get; set; } = null!;
+        public string ImageFilePath { get; set; } = null!;
     }
 }
