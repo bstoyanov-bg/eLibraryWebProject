@@ -6,7 +6,9 @@
         Oldest = 1,
         ByTitleAscending = 2,
         ByTitleDescending = 3,
-        ByYearPublishedAscending = 4,
-        ByYearPublishedDescending = 5,
+        ByRatingAscending = 4,
+        ByRatingDescending = 5,
+        ByYearPublishedAscending = 6,
+        ByYearPublishedDescending = 7,
     }
 }

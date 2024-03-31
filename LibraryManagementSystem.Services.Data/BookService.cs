@@ -220,6 +220,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             IQueryable<Book> booksQuery = this.dbContext
                 .Books
+                .Include(b => b.Ratings)
                 .Where(b => b.IsDeleted == false)
                 .AsQueryable();
 
@@ -253,6 +254,12 @@ namespace LibraryManagementSystem.Services.Data
                     .OrderBy(b => b.Title),
                 BookSorting.ByTitleDescending => booksQuery
                     .OrderByDescending(b => b.Title),
+
+                    // ADD RATING !!!
+                BookSorting.ByRatingAscending => booksQuery
+                    .OrderBy(b => b.Ratings.Average(r => r.BookRating)),
+                BookSorting.ByRatingDescending => booksQuery
+                .OrderByDescending(b => b.Ratings.Average(r => r.BookRating)),
                 _ => booksQuery
                     .OrderBy(b => b.Title),
             };
