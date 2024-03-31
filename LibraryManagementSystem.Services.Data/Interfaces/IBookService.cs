@@ -7,9 +7,9 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 {
     public interface IBookService
     {
-        Task EditBookAsync(string bookId, BookFormModel model);
-
         Task DeleteBookAsync(string bookId);
+
+        Task<Book> EditBookAsync(string bookId, BookFormModel model);
 
         Task<Book> AddBookAsync(BookFormModel model);
 

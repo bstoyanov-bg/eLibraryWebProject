@@ -72,11 +72,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 var addedBook = await this.bookService.AddBookAsync(model);
 
-                // Here should be executed BOOK IMAGE UPLOAD
-
                 await this.fileService.UploadImageFileAsync(addedBook.Id.ToString(), bookImage, "Book");
-
-
 
                 this.TempData[SuccessMessage] = $"Successfully added Book.";
 
@@ -117,7 +113,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = AdminRole)]
-        public async Task<IActionResult> Edit(string id, BookFormModel model)
+        public async Task<IActionResult> Edit(string id, BookFormModel model, IFormFile bookImage)
         {
             if (!this.ModelState.IsValid)
             {
@@ -135,7 +131,9 @@ namespace LibraryManagementSystem.Web.Controllers
                     return this.RedirectToAction("All", "Book");
                 }
 
-                await this.bookService.EditBookAsync(id, model);
+                var editedBook = await this.bookService.EditBookAsync(id, model);
+
+                await this.fileService.UploadImageFileAsync(editedBook.Id.ToString(), bookImage, "Book");
 
                 this.TempData[SuccessMessage] = "Succesfully edited Book.";
             }

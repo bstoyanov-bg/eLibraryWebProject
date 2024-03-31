@@ -84,7 +84,7 @@
                     <label asp-for="ImageFilePath" class="form-label">Select Cover Image for Upload</label>
                     <div class="input-group">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="customFile" name="authorImage">
+                            <input type="file" class="custom-file-input" id="customFile" name="authorImage" onchange="updateFileName(this)">
                             <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
                     </div>
@@ -94,7 +94,6 @@
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-    </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -117,6 +116,14 @@
                 todayHighlight: true
             });
         });
+    </script>
+
+    <script>
+        function updateFileName(input) {
+            var fileName = input.files[0].name;
+            var label = input.nextElementSibling;
+            label.innerText = fileName;
+        }
     </script>
 
 </body>

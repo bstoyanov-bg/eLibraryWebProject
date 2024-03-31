@@ -18,7 +18,19 @@ namespace LibraryManagementSystem.Services.Data
             this.dbContext = dbContext;
         }
 
-        public async Task EditAuthorAsync(string authorId, AuthorFormModel model)
+        public async Task DeleteAuthorAsync(string authorId)
+        {
+            Author? authorToDelete = await GetAuthorByIdAsync(authorId);
+
+            if (authorToDelete != null)
+            {
+                authorToDelete.IsDeleted = true;
+            }
+
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Author> EditAuthorAsync(string authorId, AuthorFormModel model)
         {
             Author? authorToEdit = await GetAuthorByIdAsync(authorId);
 
@@ -34,18 +46,8 @@ namespace LibraryManagementSystem.Services.Data
             }
 
             await this.dbContext.SaveChangesAsync();
-        }
 
-        public async Task DeleteAuthorAsync(string authorId)
-        {
-            Author? authorToDelete = await GetAuthorByIdAsync(authorId);
-
-            if (authorToDelete != null)
-            {
-                authorToDelete.IsDeleted = true;
-            }
-
-            await this.dbContext.SaveChangesAsync();
+            return authorToEdit!;
         }
 
         public async Task<Author> AddAuthorAsync(AuthorFormModel model)

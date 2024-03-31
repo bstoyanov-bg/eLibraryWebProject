@@ -101,7 +101,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = AdminRole)]
-        public async Task<IActionResult> Edit(string id, AuthorFormModel model)
+        public async Task<IActionResult> Edit(string id, AuthorFormModel model, IFormFile authorImage)
         {
             if (!this.ModelState.IsValid)
             {
@@ -119,7 +119,12 @@ namespace LibraryManagementSystem.Web.Controllers
 
             try
             {
-                await this.authorService.EditAuthorAsync(id, model);
+                var authorToEdit = await this.authorService.EditAuthorAsync(id, model);
+
+                if (authorImage != null)
+                {
+                    await this.fileService.UploadImageFileAsync(authorToEdit.Id.ToString(), authorImage, "Author");
+                }
 
                 this.TempData[SuccessMessage] = "Succesfully edited Author.";
             }

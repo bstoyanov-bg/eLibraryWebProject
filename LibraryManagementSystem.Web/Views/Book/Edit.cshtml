@@ -60,7 +60,7 @@
                         if (fileNameParts.Length > 1)
                         {
                             string displayedFileName = fileNameParts[fileNameParts.Length - 1];
-                            <p>Uploaded file: @displayedFileName</p>
+                            <p><b>Uploaded file:</b> @displayedFileName</p>
                         }
                     }
                 </div>
@@ -73,7 +73,7 @@
 
         <h2>Edit Book</h2>
 
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div class="form-group col-md-10">
                 <div class="form-group mb-3">
                     <label asp-for="Title"></label>
@@ -100,10 +100,28 @@
                     <input asp-for="Publisher" class="form-control" placeholder="" />
                     <span asp-validation-for="Publisher" class="small text-danger"></span>
                 </div>
-                <div class="form-group mb-3">
-                    <label asp-for="ImageFilePath"></label>
-                    <input asp-for="ImageFilePath" class="form-control" placeholder="" />
+
+                <div class="form-group mb-5">
+                    <label asp-for="ImageFilePath" class="form-label">Select Cover Image for Upload</label>
+                    <div class="input-group mb-3">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile" name="bookImage" onchange="updateFileName(this)">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                        <br />
+                    </div>
                     <span asp-validation-for="ImageFilePath" class="small text-danger"></span>
+                    <div>
+                        @if (!string.IsNullOrEmpty(Model.ImageFilePath))
+                        {
+                            string[] fileNameParts = Model.ImageFilePath.Split('_');
+                            if (fileNameParts.Length > 1)
+                            {
+                                string displayedFileName = fileNameParts[fileNameParts.Length - 1];
+                                <p><b>Uploaded file:</b> @displayedFileName</p>
+                            }
+                        }
+                    </div>
                 </div>
 
                 <div class="mb-4">
@@ -153,6 +171,14 @@
                 autoclose: true,
                 todayHighlight: true
             });
+    </script>
+
+    <script>
+        function updateFileName(input) {
+            var fileName = input.files[0].name;
+            var label = input.nextElementSibling;
+            label.innerText = fileName;
+        }
     </script>
 
 </body>

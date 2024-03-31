@@ -31,7 +31,28 @@ namespace LibraryManagementSystem.Services.Data
             this.ratingServiceLazy = ratingServiceLazy;
         }
 
-        public async Task EditBookAsync(string bookId, BookFormModel model)
+        public async Task DeleteBookAsync(string bookId)
+        {
+            Book? bookToDelete = await GetBookByIdAsync(bookId);
+
+            IEditionService editionService = this.editionServiceLazy.Value;
+
+            var bookEditionsForDelete = await editionService.GetAllBookEditionsByBookIdAsync(bookId);
+
+            if (bookToDelete != null)
+            {
+                foreach (var edition in bookEditionsForDelete)
+                {
+                    await editionService.DeleteEditionAsync(edition.Id.ToString());
+                }
+
+                bookToDelete.IsDeleted = true;
+            }
+
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Book> EditBookAsync(string bookId, BookFormModel model)
         {
             Book? bookToEdit = await GetBookByIdAsync(bookId);
 
@@ -61,27 +82,8 @@ namespace LibraryManagementSystem.Services.Data
 
             await this.dbContext.BooksCategories.AddAsync(newBookCategory);
             await this.dbContext.SaveChangesAsync();
-        }
 
-        public async Task DeleteBookAsync(string bookId)
-        {
-            Book? bookToDelete = await GetBookByIdAsync(bookId);
-
-            IEditionService editionService = this.editionServiceLazy.Value;
-
-            var bookEditionsForDelete = await editionService.GetAllBookEditionsByBookIdAsync(bookId);
-
-            if (bookToDelete != null)
-            {
-                foreach (var edition in bookEditionsForDelete)
-                {
-                    await editionService.DeleteEditionAsync(edition.Id.ToString());
-                }
-
-                bookToDelete.IsDeleted = true;
-            }
-
-            await this.dbContext.SaveChangesAsync();
+            return bookToEdit;
         }
 
         public async Task<Book> AddBookAsync(BookFormModel model)
