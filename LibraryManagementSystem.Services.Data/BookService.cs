@@ -308,6 +308,16 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync();
         }
 
+        public async Task<bool> BookExistByISBNAsync(string isbn)
+        {
+            return await this.dbContext
+                .Books
+                .AsNoTracking()
+                .Where(b => b.IsDeleted == false &&
+                            b.ISBN == isbn)
+                .AnyAsync();
+        }
+
         // Refactor
         public async Task<bool> HasUserRatedBookAsync(string userId, string bookId)
         {

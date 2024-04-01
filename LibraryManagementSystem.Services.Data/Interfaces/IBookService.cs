@@ -27,6 +27,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<bool> BookExistByTitleAndAuthorIdAsync(string title, string authorId);
 
+        Task<bool> BookExistByISBNAsync(string isbn);
+
         Task<bool> HasUserRatedBookAsync(string userId, string bookId);
 
         Task<bool> DoesBookHaveUploadedFileAsync(string bookId);

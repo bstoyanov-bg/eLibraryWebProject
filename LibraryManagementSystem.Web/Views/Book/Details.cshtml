@@ -79,7 +79,6 @@
                         </form>
                     }
 
-                    // Make sure there is uploaded file !!!
                     else
                     {
                         @if (doesBookHaveUploadedFile)
@@ -174,7 +173,6 @@
                                 @if (await this.EditionService.DoesEditionHaveUploadedFileAsync(edition.Id))
                                 {
                                     @* If the User has this EDITION in his collection he can Download or View the file in browser*@
-
                                     <form asp-action="DownloadFile" asp-controller="File" method="get" style="display: inline;">
                                         <input type="hidden" name="id" value="@edition.Id" />
                                         <input type="hidden" name="entityType" value="Edition" />

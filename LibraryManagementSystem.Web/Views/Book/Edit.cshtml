@@ -82,8 +82,9 @@
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="ISBN"></label>
-                    <input asp-for="ISBN" class="form-control" placeholder="" />
+                    <input asp-for="ISBN" id="isbnInput" class="form-control" placeholder="" title="Please enter a valid ISBN number" oninput="formatISBN()" />
                     <span asp-validation-for="ISBN" class="small text-danger"></span>
+                    <span id="isbn-validation-message" class="text-notification"><strong>NOTE:</strong> If present you can enter a valid ISBN number which is 13 numbers long and in the format 111-11-111-1111-1.</span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="YearPublished"></label>
@@ -178,6 +179,24 @@
             var fileName = input.files[0].name;
             var label = input.nextElementSibling;
             label.innerText = fileName;
+        }
+    </script>
+
+    <script>
+        function formatISBN() {
+            var input = document.getElementById("isbnInput");
+            var value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
+            var formattedValue = '';
+
+            // Format the input with hyphens
+            for (var i = 0; i < value.length; i++) {
+                if (i == 3 || i == 5 || i == 8 || i == 12) {
+                    formattedValue += '-';
+                }
+                formattedValue += value[i];
+            }
+
+            input.value = formattedValue;
         }
     </script>
 

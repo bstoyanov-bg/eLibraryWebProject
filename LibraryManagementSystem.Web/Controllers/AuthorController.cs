@@ -30,7 +30,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = AdminRole)]
-        public async Task<IActionResult> Add(AuthorFormModel model, IFormFile authorImage)
+        public async Task<IActionResult> Add(AuthorFormModel model, IFormFile? authorImage)
         {
             if (!this.ModelState.IsValid)
             {
@@ -50,7 +50,10 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 var addedAuthor = await this.authorService.AddAuthorAsync(model);
 
-                await this.fileService.UploadImageFileAsync(addedAuthor.Id.ToString(), authorImage, "Author");
+                if (authorImage != null) 
+                {
+                    await this.fileService.UploadImageFileAsync(addedAuthor.Id.ToString(), authorImage, "Author");
+                }
 
                 this.TempData[SuccessMessage] = "Successfully added Author.";
             }

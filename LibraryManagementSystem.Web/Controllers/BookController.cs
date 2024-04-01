@@ -23,7 +23,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> All([FromQuery]AllBooksQueryModel queryModel)
+        public async Task<IActionResult> All([FromQuery] AllBooksQueryModel queryModel)
         {
             AllBooksFilteredAndPagedServiceModel serviceModel = await this.bookService.GetAllBooksFilteredAndPagedAsync(queryModel);
 
@@ -52,7 +52,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = AdminRole)]
-        public async Task<IActionResult> Add(BookFormModel model, IFormFile bookImage)
+        public async Task<IActionResult> Add(BookFormModel model, IFormFile? bookImage)
         {
             if (!this.ModelState.IsValid)
             {
@@ -70,9 +70,24 @@ namespace LibraryManagementSystem.Web.Controllers
                     return this.RedirectToAction("All", "Book");
                 }
 
+                if (!string.IsNullOrEmpty(model.ISBN))
+                {
+                    bool bookISBNExists = await this.bookService.BookExistByISBNAsync(model.ISBN);
+
+                    if (bookISBNExists)
+                    {
+                        this.TempData[ErrorMessage] = "Book with the same ISBN number already exists!";
+
+                        return this.RedirectToAction("All", "Book");
+                    }
+                }
+
                 var addedBook = await this.bookService.AddBookAsync(model);
 
-                await this.fileService.UploadImageFileAsync(addedBook.Id.ToString(), bookImage, "Book");
+                if (bookImage != null)
+                {
+                    await this.fileService.UploadImageFileAsync(addedBook.Id.ToString(), bookImage, "Book");
+                }
 
                 this.TempData[SuccessMessage] = $"Successfully added Book.";
 
