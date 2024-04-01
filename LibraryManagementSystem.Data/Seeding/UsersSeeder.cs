@@ -55,11 +55,31 @@ namespace LibraryManagementSystem.Data.Seeding
                 SecurityStamp = "6D9FB13AE0D145F496E624C798A5268E",
             };
 
+            ApplicationUser userTwo = new ApplicationUser
+            {
+                Id = Guid.Parse("89A4BE4E-2B5E-4FB7-AA5A-E3FEEBBA0153"),
+                FirstName = "Marina",
+                LastName = "Zdravkova",
+                DateOfBirth = DateOnly.ParseExact("01.05.1985", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                Address = "Hristo Botev 12",
+                Country = "Bulgaria",
+                City = "Haskovo",
+                UserName = "Marina85",
+                MaxLoanedBooks = MaxNumberOfBooksAllowed,
+                PasswordHash = "pass.123",
+                Email = "marina85@abv.bg",
+                PhoneNumber = "999666333",
+                IsDeleted = false,
+                SecurityStamp = "285DD83CB9D44020893880E27B178E15",
+            };
+
             await userManager.CreateAsync(admin, admin.PasswordHash);
             await userManager.CreateAsync(user, user.PasswordHash);
+            await userManager.CreateAsync(userTwo, user.PasswordHash);
 
             await userManager.AddToRoleAsync(admin, AdminRole);
             await userManager.AddToRoleAsync(user, UserRole);
+            await userManager.AddToRoleAsync(userTwo, UserRole);
         }
     }
 }
