@@ -45,7 +45,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>Add Book</h1>
+        <h1 class="text-center">Add Book</h1>
+        <br />
 
         <form method="post" enctype="multipart/form-data">
             <div class="form-group col-md-10">
@@ -58,7 +59,7 @@
                     <label asp-for="ISBN"></label>
                     <input asp-for="ISBN" id="isbnInput" class="form-control" placeholder="" title="Please enter a valid ISBN number" oninput="formatISBN()" />
                     <span asp-validation-for="ISBN" class="small text-danger"></span>
-                    <span id="isbn-validation-message" class="text-notification"><strong>NOTE:</strong> If present you can enter a valid ISBN number which is 13 numbers long and in the format 111-11-111-1111-1.</span>
+                    <span id="isbn-validation-message" class="text-notification"><strong>NOTE:</strong> If present you can enter a valid ISBN number which is 13 digits long and in the format 111-11-111-1111-1.</span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="YearPublished"></label>
@@ -97,6 +98,7 @@
                         }
                     </select>
                     <span asp-validation-for="@Model.AuthorId" class="text-danger"></span>
+
                 </div>
                 <div class="mb-4">
                     <label asp-for="@Model.CategoryId" class="form-label-add-edit">Select Category</label>

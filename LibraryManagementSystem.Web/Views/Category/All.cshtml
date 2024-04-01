@@ -6,53 +6,61 @@
     ViewData["Title"] = "All Categories";
 }
 
-<div class="mb-4">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
     <h2 class="text-center">@ViewBag.Title</h2>
-</div>
-<br />
+    <hr />
+    <br />
+    <br />
 
-@if (!Model.Any())
-{
-    <p>No categories found.</p>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th style="text-align: center; vertical-align: middle;">№</th>
-                <th style="text-align: center; vertical-align: middle;">Name</th>
-                <th style="text-align: center; vertical-align: middle;">Books in category</th>
-                @if (this.User.IsInRole(AdminRole))
-                {
-                    <th style="text-align: center; vertical-align: middle;">Actions</th>
-                }
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                int counter = 1;
-            }
-            @foreach (var category in Model)
-            {
+    @if (!Model.Any())
+    {
+        <p>No categories found.</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td style="text-align: center; vertical-align: middle;">@counter</td>
-                    <td style="text-align: center; vertical-align: middle;">@category.Name</td>
-                    <td style="text-align: center; vertical-align: middle;">
-                        <a href="@Url.Action("All", "Book", new { category = category.Name })" style="text-decoration: none;">
-                            @category.BooksCount
-                        </a>
-                    </td>
-                    <td style="text-align: center; vertical-align: middle;">
-                        @if (this.User.IsInRole(AdminRole))
-                        {
-                            <a style="text-align: center; vertical-align: middle;" href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-warning">Edit</a>
-                            <a style="text-align: center; vertical-align: middle;" href="@Url.Action("Delete", "Category", new { id = category.Id })" class="btn btn-danger">Delete</a>
-                        }
-                    </td>
+                    <th style="text-align: center; vertical-align: middle;">№</th>
+                    <th style="text-align: center; vertical-align: middle;">Name</th>
+                    <th style="text-align: center; vertical-align: middle;">Books in category</th>
+                    @if (this.User.IsInRole(AdminRole))
+                    {
+                        <th style="text-align: center; vertical-align: middle;">Actions</th>
+                    }
                 </tr>
-                counter++;
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @{
+                    int counter = 1;
+                }
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td style="text-align: center; vertical-align: middle;">@counter</td>
+                        <td style="text-align: center; vertical-align: middle;">@category.Name</td>
+                        <td style="text-align: center; vertical-align: middle;">
+                            <a href="@Url.Action("All", "Book", new { category = category.Name })" style="text-decoration: none;">
+                                @category.BooksCount
+                            </a>
+                        </td>
+                        <td style="text-align: center; vertical-align: middle;">
+                            @if (this.User.IsInRole(AdminRole))
+                            {
+                                <a style="text-align: center; vertical-align: middle;" href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-warning">Edit</a>
+                                <a style="text-align: center; vertical-align: middle;" href="@Url.Action("Delete", "Category", new { id = category.Id })" class="btn btn-danger">Delete</a>
+                            }
+                        </td>
+                    </tr>
+                    counter++;
+                }
+            </tbody>
+        </table>
+    }
+</body>
+</html>

@@ -6,22 +6,25 @@
 
 <!DOCTYPE html>
 <html>
-<body>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
     <div class="container">
-        <h1>Add Category</h1>
-        <div class="form-group col-md-8">
-            <form method="post">
+        <h1 class="text-center">Add Category</h1>
+        <br />
+        <form method="post">
+            <div class="form-group col-md-10 mb-5">
                 <div class="form-group mb-4">
-                    <label asp-for="Name">Name</label>
+                    <label asp-for="Name" class="form-label">Name</label>
                     <input asp-for="Name" class="form-control" placeholder="" />
                     <span asp-validation-for="Name" class="small text-danger"></span>
                 </div>
-
                 <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </body>
 </html>

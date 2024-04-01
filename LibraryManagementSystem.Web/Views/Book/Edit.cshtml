@@ -47,7 +47,7 @@
     <div class="container">
         <div class="form-group col-md-10">
             <br />
-            <h2>Upload Book File</h2>
+            <h3>Upload Book File</h3>
             <br />
             <form asp-action="UploadFile" asp-controller="File" method="post" enctype="multipart/form-data">
                 <div class="form-group">
@@ -71,7 +71,8 @@
         </div>
         <br />
 
-        <h2>Edit Book</h2>
+        <h2 class="text-center">Edit Book</h2>
+        <br />
 
         <form method="post" enctype="multipart/form-data">
             <div class="form-group col-md-10">
@@ -84,7 +85,7 @@
                     <label asp-for="ISBN"></label>
                     <input asp-for="ISBN" id="isbnInput" class="form-control" placeholder="" title="Please enter a valid ISBN number" oninput="formatISBN()" />
                     <span asp-validation-for="ISBN" class="small text-danger"></span>
-                    <span id="isbn-validation-message" class="text-notification"><strong>NOTE:</strong> If present you can enter a valid ISBN number which is 13 numbers long and in the format 111-11-111-1111-1.</span>
+                    <span id="isbn-validation-message" class="text-notification"><strong>NOTE:</strong> If present you can enter a valid ISBN number which is 13 digits long and in the format 111-11-111-1111-1.</span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="YearPublished"></label>
