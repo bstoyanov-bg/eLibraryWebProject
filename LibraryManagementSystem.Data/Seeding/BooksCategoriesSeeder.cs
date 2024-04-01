@@ -35,6 +35,46 @@ namespace LibraryManagementSystem.Data.Seeding
                     BookId = Guid.Parse("3B7822CB-17D3-47FE-8C2B-2CA761F376F1"),
                     CategoryId = 2,
                 },
+                new BookCategory
+                {
+                    BookId = Guid.Parse("4C757EFD-2D1D-42A9-8460-88B9E1FFCC7D"),
+                    CategoryId = 3,
+                },
+                new BookCategory
+                {
+                    BookId = Guid.Parse("8C6D196A-1E96-4DA0-9B65-91CD7736E13E"),
+                    CategoryId = 3,
+                },
+                new BookCategory
+                {
+                    BookId = Guid.Parse("7DF9AE98-DBB6-4498-9ED5-3C6F19641CBF"),
+                    CategoryId = 5,
+                },
+                new BookCategory
+                {
+                    BookId = Guid.Parse("DDDED6BD-AAB9-4503-B285-AA2DE7FF7BC3"),
+                    CategoryId = 5,
+                },
+                new BookCategory
+                {
+                    BookId = Guid.Parse("42CBCCE4-349B-4D8C-A077-318A07BA74CC"),
+                    CategoryId = 6,
+                },
+                new BookCategory
+                {
+                    BookId = Guid.Parse("D8EBD1EE-C555-418C-844C-28BE14D44314"),
+                    CategoryId = 6,
+                },
+                new BookCategory
+                {
+                    BookId = Guid.Parse("6232A651-266B-45BC-B652-9696553914B7"),
+                    CategoryId = 4,
+                },
+                new BookCategory
+                {
+                    BookId = Guid.Parse("A6D5D2D7-A6FB-46EF-AA1D-9502A0EF1C50"),
+                    CategoryId = 4,
+                },
             };
 
             await dbContext.BooksCategories.AddRangeAsync(booksCategories);

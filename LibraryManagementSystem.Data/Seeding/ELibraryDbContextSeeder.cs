@@ -20,12 +20,14 @@ namespace LibraryManagementSystem.Data.Seeding
             var seeders = new List<ISeeder>
                           {
                               new RolesSeeder(),
+                              new UsersSeeder(),
                               new AuthorsSeeder(),
                               new CategoriesSeeder(),
                               new BooksSeeder(),
                               new BooksCategoriesSeeder(),
                               new EditionsSeeder(),
-                              new UsersSeeder(),
+                              new LendedBooksSeeder(),
+                              new RatingSeeder(),
                           };
 
 

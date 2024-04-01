@@ -1,11 +1,11 @@
 ﻿using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Data.Seeding.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
-using LibraryManagementSystem.Data.Seeding.Contracts;
-using static LibraryManagementSystem.Common.UserRoleNames;
 using static LibraryManagementSystem.Common.GeneralApplicationConstants;
+using static LibraryManagementSystem.Common.UserRoleNames;
 
 namespace LibraryManagementSystem.Data.Seeding
 {
@@ -37,7 +37,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 SecurityStamp = "49CC835AFE4D41B5AB5DC8CB6886ACD0",
             };
 
-            ApplicationUser user = new ApplicationUser
+            ApplicationUser userOne = new ApplicationUser
             {
                 Id = Guid.Parse("7F13235C-EAC9-4F60-AA69-BC8FC86FBD24"),
                 FirstName = "Dimitar",
@@ -73,13 +73,33 @@ namespace LibraryManagementSystem.Data.Seeding
                 SecurityStamp = "285DD83CB9D44020893880E27B178E15",
             };
 
+            ApplicationUser userThree = new ApplicationUser
+            {
+                Id = Guid.Parse("BBBDF7F6-94E2-4BE8-A036-84AF63E028FC"),
+                FirstName = "Petko",
+                LastName = "Georgiev",
+                DateOfBirth = DateOnly.ParseExact("12.08.1978", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                Address = "Pencho Vladigerov 15",
+                Country = "Bulgaria",
+                City = "Sofia",
+                UserName = "PetkoBaby",
+                MaxLoanedBooks = MaxNumberOfBooksAllowed,
+                PasswordHash = "pass.123",
+                Email = "petkobaby@abv.bg",
+                PhoneNumber = "778811547",
+                IsDeleted = false,
+                SecurityStamp = "618A8DDF778F4DDDB8A5B22CC61D1FAA",
+            };
+
             await userManager.CreateAsync(admin, admin.PasswordHash);
-            await userManager.CreateAsync(user, user.PasswordHash);
-            await userManager.CreateAsync(userTwo, user.PasswordHash);
+            await userManager.CreateAsync(userOne, userOne.PasswordHash);
+            await userManager.CreateAsync(userTwo, userTwo.PasswordHash);
+            await userManager.CreateAsync(userThree, userThree.PasswordHash);
 
             await userManager.AddToRoleAsync(admin, AdminRole);
-            await userManager.AddToRoleAsync(user, UserRole);
+            await userManager.AddToRoleAsync(userOne, UserRole);
             await userManager.AddToRoleAsync(userTwo, UserRole);
+            await userManager.AddToRoleAsync(userThree, UserRole);
         }
     }
 }
