@@ -19,7 +19,7 @@ namespace LibraryManagementSystem.Common
             public const int TitleMinLength = 2;
             public const int TitleMaxLength = 150;
 
-            public const int YearPublishedMaxLength = 5;
+            //public const int YearPublishedMaxLength = 5;
 
             public const int DescriptionMinLength = 50;
             public const int DescriptionMaxLength = 1500;
@@ -59,12 +59,12 @@ namespace LibraryManagementSystem.Common
         public static class Edition
         {
             public const int VersionMinLength = 1;
-            public const int VersionMaxLength = 10;
+            public const int VersionMaxLength = 100;
 
             public const int PublisherMinLength = 5;
             public const int PublisherMaxLength = 100;
 
-            public const int EditionYearMaxLength = 5;
+            //public const int EditionYearMaxLength = 5;
 
             public const int FilePathMaxLength = 260;
 

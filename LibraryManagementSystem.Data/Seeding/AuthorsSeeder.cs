@@ -124,7 +124,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         Nationality = "American",
                         IsDeleted = false,
                     },
-                };
+             };
 
             await dbContext.Authors.AddRangeAsync(authors);
             await dbContext.SaveChangesAsync();

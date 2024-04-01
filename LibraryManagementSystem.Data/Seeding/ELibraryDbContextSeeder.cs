@@ -24,6 +24,7 @@ namespace LibraryManagementSystem.Data.Seeding
                               new CategoriesSeeder(),
                               new BooksSeeder(),
                               new BooksCategoriesSeeder(),
+                              new EditionsSeeder(),
                               new UsersSeeder(),
                           };
 

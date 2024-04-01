@@ -37,7 +37,6 @@ namespace LibraryManagementSystem.Data.Models
         public string Title { get; set; } = null!;
 
         [Comment("The year of book publish")]
-        [MaxLength(YearPublishedMaxLength)]
         [DisplayFormat(DataFormatString = GlobalYearFormat)]
         public DateOnly? YearPublished { get; set; }
 

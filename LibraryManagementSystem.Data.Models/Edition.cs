@@ -33,7 +33,6 @@ namespace LibraryManagementSystem.Data.Models
 
         [Comment("The year of book edition")]
         [Required]
-        [MaxLength(EditionYearMaxLength)]
         [DisplayFormat(DataFormatString = GlobalYearFormat)]
         public DateOnly EditionYear { get; set; }
 
