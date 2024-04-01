@@ -104,7 +104,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = AdminRole)]
-        public async Task<IActionResult> Edit(string id, AuthorFormModel model, IFormFile authorImage)
+        public async Task<IActionResult> Edit(string id, AuthorFormModel model, IFormFile? authorImage)
         {
             if (!this.ModelState.IsValid)
             {

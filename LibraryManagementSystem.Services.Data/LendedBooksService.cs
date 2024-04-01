@@ -106,6 +106,16 @@ namespace LibraryManagementSystem.Services.Data
                 .CountAsync();
         }
 
+        public async Task<int> GetCountOfPeopleReadingTheBookAsync(string bookId)
+        {
+            return await this.dbContext
+                .LendedBooks
+                .AsNoTracking()
+                .Where(lb => lb.BookId.ToString() == bookId &&
+                             lb.ReturnDate == null)
+                .CountAsync();
+        }
+
         public async Task<IEnumerable<MyBooksViewModel>> GetMyBooksAsync(string userId)
         {
             return await this.dbContext

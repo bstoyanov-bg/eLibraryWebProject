@@ -15,18 +15,21 @@ namespace LibraryManagementSystem.Services.Data
         private readonly ELibraryDbContext dbContext;
         private readonly ICategoryService categoryService;
         private readonly IAuthorService authorService;
+        private readonly ILendedBooksService lendedBooksService;
         private readonly Lazy<IRatingService> ratingServiceLazy;
         private readonly Lazy<IEditionService> editionServiceLazy;
 
         public BookService(ELibraryDbContext dbContext, 
             ICategoryService categoryService, 
             IAuthorService authorService,
+            ILendedBooksService lendedBooksService,
             Lazy<IRatingService> ratingServiceLazy,
             Lazy<IEditionService> editionServiceLazy)
         {
             this.dbContext = dbContext;
             this.categoryService = categoryService;
             this.authorService = authorService;
+            this.lendedBooksService = lendedBooksService;
             this.editionServiceLazy = editionServiceLazy;
             this.ratingServiceLazy = ratingServiceLazy;
         }
@@ -190,8 +193,9 @@ namespace LibraryManagementSystem.Services.Data
                 .FirstAsync();
     
             IRatingService ratingService = this.ratingServiceLazy.Value;
-
             decimal? bookRating = await ratingService.GetAverageRatingForBookAsync(bookId);
+
+            var peopleReading = await lendedBooksService.GetCountOfPeopleReadingTheBookAsync(bookId);
 
             BookDetailsViewModel book = await this.dbContext
                 .Books
@@ -211,6 +215,7 @@ namespace LibraryManagementSystem.Services.Data
                     CategoryName = categoryName,
                     Editions = editions,
                     Rating = (decimal)bookRating,
+                    PeopleReading = peopleReading,
                 }).FirstAsync();
 
             return book;

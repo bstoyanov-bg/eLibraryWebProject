@@ -33,6 +33,8 @@ namespace LibraryManagementSystem.Web.ViewModels.Book
 
         public decimal Rating { get; set; }
 
+        public int PeopleReading { get; set; }
+
         public IEnumerable<EditionsForBookDetailsViewModel> Editions { get; set; } = null!;
 
         public IEnumerable<CommentViewModel> Comments { get; set; } = null!;

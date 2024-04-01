@@ -20,6 +20,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<int> GetCountOfActiveBooksForUserAsync(string userId);
 
+        Task<int> GetCountOfPeopleReadingTheBookAsync(string bookId);
+
         Task<IEnumerable<MyBooksViewModel>> GetMyBooksAsync(string userId);
     }
 }

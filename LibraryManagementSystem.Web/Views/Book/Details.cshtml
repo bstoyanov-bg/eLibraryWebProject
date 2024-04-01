@@ -13,6 +13,7 @@
     bool bookExistInUserCollection = await LendedBooksService.BookExistsInUserHistoryCollectionAsync(User.GetId()!.ToString(), Model.Id);
     bool didUserGiveRating = await RatingService.HasUserGaveRatingToBookAsync(User.GetId()!.ToString(), Model.Id);
     bool doesBookHaveUploadedFile = await BookService.DoesBookHaveUploadedFileAsync(Model.Id);
+    int howManyPeopleAreReading = await LendedBooksService.GetCountOfPeopleReadingTheBookAsync(Model.Id);
 }
 
 @{
@@ -68,6 +69,17 @@
                     <p class="mb-0"><span class="fw-bold">Year published: </span>@Model.YearPublished</p>
                     <p class="mb-0"><span class="fw-bold">Publisher: </span>@Model.Publisher</p>
                     <p class="mb-0"><span class="fw-bold">ISBN: </span>@Model.ISBN</p>
+                    <hr>
+                    <p class="mb-0"> <span class="fw-bold"></span>@Model.PeopleReading
+                        @if (howManyPeopleAreReading == 1)
+                        {
+                            <span>person is currently reading the book.</span>
+                        }
+                        else
+                        {
+                            <span>people are currently reading the book.</span>
+                        }
+                    </p>
                 </div>
                 <div class="col-md-3 d-flex justify-content-center">
                     @if (this.User.IsInRole(UserRole) && !isBookActiveForUser)
