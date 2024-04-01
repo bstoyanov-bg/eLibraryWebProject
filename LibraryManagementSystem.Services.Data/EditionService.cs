@@ -130,6 +130,16 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync();
         }
 
+        public async Task<bool> DoesEditionHaveUploadedFileAsync(string editionId)
+        {
+            return await this.dbContext
+                .Editions
+                .AsNoTracking()
+                .Where(e => e.Id.ToString() == editionId &&
+                            e.FilePath != null)
+                .AnyAsync();
+        }
+
         public async Task<string> GetBookIdByEditionIdAsync(string editionId)
         {
            string? bookId = await this.dbContext

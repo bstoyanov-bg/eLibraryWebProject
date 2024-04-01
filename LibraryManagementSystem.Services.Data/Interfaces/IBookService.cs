@@ -29,6 +29,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<bool> HasUserRatedBookAsync(string userId, string bookId);
 
+        Task<bool> DoesBookHaveUploadedFileAsync(string bookId);
+
         Task<IEnumerable<IndexViewModel>> LastNineBooksAsync();
 
         Task<IEnumerable<BookSelectForEditionFormModel>>GetAllBooksForListAsync();

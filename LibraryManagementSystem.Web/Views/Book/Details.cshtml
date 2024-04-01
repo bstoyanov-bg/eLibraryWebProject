@@ -5,11 +5,14 @@
 
 @inject ILendedBooksService LendedBooksService
 @inject IRatingService RatingService
+@inject IBookService BookService
+@inject IEditionService EditionService
 
 @{
     bool isBookActiveForUser = await LendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id);
     bool bookExistInUserCollection = await LendedBooksService.BookExistsInUserHistoryCollectionAsync(User.GetId()!.ToString(), Model.Id);
     bool didUserGiveRating = await RatingService.HasUserGaveRatingToBookAsync(User.GetId()!.ToString(), Model.Id);
+    bool doesBookHaveUploadedFile = await BookService.DoesBookHaveUploadedFileAsync(Model.Id);
 }
 
 @{
@@ -77,29 +80,29 @@
                     }
 
                     // Make sure there is uploaded file !!!
-                    /* else
-                    {   @if(){
+                    else
+                    {
+                        @if (doesBookHaveUploadedFile)
+                        {
+                            @* If the User has this BOOK in his collection he can Download or View the file in browser!*@
+                            <div style="display: flex; gap: 10px;">
+                                <div>
+                                    <form asp-action="DownloadFile" asp-controller="File" method="get">
+                                        <input type="hidden" name="id" value="@Model.Id" />
+                                        <input type="hidden" name="entityType" value="Book" />
+                                        <button type="submit" class="btn btn-info">Download</button>
+                                    </form>
+                                </div>
 
-                    } */
-
-                        @* If the User has this BOOK in his collection he can Download or View the file in browser!*@
-                        <div style="display: flex; gap: 10px;">
-                            <div>
-                                <form asp-action="DownloadFile" asp-controller="File" method="get">
-                                    <input type="hidden" name="id" value="@Model.Id" />
-                                    <input type="hidden" name="entityType" value="Book" />
-                                    <button type="submit" class="btn btn-info">Download</button>
-                                </form>
+                                <div>
+                                    <form asp-action="GetTextFileContent" asp-controller="File" method="get">
+                                        <input type="hidden" name="id" value="@Model.Id" />
+                                        <input type="hidden" name="entityType" value="Book" />
+                                        <button type="submit" class="btn btn-info">View File</button>
+                                    </form>
+                                </div>
                             </div>
-
-                            <div>
-                                <form asp-action="GetTextFileContent" asp-controller="File" method="get">
-                                    <input type="hidden" name="id" value="@Model.Id" />
-                                    <input type="hidden" name="entityType" value="Book" />
-                                    <button type="submit" class="btn btn-info">View File</button>
-                                </form>
-                            </div>
-                        </div>
+                        }
                     }
 
                     @if (this.User.IsInRole(UserRole) && bookExistInUserCollection && !didUserGiveRating)
@@ -168,19 +171,22 @@
                             }
                             else if (this.User.IsInRole(UserRole) && isBookActiveForUser)
                             {
-                                @* If the User has this EDITION in his collection he can Download or View the file in browser*@
+                                @if (await this.EditionService.DoesEditionHaveUploadedFileAsync(edition.Id))
+                                {
+                                    @* If the User has this EDITION in his collection he can Download or View the file in browser*@
 
-                                <form asp-action="DownloadFile" asp-controller="File" method="get" style="display: inline;">
-                                    <input type="hidden" name="id" value="@edition.Id" />
-                                    <input type="hidden" name="entityType" value="Edition" />
-                                    <button type="submit" class="btn btn-info">Download</button>
-                                </form>
+                                    <form asp-action="DownloadFile" asp-controller="File" method="get" style="display: inline;">
+                                        <input type="hidden" name="id" value="@edition.Id" />
+                                        <input type="hidden" name="entityType" value="Edition" />
+                                        <button type="submit" class="btn btn-info">Download</button>
+                                    </form>
 
-                                <form asp-action="GetTextFileContent" asp-controller="File" method="get" style="display: inline;">
-                                    <input type="hidden" name="id" value="@edition.Id" />
-                                    <input type="hidden" name="entityType" value="Edition" />
-                                    <button type="submit" class="btn btn-info">View File</button>
-                                </form>
+                                    <form asp-action="GetTextFileContent" asp-controller="File" method="get" style="display: inline;">
+                                        <input type="hidden" name="id" value="@edition.Id" />
+                                        <input type="hidden" name="entityType" value="Edition" />
+                                        <button type="submit" class="btn btn-info">View File</button>
+                                    </form>
+                                }
                             }
                     </tr>
                 }

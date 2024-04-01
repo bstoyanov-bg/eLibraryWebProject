@@ -21,6 +21,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<bool> EditionExistByVersionPublisherAndBookIdAsync(string version, string publisher, string bookId);
 
+        Task<bool> DoesEditionHaveUploadedFileAsync(string editionId);
+
         Task<string> GetBookIdByEditionIdAsync(string editionId);
 
         Task<IEnumerable<Edition>> GetAllBookEditionsByBookIdAsync(string bookId);

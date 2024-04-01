@@ -308,12 +308,23 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync();
         }
 
+        // Refactor
         public async Task<bool> HasUserRatedBookAsync(string userId, string bookId)
         {
             return await this.dbContext
                 .Ratings
                 .AnyAsync(r => r.UserId.ToString() == userId &&
                                r.BookId.ToString() == bookId);
+        }
+
+        public async Task<bool> DoesBookHaveUploadedFileAsync(string bookId)
+        {
+            return await this.dbContext
+                .Books
+                .AsNoTracking()
+                .Where(b => b.Id.ToString() == bookId &&
+                            b.FilePath != null)
+                .AnyAsync();
         }
 
         public async Task<IEnumerable<IndexViewModel>> LastNineBooksAsync()
