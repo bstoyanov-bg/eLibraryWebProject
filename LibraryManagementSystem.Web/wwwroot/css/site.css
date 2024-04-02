@@ -18,5 +18,14 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #fdf6e3;
+}
+
+footer {
+    background-color: #d4d1c9 !important;
+}
+
+.navbar {
+    background-color: #d4d1c9 !important;
 }
