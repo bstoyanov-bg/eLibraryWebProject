@@ -24,6 +24,7 @@
 <hr />
 
 <head>
+    @* Styles for rating elements *@
     <style>
         .fa-star {
             font-size: 1.5em;
@@ -70,7 +71,8 @@
                     <p class="mb-0"><span class="fw-bold">Publisher: </span>@Model.Publisher</p>
                     <p class="mb-0"><span class="fw-bold">ISBN: </span>@Model.ISBN</p>
                     <hr>
-                    <p class="mb-0"> <span class="fw-bold"></span>@Model.PeopleReading
+                    <p class="mb-0">
+                        <span class="fw-bold"></span>@Model.PeopleReading
                         @if (howManyPeopleAreReading == 1)
                         {
                             <span>person is currently reading the book.</span>
@@ -90,7 +92,6 @@
                             <button type="submit" class="btn btn-success">Get Book</button>
                         </form>
                     }
-
                     else
                     {
                         @if (doesBookHaveUploadedFile)
@@ -135,7 +136,8 @@
     <div class="comments mb-5">
         <p>
             <button id="loadCommentsButton" class="btn btn-primary" type="button" data-book-id="@Model.Id" data-bs-toggle="collapse"
-                    data-bs-target="#collapseWidth" aria-expanded="false" aria-controls="collapseWidth">See comments
+                    data-bs-target="#collapseWidth" aria-expanded="false" aria-controls="collapseWidth">
+                See comments
             </button>
         </p>
         <div style="min-height: 100px;">
@@ -178,8 +180,20 @@
                             {
                                 <a href="@Url.Action("Edit", "Edition", new { id = edition.Id })" class="btn btn-warning">Edit</a>
                                 <a href="@Url.Action("Delete", "Edition", new { id = edition.Id })" class="btn btn-danger">Delete</a>
+
+                                <form asp-action="DownloadFile" asp-controller="File" method="get" style="display: inline;">
+                                    <input type="hidden" name="id" value="@edition.Id" />
+                                    <input type="hidden" name="entityType" value="Edition" />
+                                    <button type="submit" class="btn btn-info">Download</button>
+                                </form>
+
+                                <form asp-action="GetTextFileContent" asp-controller="File" method="get" style="display: inline;">
+                                    <input type="hidden" name="id" value="@edition.Id" />
+                                    <input type="hidden" name="entityType" value="Edition" />
+                                    <button type="submit" class="btn btn-info">View File</button>
+                                </form>
                             }
-                            else if (this.User.IsInRole(UserRole) && isBookActiveForUser)
+                            else if (isBookActiveForUser)
                             {
                                 @if (await this.EditionService.DoesEditionHaveUploadedFileAsync(edition.Id))
                                 {
@@ -212,35 +226,36 @@
 
 @Html.AntiForgeryToken()
 
-<script>
-    $(document).ready(function () {
-        var token = $('input[name="__RequestVerificationToken"]').val();
-
-        $('#loadCommentsButton').click(function () {
-            var bookId = $(this).data('book-id');
-
-            // Load comments via AJAX
-            $.ajax({
-                url: '/Rating/GetComments',
-                type: 'GET',
-                headers: {
-                    'RequestVerificationToken': token
-                },
-                data: { id: bookId },
-                success: function (data) {
-                    // Update comments content with the response
-                    $('.comments-content').html(data);
-                    // Show comments content
-                    $('.comments-content').show();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error loading comments:', error);
-                }
-            });
-        });
-    });
-</script>
-
 @section Scripts {
+    <script>
+        @* Script AJAX request to load comments *@
+            $(document).ready(function () {
+                var token = $('input[name="__RequestVerificationToken"]').val();
+
+                $('#loadCommentsButton').click(function () {
+                    var bookId = $(this).data('book-id');
+
+                    // Load comments via AJAX
+                    $.ajax({
+                        url: '/Rating/GetComments',
+                        type: 'GET',
+                        headers: {
+                            'RequestVerificationToken': token
+                        },
+                        data: { id: bookId },
+                        success: function (data) {
+                            // Update comments content with the response
+                            $('.comments-content').html(data);
+                            // Show comments content
+                            $('.comments-content').show();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error loading comments:', error);
+                        }
+                    });
+                });
+            });
+    </script>
+
     <partial name="_ValidationScriptsPartial" />
 }

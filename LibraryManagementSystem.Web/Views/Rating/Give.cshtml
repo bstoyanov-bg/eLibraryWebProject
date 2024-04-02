@@ -15,19 +15,6 @@
     <div class="d-flex justify-content-center align-items-center">
         <img class="d-block" style="max-width: 200px; height: auto;" src="~/@ViewBag.BookImage" alt="BookCover-img">
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get the values from ViewBag
-            var bookId = '@ViewBag.BookId';
-            var userId = '@ViewBag.UserId';
-
-            // Set the values to the hidden input fields
-            document.getElementById('BookId').value = bookId;
-            document.getElementById('UserId').value = userId;
-        });
-    </script>
-
     <form method="post">
         <div class="form-group col-md-10">
             <div class="form-group mb-3">
@@ -57,5 +44,18 @@
 
 @section Scripts
 {
+    <script>
+        @* Script for getting and setting values from ViewBag and hidden input fields *@
+            document.addEventListener('DOMContentLoaded', function () {
+                // Get the values from ViewBag
+                var bookId = '@ViewBag.BookId';
+                var userId = '@ViewBag.UserId';
+
+                // Set the values to the hidden input fields
+                document.getElementById('BookId').value = bookId;
+                document.getElementById('UserId').value = userId;
+            });
+    </script>
+
     <partial name="_ValidationScriptsPartial" />
 }

@@ -30,7 +30,6 @@
     </div>
 </div>
 
-
 <div class="col-md-4">
     <div class="card mb-3 pt-3">
         <div class="d-flex justify-content-center align-items-center">
@@ -59,6 +58,7 @@
 @Html.AntiForgeryToken()
 
 <script>
+    @* Script for Returning Book with AJAX *@
     $(document).ready(function () {
         // Get Verification Token
         var token = $('input[name="__RequestVerificationToken"]').val();

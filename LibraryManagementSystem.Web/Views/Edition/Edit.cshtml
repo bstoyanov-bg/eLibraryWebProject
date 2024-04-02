@@ -10,6 +10,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    @* Styles and links for Datepicker *@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <style>
@@ -78,7 +79,7 @@
             <form method="post">
                 <div class="mb-4">
                     <label asp-for="@Model.BookId" class="form-label-add-edit">Select Book</label>
-                    <select asp-for="@Model.BookId" class="form-control" aria-required="true">
+                    <select asp-for="@Model.BookId" class="form-control" aria-required="true" data-val-required="Please select a book">
                         <option value="">-- Select book --</option>
                         @foreach (var book in Model.BooksDropDown)
                         {
@@ -92,7 +93,6 @@
                     </select>
                     <span asp-validation-for="@Model.BookId" class="text-danger"></span>
                 </div>
-
                 <div class="form-group mb-3">
                     <label asp-for="Version"></label>
                     <input asp-for="Version" class="form-control" placeholder="" />
@@ -108,33 +108,27 @@
                     <input asp-for="EditionYear" class="form-control" id="editionYear" placeholder="dd.mm.yyyy" />
                     <span asp-validation-for="EditionYear" class="small text-danger"></span>
                 </div>
-
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            var dateFormat = '@GlobalDateFormat';
-
-            $('#editionYear').datepicker({
-                format: dateFormat,
-                autoclose: true,
-                todayHighlight: true
-            });
-        });
-    </script>
-
 </body>
 </html>
 
 @section Scripts
 {
+    <script>
+        @* Script for Datepicker *@
+            $(document).ready(function () {
+                var dateFormat = '@GlobalDateFormat';
+
+                $('#editionYear').datepicker({
+                    format: dateFormat,
+                    autoclose: true,
+                    todayHighlight: true
+                });
+            });
+    </script>
+
     <partial name="_ValidationScriptsPartial" />
 }

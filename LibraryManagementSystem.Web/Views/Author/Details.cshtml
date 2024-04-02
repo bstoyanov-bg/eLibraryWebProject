@@ -3,7 +3,6 @@
     ViewBag.Title = "Author Details";
 }
 
-
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
@@ -25,7 +24,7 @@
         </div>
     </div>
 
-    <h2 class ="mt-5">Author Books:</h2>
+    <h2 class="mt-5">Author Books:</h2>
 
     @if (Model.Books.Any())
     {
@@ -58,7 +57,6 @@
         <p>No books found for this author.</p>
     }
 </div>
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

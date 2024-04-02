@@ -10,6 +10,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    @* Styles and links for Datepicker *@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <style>
@@ -125,10 +126,9 @@
                         }
                     </div>
                 </div>
-
                 <div class="mb-4">
                     <label asp-for="@Model.AuthorId" class="form-label-add-edit">Select Author</label>
-                    <select asp-for="@Model.AuthorId" class="form-control" aria-required="true">
+                    <select asp-for="@Model.AuthorId" class="form-control" aria-required="true" data-val-required="Please select an author">
                         <option value="">-- Select author --</option>
                         @foreach (var author in Model.Authors)
                         {
@@ -137,10 +137,9 @@
                     </select>
                     <span asp-validation-for="@Model.AuthorId" class="text-danger"></span>
                 </div>
-
                 <div class="mb-4">
                     <label asp-for="@Model.CategoryId" class="form-label-add-edit">Select Category</label>
-                    <select asp-for="@Model.CategoryId" class="form-control" aria-required="true">
+                    <select asp-for="@Model.CategoryId" class="form-control" aria-required="true" data-val-required="Please select a category">
                         <option value="">-- Select category --</option>
                         @foreach (var category in Model.Categories)
                         {
@@ -149,62 +148,54 @@
                     </select>
                     <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
                 </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Edit Book</button>
-            <br />
-            <br />
-            <br />
-            <br />
+                <button type="submit" class="btn btn-primary">Edit Book</button>
+                <br />
+                <br />
+                <br />
+                <br />
         </form>
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            var dateFormat = '@GlobalDateFormat';
-
-            $('#yearPublished').datepicker({
-                format: dateFormat,
-                autoclose: true,
-                todayHighlight: true
-            });
-    </script>
-
-    <script>
-        function updateFileName(input) {
-            var fileName = input.files[0].name;
-            var label = input.nextElementSibling;
-            label.innerText = fileName;
-        }
-    </script>
-
-    <script>
-        function formatISBN() {
-            var input = document.getElementById("isbnInput");
-            var value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
-            var formattedValue = '';
-
-            // Format the input with hyphens
-            for (var i = 0; i < value.length; i++) {
-                if (i == 3 || i == 5 || i == 8 || i == 12) {
-                    formattedValue += '-';
-                }
-                formattedValue += value[i];
-            }
-
-            input.value = formattedValue;
-        }
-    </script>
-
 </body>
 </html>
 
 @section Scripts
 {
+    <script>
+        @* Script for Datepicker *@
+            $(document).ready(function () {
+                var dateFormat = '@GlobalDateFormat';
+
+                $('#yearPublished').datepicker({
+                    format: dateFormat,
+                    autoclose: true,
+                    todayHighlight: true
+                });
+            });
+
+        @* Script for update file name when file is selected *@
+            function updateFileName(input) {
+                var fileName = input.files[0].name;
+                var label = input.nextElementSibling;
+                label.innerText = fileName;
+            }
+
+        @* Script for ISBN format *@
+            function formatISBN() {
+                var input = document.getElementById("isbnInput");
+                var value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
+                var formattedValue = '';
+
+                // Format the input with hyphens
+                for (var i = 0; i < value.length; i++) {
+                    if (i == 3 || i == 5 || i == 8 || i == 12) {
+                        formattedValue += '-';
+                    }
+                    formattedValue += value[i];
+                }
+
+                input.value = formattedValue;
+            }
+    </script>
+
     <partial name="_ValidationScriptsPartial" />
 }
