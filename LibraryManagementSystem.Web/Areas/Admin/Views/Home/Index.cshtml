@@ -1,7 +1,7 @@
-﻿@* @{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
-<div class="mt-4 p-5 bg-light text-center">
+<div class="mt-4 p-5 text-center" style="background-color: #fdf6e3;">
     <h2 class="display-4">Hello, dear Admin!</h2>
     <p class="lead mb-1 mt-3">
         This is your administrator area - you can <b>read</b>, <b>create</b>,
@@ -11,137 +11,86 @@
         You can also see <b>all users in the system, promote and demote them</b> and have some <b>metrics</b> about the system for knowledge.
     </p>
     <hr class="my-4">
+    <br />
     <div class="container">
         <div class="row">
-            <div class="col-md-6 mb-3">
-                <a asp-area="" asp-controller="Book" asp-action="All" class="btn btn-primary btn-lg btn-block">All Books</a>
-                <span class="text-on-left">Text on the Left 1</span>
+            <div class="col-md-6 mb-3 d-flex align-items-center justify-content-between">
+                <div>
+                    <a asp-area="" asp-controller="Book" asp-action="All" class="btn btn-primary btn-lg">All Books</a>
+                    <span class="text-on-left" style="margin-left: 10px;">
+                        View, navigate and search all <strong>books</strong> added into the system. <strong>Edit</strong> and <strong>Attach</strong> files to Books and Editions.
+                    </span>
+                </div>
             </div>
-            <div class="col-md-6 mb-3">
-                <a asp-area="" asp-controller="Book" asp-action="Add" class="btn btn-primary btn-lg btn-block">Add Book</a>
-                <span class="text-on-left">Text on the Left 2</span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <a asp-area="Admin" asp-controller="Rent" asp-action="All" class="btn btn-primary btn-lg btn-block">All Rents</a>
-                <span class="text-on-left">Text on the Left 3</span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <a asp-area="Admin" asp-controller="User" asp-action="All" class="btn btn-primary btn-lg btn-block">All Users</a>
-                <span class="text-on-left">Text on the Left 4</span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <a asp-area="" asp-controller="Book" asp-action="All" class="btn btn-primary btn-lg btn-block">All Books</a>
-                <span class="text-on-left">Text on the Left 1</span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <a asp-area="" asp-controller="Book" asp-action="Add" class="btn btn-primary btn-lg btn-block">Add Book</a>
-                <span class="text-on-left">Text on the Left 2</span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <a asp-area="Admin" asp-controller="Rent" asp-action="All" class="btn btn-primary btn-lg btn-block">All Rents</a>
-                <span class="text-on-left">Text on the Left 3</span>
+            <div class="col-md-6 mb-3 d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-on-right" style="margin-left: 50px;">
+                        <strong>Add</strong> new <strong>books</strong> into the system.
+                    </span>
+                </div>
+                <div>
+                    <a asp-area="" asp-controller="Book" asp-action="Add" class="btn btn-success btn-lg">Add Book</a>
+                </div>
             </div>
         </div>
-    </div>
-</div>
- *@
-
-@{
-    ViewData["Title"] = "Home Page";
-}
-<div class="mt-4 p-5 bg-light text-center">
-    <h2 class="display-4">Hello, dear Admin!</h2>
-    <p class="lead mb-1 mt-3">
-        This is your administrator area - you can <b>read</b>, <b>create</b>,
-        <b>delete</b> and <b>edit</b> <u>Categories,</u> <u>Authors,</u> <u>Books,</u> and <u>Editions</u>.
-    </p>
-    <p class="lead mt-1">
-        You can also see <b>all users in the system, promote and demote them</b> and have some <b>metrics</b> about the system for knowledge.
-    </p>
-    <hr class="my-4">
-    <div class="container">
+        <br />
+        <br />
         <div class="row">
-            <div class="col-md-6 mb-3">
-                <div class="row">
-                    <div class="col-md-6">
-                        <a asp-area="" asp-controller="Book" asp-action="All" class="btn btn-primary btn-lg btn-block">All Books</a>
-                    </div>
-                    <div class="col-md-6">
-                        <span class="text-on-left">Text on the Left 1</span>
-                    </div>
+            <div class="col-md-6 mb-3 d-flex align-items-center justify-content-between">
+                <div>
+                    <a asp-area="" asp-controller="Author" asp-action="All" class="btn btn-primary btn-lg">All Authors</a>
+                    <span class="text-on-left" style="margin-left: 10px;">
+                        View, navigate and search all <strong>authors</strong> added into the system. Take a look at their Details.
+                    </span>
                 </div>
             </div>
-            <div class="col-md-6 mb-3">
-                <div class="row">
-                    <div class="col-md-6">
-                        <a asp-area="" asp-controller="Book" asp-action="Add" class="btn btn-primary btn-lg btn-block">Add Book</a>
-                    </div>
+            <div class="col-md-6 mb-3 d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-on-right" style="margin-left: 50px;">
+                        <strong>Add</strong> new <strong>author</strong> into the system.
+                    </span>
+                </div>
+                <div>
+                    <a asp-area="" asp-controller="Author" asp-action="Add" class="btn btn-success btn-lg">Add Author</a>
                 </div>
             </div>
-            <div class="col-md-6 mb-3">
-                <div class="row">
-                    <div class="col-md-6">
-                        <a asp-area="" asp-controller="Book" asp-action="All" class="btn btn-primary btn-lg btn-block">All Books</a>
-                    </div>
-                    <div class="col-md-6">
-                        <span class="text-on-left">Text on the Left 1</span>
-                    </div>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-6 mb-3 d-flex align-items-center justify-content-between">
+                <div>
+                    <a asp-area="" asp-controller="Category" asp-action="All" class="btn btn-primary btn-lg">All Categories</a>
+                    <span class="text-on-left" style="margin-left: 10px;">
+                        View all <strong>categories</strong> added into the system.
+                    </span>
                 </div>
             </div>
-            <div class="col-md-6 mb-3">
-                <div class="row">
-                    <div class="col-md-6">
-                        <a asp-area="" asp-controller="Book" asp-action="Add" class="btn btn-primary btn-lg btn-block">Add Book</a>
-                    </div>
+            <div class="col-md-6 mb-3 d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-on-right" style="margin-left: 50px;">
+                        <strong>Add</strong> new <strong>category</strong> into the system.
+                    </span>
+                </div>
+                <div>
+                    <a asp-area="" asp-controller="Category" asp-action="Add" class="btn btn-success btn-lg">Add Category</a>
                 </div>
             </div>
-            <div class="col-md-6 mb-3">
-                <div class="row">
-                    <div class="col-md-6">
-                        <a asp-area="" asp-controller="Book" asp-action="All" class="btn btn-primary btn-lg btn-block">All Books</a>
-                    </div>
-                    <div class="col-md-6">
-                        <span class="text-on-left">Text on the Left 1</span>
-                    </div>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-6 mb-3 d-flex align-items-center justify-content-between"></div>
+            <div class="col-md-6 mb-3 d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-on-right" style="margin-left: 50px;">
+                        <strong>Add</strong> new <strong>edition</strong> to existing book into the system.
+                    </span>
                 </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="row">
-                    <div class="col-md-6">
-                        <a asp-area="" asp-controller="Book" asp-action="Add" class="btn btn-primary btn-lg btn-block">Add Book</a>
-                    </div>
+                <div>
+                    <a asp-area="" asp-controller="Edition" asp-action="Add" class="btn btn-success btn-lg">Add Edition</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-    @* @{
-    ViewData["Title"] = "Home Page";
-    }
-
-    <div class="mt-4 p-5 bg-light text-center">
-    <h2 class="display-4">Hello, Admin!</h2>
-    <p class="lead mb-1 mt-3">
-    This is your administrator area - you can <b>read</b>, <b>create</b>,
-    <b>delete</b> and <b>edit</b> houses.
-    <br />You can <b>rent</b> and <b>leave</b> the free ones, too!
-    </p>
-    <p class="lead mt-1">
-    You can also see <b>all users and agents</b> and <b>all rents</b> in the system.
-    </p>
-    <hr class="my-4">
-    <a asp-area="" asp-controller="House" asp-action="All" class="btn btn-primary btn-lg">All Houses</a>
-    <a asp-area="" asp-controller="House" asp-action="Add" class="btn btn-primary btn-lg">Add House</a>
-    <span> | </span>
-    <a asp-area="Admin" asp-controller="House" asp-action="Mine" class="btn btn-primary btn-lg">My Houses</a>
-    <span> | </span>
-    <a asp-area="Admin" asp-controller="Rent" asp-action="All" class="btn btn-primary btn-lg">All Rents</a>
-    <a asp-area="Admin" asp-controller="User" asp-action="All" class="btn btn-primary btn-lg">All Users</a>
-    </div> *@

@@ -49,21 +49,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="All">Categories</a>
                         </li>
-                        @if (this.User.IsInRole(AdminRole))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Author" asp-action="Add">Add Author</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Add">Add Book</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Add">Add Category</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Edition" asp-action="Add">Add Edition</a>
-                            </li>
-                        }
                         @if (this.User.IsInRole(UserRole))
                         {
                             <li class="nav-item">
