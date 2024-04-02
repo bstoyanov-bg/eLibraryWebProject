@@ -10,6 +10,7 @@ namespace LibraryManagementSystem.Web.ViewModels.Edition
         public EditionFormModel()
         {
             this.BooksDropDown = new HashSet<BookSelectForEditionFormModel>();
+            this.EditionYear = DateOnly.FromDateTime(DateTime.UtcNow.Date);
         }
 
         // Used for Uplode BookFile in Edit View

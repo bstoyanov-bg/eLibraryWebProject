@@ -42,7 +42,7 @@ namespace LibraryManagementSystem.Services.Data
                 authorToEdit.BirthDate = model.BirthDate;
                 authorToEdit.DeathDate = model.DeathDate;
                 authorToEdit.Nationality = model.Nationality;
-                authorToEdit.ImageFilePath = model.ImageFilePath;
+                //authorToEdit.ImageFilePath = model.ImageFilePath;
             }
 
             await this.dbContext.SaveChangesAsync();

@@ -181,17 +181,20 @@
                                 <a href="@Url.Action("Edit", "Edition", new { id = edition.Id })" class="btn btn-warning">Edit</a>
                                 <a href="@Url.Action("Delete", "Edition", new { id = edition.Id })" class="btn btn-danger">Delete</a>
 
-                                <form asp-action="DownloadFile" asp-controller="File" method="get" style="display: inline;">
-                                    <input type="hidden" name="id" value="@edition.Id" />
-                                    <input type="hidden" name="entityType" value="Edition" />
-                                    <button type="submit" class="btn btn-info">Download</button>
-                                </form>
+                                if(await this.EditionService.DoesEditionHaveUploadedFileAsync(edition.Id))
+                                {
+                                    <form asp-action="DownloadFile" asp-controller="File" method="get" style="display: inline;">
+                                        <input type="hidden" name="id" value="@edition.Id" />
+                                        <input type="hidden" name="entityType" value="Edition" />
+                                        <button type="submit" class="btn btn-info">Download</button>
+                                    </form>
 
-                                <form asp-action="GetTextFileContent" asp-controller="File" method="get" style="display: inline;">
-                                    <input type="hidden" name="id" value="@edition.Id" />
-                                    <input type="hidden" name="entityType" value="Edition" />
-                                    <button type="submit" class="btn btn-info">View File</button>
-                                </form>
+                                    <form asp-action="GetTextFileContent" asp-controller="File" method="get" style="display: inline;">
+                                        <input type="hidden" name="id" value="@edition.Id" />
+                                        <input type="hidden" name="entityType" value="Edition" />
+                                        <button type="submit" class="btn btn-info">View File</button>
+                                    </form>
+                                }
                             }
                             else if (isBookActiveForUser)
                             {

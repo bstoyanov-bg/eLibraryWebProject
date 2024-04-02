@@ -66,9 +66,9 @@ namespace LibraryManagementSystem.Services.Data
                 bookToEdit.YearPublished = model.YearPublished;
                 bookToEdit.Description = model.Description;
                 bookToEdit.Publisher = model.Publisher;
-                bookToEdit.ImageFilePath = model.ImageFilePath;
+                //bookToEdit.ImageFilePath = model.ImageFilePath;
                 bookToEdit.AuthorId = Guid.Parse(model.AuthorId);
-                bookToEdit.FilePath = model.FilePath;
+                //bookToEdit.FilePath = model.FilePath;
             }
 
             var currentBookCategory = await this.dbContext
