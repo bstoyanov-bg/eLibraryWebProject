@@ -25,7 +25,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         BirthDate = DateOnly.ParseExact("08.01.1942", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         DeathDate = DateOnly.ParseExact("14.03.2018", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         Nationality = "English",
-                        ImageFilePath = "img/Authors/Stephen-Hawking-Image.jpg",
+                        ImageFilePath = "img/AuthorCovers/c3894951-11e7-458d-a86c-44548d2d57c1_Stephen-Hawking-Image.jpg",
                         IsDeleted = false,
                     },
                     new Author
@@ -37,7 +37,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         BirthDate = DateOnly.ParseExact("08.02.1828", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         DeathDate = DateOnly.ParseExact("24.03.1905", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         Nationality = "French",
-                        ImageFilePath = "img/Authors/Jules-Verne-Image.jpg",
+                        ImageFilePath = "img/AuthorCovers/25f09293-8de6-4184-b293-c21284006a28_Jules-Verne-Image.jpg",
                         IsDeleted = false,
                     },
                     new Author
@@ -49,7 +49,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         BirthDate = DateOnly.ParseExact("07.02.1812", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         DeathDate = DateOnly.ParseExact("09.06.1870", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         Nationality = "English",
-                        ImageFilePath = "img/Authors/Charles-Dickens-Image.jpg",
+                        ImageFilePath = "img/AuthorCovers/5c2d2ec2-dfb8-47bd-89d2-66b35ea1a93e_Charles-Dickens-Image.jpg",
                         IsDeleted = false,
                     },
                     new Author
@@ -60,7 +60,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         Biography = "Georgi Gospodinov Georgiev is a Bulgarian writer, poet and playwright. His novel Time Shelter received the 2023 International Booker Prize, shared with translator Angela Rodel, as well as the Strega European Prize. His novel The Physics of Sorrow received the Jan Michalski Prize and the Angelus Award. His works have been translated into 25 languages.",
                         BirthDate = DateOnly.ParseExact("07.01.1968", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         Nationality = "Bulgarian",
-                        ImageFilePath = "img/Authors/Georgi-Gospodinov-Image.jpg",
+                        ImageFilePath = "img/AuthorCovers/a5ffb32a-eeb8-416b-a0bd-9d5a59f433f5_Georgi-Gospodinov-Image.jpg",
                         IsDeleted = false,
                     },
                     new Author
@@ -72,7 +72,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         BirthDate = DateOnly.ParseExact("08.10.1920", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         DeathDate = DateOnly.ParseExact("11.02.1986", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         Nationality = "American",
-                        ImageFilePath = "img/Authors/Frank-Herbert-Image.jpg",
+                        ImageFilePath = "img/AuthorCovers/11da75c5-3f40-4256-9785-dd9101af213b_Frank-Herbert-Image.jpg",
                         IsDeleted = false,
                     },
                     new Author
@@ -83,7 +83,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         Biography = "Roberts reportedly became addicted to heroin after his marriage ended and he lost custody of his young daughter. To finance his drug habit, he turned to crime, becoming known as the Building Society Bandit [2] and the Gentleman Bandit, because he only robbed institutions with adequate insurance. He wore a three-piece suit, and he always said please and thank you to the people he robbed. At the time, Roberts believed that his manner lessened the brutality of his acts but, later in his life, he admitted that people only gave him money because he had made them afraid. He escaped from Pentridge Prison in 1980.[1][5] In 1990, Roberts was captured in Frankfurt, trying to smuggle himself into the country. He was extradited to Australia and served a further six years in prison, two of which were spent in solitary confinement. According to Roberts, he escaped prison again during that time but thought better of it and smuggled himself back into jail. His intention was to serve the rest of his sentence to give himself the chance to be reunited with his family. During his second stay in Australian prison, he began writing Shantaram. The manuscript was destroyed twice by prison staff while Roberts was writing it.",
                         BirthDate = DateOnly.ParseExact("21.06.1952", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         Nationality = "Australian",
-                        ImageFilePath = "img/Authors/Gregory-Roberts-Image.jpg",
+                        ImageFilePath = "img/AuthorCovers/d7d61ae4-36d6-4a2b-88a6-5e6f0f61a0ad_Gregory-Roberts-Image.jpg",
                         IsDeleted = false,
                     },
              };

@@ -4,11 +4,9 @@ using LibraryManagementSystem.Data.Seeding;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.Infrastructure.Extensions;
 using LibraryManagementSystem.Web.Infrastructure.ModelBinders;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace LibraryManagementSystem.Web
 {

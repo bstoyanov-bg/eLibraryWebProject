@@ -23,7 +23,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         Version = "Version 1",
                         Publisher = "Hodder & Stoughton",
                         EditionYear = DateOnly.ParseExact("2018", "yyyy", CultureInfo.InvariantCulture),
-                        FilePath = "BookFiles/Editions/Brief-Answers-to-the-Big-Questions-Version-1.txt",
+                        FilePath = "BookFiles/Editions/8b4bdb27-41c8-4927-af72-576a7569af50_Brief-Answers-to-the-Big-Questions-Version-1.txt",
                         IsDeleted = false,
                     },
                     new Edition
@@ -33,7 +33,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         Version = "Version 2",
                         Publisher = "Hodder",
                         EditionYear = DateOnly.ParseExact("2022", "yyyy", CultureInfo.InvariantCulture),
-                        FilePath = "BookFiles/Editions/Brief-Answers-to-the-Big-Questions-Version-2.txt",
+                        FilePath = "BookFiles/Editions/697bfffb-5790-4604-8cb2-58054c20117b_Brief-Answers-to-the-Big-Questions-Version-2.txt",
                         IsDeleted = false,
                     },
                     new Edition
@@ -43,7 +43,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         Version = "Ver 1.0",
                         Publisher = "Pierre-Jules Hetzel",
                         EditionYear = DateOnly.ParseExact("1879", "yyyy", CultureInfo.InvariantCulture),
-                        FilePath = "BookFiles/Editions/Journey-to-the-Center-of-the-Earth-Ver-1.txt",
+                        FilePath = "BookFiles/Editions/d9b16267-f83d-400e-bb03-c35f849ae987_Journey-to-the-Center-of-the-Earth-Ver-1.txt",
                         IsDeleted = false,
                     },
                     new Edition
@@ -53,7 +53,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         Version = "Version 2.0",
                         Publisher = "Ace",
                         EditionYear = DateOnly.ParseExact("2019", "yyyy", CultureInfo.InvariantCulture),
-                        FilePath = "BookFiles/Editions/Journey-to-the-Center-of-the-Earth-Version-2.txt",
+                        FilePath = "BookFiles/Editions/6ff4f310-c7ca-4157-99c7-692a7fc2b6cd_Journey-to-the-Center-of-the-Earth-Version-2.txt",
                         IsDeleted = false,
                     },
                     new Edition
@@ -63,7 +63,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         Version = "Version 3.0",
                         Publisher = "Penguin Books",
                         EditionYear = DateOnly.ParseExact("2003", "yyyy", CultureInfo.InvariantCulture),
-                        FilePath = "BookFiles/Editions/Oliver-Twist-Version-3.txt",
+                        FilePath = "BookFiles/Editions/cfd816ae-2d56-4c6a-b010-fd47ab45e794_Oliver-Twist-Version-3.txt",
                         IsDeleted = false,
                     },
                     new Edition
@@ -73,7 +73,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         Version = "Ver 2.0",
                         Publisher = "Scribe",
                         EditionYear = DateOnly.ParseExact("2004", "yyyy", CultureInfo.InvariantCulture),
-                        FilePath = "BookFiles/Editions/Shantaram-Ver-2.txt",
+                        FilePath = "BookFiles/Editions/768fb7a3-3c08-415b-a5db-7641bf6a9c03_Shantaram-Ver-2.txt",
                         IsDeleted = false,
                     },
                 };
