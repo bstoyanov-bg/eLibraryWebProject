@@ -133,8 +133,7 @@
                         <td style="width: 200px;">
                             <div class="enlarge-image" onmouseover="enlargeImage(this)" onmouseout="resetImageSize(this)">
 
-                                @* HAS TO BE FIXED - DOEST LOAD PICTURES *@
-
+                                @* HAS TO BE FIXED - LOAD PICTURES *@
                                 <img class="d-block w-50" style="max-width: 100%; height: auto;" src="~/@book.ImageFilePath" alt="BookCover-img">
                             </div>
                         </td>
@@ -179,8 +178,8 @@
 
     <div style="height: 80px;"></div>
 
-    @* Script for Back to top button *@
     <script>
+    @* Script for Back to top button *@
         var button = document.getElementById("backToTopBtn");
 
         window.onscroll = function () { scrollFunction() };
@@ -196,18 +195,20 @@
         function topFunction() {
             document.documentElement.scrollTop = 0;
         }
-    </script>
 
-    @* Script for image enlargement *@
-    <script>
-        function enlargeImage(element) {
-            element.style.transition = 'transform 0.3s';
-            element.style.transform = 'scale(2)';
-        }
+        @* Script for image enlargement *@
+            function enlargeImage(element) {
+                element.style.transition = 'transform 0.3s';
+                element.style.transform = 'scale(2)';
+                element.style.position = 'relative'; // Image has a position other than 'static'
+                element.style.zIndex = '999'; // Higher z-index value to bring the enlarged image to the top
+            }
 
         function resetImageSize(element) {
             element.style.transform = 'scale(1)';
+            element.style.zIndex = 'auto';
         }
     </script>
+
 </body>
 </html>

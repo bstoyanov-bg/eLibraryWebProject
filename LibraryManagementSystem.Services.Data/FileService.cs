@@ -113,20 +113,22 @@ public class FileService : IFileService
             throw new InvalidOperationException("FilePath property not found!");
         }
 
-        string? filePath = (string?)property.GetValue(entity);
+        string? relativeFilePath = (string?)property.GetValue(entity); // Relative file path
 
-        if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+        string fullFilePath = Path.Combine(this.hostEnvironment.WebRootPath, relativeFilePath!); // Full file path
+
+        if (string.IsNullOrEmpty(fullFilePath) || !System.IO.File.Exists(fullFilePath))
         {
             throw new FileNotFoundException("File not found!");
         }
 
         // Retrieve the file content
-        FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        FileStream fileStream = new FileStream(fullFilePath, FileMode.Open, FileAccess.Read);
 
         // Return the file as a stream with content type set to text/plain for .txt files
         return new FileStreamResult(fileStream, "text/plain")
         {
-            FileDownloadName = Path.GetFileName(filePath)
+            FileDownloadName = Path.GetFileName(fullFilePath)
         };
     }
 
@@ -142,14 +144,16 @@ public class FileService : IFileService
             throw new InvalidOperationException("FilePath property not found!");
         }
 
-        string? filePath = (string?)property.GetValue(entity);
+        string? relativeFilePath = (string?)property.GetValue(entity); // Relative file path
 
-        if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+        string fullFilePath = Path.Combine(this.hostEnvironment.WebRootPath, relativeFilePath!); // Full file path
+
+        if (string.IsNullOrEmpty(fullFilePath) || !System.IO.File.Exists(fullFilePath))
         {
             throw new FileNotFoundException("File not found!");
         }
 
-        return filePath;
+        return fullFilePath;
     }
 
     public async Task<string> GetFileContentAsync(string filePath)

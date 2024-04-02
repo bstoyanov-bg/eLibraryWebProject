@@ -135,11 +135,10 @@
     <div class="comments mb-5">
         <p>
             <button id="loadCommentsButton" class="btn btn-primary" type="button" data-book-id="@Model.Id" data-bs-toggle="collapse"
-                    data-bs-target="#collapseWidth" aria-expanded="false" aria-controls="collapseWidth">
-                See comments
+                    data-bs-target="#collapseWidth" aria-expanded="false" aria-controls="collapseWidth">See comments
             </button>
         </p>
-        <div style="min-height: 120px;">
+        <div style="min-height: 100px;">
             <div class="collapse collapse-horizontal" id="collapseWidth">
                 <div class="card card-body">
                     <h3>Comments and ratings:</h3>
@@ -208,6 +207,8 @@
         <p>No editions found for this book.</p>
     }
 </div>
+
+<div style="height: 100px;"></div>
 
 @Html.AntiForgeryToken()
 

@@ -37,7 +37,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         BirthDate = DateOnly.ParseExact("08.02.1828", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         DeathDate = DateOnly.ParseExact("24.03.1905", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         Nationality = "French",
-                        ImageFilePath = "img/Authors/Jules-Vern-Image.jpg",
+                        ImageFilePath = "img/Authors/Jules-Verne-Image.jpg",
                         IsDeleted = false,
                     },
                     new Author
@@ -72,7 +72,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         BirthDate = DateOnly.ParseExact("08.10.1920", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         DeathDate = DateOnly.ParseExact("11.02.1986", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         Nationality = "American",
-                        ImageFilePath = "img/Authors/Franklin-Herbert-Image.jpg",
+                        ImageFilePath = "img/Authors/Frank-Herbert-Image.jpg",
                         IsDeleted = false,
                     },
                     new Author

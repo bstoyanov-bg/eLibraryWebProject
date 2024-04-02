@@ -32,8 +32,8 @@
                         @for (int j = i; j < i + 3 && j < books.Count(); j++)
                         {
                             var book = books[j];
-                            <div class="col-md-4">
-                                <img class="d-block w-100" style="max-width: 200px; height: auto;" src="~/@book.ImageFilePath" alt="BookCover-img">
+                            <div class="col-md-4" style="margin-top: 40px;">
+                                <img class="d-block mx-auto" style="max-width: 200px; height: auto;" src="~/@book.ImageFilePath" alt="BookCover-img">
                                 <br />
                                 <p><strong>Title: </strong>@book.Title</p>
                                 @if (book.Description.Length > 300)
