@@ -46,6 +46,25 @@
     </div>
 </div>
 
+@* Demote Admin Modal *@
+<div class="modal fade" id="confirmationModalDemoteAdmin" tabindex="-1" aria-labelledby="confirmationModalDemoteAdminLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabelAll">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to demote this user from admin?<br /><br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="confirmNoBtnDemote" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="confirmYesBtnDemote">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 <br />
@@ -103,6 +122,12 @@
                             Make Admin
                         </button>
                     }
+                    else
+                    {
+                        <button type="button" class="btn btn-warning demoteAdminBtn" data-user-id="@user.Id" data-bs-toggle="modal" data-bs-target="#confirmationModalDemoteAdmin" style="margin-left: 5px;">
+                            Demote Admin
+                        </button>
+                    }
                 </td>
             </tr>
         }
@@ -129,6 +154,12 @@
                 $('#confirmYesBtnMake').data('user-id', userId); // Set the user ID for making admin
             });
 
+            // Handle the click event of the "Demote Admin" button in the confirmation modal
+            $('.demoteAdminBtn').click(function () {
+                var userId = $(this).data('user-id');
+                $('#confirmYesBtnDemote').data('user-id', userId); // Set the user ID for making admin
+            });
+
             // Handle the click event of the confirmation button in the "Make Admin" modal
             $('#confirmYesBtnMake').click(function () {
                 var userId = $(this).data('user-id');
@@ -147,6 +178,29 @@
                     },
                     error: function (xhr, status, error) {
                         console.error('Error making the user admin:', error);
+                        $('#confirmationModalMakeAdmin').modal('hide');
+                    }
+                });
+            });
+
+            // Handle the click event of the confirmation button in the "Make Admin" modal
+            $('#confirmYesBtnDemote').click(function () {
+                var userId = $(this).data('user-id');
+
+                // Perform a POST request to make the user admin
+                $.ajax({
+                    url: '@Url.Action("DemoteAdmin", "User", new { area = "Admin" })' + '?id=' + userId,
+                    type: 'POST',
+                    headers: {
+                        RequestVerificationToken: token
+                    },
+                    data: { userId: userId },
+                    success: function (response) {
+                        console.log('User is not admin anymore');
+                        window.location.reload(); // Refresh the page after making admin
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error with demoting admin:', error);
                         $('#confirmationModalMakeAdmin').modal('hide');
                     }
                 });

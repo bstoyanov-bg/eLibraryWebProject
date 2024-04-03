@@ -99,5 +99,29 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
 
             return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DemoteAdmin(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                // Assign the "User" role to the user
+                await userManager.AddToRoleAsync(user, UserRole);
+                // Remove the user from other role
+                await userManager.RemoveFromRoleAsync(user, AdminRole);
+
+                this.TempData[SuccessMessage] = "The user is no more an Administrator!";
+
+                return RedirectToAction("All", "User", new { area = "Admin" });
+            }
+            else
+            {
+                this.TempData[ErrorMessage] = "There is no User with such Id!";
+            }
+
+            return RedirectToAction("Index", "Home", new { area = "Admin" });
+        }
     }
 }
