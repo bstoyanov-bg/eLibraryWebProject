@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Web.Areas.Admin.Services.Interfaces;
 using LibraryManagementSystem.Web.Areas.Admin.ViewModels;
+using LibraryManagementSystem.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
@@ -28,44 +29,48 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
             return View(users);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+            {
+            try
+            {
+                ApplicationUser userToDelete = await this.userService.GetUserByIdAsync(id);
+
+                if (userToDelete == null)
+                {
+                    this.TempData[ErrorMessage] = "There is no User with such Id!";
+    
+                    return this.RedirectToAction("Index", "Home", new { area = "" });
+                }
+
+                if (!this.User.IsInRole(AdminRole))
+                {
+                    this.TempData[ErrorMessage] = "You are not an Administrator!";
+
+                    return this.RedirectToAction("Index", "Home", new { area = "" });
+                }
+
+                if (User.GetId() == userToDelete.Id.ToString())
+                {
+                    this.TempData[ErrorMessage] = "You cannot delete yourself!";
+
+                    return this.RedirectToAction("All", "User", new { area = "Admin" });
+                }
+
+                await this.userService.DeleteUserAsync(id);
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> Delete(string userId)
-        //{
-        //    try
-        //    {
-        //        ApplicationUser userToDelete = await this.userService.GetUserByIdAsync(userId);
+                this.TempData[SuccessMessage] = "You have succesfully deleted the User!";
 
-        //        if (userToDelete == null)
-        //        {
-        //            this.TempData[ErrorMessage] = "There is no user with that Id!";
+                return this.RedirectToAction("All", "User", new { area = "Admin" });
+            }
+            catch
+            {
+                this.TempData[ErrorMessage] = "There was problem with deleting the User!";
 
-        //            return this.RedirectToAction("Index", "Home", new { area = "" });
-        //        }
+            }
 
-        //        if (!this.User.IsInRole(AdminRole))
-        //        {
-        //            this.TempData[ErrorMessage] = "You are not an administrator!";
-
-        //            return this.RedirectToAction("Index", "Home", new { area = "" });
-        //        }
-
-        //        await this.userService.DeleteUserAsync(userId);
-
-
-        //        this.TempData[SuccessMessage] = "You have succesfully deleted the user!";
-
-        //        //return this.RedirectToAction(nameof(Active));
-        //        return this.RedirectToAction("Index", "Home", new { area = "" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        this.TempData[ErrorMessage] = ex.Message;
-
-        //        return this.RedirectToAction("Index", "Home", new { area = "" });
-        //    }
-
-        //}
+            return this.RedirectToAction("Index", "Home", new { area = "" });
+        }
     }
 }

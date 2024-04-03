@@ -7,9 +7,6 @@
         This is your administrator area - you can <b>read</b>, <b>create</b>,
         <b>delete</b> and <b>edit</b> <u>Categories,</u> <u>Authors,</u> <u>Books,</u> and <u>Editions</u>.
     </p>
-    <p class="lead mt-1">
-        You can also see <b>all users in the system, promote and demote them</b> and have some <b>metrics</b> about the system for knowledge.
-    </p>
     <hr class="my-4">
     <br />
     <div class="container">
@@ -90,6 +87,32 @@
                 <div>
                     <a asp-area="" asp-controller="Edition" asp-action="Add" class="btn btn-success btn-lg">Add Edition</a>
                 </div>
+            </div>
+        </div>
+    </div>
+    <hr class="my-4">
+    <p class="lead mb-1 mt-3">
+        From this part you can also see <b>all users in the system, promote and demote them</b> and have some <b>metrics</b> about the system for knowledge.
+    </p>
+    <hr />
+    <br></br>
+    <div class="row">
+        <div class="col-md-6 mb-3 d-flex align-items-center justify-content-between">
+            <div>
+                <a asp-area="Admin" asp-controller="User" asp-action="All" class="btn btn-info btn-lg">Users</a>
+                <span class="text-on-left" style="margin-left: 10px;">
+                    View all <strong>registered users, promote and demote them.</strong>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3 d-flex align-items-center justify-content-between">
+            <div>
+                <span class="text-on-right" style="margin-left: 50px;">
+                    <strong>Get information</strong> about different <strong>metrics</strong> from the system.
+                </span>
+            </div>
+            <div>
+                <a asp-area="" asp-controller="User" asp-action="Metrics" class="btn btn-info btn-lg">Metrics</a>
             </div>
         </div>
     </div>

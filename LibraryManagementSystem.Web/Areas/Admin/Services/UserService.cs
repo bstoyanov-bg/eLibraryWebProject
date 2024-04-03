@@ -1,22 +1,23 @@
-﻿using LibraryManagementSystem.Data;
+﻿using LibraryManagementSystem.Common;
+using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Web.Areas.Admin.Services.Interfaces;
 using LibraryManagementSystem.Web.Areas.Admin.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using static LibraryManagementSystem.Common.UserRoleNames;
 
-namespace LibraryManagementSystem.Web.Areas.Admin.Services
+namespace LibraryManagementSystem.Web.Areas.Admin.Servicesv
 {
     public class UserService : IUserService
     {
         private readonly ELibraryDbContext dbContext;
-        //private readonly IPersonalDataProtector personalDataProtector;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public UserService(ELibraryDbContext dbContext, UserManager<ApplicationUser> userManager/*, IPersonalDataProtector personalDataProtector*/)
+        public UserService(ELibraryDbContext dbContext, UserManager<ApplicationUser> userManager)
         {
             this.dbContext = dbContext;
-            //this.personalDataProtector = personalDataProtector;
             this.userManager = userManager;
         }
 
@@ -42,31 +43,66 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Services
 
         public async Task DeleteUserAsync(string userId)
         {
-            ApplicationUser? userToDelete = await dbContext.Users.FindAsync(userId);
+            ApplicationUser? userToDelete = await GetUserByIdAsync(userId);
 
             if (userToDelete != null)
             {
-                // Clear sensitive personal data
-                foreach (var property in typeof(ApplicationUser).GetProperties())
+                foreach (PropertyInfo property in userToDelete.GetType().GetProperties())
                 {
-                    var attribute = Attribute.GetCustomAttribute(property, typeof(ProtectedPersonalDataAttribute));
+                    Attribute? attribute = Attribute.GetCustomAttribute(property, typeof(ProtectedPersonalDataAttribute));
                     if (attribute != null)
                     {
-                        // Clear the property value using personal data protector
-                        var protectedData = (string?)property.GetValue(userToDelete);
-                        if (!string.IsNullOrEmpty(protectedData))
+                        // Clear the property value based on its type
+                        if (property.PropertyType == typeof(string) && property.Name == "UserName" || property.Name == "NormalizedUserName")
                         {
-                            //var unprotectedData = personalDataProtector.Unprotect(protectedData);
-                            property.SetValue(userToDelete, null);
+                            //property.SetValue(userToDelete, Guid.NewGuid().ToString());
+                        }
+                        else if (property.PropertyType == typeof(string))
+                        {
+                            property.SetValue(userToDelete, string.Empty);
+                        }
+                        else if (property.PropertyType == typeof(int))
+                        {
+                            property.SetValue(userToDelete, 0);
+                        }
+                        else if (property.PropertyType == typeof(DateOnly))
+                        {
+                            property.SetValue(userToDelete, default);
                         }
                     }
                 }
+
                 userToDelete!.IsDeleted = true;
 
-                dbContext.Users.Update(userToDelete);
-                await dbContext.SaveChangesAsync();
+                this.dbContext.Users.Update(userToDelete);
+                await this.dbContext.SaveChangesAsync();
             }
         }
+
+        public async Task<ApplicationUser> GetUserByIdAsync(string userId)
+        {
+            ApplicationUser? user = await this.userManager
+               .FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return null!;
+            }
+
+            return user;
+        }
+
+        public async Task<bool> isUserAdmin(string userId)
+        {
+            return await this.dbContext
+                .UserRoles
+                .Where(ur => ur.UserId.ToString() == userId)
+                .Join(this.dbContext.Roles,
+                    ur => ur.RoleId,
+                    role => role.Id,
+                    (ur, role) => new { UserRole = ur, RoleName = role.Name })
+                .AnyAsync(ur => ur.RoleName == UserRole);
+        }  
 
         //public Task<EditUserInputModel> GetUserForEditByIdAsync(string userId)
         //{

@@ -1,10 +1,50 @@
-﻿@using LibraryManagementSystem.Web.Areas.Admin.ViewModels
-
+﻿@using LibraryManagementSystem.Web.Areas.Admin.Services.Interfaces
+@using LibraryManagementSystem.Web.Areas.Admin.ViewModels
 @model IEnumerable<UserViewModel>
+
+@inject IUserService userService;
 
 @{
     ViewBag.Title = "All Users";
 }
+
+@* Delete Modal *@
+<div class="modal fade" id="confirmationModalDelete" tabindex="-1" aria-labelledby="confirmationModalDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabelAll">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this user? This action is irreversible!<br /><br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="confirmNoBtnDelete" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="confirmYesBtnDelete">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Make Admin Modal *@
+<div class="modal fade" id="confirmationModalMakeAdmin" tabindex="-1" aria-labelledby="confirmationModalMakeAdminLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabelAll">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to make this user an admin?<br /><br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="confirmNoBtnMake" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="confirmYesBtnMake">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
@@ -19,7 +59,9 @@
             <th style="text-align: center; vertical-align: middle;"><label>Full Name</label></th>
             <th style="text-align: center; vertical-align: middle;"><label>City</label></th>
             <th style="text-align: center; vertical-align: middle;"><label>Phone Number</label></th>
+            <th style="text-align: center; vertical-align: middle;"><label>Is Admin</label></th>
             @* <th style="text-align: center; vertical-align: middle;"><label>User Is Online</label></th> *@
+
             <th style="text-align: center; vertical-align: middle;"><label>Actions</label></th>
         </tr>
     </thead>
@@ -32,7 +74,13 @@
                 <td style="text-align: center; vertical-align: middle;"><label>@user.FullName</label></td>
                 <td style="text-align: center; vertical-align: middle;"><label>@user.City</label></td>
                 <td style="text-align: center; vertical-align: middle;"><label>@user.PhoneNumber</label></td>
-                @* <td style="text-align: center; vertical-align: middle;">
+                <td style="text-align: center; vertical-align: middle;">
+                    @if (!await this.userService.isUserAdmin(user.Id))
+                    {
+                        <label>✔</label>
+                    }
+                </td>
+                @* <td>
             @if (OnlineUsersMiddleware.CheckIfUserIsOnline(user.Id))
             {
             <label>✔</label>
@@ -40,13 +88,113 @@
             else
             {
             <label class="text-center">❌</label>
-            }   
+            }
             </td> *@
                 <td style="text-align: center; vertical-align: middle; white-space: nowrap;">
-                    <a href="@Url.Action("Delete", "User", new { id = user.Id })" class="btn btn-danger">Delete</a>
-                    <a href="@Url.Action("MakeAdmin", "User", new { id = user.Id })" class="btn btn-success" style="margin-left: 5px;">Make Admin</a>
+                    <!-- Delete Button with Modal -->
+                    <button type="button" class="btn btn-danger deleteUserBtn" data-user-id="@user.Id" data-bs-toggle="modal" data-bs-target="#confirmationModalDelete">
+                        Delete
+                    </button>
+
+                    <!-- Make Admin Button with Modal -->
+                    @if (await this.userService.isUserAdmin(user.Id))
+                    {
+                        <button type="button" class="btn btn-success makeAdminBtn" data-user-id="@user.Id" data-bs-toggle="modal" data-bs-target="#confirmationModalMakeAdmin" style="margin-left: 5px;">
+                            Make Admin
+                        </button>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@Html.AntiForgeryToken()
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Get Verification Token !!!
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            // Handle the click event of the "Delete" button in the confirmation modal
+            $('.deleteUserBtn').click(function () {
+                var userId = $(this).data('user-id');
+
+                // Event handler for confirmation modal delete button click
+                $('#confirmYesBtnDelete').click(function () {
+                    // Send AJAX POST request
+                    $.ajax({
+                        url: '@Url.Action("Delete", "User", new { area = "Admin" })' + '?id=' + userId,
+                        type: 'POST',
+                        headers: {
+                            RequestVerificationToken: token
+                        },
+                        data: { userId: userId },
+                        success: function (response) {
+                            console.log('User deleted successfully');
+                            window.location.reload(); // Refresh the page after deletion
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error deleting the user:', error);
+                            $('#confirmationModalDelete').modal('hide');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
+
+
+@* @section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Get Verification Token !!!
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            // Handle the click event of the "Delete" button in the confirmation modal
+            $('#confirmYesBtnDelete').click(function () {
+                var userId = $('.deleteUserBtn').data('user-id');
+                // Perform a POST request to delete the user
+                $.ajax({
+                    url: '@Url.Action("Delete", "User", new { area = "Admin" })' + '?id=' + userId,
+                    type: 'POST',
+                    headers: {
+                        RequestVerificationToken: token
+                    },
+                    data: { id: userId },
+                    success: function (response) {
+                        console.log('User deleted successfully');
+                        window.location.reload(); // Refresh the page after deletion
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error deleting the user:', error);
+                        $('#confirmationModalDelete').modal('hide');
+                    }
+                });
+            });
+
+            // Handle the click event of the "Make Admin" button in the confirmation modal
+            $('#confirmYesBtnMake').click(function () {
+                var userId = $('.makeAdminBtn').data('user-id');
+                // Perform a POST request to make the user admin
+                $.ajax({
+                    url: '@Url.Action("MakeAdmin", "User", new { area = "Admin" })' + '?id=' + userId,
+                    type: 'POST',
+                    headers: {
+                        RequestVerificationToken: token
+                    },
+                    data: { id: userId },
+                    success: function (response) {
+                        console.log('User made admin successfully');
+                        window.location.reload(); // Refresh the page after making admin
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error making the user admin:', error);
+                        $('#confirmationModalMakeAdmin').modal('hide');
+                    }
+                });
+            });
+        });
+    </script>
+}
+ *@

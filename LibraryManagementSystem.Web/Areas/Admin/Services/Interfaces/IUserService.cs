@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Web.Areas.Admin.ViewModels;
+﻿using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Web.Areas.Admin.ViewModels;
 
 namespace LibraryManagementSystem.Web.Areas.Admin.Services.Interfaces
 {
@@ -7,6 +8,10 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Services.Interfaces
         Task<IEnumerable<UserViewModel>> GetAllUsersAsync();
 
         Task DeleteUserAsync(string userId);
+
+        Task<ApplicationUser> GetUserByIdAsync(string userId);
+
+        Task<bool> isUserAdmin(string userId);
 
         //Task<(ApplicationUser, IdentityResult)> EditUserAsync(string userId, EditUserInputModel editUserInputModel);
 

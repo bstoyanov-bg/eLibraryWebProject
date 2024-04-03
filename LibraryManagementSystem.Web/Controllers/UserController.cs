@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -13,12 +14,15 @@ namespace LibraryManagementSystem.Web.Controllers
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserService userService;
 
         public UserController(SignInManager<ApplicationUser> signInManager,
-                                UserManager<ApplicationUser> userManager)
+                                UserManager<ApplicationUser> userManager,
+                                IUserService userService)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -90,6 +94,15 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 return this.View(model);
             }
+            var user = await this.userManager.FindByNameAsync(model.Username);
+
+            bool isDeleted = await this.userService.IsUserDeletedAsync(user!.Id.ToString());
+            if (isDeleted)
+            {
+                this.TempData[ErrorMessage] = "The account you are trying to login is deleted!";
+
+                return this.RedirectToAction("Index", "Home");
+            }
 
             var result = await this.signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
 
@@ -99,7 +112,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 return this.View(model);
             }
 
-            var user = await this.userManager.FindByNameAsync(model.Username);
+            
             if (user != null)
             {
                 // Update Security Stamp upon successful login

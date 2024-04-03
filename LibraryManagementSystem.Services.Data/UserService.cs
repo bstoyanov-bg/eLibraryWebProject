@@ -28,5 +28,13 @@ namespace LibraryManagementSystem.Services.Data
 
             return $"{user.FirstName} {user.LastName}";
         }
+
+        public async Task<bool> IsUserDeletedAsync(string userId)
+        {
+            return await this.dbContext
+                .Users
+                .AnyAsync(u => u.Id.ToString() == userId && 
+                               u.IsDeleted == true);
+        }
     }
 }
