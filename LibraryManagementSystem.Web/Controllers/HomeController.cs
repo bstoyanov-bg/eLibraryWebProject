@@ -34,6 +34,10 @@ namespace LibraryManagementSystem.Web.Controllers
             {
                 return this.View("Error404");
             }
+            else if (statusCode == 401)
+            {
+                return this.View("Error401");
+            }
             else if (statusCode == 403)
             {
                 return this.View("Error403");
