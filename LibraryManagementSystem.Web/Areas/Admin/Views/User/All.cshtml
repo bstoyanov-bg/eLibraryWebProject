@@ -114,76 +114,33 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Get Verification Token !!!
+            // Get Verification Token
             var token = $('input[name="__RequestVerificationToken"]').val();
+
             // Handle the click event of the "Delete" button in the confirmation modal
             $('.deleteUserBtn').click(function () {
                 var userId = $(this).data('user-id');
-
-                // Event handler for confirmation modal delete button click
-                $('#confirmYesBtnDelete').click(function () {
-                    // Send AJAX POST request
-                    $.ajax({
-                        url: '@Url.Action("Delete", "User", new { area = "Admin" })' + '?id=' + userId,
-                        type: 'POST',
-                        headers: {
-                            RequestVerificationToken: token
-                        },
-                        data: { userId: userId },
-                        success: function (response) {
-                            console.log('User deleted successfully');
-                            window.location.reload(); // Refresh the page after deletion
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error deleting the user:', error);
-                            $('#confirmationModalDelete').modal('hide');
-                        }
-                    });
-                });
-            });
-        });
-    </script>
-}
-
-
-@* @section Scripts {
-    <script>
-        $(document).ready(function () {
-            // Get Verification Token !!!
-            var token = $('input[name="__RequestVerificationToken"]').val();
-            // Handle the click event of the "Delete" button in the confirmation modal
-            $('#confirmYesBtnDelete').click(function () {
-                var userId = $('.deleteUserBtn').data('user-id');
-                // Perform a POST request to delete the user
-                $.ajax({
-                    url: '@Url.Action("Delete", "User", new { area = "Admin" })' + '?id=' + userId,
-                    type: 'POST',
-                    headers: {
-                        RequestVerificationToken: token
-                    },
-                    data: { id: userId },
-                    success: function (response) {
-                        console.log('User deleted successfully');
-                        window.location.reload(); // Refresh the page after deletion
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error deleting the user:', error);
-                        $('#confirmationModalDelete').modal('hide');
-                    }
-                });
+                $('#confirmYesBtnDelete').data('user-id', userId); // Set the user ID for deletion
             });
 
             // Handle the click event of the "Make Admin" button in the confirmation modal
+            $('.makeAdminBtn').click(function () {
+                var userId = $(this).data('user-id');
+                $('#confirmYesBtnMake').data('user-id', userId); // Set the user ID for making admin
+            });
+
+            // Handle the click event of the confirmation button in the "Make Admin" modal
             $('#confirmYesBtnMake').click(function () {
-                var userId = $('.makeAdminBtn').data('user-id');
+                var userId = $(this).data('user-id');
+
                 // Perform a POST request to make the user admin
                 $.ajax({
-                    url: '@Url.Action("MakeAdmin", "User", new { area = "Admin" })' + '?id=' + userId,
+                    url: '@Url.Action("PromoteAdmin", "User", new { area = "Admin" })' + '?id=' + userId,
                     type: 'POST',
                     headers: {
                         RequestVerificationToken: token
                     },
-                    data: { id: userId },
+                    data: { userId: userId },
                     success: function (response) {
                         console.log('User made admin successfully');
                         window.location.reload(); // Refresh the page after making admin
@@ -194,7 +151,29 @@
                     }
                 });
             });
+
+            // Handle the click event of the confirmation button in the "Delete" modal
+            $('#confirmYesBtnDelete').click(function () {
+                var userId = $(this).data('user-id');
+
+                // Perform a POST request to delete the user
+                $.ajax({
+                    url: '@Url.Action("Delete", "User", new { area = "Admin" })' + '?id=' + userId,
+                    type: 'POST',
+                    headers: {
+                        RequestVerificationToken: token
+                    },
+                    data: { userId: userId },
+                    success: function (response) {
+                        console.log('User deleted successfully');
+                        window.location.reload(); // Refresh the page after deletion
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error deleting the user:', error);
+                        $('#confirmationModalDelete').modal('hide');
+                    }
+                });
+            });
         });
     </script>
 }
- *@

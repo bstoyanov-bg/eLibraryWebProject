@@ -2,6 +2,7 @@
 using LibraryManagementSystem.Web.Areas.Admin.Services.Interfaces;
 using LibraryManagementSystem.Web.Areas.Admin.ViewModels;
 using LibraryManagementSystem.Web.Infrastructure.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
@@ -14,10 +15,12 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
         private const int UsersPerPage = 2;
 
         private readonly IUserService userService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, UserManager<ApplicationUser> userManager)
         {
             this.userService = userService;
+            this.userManager = userManager;
         }
 
         //[ResponseCache(Duration = 30, Location = ResponseCacheLocation.Client, NoStore = false)]
@@ -31,7 +34,7 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
-            {
+        {
             try
             {
                 ApplicationUser userToDelete = await this.userService.GetUserByIdAsync(id);
@@ -39,7 +42,7 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
                 if (userToDelete == null)
                 {
                     this.TempData[ErrorMessage] = "There is no User with such Id!";
-    
+
                     return this.RedirectToAction("Index", "Home", new { area = "" });
                 }
 
@@ -71,6 +74,30 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
             }
 
             return this.RedirectToAction("Index", "Home", new { area = "" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PromoteAdmin(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                // Assign the "Admin" role to the user
+                await userManager.AddToRoleAsync(user, AdminRole);
+                // Remove the user from other role
+                await userManager.RemoveFromRoleAsync(user, UserRole);
+
+                this.TempData[SuccessMessage] = "The user successfully became an Administrator!";
+
+                return RedirectToAction("All", "User", new { area = "Admin" });
+            }
+            else
+            {
+                this.TempData[ErrorMessage] = "There is no User with such Id!";
+            }
+
+            return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
     }
 }
