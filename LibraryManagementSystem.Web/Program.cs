@@ -34,15 +34,21 @@ namespace LibraryManagementSystem.Web
                 // Add identity Roles.
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ELibraryDbContext>();
+                // For remove Protected data in Identity.
+                //.AddDefaultTokenProviders();
 
-            builder.Services.ConfigureApplicationCookie(cfg =>
+            builder.Services.ConfigureApplicationCookie(options =>
             {
-                cfg.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                cfg.LoginPath = "/User/Login";
-                cfg.LogoutPath = "/User/Logout";
+                //options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.LoginPath = "/User/Login";
+                options.LogoutPath = "/User/Logout";
+                options.AccessDeniedPath = "/Home/Error/401";
             });
 
             builder.Services.AddApplicationServices(typeof(IBookService));
+            // Register UserService for the Admin area.
+            builder.Services.AddApplicationServices(typeof(Areas.Admin.Services.Interfaces.IUserService));
+            // Register Lazy services.
             builder.Services.AddScoped(provider =>
             {
                 return new Lazy<IEditionService>(() => provider.GetRequiredService<IEditionService>());
@@ -81,7 +87,7 @@ namespace LibraryManagementSystem.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error/500");
+                app.UseExceptionHandler("/Home/Error?statusCode=500");
                 // Custom Error pages with status code.
                 app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
                 app.UseHsts();
@@ -101,8 +107,8 @@ namespace LibraryManagementSystem.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "areaRoute",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                name: "areaRoute",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
                     name: "default",

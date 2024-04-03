@@ -127,7 +127,7 @@ namespace LibraryManagementSystem.Web.Controllers
             }
             else
             {
-                this.TempData[ErrorMessage] = "There was an error while logging you out!";
+                this.TempData[ErrorMessage] = "There was a problem with the Update Security Stamp!";
             }
 
             return this.RedirectToAction("Index", "Home");
