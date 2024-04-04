@@ -69,6 +69,7 @@
     </div>
 </div>
 
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -254,7 +255,7 @@
                         data: { userId: userId },
                         success: function (response) {
                             console.log('User made admin successfully');
-                            window.location.reload();
+                            window.location.href = '@Url.Action("All", "User", new { area = "Admin" })';
                         },
                         error: function (xhr, status, error) {
                             console.error('Error making the user admin:', error);
@@ -277,7 +278,7 @@
                         data: { userId: userId },
                         success: function (response) {
                             console.log('User is not admin anymore');
-                            window.location.reload();
+                            window.location.href = '@Url.Action("All", "User", new { area = "Admin" })';
                         },
                         error: function (xhr, status, error) {
                             console.error('Error with demoting admin:', error);
@@ -300,7 +301,7 @@
                         data: { userId: userId },
                         success: function (response) {
                             console.log('User deleted successfully');
-                            window.location.reload();
+                            window.location.href = '@Url.Action("All", "User", new { area = "Admin" })';
                         },
                         error: function (xhr, status, error) {
                             console.error('Error deleting the user:', error);
@@ -311,7 +312,7 @@
             });
 
             @* Script for Back to top button *@
-                                    var button = document.getElementById("backToTopBtn");
+                                                            var button = document.getElementById("backToTopBtn");
 
             window.onscroll = function () { scrollFunction() };
 
