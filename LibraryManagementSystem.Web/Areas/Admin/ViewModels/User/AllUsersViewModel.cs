@@ -1,6 +1,6 @@
-﻿namespace LibraryManagementSystem.Web.Areas.Admin.ViewModels
+﻿namespace LibraryManagementSystem.Web.Areas.Admin.ViewModels.User
 {
-    public class UserViewModel
+    public class AllUsersViewModel
     {
         public string Id { get; set; } = null!;
 

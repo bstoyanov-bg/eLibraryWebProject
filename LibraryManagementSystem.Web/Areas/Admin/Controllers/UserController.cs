@@ -1,10 +1,10 @@
 ﻿using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Services.Data.Models.User;
 using LibraryManagementSystem.Web.Areas.Admin.Services.Interfaces;
-using LibraryManagementSystem.Web.Areas.Admin.ViewModels;
+using LibraryManagementSystem.Web.Areas.Admin.ViewModels.User;
 using LibraryManagementSystem.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
 using static LibraryManagementSystem.Common.UserRoleNames;
 
@@ -12,8 +12,6 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
 {
     public class UserController : BaseAdminController
     {
-        private const int UsersPerPage = 2;
-
         private readonly IUserService userService;
         private readonly UserManager<ApplicationUser> userManager;
 
@@ -23,13 +21,15 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
             this.userManager = userManager;
         }
 
-        //[ResponseCache(Duration = 30, Location = ResponseCacheLocation.Client, NoStore = false)]
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery] AllUsersQueryModel queryModel)
         {
-            IEnumerable<UserViewModel> users = await this.userService.GetAllUsersAsync();
+            AllUsersFilteredAndPagedServiceModel serviceModel = await this.userService.GetAllUsersFilteredAndPagedAsync(queryModel);
 
-            return View(users);
+            queryModel.Users = serviceModel.Users;
+            queryModel.TotalUsers = serviceModel.TotalUsersCount;
+
+            return this.View(queryModel);
         }
 
         [HttpPost]

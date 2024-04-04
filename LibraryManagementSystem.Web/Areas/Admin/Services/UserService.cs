@@ -1,8 +1,9 @@
-﻿using LibraryManagementSystem.Common;
-using LibraryManagementSystem.Data;
+﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
+using LibraryManagementSystem.Services.Data.Models.User;
 using LibraryManagementSystem.Web.Areas.Admin.Services.Interfaces;
-using LibraryManagementSystem.Web.Areas.Admin.ViewModels;
+using LibraryManagementSystem.Web.Areas.Admin.ViewModels.User;
+using LibraryManagementSystem.Web.Areas.Admin.ViewModels.User.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -19,26 +20,6 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Servicesv
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
-        }
-
-        public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
-        {
-            return await this.dbContext
-                .Users
-                .AsNoTracking()
-                .Where(u => u.IsDeleted == false)
-                .Select(u => new UserViewModel
-                {
-                    Id = u.Id.ToString(),
-                    Email = u.Email!,
-                    UserName = u.UserName!,
-                    FullName = u.FirstName + " " + u.LastName,
-                    City = u.City,
-                    PhoneNumber = u.PhoneNumber!,
-                    MaxLoanedBooks = u.MaxLoanedBooks
-                })
-                .OrderBy(c => c.FullName)
-                .ToListAsync();
         }
 
         public async Task DeleteUserAsync(string userId)
@@ -102,16 +83,59 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Servicesv
                     role => role.Id,
                     (ur, role) => new { UserRole = ur, RoleName = role.Name })
                 .AnyAsync(ur => ur.RoleName == UserRole);
-        }  
+        }
 
-        //public Task<EditUserInputModel> GetUserForEditByIdAsync(string userId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public async Task<AllUsersFilteredAndPagedServiceModel> GetAllUsersFilteredAndPagedAsync(AllUsersQueryModel queryModel)
+        {
+            IQueryable<ApplicationUser> usersQuery = this.dbContext
+                .Users
+                .Where(u => u.IsDeleted == false)
+                .AsQueryable();
 
-        //public Task<(ApplicationUser, IdentityResult)> EditUserAsync(string userId, EditUserInputModel editUserInputModel)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
+            {
+                string wildCard = $"%{queryModel.SearchString.ToLower()}%";
+
+                usersQuery = usersQuery
+                    .Where(u => EF.Functions.Like(u.FirstName + " " + u.LastName, wildCard) ||
+                                EF.Functions.Like(u.Email, wildCard));
+            }
+
+            usersQuery = queryModel.UserSorting switch
+            {
+                UserSorting.Newest => usersQuery
+                    .OrderByDescending(b => b.CreatedOn),
+                UserSorting.Oldest => usersQuery
+                    .OrderBy(b => b.CreatedOn),
+                UserSorting.ByNameAscending => usersQuery
+                    .OrderBy(b => b.FirstName + " " + b.LastName),
+                UserSorting.ByNameDescending => usersQuery
+                    .OrderByDescending(b => b.FirstName + " " + b.LastName),
+                _ => usersQuery
+                    .OrderBy(b => b.FirstName + " " + b.LastName),
+            };
+
+            IEnumerable<AllUsersViewModel> allUsers = await usersQuery
+                .Skip((queryModel.CurrentPage - 1) * queryModel.UsersPerPage)
+                .Take(queryModel.UsersPerPage)
+                .Select(u => new AllUsersViewModel
+                {
+                    Id = u.Id.ToString(),
+                    Email = u.Email!,
+                    UserName = u.UserName!,
+                    FullName = u.FirstName + " " + u.LastName,
+                    City = u.City,
+                    PhoneNumber = u.PhoneNumber!,
+                    MaxLoanedBooks = u.MaxLoanedBooks
+                }).ToListAsync();
+
+            int totalUsers = usersQuery.Count();
+
+            return new AllUsersFilteredAndPagedServiceModel()
+            {
+                TotalUsersCount = totalUsers,
+                Users = allUsers,
+            };
+        }
     }
 }

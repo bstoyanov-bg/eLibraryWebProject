@@ -1,20 +1,17 @@
 ﻿using LibraryManagementSystem.Data.Models;
-using LibraryManagementSystem.Web.Areas.Admin.ViewModels;
+using LibraryManagementSystem.Services.Data.Models.User;
+using LibraryManagementSystem.Web.Areas.Admin.ViewModels.User;
 
 namespace LibraryManagementSystem.Web.Areas.Admin.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserViewModel>> GetAllUsersAsync();
-
         Task DeleteUserAsync(string userId);
 
         Task<ApplicationUser> GetUserByIdAsync(string userId);
 
         Task<bool> isUserAdmin(string userId);
 
-        //Task<(ApplicationUser, IdentityResult)> EditUserAsync(string userId, EditUserInputModel editUserInputModel);
-
-        //Task<EditUserInputModel> GetUserForEditByIdAsync(string userId);
+        Task<AllUsersFilteredAndPagedServiceModel> GetAllUsersFilteredAndPagedAsync(AllUsersQueryModel queryModel);
     }
 }
