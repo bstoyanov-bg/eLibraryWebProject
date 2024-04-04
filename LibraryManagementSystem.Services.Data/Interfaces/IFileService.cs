@@ -14,5 +14,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<string> GetFilePathAsync(string id, string entityType);
 
         Task<string> GetFileContentAsync(string filePath);
+
+        Task<int> GetFilesCountAsync(string directoryName);
     }
 }

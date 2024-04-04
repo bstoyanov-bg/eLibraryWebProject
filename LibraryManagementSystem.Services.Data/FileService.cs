@@ -171,4 +171,24 @@ public class FileService : IFileService
             throw;
         }
     }
+
+    Task<int> IFileService.GetFilesCountAsync(string directoryName)
+    {
+        // Get the path to the folder within the wwwroot directory
+        string folderPath = Path.Combine(this.hostEnvironment.WebRootPath, directoryName);
+
+        if (Directory.Exists(folderPath))
+        {
+            // Get the list of files in the folder
+            string[] files = Directory.GetFiles(folderPath);
+
+            int fileCount = files.Length;
+
+            return Task.FromResult(fileCount);
+        }
+        else
+        {
+            throw new DirectoryNotFoundException($"The folder '{directoryName}' does not exist.");
+        }
+    }
 }

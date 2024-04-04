@@ -14,6 +14,7 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Services
         private readonly IEditionService editionService;
         private readonly IRatingService ratingService;
         private readonly ILendedBooksService lendedBooksService;
+        private readonly IFileService fileService;
 
         public SystemMetricsService(IUserService userService,
                                     IBookService bookService,
@@ -21,7 +22,8 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Services
                                 ICategoryService categoryService,
                                  IEditionService editionService,
                                   IRatingService ratingService,
-                             ILendedBooksService lendedBooksService)
+                             ILendedBooksService lendedBooksService,
+                                    IFileService fileService)
         {
             this.userService = userService;
             this.bookService = bookService;
@@ -30,6 +32,7 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Services
             this.editionService = editionService;
             this.ratingService = ratingService;
             this.lendedBooksService = lendedBooksService;
+            this.fileService = fileService;
         }
 
         public async Task<SystemMetricsViewModel> GetSystemMetricsAsync()
@@ -51,6 +54,12 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Services
             int deletedCategories = await this.categoryService.GetCountOfDeletedCategoriesAsync();
             int deletedBookEditions = await this.editionService.GetCountOfDeletedEditionsAsync();
 
+            // Library Files
+            int bookFiles = await this.fileService.GetFilesCountAsync("BookFiles/Books");
+            int eitionFiles = await this.fileService.GetFilesCountAsync("BookFiles/Editions");
+            int bookImageFiles = await this.fileService.GetFilesCountAsync("img/BookCovers");
+            int authorImageFiles = await this.fileService.GetFilesCountAsync("img/AuthorCovers");
+
             // Other Information
             int allRatings = await this.ratingService.GetCountOfRatingsAsync();
             int allLendedBooks = await this.lendedBooksService.GetCountOfLendedBooksAsync();
@@ -60,6 +69,11 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Services
                 ActiveUsers = activeUsers,
                 ActiveAdmins = activeAdmins,
                 DeletedUsers = deletedUsers,
+
+                BookFiles = bookFiles,
+                EditionFiles = eitionFiles,
+                BookCovers = bookImageFiles,
+                AuthorCovers = authorImageFiles,
 
                 ActiveBooks = activeBooks,
                 ActiveAuthors = activeAuthors,
