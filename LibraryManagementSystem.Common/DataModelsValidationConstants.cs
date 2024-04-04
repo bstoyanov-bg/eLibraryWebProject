@@ -30,7 +30,7 @@ namespace LibraryManagementSystem.Common
             public const int CoverImagePathUrlMaxLength = 260;
 
             public const int ISBNMaxLength = 22;
-            public const string ISBNRegexPattern = @"\b(?:ISBN(?:-13)?:? ?)?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){3})[- 0-9]{17}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b";
+            public const string ISBNRegexPattern = @"^\d{3}-\d{2}-\d{3}-\d{4}-\d$";
 
             public const int FilePathMaxLength = 260;
 

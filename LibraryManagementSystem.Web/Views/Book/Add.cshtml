@@ -58,9 +58,9 @@
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="ISBN"></label>
-                    <input asp-for="ISBN" id="isbnInput" class="form-control" placeholder="" title="Please enter a valid ISBN number" oninput="formatISBN()" />
+                    <input asp-for="ISBN" id="isbnInput" class="form-control" placeholder="" title="Please enter a valid ISBN number" pattern="[0-9]{13}" oninput="formatISBN()" autocomplete="off" />
                     <span asp-validation-for="ISBN" class="small text-danger"></span>
-                    <span id="isbn-validation-message" class="text-notification"><strong>NOTE:</strong> If present you can enter a valid ISBN number which is 13 digits long and in the format 111-11-111-1111-1.</span>
+                    <span id="isbn-validation-message" class="text-notification"><strong>NOTE:</strong> Please enter a valid ISBN number which is 13 digits long and in the format 111-11-111-1111-1.</span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="YearPublished"></label>
