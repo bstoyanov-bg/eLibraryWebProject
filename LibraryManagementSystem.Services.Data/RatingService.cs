@@ -77,5 +77,13 @@ namespace LibraryManagementSystem.Services.Data
                              r.BookId.ToString() == bookId)
                 .AnyAsync();
         }
+
+        public async Task<int> GetCountOfRatingsAsync()
+        {
+            return await this.dbContext
+                .Ratings
+                .AsNoTracking()
+                .CountAsync();
+        }
     }
 }

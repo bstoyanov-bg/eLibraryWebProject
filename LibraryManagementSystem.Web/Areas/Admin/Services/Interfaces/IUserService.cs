@@ -15,5 +15,9 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Services.Interfaces
         Task<AllUsersFilteredAndPagedServiceModel> GetAllUsersFilteredAndPagedAsync(AllUsersQueryModel queryModel);
 
         Task<int> GetCountOfActiveAdminsAsync();
+
+        Task<int> GetCountOfActiveUsersAsync();
+
+        Task<int> GetCountOfDeletedUsersAsync();
     }
 }

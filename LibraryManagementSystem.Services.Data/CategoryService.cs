@@ -100,6 +100,24 @@ namespace LibraryManagementSystem.Services.Data
                                   .FirstAsync();
         }
 
+        public async Task<int> GetCountOfActiveCategoriesAsync()
+        {
+            return await this.dbContext
+                .Categories
+                .AsNoTracking()
+                .Where(u => u.IsDeleted == false)
+                .CountAsync();
+        }
+
+        public async Task<int> GetCountOfDeletedCategoriesAsync()
+        {
+            return await this.dbContext
+                .Categories
+                .AsNoTracking()
+                .Where(u => u.IsDeleted == true)
+                .CountAsync();
+        }
+
         public async Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync()
         {
             return await this.dbContext

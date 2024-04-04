@@ -342,6 +342,24 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync();
         }
 
+        public async Task<int> GetCountOfActiveBooksAsync()
+        {
+            return await this.dbContext
+                .Books
+                .AsNoTracking()
+                .Where(b => b.IsDeleted == false)
+                .CountAsync();
+        }
+
+        public async Task<int> GetCountOfDeletedBooksAsync()
+        {
+            return await this.dbContext
+                .Books
+                .AsNoTracking()
+                .Where(b => b.IsDeleted == true)
+                .CountAsync();
+        }
+
         public async Task<IEnumerable<IndexViewModel>> LastNineBooksAsync()
         {
             IEnumerable<IndexViewModel> lastNineAddedBooks = await dbContext

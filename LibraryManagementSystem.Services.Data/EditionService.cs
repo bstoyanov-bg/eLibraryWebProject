@@ -157,6 +157,24 @@ namespace LibraryManagementSystem.Services.Data
             return bookId;
         }
 
+        public async Task<int> GetCountOfActiveEditionsAsync()
+        {
+            return await this.dbContext
+                .Editions
+                .AsNoTracking()
+                .Where(u => u.IsDeleted == false)
+                .CountAsync();
+        }
+
+        public async Task<int> GetCountOfDeletedEditionsAsync()
+        {
+            return await this.dbContext
+                .Editions
+                .AsNoTracking()
+                .Where(u => u.IsDeleted == true)
+                .CountAsync();
+        }
+
         public async Task<IEnumerable<Edition>> GetAllBookEditionsByBookIdAsync(string bookId)
         {
             return await this.dbContext

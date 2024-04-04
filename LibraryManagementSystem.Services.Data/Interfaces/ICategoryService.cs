@@ -21,6 +21,10 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<int> GetCategoryIdByBookIdAsync(string bookId);
 
+        Task<int> GetCountOfActiveCategoriesAsync();
+
+        Task<int> GetCountOfDeletedCategoriesAsync();
+
         Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync();
 
         Task<IEnumerable<string>> GetAllCategoriesNamesAsync();

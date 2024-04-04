@@ -217,6 +217,24 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync();
         }
 
+        public async Task<int> GetCountOfActiveAuthorsAsync()
+        {
+            return await this.dbContext
+                .Authors
+                .AsNoTracking()
+                .Where(u => u.IsDeleted == false)
+                .CountAsync();
+        }
+
+        public async Task<int> GetCountOfDeletedAuthorsAsync()
+        {
+            return await this.dbContext
+                .Authors
+                .AsNoTracking()
+                .Where(u => u.IsDeleted == true)
+                .CountAsync();
+        }
+
         public async Task<IEnumerable<AuthorsSelectForBookFormModel>> GetAllAuthorsForListAsync()
         {
             return await this.dbContext

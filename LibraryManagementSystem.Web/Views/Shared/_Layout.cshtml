@@ -52,7 +52,22 @@
                         @if (this.User.IsInRole(UserRole))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="LendedBooks" asp-action="Mine">| My Books</a>
+                                <span class="nav-link text-dark">|</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="LendedBooks" asp-action="Mine">My Books</a>
+                            </li>
+                        }
+                        else if (this.User.IsInRole(AdminRole))
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link text-dark">|</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="User" asp-action="All">Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="SystemMetrics" asp-action="Metrics">Stats</a>
                             </li>
                         }
                     </ul>

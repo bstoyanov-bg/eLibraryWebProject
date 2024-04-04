@@ -33,6 +33,10 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<bool> DoesBookHaveUploadedFileAsync(string bookId);
 
+        Task<int> GetCountOfActiveBooksAsync();
+
+        Task<int> GetCountOfDeletedBooksAsync();
+
         Task<IEnumerable<IndexViewModel>> LastNineBooksAsync();
 
         Task<IEnumerable<BookSelectForEditionFormModel>>GetAllBooksForListAsync();

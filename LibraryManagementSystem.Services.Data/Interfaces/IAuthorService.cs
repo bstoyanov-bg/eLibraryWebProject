@@ -24,6 +24,10 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<bool> AuthorExistByIdAsync(string authorId);
 
+        Task<int> GetCountOfActiveAuthorsAsync();
+
+        Task<int> GetCountOfDeletedAuthorsAsync();
+
         Task<IEnumerable<AuthorsSelectForBookFormModel>> GetAllAuthorsForListAsync();
     }
 }

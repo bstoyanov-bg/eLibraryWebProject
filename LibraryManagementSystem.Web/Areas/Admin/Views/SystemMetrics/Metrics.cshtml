@@ -1,0 +1,72 @@
+﻿@using LibraryManagementSystem.Web.Areas.Admin.ViewModels.SystemMetrtics
+@model SystemMetricsViewModel
+
+@{
+    ViewBag.Title = "System Metrics";
+}
+
+<div class="container">
+    <h2 class="text-center">@ViewBag.Title</h2>
+    <hr />
+    <br />
+    <div class="row">
+        <div class="col-md-6 mb-5">
+            <h3><u>Users in the System:</u></h3>
+            <br />
+            <h4>Active Users</h4>
+            <p>@Model.ActiveUsers</p>
+            <h4>Active Admins</h4>
+            <p>@Model.ActiveAdmins</p>
+            <h4>Deleted Users</h4>
+            <p>@Model.DeletedUsers</p>
+        </div>
+        <div class="col-md-6 mb-5">
+            <h3><u>Library Statistics (Active):</u></h3>
+            <br />
+            <h4>Active Books</h4>
+            <p>@Model.ActiveBooks</p>
+            <h4>Active Authors</h4>
+            <p>@Model.ActiveAuthors</p>
+            <h4>Active Categories</h4>
+            <p>@Model.ActiveCategories</p>
+            <h4>Active Book Editions</h4>
+            <p>@Model.ActiveBookEditions</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-5">
+            <h3><u>Library Statistics (Deleted):</u></h3>
+            <br />
+            <h4>Deleted Books</h4>
+            <p>@Model.DeletedBooks</p>
+            <h4>Deleted Authors</h4>
+            <p>@Model.DeletedAuthors</p>
+            <h4>Deleted Categories</h4>
+            <p>@Model.DeletedCategories</p>
+            <h4>Deleted Book Editions</h4>
+            <p>@Model.DeletedBookEditions</p>
+        </div>
+        <div class="col-md-6 mb-5">
+            <h3><u>Library Files:</u></h3>
+            <br />
+            <h4>Book Files</h4>
+            <p>@Model.BookFiles</p>
+            <h4>Edition Files</h4>
+            <p>@Model.EditionFiles</p>
+            <h4>Book Covers</h4>
+            <p>@Model.BookCovers</p>
+            <h4>Author Covers</h4>
+            <p>@Model.AuthorCovers</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-5">
+            <h3><u>Rating and Lending Info:</u></h3>
+            <br />
+            <h4>All Given Ratings</h4>
+            <p>@Model.AllGivenRatings</p>
+            <h4>Total Lended Books</h4>
+            <p>@Model.TotalBooksLended</p>
+        </div>
+    </div>
+</div>

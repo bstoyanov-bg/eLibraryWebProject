@@ -140,7 +140,7 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Servicesv
 
         public async Task<int> GetCountOfActiveAdminsAsync()
         {
-            var countOfAdmins = await dbContext
+            var countOfAdmins = await this.dbContext
                 .UserRoles
                 .Join(this.dbContext.Roles,
                     ur => ur.RoleId,
@@ -150,6 +150,24 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Servicesv
                 .CountAsync();
 
             return countOfAdmins;
+        }
+
+        public async Task<int> GetCountOfActiveUsersAsync()
+        {
+            return await this.dbContext
+                .Users
+                .AsNoTracking()
+                .Where(u => u.IsDeleted == false)
+                .CountAsync();
+        }
+
+        public async Task<int> GetCountOfDeletedUsersAsync()
+        {
+            return await this.dbContext
+                .Users
+                .AsNoTracking()
+                .Where(u => u.IsDeleted == true)
+                .CountAsync();
         }
     }
 }

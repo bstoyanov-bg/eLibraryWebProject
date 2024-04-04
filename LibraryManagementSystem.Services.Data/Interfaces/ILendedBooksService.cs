@@ -22,6 +22,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<int> GetCountOfPeopleReadingTheBookAsync(string bookId);
 
+        Task<int> GetCountOfLendedBooksAsync();
+
         Task<IEnumerable<MyBooksViewModel>> GetMyBooksAsync(string userId);
     }
 }
