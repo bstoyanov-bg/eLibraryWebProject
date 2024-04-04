@@ -137,5 +137,19 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Servicesv
                 Users = allUsers,
             };
         }
+
+        public async Task<int> GetCountOfActiveAdminsAsync()
+        {
+            var countOfAdmins = await dbContext
+                .UserRoles
+                .Join(this.dbContext.Roles,
+                    ur => ur.RoleId,
+                    role => role.Id,
+                    (ur, role) => new { ur.UserId, RoleName = role.Name })
+                .Where(ur => ur.RoleName == AdminRole)
+                .CountAsync();
+
+            return countOfAdmins;
+        }
     }
 }

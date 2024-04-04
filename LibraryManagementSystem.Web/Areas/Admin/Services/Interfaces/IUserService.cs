@@ -13,5 +13,7 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Services.Interfaces
         Task<bool> isUserAdmin(string userId);
 
         Task<AllUsersFilteredAndPagedServiceModel> GetAllUsersFilteredAndPagedAsync(AllUsersQueryModel queryModel);
+
+        Task<int> GetCountOfActiveAdminsAsync();
     }
 }

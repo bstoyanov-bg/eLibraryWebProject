@@ -5,6 +5,10 @@
 @inject IUserService userService;
 
 @{
+    int activeAdminsCount = await this.userService.GetCountOfActiveAdminsAsync();
+}
+
+@{
     ViewBag.Title = "All Users";
 }
 
@@ -188,10 +192,14 @@
                             }
                             else
                             {
-                                <!-- Demote Admin Button with Modal -->
-                                <button type="button" class="btn btn-warning demoteAdminBtn" data-user-id="@user.Id" data-bs-toggle="modal" data-bs-target="#confirmationModalDemoteAdmin" style="margin-left: 5px;">
-                                    Demote Admin
-                                </button>
+                                <!-- The system cannot exist without Admin -->
+                                @if (activeAdminsCount > 1)
+                                {
+                                    <!-- Demote Admin Button with Modal -->
+                                    <button type="button" class="btn btn-warning demoteAdminBtn" data-user-id="@user.Id" data-bs-toggle="modal" data-bs-target="#confirmationModalDemoteAdmin" style="margin-left: 5px;">
+                                        Demote Admin
+                                    </button>
+                                }
                             }
                         </td>
                     </tr>
@@ -303,7 +311,7 @@
             });
 
             @* Script for Back to top button *@
-                        var button = document.getElementById("backToTopBtn");
+                                    var button = document.getElementById("backToTopBtn");
 
             window.onscroll = function () { scrollFunction() };
 
