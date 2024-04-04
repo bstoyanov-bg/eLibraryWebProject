@@ -15,6 +15,10 @@ namespace LibraryManagementSystem.Data.Configuration
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
             builder
+                .Property(b => b.CreatedOn)
+                .HasDefaultValueSql("GETDATE()");
+
+            builder
                 .Property(au => au.IsDeleted)
                 .HasDefaultValue(false);
         }

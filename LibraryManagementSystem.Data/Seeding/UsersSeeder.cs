@@ -53,6 +53,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 PhoneNumber = "444555666",
                 IsDeleted = false,
                 SecurityStamp = "6D9FB13AE0D145F496E624C798A5268E",
+                CreatedOn = DateTime.UtcNow.AddDays(10),
             };
 
             ApplicationUser userTwo = new ApplicationUser
@@ -71,6 +72,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 PhoneNumber = "999666333",
                 IsDeleted = false,
                 SecurityStamp = "285DD83CB9D44020893880E27B178E15",
+                CreatedOn = DateTime.UtcNow.AddDays(20),
             };
 
             ApplicationUser userThree = new ApplicationUser
@@ -89,6 +91,7 @@ namespace LibraryManagementSystem.Data.Seeding
                 PhoneNumber = "778811547",
                 IsDeleted = false,
                 SecurityStamp = "618A8DDF778F4DDDB8A5B22CC61D1FAA",
+                CreatedOn = DateTime.UtcNow.AddDays(30),
             };
 
             await userManager.CreateAsync(admin, admin.PasswordHash);

@@ -57,6 +57,9 @@ namespace LibraryManagementSystem.Data.Models
         [MaxLength(AllowedBooksMaxLength)]
         public int? MaxLoanedBooks { get; set; }
 
+        [Comment("Created On")]
+        public DateTime CreatedOn { get; set; }
+
         public bool IsDeleted { get; set; }
 
         [ProtectedPersonalData]

@@ -26,6 +26,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/3a740213-ae68-43ea-8d78-79d0656581a7_Brief-Answers-to-the-Big-Questions-Image.png",
                     AuthorId = Guid.Parse("3CF69D33-43D6-4AD9-8569-0C2A897A66C0"),
                     FilePath = "BookFiles/Books/f4f985e7-0431-428f-91ab-e7d585a192cd_Brief-Answers-to-the-Big-Questions.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(10),
                     IsDeleted = false,
                 },
                 new Book
@@ -38,6 +39,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/7fd490a9-c011-42cd-9d76-fd86a79f0f20_The-Illustrated-Theory-of-Everything-The-Origin-and-Fate-of-the-Universe-Image.jpg",
                     AuthorId = Guid.Parse("3CF69D33-43D6-4AD9-8569-0C2A897A66C0"),
                     FilePath = "BookFiles/Books/0cc5d03b-7a83-47b8-9d53-fe5a604c83b3_The-Illustrated-Theory-of-Everything-The-Origin-and-Fate-of-the-Universe.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(-25),
                     IsDeleted = false,
                 },
                 new Book
@@ -51,6 +53,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/3d8b729f-4be0-4134-b756-c44f54b7a7f1_Journey-to-the-Center-of-the-Earth-Image.jpg",
                     AuthorId = Guid.Parse("92FB2DF0-9C82-4B71-B1FB-4DE8CA702866"),
                     FilePath = "BookFiles/Books/285d8783-3491-4643-9b5f-a9bdd8a49271_Journey-to-the-Center-of-the-Earth.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(1),
                     IsDeleted = false,
                 },
                 new Book
@@ -64,6 +67,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/df61a4e7-b8dc-48b7-bb19-2d4beeae5902_Twenty-Thousand-Leagues-Under-the-Seas-Image.jpg",
                     AuthorId = Guid.Parse("92FB2DF0-9C82-4B71-B1FB-4DE8CA702866"),
                     FilePath = "BookFiles/Books/e04ad026-7d9d-4c6e-97b1-c1ca4a5efbc3_Twenty-Thousand-Leagues-Under-the-Seas.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(-50),
                     IsDeleted = false,
                 },
                 new Book
@@ -77,6 +81,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/f0e168fa-cc7c-43b3-979e-134a9b768303_Oliver-Twist-Image.jpg",
                     AuthorId = Guid.Parse("1BAAD29E-BB6A-4424-95AE-9DCF01FA6712"),
                     FilePath = "BookFiles/Books/3cc1eb86-3881-4da5-9d8c-014c4fae1680_Oliver-Twist.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(-10),
                     IsDeleted = false,
                 },
                 new Book
@@ -89,6 +94,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/e90d8731-5e98-40fa-b332-1fe0a7449075_The-Old-Curiosity-Shop-Image.jpg",
                     AuthorId = Guid.Parse("1BAAD29E-BB6A-4424-95AE-9DCF01FA6712"),
                     FilePath = "BookFiles/Books/a6c767ec-b245-4713-a080-f41f5a84e5d7_The-Old-Curiosity-Shop.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(-20),
                     IsDeleted = false,
                 },
                 new Book
@@ -102,6 +108,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/51254e99-8b95-45d2-b77c-0795d2b7d3de_Time-Shelter-Image.jpg",
                     AuthorId = Guid.Parse("5992BC8E-87F8-41AF-9EFB-E2C354E4BD3B"),
                     FilePath = "BookFiles/Books/e7d5d9d3-66c8-4245-913f-4c4a9d6cfb8e_Time-Shelter.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(-80),
                     IsDeleted = false,
                 },
                 new Book
@@ -115,6 +122,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/b67e1511-e323-410b-9f35-dff659ae6ba8_The-Physics-of-Sorrow-Image.jpg",
                     AuthorId = Guid.Parse("5992BC8E-87F8-41AF-9EFB-E2C354E4BD3B"),
                     FilePath = "BookFiles/Books/0be734d0-ea25-474b-8655-8901d7f59aef_The-Physics-of-Sorrow.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(30),
                     IsDeleted = false,
                 },
                 new Book
@@ -128,6 +136,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/eeccd4fa-e95a-4e10-bdd4-e774441fcfca_Dune-Image.jpg",
                     AuthorId = Guid.Parse("7A774B0B-D493-4A9D-AB57-CCCEDC6DDCB8"),
                     FilePath = "BookFiles/Books/da9dc514-06a1-40ec-b143-d4a35b664f47_Dune.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(20),
                     IsDeleted = false,
                 },
                 new Book
@@ -141,6 +150,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/59b9a300-8e8a-466e-886f-a57b24d09a02_Children-of-Dune-Image.jpg",
                     AuthorId = Guid.Parse("7A774B0B-D493-4A9D-AB57-CCCEDC6DDCB8"),
                     FilePath = "BookFiles/Books/b6402aeb-614f-4181-874f-ec76f24fc4a5_Children-of-Dune.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(2),
                     IsDeleted = false,
                 },
                 new Book
@@ -154,6 +164,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/10e920e1-2abe-4249-91b3-76ba89d7d6ad_Shantaram-Image.jpg",
                     AuthorId = Guid.Parse("1B019738-D4EA-4D18-84D4-F0C2A7F5AAAF"),
                     FilePath = "BookFiles/Books/02b3f989-6baf-4e20-8713-922eb122ff26_Shantaram.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(5),
                     IsDeleted = false,
                 },
                 new Book
@@ -167,6 +178,7 @@ namespace LibraryManagementSystem.Data.Seeding
                     ImageFilePath = "img/BookCovers/6603260d-bd1a-4bab-bc25-13abb33a0062_The-Mountain-Shadow-Image.jpg",
                     AuthorId = Guid.Parse("1B019738-D4EA-4D18-84D4-F0C2A7F5AAAF"),
                     FilePath = "BookFiles/Books/2972e428-9b13-41c8-8c31-fd60fe752e61_The-Mountain-Shadow.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(-100),
                     IsDeleted = false,
                 },
             };
