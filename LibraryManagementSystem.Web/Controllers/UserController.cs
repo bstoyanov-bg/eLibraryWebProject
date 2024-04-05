@@ -75,6 +75,8 @@ namespace LibraryManagementSystem.Web.Controllers
             await this.userManager.AddToRoleAsync(user, UserRole);
             await this.signInManager.SignInAsync(user, isPersistent: false);
 
+            this.TempData[SuccessMessage] = "You have registered successfully.";
+
             return this.RedirectToAction("Index", "Home");
         }
 
@@ -107,6 +109,8 @@ namespace LibraryManagementSystem.Web.Controllers
             }
 
             var result = await this.signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
+
+            this.TempData[SuccessMessage] = "You have logged in successfully.";
 
             if (!result.Succeeded)
             {

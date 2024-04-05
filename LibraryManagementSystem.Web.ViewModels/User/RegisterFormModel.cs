@@ -5,13 +5,13 @@ namespace LibraryManagementSystem.Web.ViewModels.User
 {
     public class RegisterFormModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter your email.")]
         [EmailAddress]
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.EmailAddress)]   
         [Display(Name = "Email")]
         public string Email { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your Username.")]
         [StringLength(UsernameMaxLength, MinimumLength = UsernameMinLength)]
         public string Username { get; set; } = null!;
 
@@ -26,15 +26,15 @@ namespace LibraryManagementSystem.Web.ViewModels.User
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "The First Name Field is required.")]
         [StringLength(FirstNameMaxLength, MinimumLength = FirstNameMinLength)]
         public string FirstName { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "The Last Name Field is required.")]
         [StringLength(LastNameMaxLength, MinimumLength = LastNameMinLength)]
         public string LastName { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "The Date of Birth Field is required.")]
         public DateOnly DateOfBirth { get; set; }
 
         [Required]
@@ -49,7 +49,7 @@ namespace LibraryManagementSystem.Web.ViewModels.User
         [StringLength(CityMaxLength, MinimumLength = CityMinLength)]
         public string City { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "The Phone Number Field is required.")]
         [DataType(DataType.PhoneNumber)]
         [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
         public string PhoneNumber { get; set; } = null!;

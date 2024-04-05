@@ -85,12 +85,12 @@
                 success: function (response) {
                     console.log('Books returned successfully');
                     // Redirect to BooksController/All action
-                    window.location.href = '@Url.Action("All", "Book")';
+                    window.location.href = '@Url.Action("Index", "Home")';
                 },
                 error: function (xhr, status, error) {
                     console.error('Error returning books:', error);
                     // Redirect to BooksController/All action
-                    window.location.href = '@Url.Action("All", "Book")';
+                        window.location.href = '@Url.Action("Index", "Home")';
                 }
             });
         });

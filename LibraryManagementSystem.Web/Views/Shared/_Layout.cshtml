@@ -24,6 +24,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
+    @*Google Fonts *@
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap">
+
     @* <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> *@
 
@@ -77,7 +80,7 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container" style="background-color: #fdf6e3;>
         <main role="main" id="wrapper" class="pb-3">
             @RenderBody()
         </main>
@@ -88,7 +91,8 @@
             &copy; eLibrary @ReleaseYear
             @if (DateTime.UtcNow.Year != ReleaseYear)
             {
-                @Html.Raw($" - {DateTime.UtcNow.Year}");
+                @Html.Raw($" - {DateTime.UtcNow.Year}")
+                ;
             }
         </div>
     </footer>

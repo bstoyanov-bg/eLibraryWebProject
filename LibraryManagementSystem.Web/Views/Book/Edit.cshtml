@@ -7,9 +7,13 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    @* Styles and links for Datepicker *@
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <style>
         .datepicker-dropdown {
             border-radius: 0 !important;
@@ -38,6 +42,15 @@
                         background-color: #007bff;
                         color: #fff;
                     }
+
+        /* Background color */
+        body {
+            background-color: #fdf6e3
+        }
+
+        .navbar {
+            background-color: #d4d1c9 !important;
+        }
     </style>
     <title>@ViewData["Title"]</title>
 </head>
@@ -144,16 +157,10 @@
                     <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary">Edit Book</button>
-                <br />
-                <br />
-                <br />
-                <br />
+                <div style="height: 80px;"></div>
+            </div>
         </form>
     </div>
-
-    @* Styles and links for Datepicker *@
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 </body>
 </html>
 

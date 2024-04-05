@@ -2,13 +2,15 @@
 @using LibraryManagementSystem.Web.ViewModels.User
 
 @model RegisterFormModel
+
 @{
     ViewData["Title"] = "Register";
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @* Styles and links for Datepicker *@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -41,6 +43,16 @@
                         background-color: #007bff;
                         color: #fff;
                     }
+
+        /* Background color */
+        body {
+            background-color: #fdf6e3
+        }
+
+        /* Navbar positioning */
+        .navbar {
+            background-color: #d4d1c9 !important;
+        }
     </style>
 </head>
 <body>
@@ -73,7 +85,7 @@
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
-                    <input asp-for="DateOfBirth" class="form-control" id="dateOfBirth" autocomplete="off" aria-required="true" placeholder="dd.mm.yyyy" />
+                    <input asp-for="DateOfBirth" class="form-control" id="dateOfBirth" autocomplete="off" aria-required="true" placeholder="dd.mm.yyyy" autocomplete="off" />
                     <label asp-for="DateOfBirth">Date Of Birth</label>
                     <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                 </div>
@@ -102,7 +114,7 @@
                     <label asp-for="Password">Password</label>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-4">
                     <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                     <label asp-for="ConfirmPassword">Confirm Password</label>
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>

@@ -7,8 +7,9 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @* Styles and links for Datepicker *@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -41,6 +42,16 @@
                         background-color: #007bff;
                         color: #fff;
                     }
+
+        /* Background color */
+        body {
+            background-color: #fdf6e3
+        }
+
+        /* Navbar positioning */
+        .navbar {
+            background-color: #d4d1c9 !important;
+        }
     </style>
     <title>@ViewData["Title"]</title>
 </head>
@@ -111,7 +122,7 @@
                     <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Add Book</button>
             <br />
         </form>
     </div>

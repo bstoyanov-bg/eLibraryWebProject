@@ -125,7 +125,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 this.TempData[ErrorMessage] = "There was problem with returning the Books!";
             }
 
-            return this.RedirectToAction("All", "Book");
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }
