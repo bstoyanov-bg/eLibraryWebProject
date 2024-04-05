@@ -1,4 +1,6 @@
-﻿using LibraryManagementSystem.Services.Data.Interfaces;
+﻿using AngleSharp.Dom.Events;
+using Ganss.Xss;
+using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Services.Data.Models.Author;
 using LibraryManagementSystem.Web.ViewModels.Author;
 using Microsoft.AspNetCore.Authorization;
@@ -46,6 +48,11 @@ namespace LibraryManagementSystem.Web.Controllers
                     this.TempData[ErrorMessage] = "Author with the same Name and Nationality already exists!";
 
                     return this.RedirectToAction("All", "Author");
+                }
+
+                if (model.Biography != null)
+                {
+                    model.Biography = new HtmlSanitizer().Sanitize(model.Biography);
                 }
 
                 var addedAuthor = await this.authorService.AddAuthorAsync(model);
@@ -118,6 +125,11 @@ namespace LibraryManagementSystem.Web.Controllers
                 this.TempData[ErrorMessage] = "Such Author does not exists!";
 
                 return this.RedirectToAction("All", "Author");
+            }
+
+            if (model.Biography != null)
+            {
+                model.Biography = new HtmlSanitizer().Sanitize(model.Biography);
             }
 
             try

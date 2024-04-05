@@ -1,8 +1,8 @@
-﻿using Griesoft.AspNetCore.ReCaptcha;
+﻿using Ganss.Xss;
+using Griesoft.AspNetCore.ReCaptcha;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Rating;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
 
 namespace LibraryManagementSystem.Web.Controllers
@@ -82,6 +82,11 @@ namespace LibraryManagementSystem.Web.Controllers
                 }
 
                 var book = await this.bookService.GetBookByIdAsync(model.BookId);
+
+                if (model.Comment != null)
+                {
+                    model.Comment = new HtmlSanitizer().Sanitize(model.Comment);
+                }
 
                 await this.ratingService.GiveRatingAsync(model);
 

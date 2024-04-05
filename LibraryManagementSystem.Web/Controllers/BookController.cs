@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Services.Data.Interfaces;
+﻿using Ganss.Xss;
+using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Services.Data.Models.Book;
 using LibraryManagementSystem.Web.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
@@ -82,6 +83,11 @@ namespace LibraryManagementSystem.Web.Controllers
                     }
                 }
 
+                if (model.Description != null)
+                {
+                    model.Description = new HtmlSanitizer().Sanitize(model.Description);
+                }
+
                 var addedBook = await this.bookService.AddBookAsync(model);
 
                 if (bookImage != null)
@@ -144,6 +150,11 @@ namespace LibraryManagementSystem.Web.Controllers
                     this.TempData[ErrorMessage] = "Such Book does not exists!";
 
                     return this.RedirectToAction("All", "Book");
+                }
+
+                if (model.Description != null)
+                {
+                    model.Description = new HtmlSanitizer().Sanitize(model.Description);
                 }
 
                 var editedBook = await this.bookService.EditBookAsync(id, model);
