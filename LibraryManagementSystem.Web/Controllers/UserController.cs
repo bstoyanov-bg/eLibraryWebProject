@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Data.Models;
+﻿using Griesoft.AspNetCore.ReCaptcha;
+using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.User;
 using Microsoft.AspNetCore.Authentication;
@@ -33,6 +34,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateRecaptcha(Action = nameof(Register), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
         public async Task<IActionResult> Register(RegisterFormModel model)
         {
             if (!this.ModelState.IsValid)

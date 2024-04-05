@@ -57,6 +57,7 @@ namespace LibraryManagementSystem.Web
             {
                 return new Lazy<IRatingService>(() => provider.GetRequiredService<IRatingService>());
             });
+            builder.Services.AddRecaptchaService();
 
             builder.Services
                 .AddControllersWithViews()

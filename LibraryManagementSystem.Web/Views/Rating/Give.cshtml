@@ -15,7 +15,7 @@
     <div class="d-flex justify-content-center align-items-center">
         <img class="d-block" style="max-width: 200px; height: auto;" src="~/@ViewBag.BookImage" alt="BookCover-img">
     </div>
-    <form method="post">
+    <form id="ratingForm" method="post">
         <div class="form-group col-md-10">
             <div class="form-group mb-3">
                 <label asp-for="BookRating"></label>
@@ -38,7 +38,7 @@
                 <span asp-validation-for="UserId" class="small text-danger"></span>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <recaptcha-v3 form-id="ratingForm" action="submit" class="btn btn-primary">Submit</recaptcha-v3>
     </form>
 </div>
 

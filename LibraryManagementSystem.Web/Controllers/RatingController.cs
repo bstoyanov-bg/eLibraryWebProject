@@ -1,6 +1,8 @@
-﻿using LibraryManagementSystem.Services.Data.Interfaces;
+﻿using Griesoft.AspNetCore.ReCaptcha;
+using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Rating;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
 
 namespace LibraryManagementSystem.Web.Controllers
@@ -60,6 +62,7 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateRecaptcha(Action = nameof(Give), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
         public async Task<IActionResult> Give(RatingFormModel model)
         {
             if (!this.ModelState.IsValid)
