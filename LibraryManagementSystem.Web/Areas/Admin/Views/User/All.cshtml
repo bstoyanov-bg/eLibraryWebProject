@@ -103,8 +103,11 @@
                     <option value="3">By Name (Descending)</option>
                 </select>
             </div>
-            <div class="form-group col-md-1">
-                <input type="submit" value="Search" class="btn btn-primary mt-3" />
+            <div class="col-md-2">
+                <div class="form-group mt-3 p-2">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                    <button type="button" class="btn btn-warning ms-2" id="clearBtn">Clear</button>
+                </div>
             </div>
         </div>
         <br />
@@ -219,6 +222,15 @@
 
     @section Scripts {
         <script>
+            @* Script for new GET Request for clearing the page criteria. *@
+                $(document).ready(function () {
+                    // Handle click event of the clear button
+                    $('#clearBtn').click(function () {
+                        // Redirect to the desired action URL
+                        window.location.href = '@Url.Action("All", "User", new { area = "Admin" })';
+                    });
+                });
+
             $(document).ready(function () {
                 // Get Verification Token
                 var token = $('input[name="__RequestVerificationToken"]').val();
@@ -312,7 +324,7 @@
             });
 
             @* Script for Back to top button *@
-                                                            var button = document.getElementById("backToTopBtn");
+                                                                        var button = document.getElementById("backToTopBtn");
 
             window.onscroll = function () { scrollFunction() };
 

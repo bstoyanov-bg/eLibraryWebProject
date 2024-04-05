@@ -16,10 +16,10 @@
     <hr />
     <br />
     <br />
-    <form method="get">
+    <form id="authorSearchForm" method="get">
         <div class="row">
             <div class="form-group col-md-2">
-                <label asp-for="AuthorsPerPage"></label>
+                <label asp-for="AuthorsPerPage">Authors Per Page</label>
                 <select asp-for="AuthorsPerPage" class="form-control">
                     <option value="10">10</option>
                     <option value="25">25</option>
@@ -27,31 +27,31 @@
                 </select>
             </div>
             <div class="form-group col-md-3">
-                <label asp-for="SearchString"></label>
-                <input asp-for="SearchString" class="form-control" placeholder="">
+                <label asp-for="SearchString">Search</label>
+                <input asp-for="SearchString" class="form-control" placeholder="Enter search term">
             </div>
             <div class="form-group col-md-3">
-                <div class="form-group">
-                    <label asp-for="AuthorSorting"></label>
-                    <select asp-for="AuthorSorting" class="form-control">
-                        <option value="0">Newest</option>
-                        <option value="1">Oldest</option>
-                        <option value="2">Name (Ascending)</option>
-                        <option value="3">Name (Descending)</option>
-                        <option value="4">Nationality (Ascending)</option>
-                        <option value="5">Nationality (Descending)</option>
-                    </select>
-                </div>
+                <label asp-for="AuthorSorting">Sort By</label>
+                <select asp-for="AuthorSorting" class="form-control">
+                    <option value="0">Newest</option>
+                    <option value="1">Oldest</option>
+                    <option value="2">Name (Ascending)</option>
+                    <option value="3">Name (Descending)</option>
+                    <option value="4">Nationality (Ascending)</option>
+                    <option value="5">Nationality (Descending)</option>
+                </select>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <div class="form-group mt-3 p-2">
                     <input type="submit" value="Search" class="btn btn-primary" />
+                    <button type="button" class="btn btn-warning ms-2" id="clearBtn">Clear</button>
                 </div>
             </div>
         </div>
         <br />
         <br />
     </form>
+
     <div class="row mb-5">
         <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
             @{
@@ -140,6 +140,15 @@
     <div style="height: 80px;"></div>
 
     <script>
+        @* Script for new GET Request for clearing the page criteria. *@
+        $(document).ready(function () {
+            // Handle click event of the clear button
+            $('#clearBtn').click(function () {
+                // Redirect to the desired action URL
+                window.location.href = '@Url.Action("All", "Author")';
+            });
+        });
+
         @* Script for Back to top button *@
                 var button = document.getElementById("backToTopBtn");
 
