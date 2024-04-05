@@ -214,7 +214,7 @@ namespace LibraryManagementSystem.Services.Data
                     AuthorId = b.AuthorId.ToString(),
                     CategoryName = categoryName,
                     Editions = editions,
-                    Rating = (decimal)bookRating,
+                    Rating = Math.Round((decimal)bookRating, 2),
                     PeopleReading = peopleReading,
                 }).FirstAsync();
 
