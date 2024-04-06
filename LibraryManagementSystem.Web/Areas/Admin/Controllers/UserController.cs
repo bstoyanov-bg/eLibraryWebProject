@@ -14,11 +14,13 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
     {
         private readonly IUserService userService;
         private readonly UserManager<ApplicationUser> userManager;
+        //private readonly IMemoryCache memoryCache;
 
-        public UserController(IUserService userService, UserManager<ApplicationUser> userManager)
+        public UserController(IUserService userService, UserManager<ApplicationUser> userManager/*, IMemoryCache memoryCache*/)
         {
             this.userService = userService;
             this.userManager = userManager;
+            //this.memoryCache = memoryCache;
         }
 
         [HttpGet]
@@ -31,6 +33,28 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
 
             return this.View(queryModel);
         }
+
+        //public async Task<IActionResult> All([FromQuery] AllUsersQueryModel queryModel)
+        //{
+        //    // Attempt to retrieve data from cache
+        //    if (!memoryCache.TryGetValue(UsersCacheKey, out AllUsersFilteredAndPagedServiceModel? cachedData))
+        //    {
+        //        // Data not found in cache, fetch it from the service
+        //        cachedData = await userService.GetAllUsersFilteredAndPagedAsync(queryModel);
+
+        //        // Cache the fetched data
+        //        MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions()
+        //            .SetAbsoluteExpiration(TimeSpan.FromMinutes(UsersCacheDurationInMinutes));
+
+        //        this.memoryCache.Set(UsersCacheKey, cachedData, cacheOptions);
+        //    }
+
+        //    // Populate the query model with cached data
+        //    queryModel.Users = cachedData!.Users;
+        //    queryModel.TotalUsers = cachedData.TotalUsersCount;
+
+        //    return View(queryModel);
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Delete(string id)

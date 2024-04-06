@@ -16,14 +16,16 @@ namespace LibraryManagementSystem.Web.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserService userService;
+        //private readonly IMemoryCache memoryCache;
 
         public UserController(SignInManager<ApplicationUser> signInManager,
                                 UserManager<ApplicationUser> userManager,
-                                IUserService userService)
+                                IUserService userService/*, IMemoryCache memoryCache*/)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.userService = userService;
+            //this.memoryCache = memoryCache;
         }
 
         [HttpGet]
@@ -74,6 +76,8 @@ namespace LibraryManagementSystem.Web.Controllers
 
             await this.userManager.AddToRoleAsync(user, UserRole);
             await this.signInManager.SignInAsync(user, isPersistent: false);
+
+            //this.memoryCache.Remove(UsersCacheKey);
 
             this.TempData[SuccessMessage] = "You have registered successfully.";
 

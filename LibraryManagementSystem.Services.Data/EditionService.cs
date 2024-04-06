@@ -29,9 +29,6 @@ namespace LibraryManagementSystem.Services.Data
                 BookId = Guid.Parse(model.BookId),
             };
 
-            // IT DOES NOT SAVE ???
-            book!.Editions.Add(edition);
-
             await this.dbContext.Editions.AddAsync(edition);
             await this.dbContext.SaveChangesAsync();
         }
@@ -179,9 +176,28 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext
                 .Editions
+                .AsNoTracking()
                 .Where(e => e.IsDeleted == false &&
                             e.BookId.ToString() == bookId)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<EditionsForBookDetailsViewModel>> GetEditionsForBookDetailsViewModelAsync(string bookId)
+        {
+            var editions = await this.dbContext
+                .Editions
+                .AsNoTracking()
+                .Where(e => e.BookId.ToString() == bookId &&
+                            e.IsDeleted == false)
+                .Select(e => new EditionsForBookDetailsViewModel
+                {
+                    Id = e.Id.ToString(),
+                    Version = e.Version,
+                    EditionYear = e.EditionYear,
+                    Publisher = e.Publisher,
+                }).ToListAsync();
+
+            return editions;
         }
     }
 }

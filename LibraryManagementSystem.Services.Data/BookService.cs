@@ -4,7 +4,6 @@ using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Services.Data.Models.Book;
 using LibraryManagementSystem.Web.ViewModels.Book;
 using LibraryManagementSystem.Web.ViewModels.Book.Enums;
-using LibraryManagementSystem.Web.ViewModels.Edition;
 using LibraryManagementSystem.Web.ViewModels.Home;
 using Microsoft.EntityFrameworkCore;
 
@@ -66,9 +65,7 @@ namespace LibraryManagementSystem.Services.Data
                 bookToEdit.YearPublished = model.YearPublished;
                 bookToEdit.Description = model.Description;
                 bookToEdit.Publisher = model.Publisher;
-                //bookToEdit.ImageFilePath = model.ImageFilePath;
                 bookToEdit.AuthorId = Guid.Parse(model.AuthorId);
-                //bookToEdit.FilePath = model.FilePath;
             }
 
             var currentBookCategory = await this.dbContext
@@ -78,7 +75,6 @@ namespace LibraryManagementSystem.Services.Data
             if (currentBookCategory != null)
             {
                 this.dbContext.BooksCategories.Remove(currentBookCategory);
-                await this.dbContext.SaveChangesAsync();
             }
 
             var newBookCategory = new BookCategory { BookId = bookToEdit!.Id, CategoryId = model.CategoryId };
@@ -103,7 +99,6 @@ namespace LibraryManagementSystem.Services.Data
             };
 
             await this.dbContext.Books.AddAsync(book);
-            await this.dbContext.SaveChangesAsync();
 
             BookCategory bookCategory = new BookCategory { BookId = book.Id, CategoryId = model.CategoryId };
 
@@ -172,25 +167,10 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task<BookDetailsViewModel> GetBookDetailsForUserAsync(string bookId)
         {
-            // Refactor
-            var editions = await this.dbContext
-                .Editions
-                .Where(e => e.BookId.ToString() == bookId &&
-                            e.IsDeleted == false)
-                .Select(e => new EditionsForBookDetailsViewModel
-                {
-                    Id = e.Id.ToString(),
-                    Version = e.Version,
-                    EditionYear = e.EditionYear,
-                    Publisher = e.Publisher,
-                }).ToListAsync();
+            IEditionService editionService = this.editionServiceLazy.Value;
+            var editions = await editionService.GetEditionsForBookDetailsViewModelAsync(bookId);
 
-            // Refactor
-            string categoryName = await this.dbContext
-                .Categories
-                .Where(c => c.BooksCategories.Any(bc => bc.BookId == Guid.Parse(bookId)))
-                .Select(c => c.Name)
-                .FirstAsync();
+            string categoryName = await this.categoryService.GetCategoryNameByBookIdAsync(bookId);
     
             IRatingService ratingService = this.ratingServiceLazy.Value;
             decimal? bookRating = await ratingService.GetAverageRatingForBookAsync(bookId);
@@ -259,8 +239,6 @@ namespace LibraryManagementSystem.Services.Data
                     .OrderBy(b => b.Title),
                 BookSorting.ByTitleDescending => booksQuery
                     .OrderByDescending(b => b.Title),
-
-                    // ADD RATING !!!
                 BookSorting.ByRatingAscending => booksQuery
                     .OrderBy(b => b.Ratings.Average(r => r.BookRating)),
                 BookSorting.ByRatingDescending => booksQuery
@@ -297,6 +275,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext
                 .Books
+                .AsNoTracking()
                 .Where(b => b.IsDeleted == false &&
                             b.Id.ToString() == bookId)
                 .AnyAsync();
@@ -321,15 +300,6 @@ namespace LibraryManagementSystem.Services.Data
                 .Where(b => b.IsDeleted == false &&
                             b.ISBN == isbn)
                 .AnyAsync();
-        }
-
-        // Refactor
-        public async Task<bool> HasUserRatedBookAsync(string userId, string bookId)
-        {
-            return await this.dbContext
-                .Ratings
-                .AnyAsync(r => r.UserId.ToString() == userId &&
-                               r.BookId.ToString() == bookId);
         }
 
         public async Task<bool> DoesBookHaveUploadedFileAsync(string bookId)
@@ -396,6 +366,27 @@ namespace LibraryManagementSystem.Services.Data
                     Publisher = b.Publisher ?? string.Empty,
                 })
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<BooksForAuthorDetailsViewModel>> GetBooksForAuthorDetailsAsync(string authorId)
+        {
+            var books = await this.dbContext
+                .Books
+                .Where(b => b.Author.Id.ToString() == authorId &&
+                            b.IsDeleted == false)
+                .AsNoTracking()
+                .Select(b => new BooksForAuthorDetailsViewModel
+                {
+                    Id = b.Id.ToString(),
+                    Title = b.Title,
+                    ISBN = b.ISBN,
+                    YearPublished = b.YearPublished,
+                    Description = b.Description,
+                    Publisher = b.Publisher,
+                    ImageFilePath = b.ImageFilePath,
+                }).ToListAsync();
+
+            return books;
         }
     }
 }

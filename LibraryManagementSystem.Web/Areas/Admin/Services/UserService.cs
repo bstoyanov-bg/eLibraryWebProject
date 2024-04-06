@@ -77,12 +77,46 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Servicesv
         {
             return await this.dbContext
                 .UserRoles
+                .AsNoTracking()
                 .Where(ur => ur.UserId.ToString() == userId)
                 .Join(this.dbContext.Roles,
                     ur => ur.RoleId,
                     role => role.Id,
                     (ur, role) => new { UserRole = ur, RoleName = role.Name })
                 .AnyAsync(ur => ur.RoleName == UserRole);
+        }
+
+        public async Task<int> GetCountOfActiveAdminsAsync()
+        {
+            var countOfAdmins = await this.dbContext
+                .UserRoles
+                .AsNoTracking()
+                .Join(this.dbContext.Roles,
+                    ur => ur.RoleId,
+                    role => role.Id,
+                    (ur, role) => new { ur.UserId, RoleName = role.Name })
+                .Where(ur => ur.RoleName == AdminRole)
+                .CountAsync();
+
+            return countOfAdmins;
+        }
+
+        public async Task<int> GetCountOfActiveUsersAsync()
+        {
+            return await this.dbContext
+                .Users
+                .AsNoTracking()
+                .Where(u => u.IsDeleted == false)
+                .CountAsync();
+        }
+
+        public async Task<int> GetCountOfDeletedUsersAsync()
+        {
+            return await this.dbContext
+                .Users
+                .AsNoTracking()
+                .Where(u => u.IsDeleted == true)
+                .CountAsync();
         }
 
         public async Task<AllUsersFilteredAndPagedServiceModel> GetAllUsersFilteredAndPagedAsync(AllUsersQueryModel queryModel)
@@ -136,38 +170,6 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Servicesv
                 TotalUsersCount = totalUsers,
                 Users = allUsers,
             };
-        }
-
-        public async Task<int> GetCountOfActiveAdminsAsync()
-        {
-            var countOfAdmins = await this.dbContext
-                .UserRoles
-                .Join(this.dbContext.Roles,
-                    ur => ur.RoleId,
-                    role => role.Id,
-                    (ur, role) => new { ur.UserId, RoleName = role.Name })
-                .Where(ur => ur.RoleName == AdminRole)
-                .CountAsync();
-
-            return countOfAdmins;
-        }
-
-        public async Task<int> GetCountOfActiveUsersAsync()
-        {
-            return await this.dbContext
-                .Users
-                .AsNoTracking()
-                .Where(u => u.IsDeleted == false)
-                .CountAsync();
-        }
-
-        public async Task<int> GetCountOfDeletedUsersAsync()
-        {
-            return await this.dbContext
-                .Users
-                .AsNoTracking()
-                .Where(u => u.IsDeleted == true)
-                .CountAsync();
         }
     }
 }

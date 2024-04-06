@@ -19,7 +19,7 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task GiveRatingAsync(RatingFormModel model)
         {
-            Book? book = await bookService.GetBookByIdAsync(model.BookId);
+            Book? book = await this.bookService.GetBookByIdAsync(model.BookId);
 
             Rating rating = new Rating
             {
@@ -39,6 +39,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext
                 .Ratings
+                .AsNoTracking()
                 .Where(r => r.BookId == Guid.Parse(bookId))
                 .OrderByDescending(r => r.CreatedOn)
                 .Select(r => new CommentViewModel
@@ -73,9 +74,19 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext
                 .Ratings
+                .AsNoTracking()
                 .Where(r => r.UserId.ToString() == userId &&
                              r.BookId.ToString() == bookId)
                 .AnyAsync();
+        }
+
+        public async Task<bool> HasUserRatedBookAsync(string userId, string bookId)
+        {
+            return await this.dbContext
+                .Ratings
+                .AsNoTracking()
+                .AnyAsync(r => r.UserId.ToString() == userId &&
+                               r.BookId.ToString() == bookId);
         }
 
         public async Task<int> GetCountOfRatingsAsync()

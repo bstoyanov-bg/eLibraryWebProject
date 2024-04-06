@@ -93,11 +93,12 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task<int> GetCategoryIdByBookIdAsync(string bookId)
         {
-            return await this.dbContext.BooksCategories
-                                  .Where(bc => bc.BookId.ToString() == bookId)
-                                  .AsNoTracking()
-                                  .Select(bc => bc.CategoryId)
-                                  .FirstAsync();
+            return await this.dbContext
+                .BooksCategories
+                .Where(bc => bc.BookId.ToString() == bookId)
+                .AsNoTracking()
+                .Select(bc => bc.CategoryId)
+                .FirstAsync();
         }
 
         public async Task<int> GetCountOfActiveCategoriesAsync()
@@ -116,6 +117,16 @@ namespace LibraryManagementSystem.Services.Data
                 .AsNoTracking()
                 .Where(u => u.IsDeleted == true)
                 .CountAsync();
+        }
+
+        public async Task<string> GetCategoryNameByBookIdAsync(string bookId)
+        {
+            return await this.dbContext
+                .Categories
+                .AsNoTracking()
+                .Where(c => c.BooksCategories.Any(bc => bc.BookId == Guid.Parse(bookId)))
+                .Select(c => c.Name)
+                .FirstAsync();
         }
 
         public async Task<IEnumerable<AllCategoriesViewModel>> GetAllCategoriesAsync()

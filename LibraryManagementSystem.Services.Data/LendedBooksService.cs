@@ -62,6 +62,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext
                 .LendedBooks
+                .AsNoTracking()
                 .AnyAsync(lb => lb.BookId.ToString() == bookId &&
                                 lb.UserId.ToString() == userId &&
                                 lb.ReturnDate == null);
@@ -72,6 +73,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext
                 .LendedBooks
+                .AsNoTracking()
                 .AnyAsync(lb => lb.BookId.ToString() == bookId &&
                                 lb.UserId.ToString() == userId &&
                                 lb.ReturnDate != null);
@@ -81,6 +83,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext
                 .LendedBooks
+                .AsNoTracking()
                 .AnyAsync(lb => lb.User.Id.ToString() == userId &&
                                 lb.BookId.ToString() == bookId &&
                                 lb.ReturnDate == null);
@@ -90,6 +93,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             bool notReturnedBook = await this.dbContext
                 .LendedBooks
+                .AsNoTracking()
                 .AnyAsync(lb => lb.UserId.ToString() == userId &&
                                 lb.ReturnDate == null);
 
@@ -128,6 +132,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext
                 .LendedBooks
+                .AsNoTracking()
                 .Where(lb => lb.UserId.ToString() == userId &&
                              lb.ReturnDate == null)
                 .Select(b => new MyBooksViewModel

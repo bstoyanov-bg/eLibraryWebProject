@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace LibraryManagementSystem.Services.Data.Interfaces
+﻿namespace LibraryManagementSystem.Services.Data.Interfaces
 {
     public interface IUserService
     {

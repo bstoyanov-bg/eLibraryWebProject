@@ -29,8 +29,6 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<bool> BookExistByISBNAsync(string isbn);
 
-        Task<bool> HasUserRatedBookAsync(string userId, string bookId);
-
         Task<bool> DoesBookHaveUploadedFileAsync(string bookId);
 
         Task<int> GetCountOfActiveBooksAsync();
@@ -40,5 +38,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<IEnumerable<IndexViewModel>> LastNineBooksAsync();
 
         Task<IEnumerable<BookSelectForEditionFormModel>>GetAllBooksForListAsync();
+
+        Task<IEnumerable<BooksForAuthorDetailsViewModel>> GetBooksForAuthorDetailsAsync (string authorId);
     }
 }

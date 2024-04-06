@@ -30,5 +30,7 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
         Task<int> GetCountOfDeletedEditionsAsync();
 
         Task<IEnumerable<Edition>> GetAllBookEditionsByBookIdAsync(string bookId);
+
+        Task<IEnumerable<EditionsForBookDetailsViewModel>> GetEditionsForBookDetailsViewModelAsync(string bookId);
     }
 }

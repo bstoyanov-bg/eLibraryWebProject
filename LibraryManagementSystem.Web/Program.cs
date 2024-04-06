@@ -34,8 +34,6 @@ namespace LibraryManagementSystem.Web
                 // Add identity Roles.
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ELibraryDbContext>();
-                // For remove Protected data in Identity.
-                //.AddDefaultTokenProviders();
 
             builder.Services.ConfigureApplicationCookie(options =>
             {
@@ -57,7 +55,14 @@ namespace LibraryManagementSystem.Web
             {
                 return new Lazy<IRatingService>(() => provider.GetRequiredService<IRatingService>());
             });
+            builder.Services.AddScoped(provider =>
+            {
+                return new Lazy<IBookService>(() => provider.GetRequiredService<IBookService>());
+            });
+
             builder.Services.AddRecaptchaService();
+
+            //builder.Services.AddMemoryCache();
 
             builder.Services
                 .AddControllersWithViews()

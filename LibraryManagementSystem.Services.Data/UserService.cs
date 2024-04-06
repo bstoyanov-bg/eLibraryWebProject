@@ -1,7 +1,6 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Services.Data
@@ -19,6 +18,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             ApplicationUser? user = await this.dbContext
                 .Users
+                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.UserName == username);
 
             if (user == null)
@@ -33,6 +33,7 @@ namespace LibraryManagementSystem.Services.Data
         {
             return await this.dbContext
                 .Users
+                .AsNoTracking()
                 .AnyAsync(u => u.Id.ToString() == userId && 
                                u.IsDeleted == true);
         }

@@ -12,6 +12,8 @@ namespace LibraryManagementSystem.Services.Data.Interfaces
 
         Task<bool> HasUserGaveRatingToBookAsync(string userId, string bookId);
 
+        Task<bool> HasUserRatedBookAsync(string userId, string bookId);
+
         Task<int> GetCountOfRatingsAsync();
     }
 }

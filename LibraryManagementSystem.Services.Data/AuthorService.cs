@@ -4,7 +4,6 @@ using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Services.Data.Models.Author;
 using LibraryManagementSystem.Web.ViewModels.Author;
 using LibraryManagementSystem.Web.ViewModels.Author.Enums;
-using LibraryManagementSystem.Web.ViewModels.Book;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Services.Data
@@ -12,10 +11,12 @@ namespace LibraryManagementSystem.Services.Data
     public class AuthorService : IAuthorService
     {
         private readonly ELibraryDbContext dbContext;
+        private readonly Lazy<IBookService> bookServiceLazy;
 
-        public AuthorService(ELibraryDbContext dbContext)
+        public AuthorService(ELibraryDbContext dbContext, Lazy<IBookService> bookServiceLazy)
         {
             this.dbContext = dbContext;
+            this.bookServiceLazy = bookServiceLazy;
         }
 
         public async Task DeleteAuthorAsync(string authorId)
@@ -42,7 +43,6 @@ namespace LibraryManagementSystem.Services.Data
                 authorToEdit.BirthDate = model.BirthDate;
                 authorToEdit.DeathDate = model.DeathDate;
                 authorToEdit.Nationality = model.Nationality;
-                //authorToEdit.ImageFilePath = model.ImageFilePath;
             }
 
             await this.dbContext.SaveChangesAsync();
@@ -102,21 +102,8 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task<AuthorDetailsViewModel> GetAuthorDetailsForUserAsync(string authorId)
         {
-            var books = await this.dbContext
-                .Books
-                .Where(b => b.Author.Id.ToString() == authorId &&
-                            b.IsDeleted == false)
-                .AsNoTracking()
-                .Select(b => new BooksForAuthorDetailsViewModel
-                {
-                    Id = b.Id.ToString(),
-                    Title = b.Title,
-                    ISBN = b.ISBN,
-                    YearPublished = b.YearPublished,
-                    Description = b.Description,
-                    Publisher = b.Publisher,
-                    ImageFilePath = b.ImageFilePath,
-                }).ToListAsync();
+            IBookService bookService = this.bookServiceLazy.Value;
+            var books = await bookServiceLazy.Value.GetBooksForAuthorDetailsAsync(authorId);
 
             AuthorDetailsViewModel author = await this.dbContext
                 .Authors

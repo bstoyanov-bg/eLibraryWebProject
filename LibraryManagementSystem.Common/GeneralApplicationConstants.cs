@@ -21,5 +21,14 @@
 
         public const int DefaultPage = 1;
         public const int EntitiesPerPage = 10;
+
+        //public const string UsersCacheKey = "UsersCache";
+        //public const int UsersCacheDurationInMinutes = 5;
+
+        //public const string AuthorsCacheKey = "AuthorsCache";
+        //public const int AuthorsCacheDurationInMinutes = 5;
+
+        //public const string BooksCacheKey = "BooksCache";
+        //public const int BooksCacheDurationInMinutes = 5;
     }
 }
