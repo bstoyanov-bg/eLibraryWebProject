@@ -65,6 +65,8 @@ namespace LibraryManagementSystem.Web.Controllers
                     await this.fileService.UploadImageFileAsync(addedAuthor.Id.ToString(), authorImage, "Author");
                 }
 
+                this.memoryCache.Remove(AuthorsCacheKey);
+
                 this.TempData[SuccessMessage] = "Successfully added Author.";
             }
             catch
@@ -158,6 +160,8 @@ namespace LibraryManagementSystem.Web.Controllers
                 {
                     await this.fileService.UploadImageFileAsync(authorToEdit.Id.ToString(), authorImage, "Author");
                 }
+
+                this.memoryCache.Remove(AuthorsCacheKey);
 
                 this.TempData[SuccessMessage] = "Succesfully edited Author.";
             }

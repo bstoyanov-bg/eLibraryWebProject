@@ -1,11 +1,15 @@
 ﻿using Ganss.Xss;
 using LibraryManagementSystem.Services.Data.Interfaces;
+using LibraryManagementSystem.Services.Data.Models.Author;
 using LibraryManagementSystem.Services.Data.Models.Book;
+using LibraryManagementSystem.Web.ViewModels.Author;
 using LibraryManagementSystem.Web.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
 using static LibraryManagementSystem.Common.UserRoleNames;
+using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -14,25 +18,41 @@ namespace LibraryManagementSystem.Web.Controllers
         private readonly IBookService bookService;
         private readonly ICategoryService categoryService;
         private readonly IFileService fileService;
+        private readonly IMemoryCache memoryCache;
 
-        public BookController(IBookService bookService, ICategoryService categoryService, IFileService fileService)
+        public BookController(IBookService bookService, ICategoryService categoryService, IFileService fileService, IMemoryCache memoryCache)
         {
             this.bookService = bookService;
             this.categoryService = categoryService;
             this.fileService = fileService;
+            this.memoryCache = memoryCache;
         }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery] AllBooksQueryModel queryModel)
         {
-            AllBooksFilteredAndPagedServiceModel serviceModel = await this.bookService.GetAllBooksFilteredAndPagedAsync(queryModel);
+            // Calculate a unique cache key based on the query parameters
+            string cacheKey = $"{BooksCacheKey}_{queryModel.CurrentPage}_{queryModel.BooksPerPage}";
 
-            queryModel.Books = serviceModel.Books;
-            queryModel.TotalBooks = serviceModel.TotalBooksCount;
-            queryModel.Categories = await this.categoryService.GetAllCategoriesNamesAsync();
+            // Attempt to retrieve data from cache
+            if (!memoryCache.TryGetValue(cacheKey, out AllBooksFilteredAndPagedServiceModel? cachedData))
+            {
+                // Data not found in cache, fetch it from the service
+                cachedData = await this.bookService.GetAllBooksFilteredAndPagedAsync(queryModel);
 
-            return this.View(queryModel);
+                // Cache the fetched data
+                MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(BooksCacheDurationInMinutes));
+
+                this.memoryCache.Set(UsersCacheKey, cachedData, cacheOptions);
+            }
+
+            // Populate the query model with cached data
+            queryModel.Books = cachedData!.Books;
+            queryModel.TotalBooks = cachedData.TotalBooksCount;
+
+            return View(queryModel);
         }
 
         [HttpGet]
@@ -94,6 +114,8 @@ namespace LibraryManagementSystem.Web.Controllers
                 {
                     await this.fileService.UploadImageFileAsync(addedBook.Id.ToString(), bookImage, "Book");
                 }
+
+                this.memoryCache.Remove(BooksCacheKey);
 
                 this.TempData[SuccessMessage] = $"Successfully added Book.";
 
@@ -163,6 +185,8 @@ namespace LibraryManagementSystem.Web.Controllers
                 {
                     await this.fileService.UploadImageFileAsync(editedBook.Id.ToString(), bookImage, "Book");
                 }
+
+                this.memoryCache.Remove(BooksCacheKey);
 
                 this.TempData[SuccessMessage] = "Succesfully edited Book.";
             }
