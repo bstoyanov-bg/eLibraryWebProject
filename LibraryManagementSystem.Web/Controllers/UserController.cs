@@ -110,14 +110,13 @@ namespace LibraryManagementSystem.Web.Controllers
 
             var result = await this.signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
 
-            this.TempData[SuccessMessage] = "You have logged in successfully.";
-
             if (!result.Succeeded)
             {
                 this.TempData[ErrorMessage] = "There was an error while logging you in!";
                 return this.View(model);
             }
 
+            this.TempData[SuccessMessage] = "You have logged in successfully.";
             
             if (user != null)
             {

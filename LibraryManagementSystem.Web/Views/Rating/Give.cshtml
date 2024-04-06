@@ -38,13 +38,16 @@
                 <span asp-validation-for="UserId" class="small text-danger"></span>
             </div>
         </div>
-        <recaptcha-v3 form-id="ratingForm" action="submit" class="btn btn-primary">Submit</recaptcha-v3>
+        <button type="submit" form-id="ratingForm" class="btn btn-primary">Submit</button>
+        @* <recaptcha-v3 form-id="ratingForm" action="submit" class="btn btn-primary">Submit</recaptcha-v3> *@
     </form>
 </div>
 
 @section Scripts
 {
-    <recaptcha-script />
+    <partial name="_ValidationScriptsPartial" />
+
+    @* <recaptcha-script /> *@
 
     <script>
         @* Script for getting and setting values from ViewBag and hidden input fields *@
@@ -58,6 +61,4 @@
                 document.getElementById('UserId').value = userId;
             });
     </script>
-
-    <partial name="_ValidationScriptsPartial" />
 }

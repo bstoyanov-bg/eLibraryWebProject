@@ -62,7 +62,7 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateRecaptcha(Action = nameof(Give), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
+        //[ValidateRecaptcha(Action = nameof(Give), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
         public async Task<IActionResult> Give(RatingFormModel model)
         {
             if (!this.ModelState.IsValid)
