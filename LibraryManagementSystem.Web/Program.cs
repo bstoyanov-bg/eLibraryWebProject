@@ -62,7 +62,7 @@ namespace LibraryManagementSystem.Web
 
             builder.Services.AddRecaptchaService();
 
-            //builder.Services.AddMemoryCache();
+            builder.Services.AddMemoryCache();
 
             builder.Services
                 .AddControllersWithViews()

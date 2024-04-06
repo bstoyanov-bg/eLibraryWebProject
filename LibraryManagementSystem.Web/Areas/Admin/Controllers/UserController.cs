@@ -5,8 +5,10 @@ using LibraryManagementSystem.Web.Areas.Admin.ViewModels.User;
 using LibraryManagementSystem.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
 using static LibraryManagementSystem.Common.UserRoleNames;
+using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
 namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
 {
@@ -14,48 +16,40 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
     {
         private readonly IUserService userService;
         private readonly UserManager<ApplicationUser> userManager;
-        //private readonly IMemoryCache memoryCache;
+        private readonly IMemoryCache memoryCache;
 
-        public UserController(IUserService userService, UserManager<ApplicationUser> userManager/*, IMemoryCache memoryCache*/)
+        public UserController(IUserService userService, UserManager<ApplicationUser> userManager, IMemoryCache memoryCache)
         {
             this.userService = userService;
             this.userManager = userManager;
-            //this.memoryCache = memoryCache;
+            this.memoryCache = memoryCache;
         }
 
         [HttpGet]
         public async Task<IActionResult> All([FromQuery] AllUsersQueryModel queryModel)
         {
-            AllUsersFilteredAndPagedServiceModel serviceModel = await this.userService.GetAllUsersFilteredAndPagedAsync(queryModel);
+            // Calculate a unique cache key based on the query parameters
+            string cacheKey = $"{UsersCacheKey}_{queryModel.CurrentPage}_{queryModel.UsersPerPage}";
 
-            queryModel.Users = serviceModel.Users;
-            queryModel.TotalUsers = serviceModel.TotalUsersCount;
+            // Attempt to retrieve data from cache
+            if (!memoryCache.TryGetValue(cacheKey, out AllUsersFilteredAndPagedServiceModel? cachedData))
+            {
+                // Data not found in cache, fetch it from the service
+                cachedData = await userService.GetAllUsersFilteredAndPagedAsync(queryModel);
 
-            return this.View(queryModel);
+                // Cache the fetched data
+                MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(UsersCacheDurationInMinutes));
+
+                this.memoryCache.Set(UsersCacheKey, cachedData, cacheOptions);
+            }
+
+            // Populate the query model with cached data
+            queryModel.Users = cachedData!.Users;
+            queryModel.TotalUsers = cachedData.TotalUsersCount;
+
+            return View(queryModel);
         }
-
-        // Add Memory Cache
-        //public async Task<IActionResult> All([FromQuery] AllUsersQueryModel queryModel)
-        //{
-        //    // Attempt to retrieve data from cache
-        //    if (!memoryCache.TryGetValue(UsersCacheKey, out AllUsersFilteredAndPagedServiceModel? cachedData))
-        //    {
-        //        // Data not found in cache, fetch it from the service
-        //        cachedData = await userService.GetAllUsersFilteredAndPagedAsync(queryModel);
-
-        //        // Cache the fetched data
-        //        MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions()
-        //            .SetAbsoluteExpiration(TimeSpan.FromMinutes(UsersCacheDurationInMinutes));
-
-        //        this.memoryCache.Set(UsersCacheKey, cachedData, cacheOptions);
-        //    }
-
-        //    // Populate the query model with cached data
-        //    queryModel.Users = cachedData!.Users;
-        //    queryModel.TotalUsers = cachedData.TotalUsersCount;
-
-        //    return View(queryModel);
-        //}
 
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
