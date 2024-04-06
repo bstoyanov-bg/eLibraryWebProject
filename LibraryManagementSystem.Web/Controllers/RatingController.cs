@@ -1,5 +1,4 @@
 ﻿using Ganss.Xss;
-using Griesoft.AspNetCore.ReCaptcha;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Rating;
 using Microsoft.AspNetCore.Mvc;

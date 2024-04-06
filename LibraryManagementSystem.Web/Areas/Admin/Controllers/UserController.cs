@@ -34,6 +34,7 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
             return this.View(queryModel);
         }
 
+        // Add Memory Cache
         //public async Task<IActionResult> All([FromQuery] AllUsersQueryModel queryModel)
         //{
         //    // Attempt to retrieve data from cache

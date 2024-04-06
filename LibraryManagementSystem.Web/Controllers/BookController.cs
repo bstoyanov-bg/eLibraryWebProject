@@ -202,7 +202,6 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Details(string id)
         {
             bool bookExists = await this.bookService.BookExistByIdAsync(id);

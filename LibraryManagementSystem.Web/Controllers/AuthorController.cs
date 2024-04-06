@@ -1,5 +1,4 @@
-﻿using AngleSharp.Dom.Events;
-using Ganss.Xss;
+﻿using Ganss.Xss;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Services.Data.Models.Author;
 using LibraryManagementSystem.Web.ViewModels.Author;
@@ -179,7 +178,6 @@ namespace LibraryManagementSystem.Web.Controllers
         }
     
         [HttpGet]
-        [Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Details(string id)
         {
             bool authorExists = await this.authorService.AuthorExistByIdAsync(id);

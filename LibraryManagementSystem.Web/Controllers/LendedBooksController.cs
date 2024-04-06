@@ -1,9 +1,7 @@
 ﻿using LibraryManagementSystem.Services.Data.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
-using static LibraryManagementSystem.Common.UserRoleNames;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
@@ -19,7 +17,6 @@ namespace LibraryManagementSystem.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = UserRole)]
         public async Task<IActionResult> GetBook(string id)
         {
             try

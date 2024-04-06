@@ -1,5 +1,6 @@
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Home;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 using static LibraryManagementSystem.Common.UserRoleNames;
@@ -15,6 +16,7 @@ namespace LibraryManagementSystem.Web.Controllers
             this.bookService = bookService;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             if (this.User.IsInRole(AdminRole))
