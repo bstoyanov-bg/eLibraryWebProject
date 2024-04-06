@@ -4,6 +4,8 @@ using LibraryManagementSystem.Services.Data.Models.Author;
 using LibraryManagementSystem.Web.ViewModels.Author;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
 using static LibraryManagementSystem.Common.UserRoleNames;
 
@@ -13,11 +15,13 @@ namespace LibraryManagementSystem.Web.Controllers
     {
         private readonly IAuthorService authorService;
         private readonly IFileService fileService;
+        private readonly IMemoryCache memoryCache;
 
-        public AuthorController(IAuthorService authorService, IFileService fileService)
+        public AuthorController(IAuthorService authorService, IFileService fileService, IMemoryCache memoryCache)
         {
             this.authorService = authorService;
             this.fileService = fileService;
+            this.memoryCache = memoryCache;
         }
 
         [HttpGet]
@@ -75,12 +79,27 @@ namespace LibraryManagementSystem.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery] AllAuthorsQueryModel queryModel)
         {
-            AllAuthorsFilteredAndPagedServiceModel serviceModel = await this.authorService.GetAllAuthorsFilteredAndPagedAsync(queryModel);
+            // Calculate a unique cache key based on the query parameters
+            string cacheKey = $"{AuthorsCacheKey}_{queryModel.CurrentPage}_{queryModel.AuthorsPerPage}";
 
-            queryModel.Authors = serviceModel.Authors;
-            queryModel.TotalAuthors = serviceModel.TotalAuthorsCount;
+            // Attempt to retrieve data from cache
+            if (!memoryCache.TryGetValue(cacheKey, out AllAuthorsFilteredAndPagedServiceModel? cachedData))
+            {
+                // Data not found in cache, fetch it from the service
+                cachedData = await this.authorService.GetAllAuthorsFilteredAndPagedAsync(queryModel);
 
-            return this.View(queryModel);
+                // Cache the fetched data
+                MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(AuthorsCacheDurationInMinutes));
+
+                this.memoryCache.Set(UsersCacheKey, cachedData, cacheOptions);
+            }
+
+            // Populate the query model with cached data
+            queryModel.Authors = cachedData!.Authors;
+            queryModel.TotalAuthors = cachedData.TotalAuthorsCount;
+
+            return View(queryModel);
         }
 
         [HttpGet]
