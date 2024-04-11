@@ -3,17 +3,17 @@
 @using static LibraryManagementSystem.Common.UserRoleNames;
 @model BookDetailsViewModel
 
-@inject ILendedBooksService LendedBooksService
+@inject ILendedBookService LendedBookService
 @inject IRatingService RatingService
 @inject IBookService BookService
 @inject IEditionService EditionService
 
 @{
-    bool isBookActiveForUser = await LendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id);
-    bool bookExistInUserCollection = await LendedBooksService.BookExistsInUserHistoryCollectionAsync(User.GetId()!.ToString(), Model.Id);
+    bool isBookActiveForUser = await LendedBookService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), Model.Id);
+    bool bookExistInUserCollection = await LendedBookService.BookExistsInUserHistoryCollectionAsync(User.GetId()!.ToString(), Model.Id);
+    int howManyPeopleAreReading = await LendedBookService.GetCountOfPeopleReadingTheBookAsync(Model.Id);
     bool didUserGiveRating = await RatingService.HasUserGaveRatingToBookAsync(User.GetId()!.ToString(), Model.Id);
     bool doesBookHaveUploadedFile = await BookService.DoesBookHaveUploadedFileAsync(Model.Id);
-    int howManyPeopleAreReading = await LendedBooksService.GetCountOfPeopleReadingTheBookAsync(Model.Id);
 }
 
 @{
@@ -89,7 +89,7 @@
                     @if (this.User.IsInRole(UserRole) && !isBookActiveForUser)
                     {
                         @* User does not have this BOOK in his collection and he can Add it!*@
-                        <form asp-action="GetBook" asp-controller="LendedBooks" method="post">
+                        <form asp-action="GetBook" asp-controller="LendedBook" method="post">
                             <input type="hidden" name="id" value="@Model.Id" />
                             <button type="submit" class="btn btn-success">Get Book</button>
                         </form>

@@ -1,8 +1,8 @@
-﻿using LibraryManagementSystem.Web.ViewModels.LendedBooks;
+﻿using LibraryManagementSystem.Web.ViewModels.LendedBook;
 
 namespace LibraryManagementSystem.Services.Data.Interfaces
 {
-    public interface ILendedBooksService
+    public interface ILendedBookService
     {
         Task AddBookToCollectionAsync(string userId, string bookId);
 

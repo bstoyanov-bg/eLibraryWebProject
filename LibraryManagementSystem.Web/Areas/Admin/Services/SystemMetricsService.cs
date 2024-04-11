@@ -13,7 +13,7 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Services
         private readonly ICategoryService categoryService;
         private readonly IEditionService editionService;
         private readonly IRatingService ratingService;
-        private readonly ILendedBooksService lendedBooksService;
+        private readonly ILendedBookService lendedBooksService;
         private readonly IFileService fileService;
 
         public SystemMetricsService(IUserService userService,
@@ -22,7 +22,7 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Services
                                 ICategoryService categoryService,
                                  IEditionService editionService,
                                   IRatingService ratingService,
-                             ILendedBooksService lendedBooksService,
+                             ILendedBookService lendedBooksService,
                                     IFileService fileService)
         {
             this.userService = userService;

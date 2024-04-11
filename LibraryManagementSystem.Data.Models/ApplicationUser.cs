@@ -15,7 +15,7 @@ namespace LibraryManagementSystem.Data.Models
         {
             this.Id = Guid.NewGuid();
 
-            this.LendedBooks = new HashSet<LendedBooks>();
+            this.LendedBook = new HashSet<LendedBook>();
             this.Ratings = new HashSet<Rating>();
         }
 
@@ -68,7 +68,7 @@ namespace LibraryManagementSystem.Data.Models
         [ProtectedPersonalData]
         public override string? NormalizedEmail { get; set; }
 
-        public virtual ICollection<LendedBooks> LendedBooks { get; set; }
+        public virtual ICollection<LendedBook> LendedBook { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }
     }

@@ -4,10 +4,10 @@
 @using static LibraryManagementSystem.Common.UserRoleNames;
 @model IEnumerable<MyBooksViewModel>
 
-@inject ILendedBooksService LendedBooksService
+@inject ILendedBookService LendedBookService
 
 @{
-    var countOfActiveUserBooks = await this.LendedBooksService.GetCountOfActiveBooksForUserAsync(User.GetId()!.ToString());
+    var countOfActiveUserBooks = await this.LendedBookService.GetCountOfActiveBooksForUserAsync(User.GetId()!.ToString());
 }
 
 @{
@@ -77,7 +77,7 @@
 
             // Perform a POST request to the "ReturnAll" action in the "LendedBooks" controller
             $.ajax({
-                url: '@Url.Action("ReturnAll", "LendedBooks")',
+                url: '@Url.Action("ReturnAll", "LendedBook")',
                 type: 'POST',
                 headers: {
                     RequestVerificationToken: token

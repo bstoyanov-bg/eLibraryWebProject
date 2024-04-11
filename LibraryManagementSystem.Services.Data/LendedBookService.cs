@@ -1,23 +1,23 @@
 ﻿using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data.Interfaces;
-using LibraryManagementSystem.Web.ViewModels.LendedBooks;
+using LibraryManagementSystem.Web.ViewModels.LendedBook;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Services.Data
 {
-    public class LendedBooksService : ILendedBooksService
+    public class LendedBookService : ILendedBookService
     {
         private readonly ELibraryDbContext dbContext;
 
-        public LendedBooksService(ELibraryDbContext dbContext)
+        public LendedBookService(ELibraryDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
         public async Task AddBookToCollectionAsync(string userId, string bookId)
         {
-            LendedBooks userBook = new LendedBooks
+            LendedBook userBook = new LendedBook
             {
                 LoanDate = DateTime.UtcNow,
                 BookId = Guid.Parse(bookId),
@@ -30,7 +30,7 @@ namespace LibraryManagementSystem.Services.Data
 
         public async Task ReturnBookAsync(string userId, string bookId)
         {
-            LendedBooks bookToReturn = await this.dbContext
+            LendedBook bookToReturn = await this.dbContext
                 .LendedBooks
                 .Where(lb => lb.UserId.ToString() == userId &&
                              lb.BookId.ToString() == bookId &&
@@ -50,7 +50,7 @@ namespace LibraryManagementSystem.Services.Data
                              lb.ReturnDate == null)
                 .ToListAsync();
 
-            foreach (LendedBooks bookToReturn in booksToReturn)
+            foreach (LendedBook bookToReturn in booksToReturn)
             {
                 bookToReturn.ReturnDate = DateTime.UtcNow;
             }

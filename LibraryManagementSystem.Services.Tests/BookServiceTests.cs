@@ -21,7 +21,7 @@ namespace LibraryManagementSystem.Services.Tests
 
         private Mock<ICategoryService> categoryServiceMock;
         private Mock<IAuthorService> authorServiceMock;
-        private Mock<ILendedBooksService> lendedBooksServiceMock;
+        private Mock<ILendedBookService> lendedBooksServiceMock;
         private Mock<IRatingService> ratingServiceMock;
         private Mock<IEditionService> editionServiceMock;
 
@@ -34,7 +34,7 @@ namespace LibraryManagementSystem.Services.Tests
 
             this.categoryServiceMock = new Mock<ICategoryService>();
             this.authorServiceMock = new Mock<IAuthorService>();
-            this.lendedBooksServiceMock = new Mock<ILendedBooksService>();
+            this.lendedBooksServiceMock = new Mock<ILendedBookService>();
             this.ratingServiceMock = new Mock<IRatingService>();
             this.editionServiceMock = new Mock<IEditionService>();
         }

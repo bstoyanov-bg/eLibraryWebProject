@@ -14,14 +14,14 @@ namespace LibraryManagementSystem.Services.Data
         private readonly ELibraryDbContext dbContext;
         private readonly ICategoryService categoryService;
         private readonly IAuthorService authorService;
-        private readonly ILendedBooksService lendedBooksService;
+        private readonly ILendedBookService lendedBooksService;
         private readonly Lazy<IRatingService> ratingServiceLazy;
         private readonly Lazy<IEditionService> editionServiceLazy;
 
         public BookService(ELibraryDbContext dbContext, 
             ICategoryService categoryService, 
             IAuthorService authorService,
-            ILendedBooksService lendedBooksService,
+            ILendedBookService lendedBooksService,
             Lazy<IRatingService> ratingServiceLazy,
             Lazy<IEditionService> editionServiceLazy)
         {

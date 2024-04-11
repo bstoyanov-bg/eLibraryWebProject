@@ -3,10 +3,10 @@
 @using static LibraryManagementSystem.Common.UserRoleNames;
 @model MyBooksViewModel
 
-@inject ILendedBooksService LendedBooksService
+@inject ILendedBookService LendedBookService
 
 @{
-    bool isBookReturned = await LendedBooksService.IsBookReturnedAsync(User.GetId()!.ToString(), Model.Id);
+    bool isBookReturned = await LendedBookService.IsBookReturnedAsync(User.GetId()!.ToString(), Model.Id);
 }
 
 @* PopUp window (Modal) *@
@@ -81,7 +81,7 @@
 
             // Perform a POST request to the "Return" action in the "LendedBooks" controller
             $.ajax({
-                url: '@Url.Action("ReturnBook", "LendedBooks")' + '?id=' + bookId,
+                url: '@Url.Action("ReturnBook", "LendedBook")' + '?id=' + bookId,
                 type: 'POST',
                 headers: {
                     RequestVerificationToken: token
@@ -117,7 +117,7 @@
 
             // Perform a POST request to the "Return" action in the "LendedBooks" controller
             $.ajax({
-                url: '@Url.Action("ReturnBook", "LendedBooks")',
+                url: '@Url.Action("ReturnBook", "LendedBook")',
                 type: 'POST',
                 headers: {
                     RequestVerificationToken: token
@@ -127,7 +127,7 @@
                     console.log('Book returned successfully');
 
                     // Redirect to LendedBooksController/Mine action
-                    window.location.href = '@Url.Action("Mine", "LendedBooks")';
+                    window.location.href = '@Url.Action("Mine", "LendedBook")';
                 },
                 error: function (xhr, status, error) {
                     console.error('Error returning book:', error);
@@ -144,7 +144,7 @@
 
             // Perform a POST request to the "Return" action in the "LendedBooks" controller
             $.ajax({
-                url: '@Url.Action("ReturnBook", "LendedBooks")',
+                url: '@Url.Action("ReturnBook", "LendedBook")',
                 type: 'POST',
                 headers: {
                     RequestVerificationToken: token
@@ -154,7 +154,7 @@
                     console.log('Book returned successfully');
 
                     // Redirect to LendedBooksController/Mine action
-                    window.location.href = '@Url.Action("Mine", "LendedBooks")';
+                    window.location.href = '@Url.Action("Mine", "LendedBook")';
                 },
                 error: function (xhr, status, error) {
                     console.error('Error returning book:', error);

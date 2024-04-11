@@ -10,9 +10,9 @@ namespace LibraryManagementSystem.Data.Models
     /// Model representing lended books by the application user and other information used in the database.
     /// </summary>
 
-    public class LendedBooks
+    public class LendedBook
     {
-        public LendedBooks()
+        public LendedBook()
         {
             this.Id = Guid.NewGuid();
         }

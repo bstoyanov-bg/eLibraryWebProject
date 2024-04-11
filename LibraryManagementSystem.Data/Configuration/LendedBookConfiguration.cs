@@ -8,22 +8,22 @@ namespace LibraryManagementSystem.Data.Configuration
     /// This configuration class is used for custom additions to the fluent api of the LendedBooks entity.
     /// </summary> 
 
-    public class LendedBooksConfiguration : IEntityTypeConfiguration<LendedBooks>
+    public class LendedBookConfiguration : IEntityTypeConfiguration<LendedBook>
     {
-        public void Configure(EntityTypeBuilder<LendedBooks> builder)
+        public void Configure(EntityTypeBuilder<LendedBook> builder)
         {
             builder.HasKey(lb => lb.Id);
 
             builder
                 .HasOne(lb => lb.Book)
-                .WithMany(b => b.LendedBooks)
+                .WithMany(b => b.LendedBook)
                 .HasForeignKey(lb => lb.BookId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             builder
                 .HasOne(lb => lb.User)
-                .WithMany(u => u.LendedBooks)
+                .WithMany(u => u.LendedBook)
                 .HasForeignKey(lb => lb.UserId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();

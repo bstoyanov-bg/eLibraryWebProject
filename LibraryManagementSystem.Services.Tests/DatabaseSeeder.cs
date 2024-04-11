@@ -33,9 +33,9 @@ namespace LibraryManagementSystem.Services.Tests
         public static Rating? SecondRating;
         public static Rating? ThirdRating;
 
-        public static LendedBooks? FirstLendedBook;
-        public static LendedBooks? SecondLendedBook;
-        public static LendedBooks? ThirdLendedBook;
+        public static LendedBook? FirstLendedBook;
+        public static LendedBook? SecondLendedBook;
+        public static LendedBook? ThirdLendedBook;
 
         public static void SeedDatabase(ELibraryDbContext dbContext)
         {
@@ -289,7 +289,7 @@ namespace LibraryManagementSystem.Services.Tests
             };
 
             // LENDED BOOKS
-            FirstLendedBook = new LendedBooks()
+            FirstLendedBook = new LendedBook()
             {
                 Id = Guid.Parse("19827894-2D91-4778-9338-2EEEA6D8FDCB"),
                 LoanDate = DateTime.UtcNow.AddDays(-60),
@@ -298,7 +298,7 @@ namespace LibraryManagementSystem.Services.Tests
                 UserId = Guid.Parse("7F13235C-EAC9-4F60-AA69-BC8FC86FBD24"),
             };
 
-            SecondLendedBook = new LendedBooks()
+            SecondLendedBook = new LendedBook()
             {
                 Id = Guid.Parse("A49C9AFC-6614-4BA9-BF33-04C9F0E4ACC5"),
                 LoanDate = DateTime.UtcNow.AddDays(-60),
@@ -306,7 +306,7 @@ namespace LibraryManagementSystem.Services.Tests
                 UserId = Guid.Parse("7F13235C-EAC9-4F60-AA69-BC8FC86FBD24"),
             };
 
-            ThirdLendedBook = new LendedBooks()
+            ThirdLendedBook = new LendedBook()
             {
                 Id = Guid.Parse("6DE0FDA4-77E3-4740-8C07-151F8CFCB211"),
                 LoanDate = DateTime.UtcNow.AddDays(-60),

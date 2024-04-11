@@ -5,14 +5,14 @@ using static LibraryManagementSystem.Common.NotificationMessageConstants;
 
 namespace LibraryManagementSystem.Web.Controllers
 {
-    public class LendedBooksController : BaseController
+    public class LendedBookController : BaseController
     {
-        private readonly ILendedBooksService lendedBooksService;
+        private readonly ILendedBookService lendedBookService;
         private readonly IBookService bookService;
 
-        public LendedBooksController(ILendedBooksService lendedBooksService, IBookService bookService)
+        public LendedBookController(ILendedBookService lendedBookService, IBookService bookService)
         {
-            this.lendedBooksService = lendedBooksService;
+            this.lendedBookService = lendedBookService;
             this.bookService = bookService;
         }
 
@@ -32,7 +32,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 string userId = GetUserId();
 
-                bool bookExistsInCollection = await this.lendedBooksService.IsBookActiveInUserCollectionAsync(userId, id);
+                bool bookExistsInCollection = await this.lendedBookService.IsBookActiveInUserCollectionAsync(userId, id);
 
                 // I remove the button from UI if the book is added to collection. But Double ckeck!
                 if (bookExistsInCollection == true)
@@ -40,7 +40,7 @@ namespace LibraryManagementSystem.Web.Controllers
                     this.TempData[ErrorMessage] = "Book is already added to user collection!";
                 }
 
-                int userActiveBooks = await this.lendedBooksService.GetCountOfActiveBooksForUserAsync(userId);
+                int userActiveBooks = await this.lendedBookService.GetCountOfActiveBooksForUserAsync(userId);
 
                 if (userActiveBooks >= MaxNumberOfBooksAllowed)
                 {
@@ -49,7 +49,7 @@ namespace LibraryManagementSystem.Web.Controllers
                     return this.RedirectToAction("All", "Book");
                 }
 
-                await this.lendedBooksService.AddBookToCollectionAsync(userId, id);
+                await this.lendedBookService.AddBookToCollectionAsync(userId, id);
 
                 this.TempData[SuccessMessage] = "You have succesfully added Book to your collection.";
             }
@@ -58,13 +58,13 @@ namespace LibraryManagementSystem.Web.Controllers
                 this.TempData[ErrorMessage] = "There was problem with adding the Book to collection!";
             }
 
-            return this.RedirectToAction("Mine", "LendedBooks");
+            return this.RedirectToAction("Mine", "LendedBook");
         }
 
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
-            var model = await this.lendedBooksService.GetMyBooksAsync(GetUserId());
+            var model = await this.lendedBookService.GetMyBooksAsync(GetUserId());
 
             return this.View(model);
         }
@@ -83,7 +83,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
             string userId = GetUserId();
 
-            bool isBookReturned = await this.lendedBooksService.IsBookReturnedAsync(userId, id);
+            bool isBookReturned = await this.lendedBookService.IsBookReturnedAsync(userId, id);
 
             if (!isBookReturned)
             {
@@ -94,7 +94,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
             try
             {
-                await this.lendedBooksService.ReturnBookAsync(userId, id);
+                await this.lendedBookService.ReturnBookAsync(userId, id);
 
                 this.TempData[SuccessMessage] = "You have succesfully returned Book.";
             }
@@ -103,7 +103,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 this.TempData[ErrorMessage] = "There was problem with returning the Book!";
             }
 
-            return this.RedirectToAction("Mine", "LendedBooks");
+            return this.RedirectToAction("Mine", "LendedBook");
         }
 
         [HttpPost]
@@ -113,7 +113,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
             try
             {
-                await this.lendedBooksService.ReturnAllBooksAsync(userId);
+                await this.lendedBookService.ReturnAllBooksAsync(userId);
 
                 this.TempData[SuccessMessage] = "You have succesfully returned all Books.";
             }

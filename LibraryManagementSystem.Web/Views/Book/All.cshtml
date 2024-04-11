@@ -4,7 +4,7 @@
 
 @model AllBooksQueryModel
 
-@inject ILendedBooksService lendedBooksService
+@inject ILendedBookService lendedBookService
 
 @{
     ViewBag.Title = "All Books";
@@ -156,9 +156,9 @@
                             {
                                 <a href="@Url.Action("Details", "Book", new { id = book.Id })" class="btn btn-primary" style="margin-bottom: 10px;">Details</a>
 
-                                @if (!await lendedBooksService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), book.Id))
+                                @if (!await lendedBookService.IsBookActiveInUserCollectionAsync(User.GetId()!.ToString(), book.Id))
                                 {
-                                    <form asp-action="GetBook" asp-controller="LendedBooks" method="post">
+                                    <form asp-action="GetBook" asp-controller="LendedBook" method="post">
                                         <input type="hidden" name="id" value="@book.Id" />
                                         <button type="submit" class="btn btn-success">Get Book</button>
                                     </form>

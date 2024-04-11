@@ -1,4 +1,4 @@
-﻿namespace LibraryManagementSystem.Web.ViewModels.LendedBooks
+﻿namespace LibraryManagementSystem.Web.ViewModels.LendedBook
 {
     public class MyBooksViewModel
     {

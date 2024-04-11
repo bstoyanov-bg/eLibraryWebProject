@@ -7,6 +7,7 @@ using LibraryManagementSystem.Web.Infrastructure.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace LibraryManagementSystem.Web
 {
@@ -20,7 +21,8 @@ namespace LibraryManagementSystem.Web
                 builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services.AddDbContext<ELibraryDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlServer(connectionString,
+                    builder => builder.MigrationsAssembly("LibraryManagementSystem.Services.Data")));
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {
