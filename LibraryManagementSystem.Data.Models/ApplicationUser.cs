@@ -63,7 +63,7 @@ namespace LibraryManagementSystem.Data.Models
         public bool IsDeleted { get; set; }
 
         [ProtectedPersonalData]
-        public override string NormalizedUserName { get; set; } = null!;
+        public override string? NormalizedUserName { get; set; } = null!;
 
         [ProtectedPersonalData]
         public override string? NormalizedEmail { get; set; }
