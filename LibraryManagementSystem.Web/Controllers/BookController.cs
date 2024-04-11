@@ -1,15 +1,13 @@
 ﻿using Ganss.Xss;
 using LibraryManagementSystem.Services.Data.Interfaces;
-using LibraryManagementSystem.Services.Data.Models.Author;
 using LibraryManagementSystem.Services.Data.Models.Book;
-using LibraryManagementSystem.Web.ViewModels.Author;
 using LibraryManagementSystem.Web.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 using static LibraryManagementSystem.Common.NotificationMessageConstants;
 using static LibraryManagementSystem.Common.UserRoleNames;
-using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 
 namespace LibraryManagementSystem.Web.Controllers
 {

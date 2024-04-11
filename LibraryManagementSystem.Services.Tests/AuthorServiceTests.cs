@@ -17,8 +17,10 @@ namespace LibraryManagementSystem.Services.Tests
     {
         private DbContextOptions<ELibraryDbContext> dbOptions;
         private ELibraryDbContext dbContext;
-        private Mock<IBookService> bookServiceMock;
+
         private IAuthorService authorService;
+
+        private Mock<IBookService> bookServiceMock;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -179,7 +181,6 @@ namespace LibraryManagementSystem.Services.Tests
         [Test]
         public async Task GetAuthorDetailsForUserAsync_ValidAuthorId_ReturnsAuthorDetailsViewModel()
         {
-            // Arrange
             string validAuthorId = ThirdAuthor!.Id.ToString();
             var expectedAuthor = ThirdAuthor;
 
@@ -248,7 +249,7 @@ namespace LibraryManagementSystem.Services.Tests
         [Test]
         public async Task AuthorExistByNameAndNationalityAsync_AuthorExists_ReturnsTrue()
         {
-            LibraryManagementSystem.Data.Models.Author? author = FirstAuthor;
+            Author? author = FirstAuthor;
 
             bool authorExists = await this.authorService
                 .AuthorExistByNameAndNationalityAsync(author!.FirstName, author.LastName, author.Nationality);

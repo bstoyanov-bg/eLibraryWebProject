@@ -20,6 +20,22 @@ namespace LibraryManagementSystem.Services.Tests
         public static Book? SeventhBook;
         public static Book? EigthBook;
 
+        public static Category? FirstCategory;
+        public static Category? SecondCategory;
+        public static Category? ThirdCategory;
+
+
+        public static Edition? FirstEdition;
+        public static Edition? SecondEdition;
+        public static Edition? ThirdEdition;
+
+        public static Rating? FirstRating;
+        public static Rating? SecondRating;
+        public static Rating? ThirdRating;
+
+        public static LendedBooks? FirstLendedBook;
+        public static LendedBooks? SecondLendedBook;
+        public static LendedBooks? ThirdLendedBook;
 
         public static void SeedDatabase(ELibraryDbContext dbContext)
         {
@@ -194,6 +210,110 @@ namespace LibraryManagementSystem.Services.Tests
                 IsDeleted = false,
             };
 
+            // CATEGORIES
+            FirstCategory = new Category()
+            {
+                Id = 1,
+                Name = "Academic book",
+            };
+
+            SecondCategory = new Category()
+            {
+                Id = 2,
+                Name = "Adventure stories",
+            };
+
+            ThirdCategory = new Category()
+            {
+                Id = 3,
+                Name = "Clasics",
+            };
+
+            // EDITIONS
+            FirstEdition = new Edition()
+            {
+                Id = Guid.Parse("1394B818-A8A6-474F-B123-5AD206C5F49D"),
+                BookId = Guid.Parse("F08224F2-E2FA-426D-BEEE-E2DAA72B5EB6"),
+                Version = "Version 1",
+                Publisher = "Hodder & Stoughton",
+                EditionYear = DateOnly.ParseExact("2018", "yyyy", CultureInfo.InvariantCulture),
+                FilePath = "BookFiles/Editions/8b4bdb27-41c8-4927-af72-576a7569af50_Brief-Answers-to-the-Big-Questions-Version-1.txt",
+                IsDeleted = false,
+            };
+
+            SecondEdition = new Edition()
+            {
+                Id = Guid.Parse("C9F8D9F9-5C46-4C7B-9D7E-9F5F5A5F5F5F"),
+                BookId = Guid.Parse("F08224F2-E2FA-426D-BEEE-E2DAA72B5EB6"),
+                Version = "Version 2",
+                Publisher = "Hodder",
+                EditionYear = DateOnly.ParseExact("2022", "yyyy", CultureInfo.InvariantCulture),
+                FilePath = "BookFiles/Editions/697bfffb-5790-4604-8cb2-58054c20117b_Brief-Answers-to-the-Big-Questions-Version-2.txt",
+                IsDeleted = false,
+            };
+
+            ThirdEdition = new Edition()
+            {
+                Id = Guid.Parse("A42D9106-0B58-4840-AD38-AD50DC0ACDC9"),
+                BookId = Guid.Parse("42CBCCE4-349B-4D8C-A077-318A07BA74CC"),
+                Version = "Version 2.0",
+                Publisher = "Ace",
+                EditionYear = DateOnly.ParseExact("2019", "yyyy", CultureInfo.InvariantCulture),
+                FilePath = "BookFiles/Editions/6ff4f310-c7ca-4157-99c7-692a7fc2b6cd_Journey-to-the-Center-of-the-Earth-Version-2.txt",
+                IsDeleted = false,
+            };
+
+            // RATINGS
+            FirstRating = new Rating()
+            {
+                BookId = Guid.Parse("F08224F2-E2FA-426D-BEEE-E2DAA72B5EB6"),
+                UserId = Guid.Parse("89A4BE4E-2B5E-4FB7-AA5A-E3FEEBBA0153"),
+                BookRating = 4.0m,
+                Comment = "I thoroughly enjoyed reading this book. The storyline was captivating from start to finish, and the main character was incredibly well-developed. Their journey throughout the book kept me engaged, and I found myself rooting for them until the very end. The author did a fantastic job of creating a vivid and immersive world that pulled me in right from the first page. Overall, a truly exceptional read!",
+            };
+
+            SecondRating = new Rating()
+            {
+                BookId = Guid.Parse("F08224F2-E2FA-426D-BEEE-E2DAA72B5EB6"),
+                UserId = Guid.Parse("7F13235C-EAC9-4F60-AA69-BC8FC86FBD24"),
+                BookRating = 4.5m,
+                Comment = "This book exceeded all my expectations! The plot twists and turns kept me guessing until the very end, and I couldn't put it down. The main character was incredibly relatable, and I found myself emotionally invested in their journey. The author's writing style is both eloquent and engaging, making it easy to lose myself in the story. I would highly recommend this book to anyone looking for an unforgettable reading experience.",
+            };
+
+            ThirdRating = new Rating()
+            {
+                BookId = Guid.Parse("50E9B56F-9BC1-4356-AC0C-E3D5945778BA"),
+                UserId = Guid.Parse("89A4BE4E-2B5E-4FB7-AA5A-E3FEEBBA0153"),
+                BookRating = 4.0m,
+                Comment = "What a masterpiece! This book is a true work of art. The main character's depth and complexity added layers to the story, and I found myself connecting with them on a profound level. The author's attention to detail is impeccable, painting a vivid picture of the world they've created. From the gripping plot to the richly developed characters, every aspect of this book is masterfully crafted. I couldn't put it down and was left longing for more long after I finished the final page.",
+            };
+
+            // LENDED BOOKS
+            FirstLendedBook = new LendedBooks()
+            {
+                Id = Guid.Parse("19827894-2D91-4778-9338-2EEEA6D8FDCB"),
+                LoanDate = DateTime.UtcNow.AddDays(-60),
+                ReturnDate = DateTime.UtcNow.AddDays(-10),
+                BookId = Guid.Parse("F08224F2-E2FA-426D-BEEE-E2DAA72B5EB6"),
+                UserId = Guid.Parse("7F13235C-EAC9-4F60-AA69-BC8FC86FBD24"),
+            };
+
+            SecondLendedBook = new LendedBooks()
+            {
+                Id = Guid.Parse("A49C9AFC-6614-4BA9-BF33-04C9F0E4ACC5"),
+                LoanDate = DateTime.UtcNow.AddDays(-60),
+                BookId = Guid.Parse("50E9B56F-9BC1-4356-AC0C-E3D5945778BA"),
+                UserId = Guid.Parse("7F13235C-EAC9-4F60-AA69-BC8FC86FBD24"),
+            };
+
+            ThirdLendedBook = new LendedBooks()
+            {
+                Id = Guid.Parse("6DE0FDA4-77E3-4740-8C07-151F8CFCB211"),
+                LoanDate = DateTime.UtcNow.AddDays(-60),
+                BookId = Guid.Parse("8C6D196A-1E96-4DA0-9B65-91CD7736E13E"),
+                UserId = Guid.Parse("7F13235C-EAC9-4F60-AA69-BC8FC86FBD24"),
+            };
+
             dbContext.Add(FirstAuthor);
             dbContext.Add(SecondAuthor);
             dbContext.Add(ThirdAuthor);
@@ -206,6 +326,22 @@ namespace LibraryManagementSystem.Services.Tests
             dbContext.Add(SixthBook);
             dbContext.Add(SeventhBook);
             dbContext.Add(EigthBook);
+
+            dbContext.Add(FirstCategory);
+            dbContext.Add(SecondCategory);
+            dbContext.Add(ThirdCategory);
+
+            dbContext.Add(FirstEdition);
+            dbContext.Add(SecondEdition);
+            dbContext.Add(ThirdEdition);
+
+            dbContext.Add(FirstRating);
+            dbContext.Add(SecondRating);
+            dbContext.Add(ThirdRating);
+
+            dbContext.Add(FirstLendedBook);
+            dbContext.Add(SecondLendedBook);
+            dbContext.Add(ThirdLendedBook);
 
             FirstAuthor.Books.Add(FirstBook);
             FirstAuthor.Books.Add(SecondBook);
