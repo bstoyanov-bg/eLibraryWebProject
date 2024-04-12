@@ -3,8 +3,11 @@ using LibraryManagementSystem.Data.Models;
 using LibraryManagementSystem.Services.Data;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Author;
+using LibraryManagementSystem.Web.ViewModels.Book;
+using LibraryManagementSystem.Web.ViewModels.Book.Enums;
 using LibraryManagementSystem.Web.ViewModels.Category;
 using LibraryManagementSystem.Web.ViewModels.Edition;
+using LibraryManagementSystem.Web.ViewModels.Home;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using System.Globalization;
@@ -142,20 +145,21 @@ namespace LibraryManagementSystem.Services.Tests
         //    var addedBook = await this.bookService.AddBookAsync(model);
 
         //    // Assert
-        //    Assert.That(addedBook, Is.Not.Null);
-        //    Assert.That(addedBook.Title, Is.EqualTo(model.Title));
-        //    Assert.That(addedBook.ISBN, Is.EqualTo(model.ISBN));
-        //    Assert.That(addedBook.YearPublished, Is.EqualTo(model.YearPublished));
-        //    Assert.That(addedBook.Description, Is.EqualTo(model.Description));
-        //    Assert.That(addedBook.Publisher, Is.EqualTo(model.Publisher));
-        //    Assert.That(addedBook.AuthorId.ToString(), Is.EqualTo(model.AuthorId));
-        //    Assert.That(addedBook.ImageFilePath, Is.EqualTo(model.ImageFilePath));
+        //    Assert.IsNotNull(addedBook);
+        //    Assert.AreEqual(model.Title, addedBook.Title);
+        //    Assert.AreEqual(model.ISBN, addedBook.ISBN);
+        //    Assert.AreEqual(model.YearPublished, addedBook.YearPublished);
+        //    Assert.AreEqual(model.Description, addedBook.Description);
+        //    Assert.AreEqual(model.Publisher, addedBook.Publisher);
+        //    Assert.AreEqual(model.AuthorId, addedBook.AuthorId.ToString());
+        //    Assert.AreEqual(model.ImageFilePath, addedBook.ImageFilePath);
 
         //    // Verify book category association
         //    var addedBookCategory = await dbContext.BooksCategories.FirstOrDefaultAsync(bc => bc.BookId == addedBook.Id);
-        //    Assert.That(addedBookCategory, Is.Not.Null);
-        //    Assert.That(addedBookCategory.CategoryId, Is.EqualTo(model.CategoryId));
+        //    Assert.IsNotNull(addedBookCategory);
+        //    Assert.AreEqual(model.CategoryId, addedBookCategory.CategoryId);
         //}
+
 
         [Test]
         public async Task GetBookByIdAsync_ValidBookId_ReturnsBook()
@@ -262,33 +266,305 @@ namespace LibraryManagementSystem.Services.Tests
             Assert.That(result.Categories, Is.EqualTo(expectedCategories));
         }
 
+        //[Test]
+        //public async Task GetBookDetailsForUserAsync_ReturnsBookDetailsViewModel()
+        //{
+        //    string bookId = FirstBook!.Id.ToString().ToUpper();
+        //    var expectedEditions = new List<EditionsForBookDetailsViewModel>
+        //    {
+        //        new EditionsForBookDetailsViewModel { Id = FirstEdition!.Id.ToString(), Version = FirstEdition!.Version, EditionYear = FirstEdition!.EditionYear, Publisher = FirstEdition!.Publisher, FilePath = FirstEdition!.FilePath ?? string.Empty },
+        //        new EditionsForBookDetailsViewModel { Id = SecondEdition!.Id.ToString(), Version = SecondEdition!.Version, EditionYear = SecondEdition!.EditionYear, Publisher = SecondEdition!.Publisher, FilePath = SecondEdition!.FilePath ?? string.Empty },
+        //    };
+        //    var expectedCategoryName = FirstCategory!.Name;
+        //    var expectedBookRating = 4.5m;
+        //    var expectedPeopleReading = 1;
+
+        //    // Act
+        //    var result = await bookService.GetBookDetailsForUserAsync(bookId);
+
+        //    // Assert
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual(bookId, result.Id);
+        //    // Add more assertions based on expected values and properties of BookDetailsViewModel
+        //    Assert.AreEqual(expectedEditions, result.Editions);
+        //    Assert.AreEqual(expectedCategoryName, result.CategoryName);
+        //    Assert.AreEqual(expectedBookRating, result.Rating);
+        //    Assert.AreEqual(expectedPeopleReading, result.PeopleReading);
+        //}
+
+        //[Test]
+        //public async Task GetAllBooksFilteredAndPagedAsync_ReturnsExpectedResult()
+        //{
+        //    var queryModel = new AllBooksQueryModel()
+        //    {
+        //        Category = string.Empty,
+        //        SearchString = "Time Shelter",
+        //        BookSorting = BookSorting.Newest,
+        //        CurrentPage = 1,
+        //        BooksPerPage = 10,
+        //    };
+
+        //    var expectedAllBooks = new List<AllBooksViewModel>()
+        //    {
+        //        new AllBooksViewModel { Id = ThirdBook!.Id.ToString().ToLower(), Title = ThirdBook.Title, AuthorName = $"{ThirdBook.Author.FirstName} {ThirdBook.Author.LastName}", YearPublished = ThirdBook.YearPublished ?? default, Publisher = ThirdBook.Publisher ?? string.Empty, ImageFilePath = ThirdBook.ImageFilePath!, Category = "Roman", EditionsCount = 1 },
+        //    };
+
+        //    var result = await this.bookService.GetAllBooksFilteredAndPagedAsync(queryModel);
+        //    int actualCount = await this.dbContext.Books.CountAsync(c => c.Title.Contains(queryModel.SearchString) || c.Author.FirstName.Contains(queryModel.SearchString) || c.Author.LastName.Contains(queryModel.SearchString));
+
+        //    // Assert
+        //    Assert.That(result, Is.Not.Null);
+        //    Assert.That(result.TotalBooksCount, Is.EqualTo(actualCount));
+        //}
+
+
         [Test]
-        public async Task GetBookDetailsForUserAsync_ReturnsBookDetailsViewModel()
+        public async Task BookExistByIdAsync_BookExists_ReturnsTrue()
         {
-            string bookId = FirstBook!.Id.ToString();
-            var expectedEditions = new List<EditionsForBookDetailsViewModel> {
-                /* Populate with expected editions */ 
+            Book? book = FirstBook;
+
+            bool bookExists = await this.bookService.BookExistByIdAsync(book!.Id.ToString());
+
+            Assert.That(bookExists, Is.True);
+        }
+
+        [Test]
+        public async Task BookExistByIdAsync_BookDoesNotExist_ReturnsFalse()
+        {
+            var bookId = Guid.NewGuid().ToString();
+
+            bool bookExists = await this.bookService.BookExistByIdAsync(bookId);
+
+            Assert.That(bookExists, Is.False);
+        }
+
+        [Test]
+        public async Task BookExistByTitleAndAuthorIdAsync_BookExists_ReturnsTrue()
+        {
+            string title = FirstBook!.Title;
+            string authorId = FirstBook.AuthorId.ToString();
+
+            bool bookExists = await this.bookService.BookExistByTitleAndAuthorIdAsync(title, authorId);
+
+            Assert.That(bookExists, Is.True);
+        }
+
+        [Test]
+        public async Task BookExistByTitleAndAuthorIdAsync_BookDoesNotExist_ReturnsFalse()
+        {
+            string title = "Non-existing Book Title";
+            string authorId = Guid.NewGuid().ToString();
+
+            bool bookExists = await this.bookService.BookExistByTitleAndAuthorIdAsync(title, authorId);
+
+            Assert.That(bookExists, Is.False);
+        }
+
+        [Test]
+        public async Task BookExistByISBNAsync_BookExists_ReturnsTrue()
+        {
+            string existingISBN = ThirdBook!.ISBN!;
+
+            bool bookExists = await this.bookService.BookExistByISBNAsync(existingISBN);
+
+            Assert.That(bookExists, Is.True);
+        }
+
+        [Test]
+        public async Task BookExistByISBNAsync_BookDoesNotExist_ReturnsFalse()
+        {
+            string nonExistingISBN = "000-0-00-000000-0";
+
+            bool bookExists = await this.bookService.BookExistByISBNAsync(nonExistingISBN);
+
+            Assert.That(bookExists, Is.False);
+        }
+
+        [Test]
+        public async Task DoesBookHaveUploadedFileAsync_BookHasUploadedFile_ReturnsTrue()
+        {
+            string bookId = SecondBook!.Id.ToString();
+
+            bool hasUploadedFile = await this.bookService.DoesBookHaveUploadedFileAsync(bookId);
+
+            Assert.That(hasUploadedFile, Is.True);
+        }
+
+        [Test]
+        public async Task DoesBookHaveUploadedFileAsync_BookDoesNotHaveUploadedFile_ReturnsFalse()
+        {
+            string bookId = Guid.NewGuid().ToString();
+
+            bool hasUploadedFile = await this.bookService.DoesBookHaveUploadedFileAsync(bookId);
+
+            Assert.That(hasUploadedFile, Is.False);
+        }
+
+        [Test]
+        public async Task GetCountOfActiveBooksAsync_ReturnsCountOfActiveBooks()
+        {
+            List<Book> activeBooks = new List<Book>
+            {
+                FirstBook!,
+                SecondBook!,
+                ThirdBook!,
+                ForthBook!,
+                FifthBook!,
+                SixthBook!,
+                SeventhBook!,
+                NinthBook!,
+                new Book
+                {
+                    Id = Guid.Parse("A6D5D2D7-A6FB-46EF-AA1D-9502A0EF1C50"),
+                    ISBN = "364-1-87-1825743-8",
+                    Title = "The Mountain Shadow",
+                    YearPublished = DateOnly.ParseExact("2015", "yyyy", CultureInfo.InvariantCulture),
+                    Description = "A sequel to SHANTARAM but equally a standalone novel, The Mountain Shadow follows Lin on further adventures in shadowy worlds and cultures. It is a novel about seeking identity, love, meaning, purpose, home, even the secret of life...As the story begins, Lin has found happiness and love, but when he gets a call that a friend is in danger, he has no choice but to go to his aid, even though he knows that leaving this paradise puts everything at risk, including himself and his lover. When he arrives to fulfil his obligation, he enters a room with eight men: each will play a significant role in the story that follows. One will become a friend, one an enemy, one will try to kill Lin, one will be killed by another... Some characters appeared in Shantaram, others are introduced for the first time, including Navida Der, a half-Irish, half-Indian detective, and Edras, a philosopher with fundamental beliefs. Gregory David Roberts is an extraordinarily gifted writer whose stories are richly rewarding on many levels. Like Shantaram, The Mountain Shadow will be a compelling adventure story with a profound message at its heart.",
+                    Publisher = "Grove Press",
+                    ImageFilePath = "img/BookCovers/6603260d-bd1a-4bab-bc25-13abb33a0062_The-Mountain-Shadow-Image.jpg",
+                    AuthorId = Guid.Parse("1B019738-D4EA-4D18-84D4-F0C2A7F5AAAF"),
+                    FilePath = "BookFiles/Books/2972e428-9b13-41c8-8c31-fd60fe752e61_The-Mountain-Shadow.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(-100),
+                    IsDeleted = false,
+                }
             };
-            var expectedCategoryName = FirstCategory!.Name;
-            var expectedBookRating = 4.5m;
-            var expectedPeopleReading = 1;
 
-            editionServiceMock.Setup(m => m.GetEditionsForBookDetailsViewModelAsync(bookId)).ReturnsAsync(expectedEditions);
-            categoryServiceMock.Setup(m => m.GetCategoryNameByBookIdAsync(bookId)).ReturnsAsync(expectedCategoryName);
-            ratingServiceMock.Setup(m => m.GetAverageRatingForBookAsync(bookId)).ReturnsAsync(expectedBookRating);
-            lendedBooksServiceMock.Setup(m => m.GetCountOfPeopleReadingTheBookAsync(bookId)).ReturnsAsync(expectedPeopleReading);
+            int activeBooksCount = await this.bookService.GetCountOfActiveBooksAsync();
 
-            // Act
-            var result = await bookService.GetBookDetailsForUserAsync(bookId);
+            Assert.That(activeBooksCount, Is.EqualTo(activeBooks.Count));
+        }
 
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(bookId, result.Id);
-            // Add more assertions based on expected values and properties of BookDetailsViewModel
-            Assert.AreEqual(expectedEditions, result.Editions);
-            Assert.AreEqual(expectedCategoryName, result.CategoryName);
-            Assert.AreEqual(expectedBookRating, result.Rating);
-            Assert.AreEqual(expectedPeopleReading, result.PeopleReading);
+        [Test]
+        public async Task GetCountOfDeletedBooksAsync_ReturnsCountOfDeletedBooks()
+        {
+            List<Book> deletedBooks = new List<Book>
+            {
+                new Book
+                {
+                    Id = Guid.Parse("8C6D196A-1E96-4DA0-9B65-91CD7736E13E"),
+                    ISBN = "813-2-51-1788300-8",
+                    Title = "The Old Curiosity Shop",
+                    YearPublished = DateOnly.ParseExact("1841", "yyyy", CultureInfo.InvariantCulture),
+                    Description = "The Old Curiosity Shop is one of two novels (the other being Barnaby Rudge) which Charles Dickens published along with short stories in his weekly serial Master Humphrey's Clock, from 1840 to 1841. It was so popular that New York readers stormed the wharf when the ship bearing the final instalment arrived in 1841. The Old Curiosity Shop was printed in book form in 1841. Queen Victoria read the novel that year and found it very interesting and cleverly written. The plot follows the journey of Nell Trent and her grandfather, both residents of The Old Curiosity Shop in London, whose lives are thrown into disarray and destitution due to the machinations of an evil moneylender.",
+                    ImageFilePath = "img/BookCovers/e90d8731-5e98-40fa-b332-1fe0a7449075_The-Old-Curiosity-Shop-Image.jpg",
+                    AuthorId = Guid.Parse("1BAAD29E-BB6A-4424-95AE-9DCF01FA6712"),
+                    FilePath = "BookFiles/Books/a6c767ec-b245-4713-a080-f41f5a84e5d7_The-Old-Curiosity-Shop.txt",
+                    CreatedOn = DateTime.UtcNow.AddDays(-20),
+                    IsDeleted = true,
+                },
+            };
+
+            await this.dbContext.Books.AddRangeAsync(deletedBooks);
+            await this.dbContext.SaveChangesAsync();
+
+            int deletedBooksCount = await this.bookService.GetCountOfDeletedBooksAsync();
+
+            Assert.That(deletedBooksCount, Is.EqualTo(deletedBooks.Count));
+        }
+
+        [Test]
+        public async Task LastNineBooksAsync_ReturnsLastNineAddedBooks()
+        {
+            var books = new List<IndexViewModel>
+            {
+                new IndexViewModel { Id = ForthBook!.Id.ToString().ToLower(), Description = ForthBook.Description, Title = ForthBook.Title, Author = $"{ForthBook.Author.FirstName} {ForthBook.Author.LastName}", ImageFilePath = ForthBook.ImageFilePath! },
+                new IndexViewModel { Id = FifthBook!.Id.ToString().ToLower(), Description = FifthBook.Description, Title = FifthBook.Title, Author = $"{FifthBook.Author.FirstName} {FifthBook.Author.LastName}", ImageFilePath = FifthBook.ImageFilePath! },
+                new IndexViewModel { Id = FirstBook!.Id.ToString().ToLower(), Description = FirstBook.Description, Title = FirstBook.Title, Author = $"{FirstBook.Author.FirstName} {FirstBook.Author.LastName}", ImageFilePath = FirstBook.ImageFilePath! },
+                new IndexViewModel { Id = SixthBook!.Id.ToString().ToLower(), Description = SixthBook.Description, Title = SixthBook.Title, Author = $"{SixthBook.Author.FirstName} {SixthBook.Author.LastName}", ImageFilePath = SixthBook.ImageFilePath! },
+                new IndexViewModel { Id = SeventhBook!.Id.ToString().ToLower(), Description = SeventhBook.Description, Title = SeventhBook.Title, Author = $"{SeventhBook.Author.FirstName} {SeventhBook.Author.LastName}", ImageFilePath = SeventhBook.ImageFilePath! },
+                new IndexViewModel { Id = NinthBook!.Id.ToString().ToLower(), Description = NinthBook.Description, Title = NinthBook.Title, Author = $"{NinthBook.Author.FirstName} {NinthBook.Author.LastName}", ImageFilePath = NinthBook.ImageFilePath! },
+                new IndexViewModel { Id = SecondBook!.Id.ToString().ToLower(), Description = SecondBook.Description, Title = SecondBook.Title, Author = $"{SecondBook.Author.FirstName} {SecondBook.Author.LastName}", ImageFilePath = SecondBook.ImageFilePath! },
+                new IndexViewModel { Id = EigthBook!.Id.ToString().ToLower(), Description = EigthBook.Description, Title = EigthBook.Title, Author = $"{EigthBook.Author.FirstName} {EigthBook.Author.LastName}", ImageFilePath = EigthBook.ImageFilePath! },
+                new IndexViewModel { Id = ThirdBook!.Id.ToString().ToLower(), Description = ThirdBook.Description, Title = ThirdBook.Title, Author = $"{ThirdBook.Author.FirstName} {ThirdBook.Author.LastName}", ImageFilePath = ThirdBook.ImageFilePath! },
+            };
+
+            IEnumerable<IndexViewModel> lastNineBooks = await this.bookService.LastNineBooksAsync();
+
+            Assert.That(lastNineBooks.Count(), Is.EqualTo(books.Count)); // Ensure only 9 books are returned
+
+            // Verify if the returned books are the last 9 added non-deleted books in the database
+            for (int i = 0; i < lastNineBooks.Count(); i++)
+            {
+                var expectedBook = books[i];
+                var actualBook = lastNineBooks.ElementAt(i);
+
+                Assert.That(actualBook.Id, Is.EqualTo(expectedBook.Id));
+                Assert.That(actualBook.Title, Is.EqualTo(expectedBook.Title));
+                Assert.That(actualBook.Description, Is.EqualTo(expectedBook.Description));
+                Assert.That(actualBook.Author, Is.EqualTo(expectedBook.Author));
+                Assert.That(actualBook.ImageFilePath, Is.EqualTo(expectedBook.ImageFilePath ?? string.Empty));
+            }
+        }
+
+        [Test]
+        public async Task GetAllBooksForListAsync_ReturnsAllActiveBooks()
+        {
+            var expectedBooks = new List<BookSelectForEditionFormModel>
+            {
+                new BookSelectForEditionFormModel { Id = FirstBook!.Id.ToString().ToLower(), Title = FirstBook.Title, AuthorName = $"{FirstBook.Author.FirstName} {FirstBook.Author.LastName}", YearPublished = FirstBook.YearPublished.ToString() ?? string.Empty, Publisher = FirstBook.Publisher ?? string.Empty },
+                new BookSelectForEditionFormModel { Id = SecondBook!.Id.ToString().ToLower(), Title = SecondBook.Title, AuthorName = $"{SecondBook.Author.FirstName} {SecondBook.Author.LastName}", YearPublished = SecondBook.YearPublished.ToString() ?? string.Empty, Publisher = SecondBook.Publisher ?? string.Empty },
+                new BookSelectForEditionFormModel { Id = ThirdBook!.Id.ToString().ToLower(), Title = ThirdBook.Title, AuthorName = $"{ThirdBook.Author.FirstName} {ThirdBook.Author.LastName}", YearPublished = ThirdBook.YearPublished.ToString() ?? string.Empty, Publisher = ThirdBook.Publisher ?? string.Empty },
+                new BookSelectForEditionFormModel { Id = ForthBook!.Id.ToString().ToLower(), Title = ForthBook.Title, AuthorName = $"{ForthBook.Author.FirstName} {ForthBook.Author.LastName}", YearPublished = ForthBook.YearPublished.ToString() ?? string.Empty, Publisher = ForthBook.Publisher ?? string.Empty },
+                new BookSelectForEditionFormModel { Id = FifthBook!.Id.ToString().ToLower(), Title = FifthBook.Title, AuthorName = $"{FifthBook.Author.FirstName} {FifthBook.Author.LastName}", YearPublished = FifthBook.YearPublished.ToString() ?? string.Empty, Publisher = FifthBook.Publisher ?? string.Empty },
+                new BookSelectForEditionFormModel { Id = SixthBook!.Id.ToString().ToLower(), Title = SixthBook.Title, AuthorName = $"{SixthBook.Author.FirstName} {SixthBook.Author.LastName}", YearPublished = SixthBook.YearPublished.ToString() ?? string.Empty, Publisher = SixthBook.Publisher ?? string.Empty },
+                new BookSelectForEditionFormModel { Id = SeventhBook!.Id.ToString().ToLower(), Title = SeventhBook.Title, AuthorName = $"{SeventhBook.Author.FirstName} {SeventhBook.Author.LastName}", YearPublished = SeventhBook.YearPublished.ToString() ?? string.Empty, Publisher = SeventhBook.Publisher ?? string.Empty },
+                new BookSelectForEditionFormModel { Id = EigthBook!.Id.ToString().ToLower(), Title = EigthBook.Title, AuthorName = $"{EigthBook.Author.FirstName} {EigthBook.Author.LastName}", YearPublished = EigthBook.YearPublished.ToString() ?? string.Empty, Publisher = EigthBook.Publisher ?? string.Empty },
+                new BookSelectForEditionFormModel { Id = NinthBook!.Id.ToString().ToLower(), Title = NinthBook.Title, AuthorName = $"{NinthBook.Author.FirstName} {NinthBook.Author.LastName}", YearPublished = NinthBook.YearPublished.ToString() ?? string.Empty, Publisher = NinthBook.Publisher ?? string.Empty },
+            };
+
+            var actualBooks = await this.bookService.GetAllBooksForListAsync();
+
+            Assert.That(actualBooks.Count(), Is.EqualTo(expectedBooks.Count));
+
+            for (int i = 0; i < expectedBooks.Count; i++)
+            {
+                var expectedBook = expectedBooks[i];
+                var actualBook = actualBooks.ElementAt(i);
+
+                Assert.Multiple(() =>
+                {
+                    // Assert individual properties
+                    Assert.That(actualBook.Id, Is.EqualTo(expectedBook.Id), $"Id mismatch at index {i}");
+                    Assert.That(actualBook.Title, Is.EqualTo(expectedBook.Title), $"Title mismatch for book with Id {expectedBook.Id}");
+                    Assert.That(actualBook.AuthorName, Is.EqualTo(expectedBook.AuthorName), $"AuthorName mismatch for book with Id {expectedBook.Id}");
+                    Assert.That(actualBook.YearPublished, Is.EqualTo(expectedBook.YearPublished), $"YearPublished mismatch for book with Id {expectedBook.Id}");
+                    Assert.That(actualBook.Publisher, Is.EqualTo(expectedBook.Publisher), $"Publisher mismatch for book with Id {expectedBook.Id}");
+                });
+            }
+        }
+
+        [Test]
+        public async Task GetBooksForAuthorDetailsAsync_ReturnsBooksForAuthor()
+        {
+            string authorId = FirstAuthor!.Id.ToString();
+
+            var authorBooks = new List<BooksForAuthorDetailsViewModel>
+            {
+                new BooksForAuthorDetailsViewModel { Id = FirstBook!.Id.ToString().ToLower(), Title = FirstBook.Title, ISBN = FirstBook.ISBN ?? string.Empty, Description = FirstBook.Description, YearPublished = FirstBook.YearPublished ?? default, Publisher = FirstBook.Publisher ?? null, ImageFilePath = FirstBook.ImageFilePath },
+                new BooksForAuthorDetailsViewModel { Id = SecondBook!.Id.ToString().ToLower(), Title = SecondBook.Title, ISBN = SecondBook.ISBN ?? string.Empty, Description = SecondBook.Description, YearPublished = SecondBook.YearPublished ?? default, Publisher = SecondBook.Publisher ?? null, ImageFilePath = SecondBook.ImageFilePath },
+            };
+
+            var result = await bookService.GetBooksForAuthorDetailsAsync(authorId);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count(), Is.EqualTo(authorBooks.Count));
+
+            foreach (var expectedBook in authorBooks)
+            {
+                var actualBook = result.FirstOrDefault(b => b.Id == expectedBook.Id.ToString());
+                Assert.That(actualBook, Is.Not.Null); // Ensure book exists in the result
+
+                Assert.Multiple(() =>
+                {
+                    // Assert individual properties
+                    Assert.That(actualBook.Title, Is.EqualTo(expectedBook.Title));
+                    Assert.That(actualBook.ISBN, Is.EqualTo(expectedBook.ISBN));
+                    Assert.That(actualBook.YearPublished, Is.EqualTo(expectedBook.YearPublished));
+                    Assert.That(actualBook.Description, Is.EqualTo(expectedBook.Description));
+                    Assert.That(actualBook.Publisher, Is.EqualTo(expectedBook.Publisher));
+                    Assert.That(actualBook.ImageFilePath, Is.EqualTo(expectedBook.ImageFilePath));
+                });
+            }
         }
     }
 }

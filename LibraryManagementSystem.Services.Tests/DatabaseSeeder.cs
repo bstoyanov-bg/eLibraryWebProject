@@ -10,6 +10,7 @@ namespace LibraryManagementSystem.Services.Tests
         public static Author? SecondAuthor;
         public static Author? ThirdAuthor;
         public static Author? ForthAuthor;
+        public static Author? FifthAuthor;
 
         public static Book? FirstBook;
         public static Book? SecondBook;
@@ -19,11 +20,14 @@ namespace LibraryManagementSystem.Services.Tests
         public static Book? SixthBook;
         public static Book? SeventhBook;
         public static Book? EigthBook;
+        public static Book? NinthBook;
 
         public static Category? FirstCategory;
         public static Category? SecondCategory;
         public static Category? ThirdCategory;
-
+        public static Category? ForthCategory;
+        public static Category? FifthCategory;
+        public static Category? SixthCategory;
 
         public static Edition? FirstEdition;
         public static Edition? SecondEdition;
@@ -36,6 +40,11 @@ namespace LibraryManagementSystem.Services.Tests
         public static LendedBook? FirstLendedBook;
         public static LendedBook? SecondLendedBook;
         public static LendedBook? ThirdLendedBook;
+        public static LendedBook? ForthLendedBook;
+
+        public static ApplicationUser? FirstUser;
+        public static ApplicationUser? SecondUser;
+        public static ApplicationUser? ThirdUser;
 
         public static void SeedDatabase(ELibraryDbContext dbContext)
         {
@@ -88,6 +97,19 @@ namespace LibraryManagementSystem.Services.Tests
                 DeathDate = DateOnly.ParseExact("24.03.1905", "dd.MM.yyyy", CultureInfo.InvariantCulture),
                 Nationality = "French",
                 ImageFilePath = "img/AuthorCovers/25f09293-8de6-4184-b293-c21284006a28_Jules-Verne-Image.jpg",
+                IsDeleted = false,
+            };
+
+            FifthAuthor = new Author()
+            {
+                Id = Guid.Parse("1BAAD29E-BB6A-4424-95AE-9DCF01FA6712"),
+                FirstName = "Charles ",
+                LastName = "Dickens",
+                Biography = "Charles John Huffam Dickens was an English novelist and social critic who created some of the world's best-known fictional characters, and is regarded by many as the greatest novelist of the Victorian era. His works enjoyed unprecedented popularity during his lifetime and, by the 20th century, critics and scholars had recognised him as a literary genius. His novels and short stories are widely read today.",
+                BirthDate = DateOnly.ParseExact("07.02.1812", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                DeathDate = DateOnly.ParseExact("09.06.1870", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                Nationality = "English",
+                ImageFilePath = "img/AuthorCovers/5c2d2ec2-dfb8-47bd-89d2-66b35ea1a93e_Charles-Dickens-Image.jpg",
                 IsDeleted = false,
             };
 
@@ -210,6 +232,21 @@ namespace LibraryManagementSystem.Services.Tests
                 IsDeleted = false,
             };
 
+            NinthBook = new Book()
+            {
+                Id = Guid.Parse("4C757EFD-2D1D-42A9-8460-88B9E1FFCC7D"),
+                ISBN = "933-2-55-179400-1",
+                Title = "Oliver Twist",
+                YearPublished = DateOnly.ParseExact("1837", "yyyy", CultureInfo.InvariantCulture),
+                Description = "Oliver Twist; or, The Parish Boy's Progress, is the second novel by English author Charles Dickens. It was originally published as a serial from 1837 to 1839 and as a three-volume book in 1838. The story follows the titular orphan, who, after being raised in a workhouse, escapes to London, where he meets a gang of juvenile pickpockets led by the elderly criminal Fagin, discovers the secrets of his parentage, and reconnects with his remaining family. Oliver Twist unromantically portrays the sordid lives of criminals and exposes the cruel treatment of the many orphans in London in the mid-19th century. The alternative title, The Parish Boy's Progress, alludes to Bunyan's The Pilgrim's Progress as well as the 18th-century caricature series by painter William Hogarth, A Rake's Progress and A Harlot's Progress.",
+                Publisher = "Serialised 1837–1839; book form 1838",
+                ImageFilePath = "img/BookCovers/f0e168fa-cc7c-43b3-979e-134a9b768303_Oliver-Twist-Image.jpg",
+                AuthorId = Guid.Parse("1BAAD29E-BB6A-4424-95AE-9DCF01FA6712"),
+                FilePath = "BookFiles/Books/3cc1eb86-3881-4da5-9d8c-014c4fae1680_Oliver-Twist.txt",
+                CreatedOn = DateTime.UtcNow.AddDays(-10),
+                IsDeleted = false,
+            };
+
             // CATEGORIES
             FirstCategory = new Category()
             {
@@ -227,6 +264,24 @@ namespace LibraryManagementSystem.Services.Tests
             {
                 Id = 3,
                 Name = "Clasics",
+            };
+
+            ForthCategory = new Category()
+            {
+                Id = 4,
+                Name = "Mystery",
+            };
+
+            FifthCategory = new Category()
+            {
+                Id = 5,
+                Name = "Roman",
+            };
+
+            SixthCategory = new Category()
+            {
+                Id = 6,
+                Name = "Science fiction",
             };
 
             // EDITIONS
@@ -282,10 +337,10 @@ namespace LibraryManagementSystem.Services.Tests
 
             ThirdRating = new Rating()
             {
-                BookId = Guid.Parse("50E9B56F-9BC1-4356-AC0C-E3D5945778BA"),
+                BookId = Guid.Parse("A6D5D2D7-A6FB-46EF-AA1D-9502A0EF1C50"),
                 UserId = Guid.Parse("89A4BE4E-2B5E-4FB7-AA5A-E3FEEBBA0153"),
                 BookRating = 4.0m,
-                Comment = "What a masterpiece! This book is a true work of art. The main character's depth and complexity added layers to the story, and I found myself connecting with them on a profound level. The author's attention to detail is impeccable, painting a vivid picture of the world they've created. From the gripping plot to the richly developed characters, every aspect of this book is masterfully crafted. I couldn't put it down and was left longing for more long after I finished the final page.",
+                Comment = "This book left me speechless! From the moment I started reading, I was hooked. The main character's development throughout the story was nothing short of remarkable. Their strength, resilience, and vulnerability made them incredibly relatable, and I found myself rooting for them with every turn of the page. The author's descriptive prose transported me to another world, where I experienced every emotion alongside the characters. I laughed, I cried, and I was left in awe of the sheer brilliance of this book.",
             };
 
             // LENDED BOOKS
@@ -310,13 +365,79 @@ namespace LibraryManagementSystem.Services.Tests
             {
                 Id = Guid.Parse("6DE0FDA4-77E3-4740-8C07-151F8CFCB211"),
                 LoanDate = DateTime.UtcNow.AddDays(-60),
-                BookId = Guid.Parse("8C6D196A-1E96-4DA0-9B65-91CD7736E13E"),
+                BookId = Guid.Parse("4C757EFD-2D1D-42A9-8460-88B9E1FFCC7D"),
                 UserId = Guid.Parse("7F13235C-EAC9-4F60-AA69-BC8FC86FBD24"),
+            };
+
+            ForthLendedBook = new LendedBook()
+            {
+                Id = Guid.Parse("6DE0F5A4-77E3-4540-8C07-151F8C5CB215"),
+                LoanDate = DateTime.UtcNow.AddDays(-10),
+                BookId = Guid.Parse("4C757EFD-2D1D-42A9-8460-88B9E1FFCC7D"),
+                UserId = Guid.Parse("89A4BE4E-2B5E-4FB7-AA5A-E3FEEBBA0153"),
+            };
+
+            // USERS
+            FirstUser = new ApplicationUser()
+            {
+                Id = Guid.Parse("47C46DB7-E6F5-439C-88A8-CD144C55349A"),
+                FirstName = "AdminFirst",
+                LastName = "AdminLast",
+                DateOfBirth = DateOnly.ParseExact("01.01.2000", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                Address = "Admin Address",
+                Country = "Admin Country",
+                City = "Admin City",
+                UserName = "Admin-Username",
+                PasswordHash = "pass.123",
+                Email = "admin@elibrary.bg",
+                PhoneNumber = "111222333",
+                IsDeleted = false,
+                SecurityStamp = "49CC835AFE4D41B5AB5DC8CB6886ACD0",
+            };
+
+            SecondUser = new ApplicationUser()
+            {
+                Id = Guid.Parse("7F13235C-EAC9-4F60-AA69-BC8FC86FBD24"),
+                FirstName = "Dimitar",
+                LastName = "Todorov",
+                DateOfBirth = DateOnly.ParseExact("05.10.2000", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                Address = "Gurko 5",
+                Country = "Bulgaria",
+                City = "Sofia",
+                UserName = "User-Username",
+                MaxLoanedBooks = 5,
+                PasswordHash = "pass.123",
+                Email = "testUser@elibrary.bg",
+                PhoneNumber = "444555666",
+                IsDeleted = false,
+                SecurityStamp = "6D9FB13AE0D145F496E624C798A5268E",
+                CreatedOn = DateTime.UtcNow.AddDays(10),
+            };
+
+            ThirdUser = new ApplicationUser()
+            {
+                Id = Guid.Parse("89A4BE4E-2B5E-4FB7-AA5A-E3FEEBBA0153"),
+                FirstName = "Marina",
+                LastName = "Zdravkova",
+                DateOfBirth = DateOnly.ParseExact("01.05.1985", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                Address = "Hristo Botev 12",
+                Country = "Bulgaria",
+                City = "Haskovo",
+                UserName = "Marina85",
+                MaxLoanedBooks = 5,
+                PasswordHash = "pass.123",
+                Email = "marina85@abv.bg",
+                PhoneNumber = "999666333",
+                IsDeleted = false,
+                SecurityStamp = "285DD83CB9D44020893880E27B178E15",
+                CreatedOn = DateTime.UtcNow.AddDays(20),
             };
 
             dbContext.Add(FirstAuthor);
             dbContext.Add(SecondAuthor);
             dbContext.Add(ThirdAuthor);
+            dbContext.Add(ForthAuthor);
+            dbContext.Add(FifthAuthor);
 
             dbContext.Add(FirstBook);
             dbContext.Add(SecondBook);
@@ -326,10 +447,14 @@ namespace LibraryManagementSystem.Services.Tests
             dbContext.Add(SixthBook);
             dbContext.Add(SeventhBook);
             dbContext.Add(EigthBook);
+            dbContext.Add(NinthBook);
 
             dbContext.Add(FirstCategory);
             dbContext.Add(SecondCategory);
             dbContext.Add(ThirdCategory);
+            dbContext.Add(ForthCategory);
+            dbContext.Add(FifthCategory);
+            dbContext.Add(SixthCategory);
 
             dbContext.Add(FirstEdition);
             dbContext.Add(SecondEdition);
@@ -342,6 +467,11 @@ namespace LibraryManagementSystem.Services.Tests
             dbContext.Add(FirstLendedBook);
             dbContext.Add(SecondLendedBook);
             dbContext.Add(ThirdLendedBook);
+            dbContext.Add(ForthLendedBook);
+
+            dbContext.Add(FirstUser);
+            dbContext.Add(SecondUser);
+            dbContext.Add(ThirdUser);
 
             FirstAuthor.Books.Add(FirstBook);
             FirstAuthor.Books.Add(SecondBook);
@@ -354,6 +484,10 @@ namespace LibraryManagementSystem.Services.Tests
 
             ForthAuthor.Books.Add(SeventhBook);
             ForthAuthor.Books.Add(EigthBook);
+
+            FifthAuthor.Books.Add(NinthBook);
+
+            ThirdUser.LendedBooks.Add(ForthLendedBook);
 
             dbContext.SaveChanges();
         }

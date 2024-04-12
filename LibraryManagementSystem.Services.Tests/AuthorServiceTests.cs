@@ -292,7 +292,7 @@ namespace LibraryManagementSystem.Services.Tests
         [Test]
         public async Task GetCountOfActiveAuthorsAsync_ReturnsCountOfActiveAuthors()
         {
-            int expectedCount = 3;
+            int expectedCount = 5;
 
             int actualCount = await this.authorService.GetCountOfActiveAuthorsAsync();
 
@@ -320,6 +320,8 @@ namespace LibraryManagementSystem.Services.Tests
                 new AuthorsSelectForBookFormModel { Id = FirstAuthor!.Id.ToString(), Name = FirstAuthor!.FirstName + " " + FirstAuthor!.LastName, Nationality = FirstAuthor!.Nationality },
                 new AuthorsSelectForBookFormModel { Id = SecondAuthor!.Id.ToString(), Name = SecondAuthor!.FirstName + " " + SecondAuthor!.LastName, Nationality = SecondAuthor!.Nationality },
                 new AuthorsSelectForBookFormModel { Id = ThirdAuthor!.Id.ToString(), Name = ThirdAuthor!.FirstName + " " + ThirdAuthor!.LastName, Nationality = ThirdAuthor!.Nationality },
+                new AuthorsSelectForBookFormModel { Id = ForthAuthor!.Id.ToString(), Name = ForthAuthor!.FirstName + " " + ForthAuthor!.LastName, Nationality = ForthAuthor!.Nationality },
+                new AuthorsSelectForBookFormModel { Id = FifthAuthor!.Id.ToString(), Name = FifthAuthor!.FirstName + " " + FifthAuthor!.LastName, Nationality = FifthAuthor!.Nationality },
             };
 
             var actualAuthors = await this.authorService.GetAllAuthorsForListAsync();
@@ -328,6 +330,5 @@ namespace LibraryManagementSystem.Services.Tests
             CollectionAssert.AllItemsAreNotNull(actualAuthors);
             //CollectionAssert.AreEquivalent(expectedAuthors, actualAuthors.ToList());
         }
-
     }
 }
