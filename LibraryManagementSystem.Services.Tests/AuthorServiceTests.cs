@@ -230,7 +230,6 @@ namespace LibraryManagementSystem.Services.Tests
         [Test]
         public async Task GetAllAuthorsFilteredAndPagedAsync_ReturnsExpectedResult()
         {
-
             var queryModel = new AllAuthorsQueryModel()
             {
                 SearchString = "French",

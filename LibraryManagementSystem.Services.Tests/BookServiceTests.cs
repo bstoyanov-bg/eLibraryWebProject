@@ -4,7 +4,6 @@ using LibraryManagementSystem.Services.Data;
 using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.ViewModels.Author;
 using LibraryManagementSystem.Web.ViewModels.Book;
-using LibraryManagementSystem.Web.ViewModels.Book.Enums;
 using LibraryManagementSystem.Web.ViewModels.Category;
 using LibraryManagementSystem.Web.ViewModels.Edition;
 using LibraryManagementSystem.Web.ViewModels.Home;
@@ -82,84 +81,77 @@ namespace LibraryManagementSystem.Services.Tests
             Assert.That(deletedBook!.IsDeleted, Is.True);
         }
 
-        //[Test]
-        //public async Task EditBookAsync_ValidBookId_UpdatesBookFields()
-        //{
-        //    string bookId = SecondBook!.Id.ToString();
-        //    var model = new BookFormModel
-        //    {
-        //        Title = "Edited Title",
-        //        ISBN = "111-1-1111-1111-1",
-        //        YearPublished = DateOnly.ParseExact("2000", "yyyy", CultureInfo.InvariantCulture),
-        //        Description = "Edited Description",
-        //        Publisher = "Edited Publisher",
-        //        ImageFilePath = "Edited Image File Path",
-        //        FilePath = "Edited File Path",
-        //        AuthorId = SecondAuthor!.Id.ToString(),
-        //        CategoryId = 1,
-        //    };
+        [Test]
+        public async Task EditBookAsync_ValidBookId_UpdatesBookFields()
+        {
+            string bookId = SecondBook!.Id.ToString();
+            var model = new BookFormModel
+            {
+                Title = "Edited Title",
+                ISBN = "111-1-1111-1111-1",
+                YearPublished = DateOnly.ParseExact("2000", "yyyy", CultureInfo.InvariantCulture),
+                Description = "Edited Description",
+                Publisher = "Edited Publisher",
+                AuthorId = SecondAuthor!.Id.ToString(),
+                CategoryId = 1,
+            };
 
-        //    // Act
-        //    var editedBook = await this.bookService.EditBookAsync(bookId, model);
+            var editedBook = await this.bookService.EditBookAsync(bookId, model);
 
-        //    // Assert
-        //    Assert.That(editedBook, Is.Not.Null);
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(editedBook.Title, Is.EqualTo(model.Title));
-        //        Assert.That(editedBook.ISBN, Is.EqualTo(model.ISBN));
-        //        Assert.That(editedBook.YearPublished, Is.EqualTo(model.YearPublished));
-        //        Assert.That(editedBook.Description, Is.EqualTo(model.Description));
-        //        Assert.That(editedBook.Publisher, Is.EqualTo(model.Publisher));
-        //        Assert.That(editedBook.ImageFilePath, Is.EqualTo(model.ImageFilePath));
-        //        Assert.That(editedBook.FilePath, Is.EqualTo(model.FilePath));
-        //        Assert.That(editedBook.AuthorId.ToString(), Is.EqualTo(model.AuthorId));
-        //    });
+            Assert.That(editedBook, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(editedBook.Title, Is.EqualTo(model.Title));
+                Assert.That(editedBook.ISBN, Is.EqualTo(model.ISBN));
+                Assert.That(editedBook.YearPublished, Is.EqualTo(model.YearPublished));
+                Assert.That(editedBook.Description, Is.EqualTo(model.Description));
+                Assert.That(editedBook.Publisher, Is.EqualTo(model.Publisher));
+                Assert.That(editedBook.AuthorId.ToString(), Is.EqualTo(model.AuthorId));
+            });
 
-        //    // Assert category update
-        //    var updatedBookCategories = await dbContext.BooksCategories
-        //        .Where(bc => bc.BookId.ToString() == bookId)
-        //        .ToListAsync();
+            // Assert category update
+            var updatedBookCategories = await dbContext
+                .BooksCategories
+                .Where(bc => bc.BookId.ToString() == bookId)
+                .ToListAsync();
 
-        //    // Check if the updated book has any associated categories
-        //    Assert.That(updatedBookCategories, Is.Not.Empty);
-        //}
+            // Check if the updated book has any associated categories
+            Assert.That(updatedBookCategories, Is.Not.Empty);
+        }
 
-        //[Test]
-        //public async Task AddBookAsync_ValidModel_AddsBookAndCategory()
-        //{
-        //    // Arrange
-        //    var model = new BookFormModel
-        //    {
-        //        ISBN = "111-1-1111-1111-1",
-        //        Title = "New Book",
-        //        Publisher = "New Publisher",
-        //        YearPublished = DateOnly.ParseExact("2000", "yyyy", CultureInfo.InvariantCulture),
-        //        Description = "New Description",
-        //        ImageFilePath = "New Image File Path",
-        //        AuthorId = "5992BC8E-87F8-41AF-9EFB-E2C354E4BD3B",
-        //        CategoryId = 1,
-        //    };
+        [Test]
+        public async Task AddBookAsync_ValidModel_AddsBookAndCategory()
+        {
+            var model = new BookFormModel
+            {
+                ISBN = "111-1-1111-1111-1",
+                Title = "New Book",
+                Publisher = "New Publisher",
+                YearPublished = DateOnly.ParseExact("2000", "yyyy", CultureInfo.InvariantCulture),
+                Description = "New Description",
+                ImageFilePath = "New Image File Path",
+                AuthorId = "5992BC8E-87F8-41AF-9EFB-E2C354E4BD3B",
+                CategoryId = 1,
+            };
 
-        //    // Act
-        //    var addedBook = await this.bookService.AddBookAsync(model);
+            var addedBook = await this.bookService.AddBookAsync(model);
 
-        //    // Assert
-        //    Assert.IsNotNull(addedBook);
-        //    Assert.AreEqual(model.Title, addedBook.Title);
-        //    Assert.AreEqual(model.ISBN, addedBook.ISBN);
-        //    Assert.AreEqual(model.YearPublished, addedBook.YearPublished);
-        //    Assert.AreEqual(model.Description, addedBook.Description);
-        //    Assert.AreEqual(model.Publisher, addedBook.Publisher);
-        //    Assert.AreEqual(model.AuthorId, addedBook.AuthorId.ToString());
-        //    Assert.AreEqual(model.ImageFilePath, addedBook.ImageFilePath);
+            Assert.That(addedBook, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(addedBook.Title, Is.EqualTo(model.Title));
+                Assert.That(addedBook.ISBN, Is.EqualTo(model.ISBN));
+                Assert.That(addedBook.YearPublished, Is.EqualTo(model.YearPublished));
+                Assert.That(addedBook.Description, Is.EqualTo(model.Description));
+                Assert.That(addedBook.Publisher, Is.EqualTo(model.Publisher));
+                Assert.That(addedBook.AuthorId.ToString().ToUpper(), Is.EqualTo(model.AuthorId));
+                Assert.That(addedBook.ImageFilePath, Is.EqualTo(model.ImageFilePath));
+            });
 
-        //    // Verify book category association
-        //    var addedBookCategory = await dbContext.BooksCategories.FirstOrDefaultAsync(bc => bc.BookId == addedBook.Id);
-        //    Assert.IsNotNull(addedBookCategory);
-        //    Assert.AreEqual(model.CategoryId, addedBookCategory.CategoryId);
-        //}
-
+            var addedBookCategory = await dbContext.BooksCategories.FirstOrDefaultAsync(bc => bc.BookId == addedBook.Id);
+            Assert.That(addedBookCategory, Is.Not.Null);
+            Assert.That(addedBookCategory.CategoryId, Is.EqualTo(model.CategoryId));
+        }
 
         [Test]
         public async Task GetBookByIdAsync_ValidBookId_ReturnsBook()
@@ -266,55 +258,73 @@ namespace LibraryManagementSystem.Services.Tests
             Assert.That(result.Categories, Is.EqualTo(expectedCategories));
         }
 
-        //[Test]
-        //public async Task GetBookDetailsForUserAsync_ReturnsBookDetailsViewModel()
-        //{
-        //    string bookId = FirstBook!.Id.ToString().ToUpper();
-        //    var expectedEditions = new List<EditionsForBookDetailsViewModel>
-        //    {
-        //        new EditionsForBookDetailsViewModel { Id = FirstEdition!.Id.ToString(), Version = FirstEdition!.Version, EditionYear = FirstEdition!.EditionYear, Publisher = FirstEdition!.Publisher, FilePath = FirstEdition!.FilePath ?? string.Empty },
-        //        new EditionsForBookDetailsViewModel { Id = SecondEdition!.Id.ToString(), Version = SecondEdition!.Version, EditionYear = SecondEdition!.EditionYear, Publisher = SecondEdition!.Publisher, FilePath = SecondEdition!.FilePath ?? string.Empty },
-        //    };
-        //    var expectedCategoryName = FirstCategory!.Name;
-        //    var expectedBookRating = 4.5m;
-        //    var expectedPeopleReading = 1;
+        [Test]
+        public async Task GetBookDetailsForUserAsync_ReturnsBookDetails()
+        {
+            string bookId = FirstBook!.Id.ToString();
+            var expectedBook = FirstBook;
 
-        //    // Act
-        //    var result = await bookService.GetBookDetailsForUserAsync(bookId);
+            var expectedEditions = new List<EditionsForBookDetailsViewModel>();
+            var expectedCategoryName = "Academic book";
+            decimal? expectedBookRating = 4.5m;
+            var expectedPeopleReading = 1;
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(bookId, result.Id);
-        //    // Add more assertions based on expected values and properties of BookDetailsViewModel
-        //    Assert.AreEqual(expectedEditions, result.Editions);
-        //    Assert.AreEqual(expectedCategoryName, result.CategoryName);
-        //    Assert.AreEqual(expectedBookRating, result.Rating);
-        //    Assert.AreEqual(expectedPeopleReading, result.PeopleReading);
-        //}
+            editionServiceMock.Setup(x => x.GetEditionsForBookDetailsViewModelAsync(bookId))
+                               .ReturnsAsync(expectedEditions);
 
+            categoryServiceMock.Setup(x => x.GetCategoryNameByBookIdAsync(bookId))
+                                .ReturnsAsync(expectedCategoryName);
+
+            ratingServiceMock.Setup(x => x.GetAverageRatingForBookAsync(bookId))
+                              .ReturnsAsync(expectedBookRating);
+
+            lendedBooksServiceMock.Setup(x => x.GetCountOfPeopleReadingTheBookAsync(bookId))
+                                   .ReturnsAsync(expectedPeopleReading);
+
+            var result = await bookService.GetBookDetailsForUserAsync(bookId);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Id, Is.EqualTo(expectedBook.Id.ToString()));
+                Assert.That(result.Title, Is.EqualTo(expectedBook.Title));
+                Assert.That(result.ISBN, Is.EqualTo(expectedBook.ISBN));
+                Assert.That(result.YearPublished, Is.EqualTo(expectedBook.YearPublished));
+                Assert.That(result.Description, Is.EqualTo(expectedBook.Description));
+                Assert.That(result.Publisher, Is.EqualTo(expectedBook.Publisher));
+                Assert.That(result.ImageFilePath, Is.EqualTo(expectedBook.ImageFilePath));
+                Assert.That(result.Editions, Is.EqualTo(expectedEditions));
+                Assert.That(result.CategoryName, Is.EqualTo(expectedCategoryName));
+                Assert.That(result.Rating, Is.EqualTo(expectedBookRating));
+                Assert.That(result.PeopleReading, Is.EqualTo(expectedPeopleReading));
+            });
+        }
+
+        // STRANGE PROBLEM WITH THE DB OR THE QUERY ???
         //[Test]
         //public async Task GetAllBooksFilteredAndPagedAsync_ReturnsExpectedResult()
         //{
+        //    // Arrange
         //    var queryModel = new AllBooksQueryModel()
         //    {
-        //        Category = string.Empty,
+        //        Category = null,
         //        SearchString = "Time Shelter",
         //        BookSorting = BookSorting.Newest,
         //        CurrentPage = 1,
         //        BooksPerPage = 10,
         //    };
 
-        //    var expectedAllBooks = new List<AllBooksViewModel>()
-        //    {
-        //        new AllBooksViewModel { Id = ThirdBook!.Id.ToString().ToLower(), Title = ThirdBook.Title, AuthorName = $"{ThirdBook.Author.FirstName} {ThirdBook.Author.LastName}", YearPublished = ThirdBook.YearPublished ?? default, Publisher = ThirdBook.Publisher ?? string.Empty, ImageFilePath = ThirdBook.ImageFilePath!, Category = "Roman", EditionsCount = 1 },
-        //    };
+        //    // Expected result based on the test data
+        //    var expectedTotalBooksCount = 1; // Adjust based on your test data
 
-        //    var result = await this.bookService.GetAllBooksFilteredAndPagedAsync(queryModel);
-        //    int actualCount = await this.dbContext.Books.CountAsync(c => c.Title.Contains(queryModel.SearchString) || c.Author.FirstName.Contains(queryModel.SearchString) || c.Author.LastName.Contains(queryModel.SearchString));
+        //    // Act
+        //    var result = await bookService.GetAllBooksFilteredAndPagedAsync(queryModel);
+        //    int actualCount = await this.dbContext.Books.CountAsync(c => c.Title.Contains(queryModel.SearchString));
 
         //    // Assert
         //    Assert.That(result, Is.Not.Null);
-        //    Assert.That(result.TotalBooksCount, Is.EqualTo(actualCount));
+        //    Assert.That(result.Books.Count(), Is.EqualTo(actualCount));
+        //    Assert.That(result.TotalBooksCount, Is.EqualTo(expectedTotalBooksCount));
         //}
 
 

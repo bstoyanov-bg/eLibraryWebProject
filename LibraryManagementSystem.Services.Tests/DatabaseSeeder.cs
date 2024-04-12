@@ -41,10 +41,12 @@ namespace LibraryManagementSystem.Services.Tests
         public static LendedBook? SecondLendedBook;
         public static LendedBook? ThirdLendedBook;
         public static LendedBook? ForthLendedBook;
+        public static LendedBook? FifthLendedBook;
 
         public static ApplicationUser? FirstUser;
         public static ApplicationUser? SecondUser;
         public static ApplicationUser? ThirdUser;
+        public static ApplicationUser? ForthUser;
 
         public static void SeedDatabase(ELibraryDbContext dbContext)
         {
@@ -373,8 +375,18 @@ namespace LibraryManagementSystem.Services.Tests
             {
                 Id = Guid.Parse("6DE0F5A4-77E3-4540-8C07-151F8C5CB215"),
                 LoanDate = DateTime.UtcNow.AddDays(-10),
+                ReturnDate = null,
                 BookId = Guid.Parse("4C757EFD-2D1D-42A9-8460-88B9E1FFCC7D"),
                 UserId = Guid.Parse("89A4BE4E-2B5E-4FB7-AA5A-E3FEEBBA0153"),
+            };
+
+            FifthLendedBook = new LendedBook()
+            {
+                Id = Guid.Parse("AD4325A4-77E3-45B0-8C07-15AA8C5CB21A"),
+                LoanDate = DateTime.UtcNow.AddDays(-50),
+                ReturnDate = null,
+                BookId = Guid.Parse("F08224F2-E2FA-426D-BEEE-E2DAA72B5EB6"),
+                UserId = Guid.Parse("BBBDF7F6-94E2-4BE8-A036-84AF63E028FC"),
             };
 
             // USERS
@@ -433,6 +445,25 @@ namespace LibraryManagementSystem.Services.Tests
                 CreatedOn = DateTime.UtcNow.AddDays(20),
             };
 
+            ForthUser = new ApplicationUser()
+            {
+                Id = Guid.Parse("BBBDF7F6-94E2-4BE8-A036-84AF63E028FC"),
+                FirstName = "Petko",
+                LastName = "Georgiev",
+                DateOfBirth = DateOnly.ParseExact("12.08.1978", "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                Address = "Pencho Vladigerov 15",
+                Country = "Bulgaria",
+                City = "Sofia",
+                UserName = "PetkoBaby",
+                MaxLoanedBooks = 5,
+                PasswordHash = "pass.123",
+                Email = "petkobaby@abv.bg",
+                PhoneNumber = "778811547",
+                IsDeleted = false,
+                SecurityStamp = "618A8DDF778F4DDDB8A5B22CC61D1FAA",
+                CreatedOn = DateTime.UtcNow.AddDays(30),
+            };
+
             dbContext.Add(FirstAuthor);
             dbContext.Add(SecondAuthor);
             dbContext.Add(ThirdAuthor);
@@ -468,10 +499,12 @@ namespace LibraryManagementSystem.Services.Tests
             dbContext.Add(SecondLendedBook);
             dbContext.Add(ThirdLendedBook);
             dbContext.Add(ForthLendedBook);
+            dbContext.Add(FifthLendedBook);
 
             dbContext.Add(FirstUser);
             dbContext.Add(SecondUser);
             dbContext.Add(ThirdUser);
+            dbContext.Add(ForthUser);
 
             FirstAuthor.Books.Add(FirstBook);
             FirstAuthor.Books.Add(SecondBook);
@@ -488,6 +521,7 @@ namespace LibraryManagementSystem.Services.Tests
             FifthAuthor.Books.Add(NinthBook);
 
             ThirdUser.LendedBooks.Add(ForthLendedBook);
+            ForthUser.LendedBooks.Add(FifthLendedBook);
 
             dbContext.SaveChanges();
         }
