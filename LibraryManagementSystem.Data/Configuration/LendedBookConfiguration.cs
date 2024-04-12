@@ -23,7 +23,7 @@ namespace LibraryManagementSystem.Data.Configuration
 
             builder
                 .HasOne(lb => lb.User)
-                .WithMany(u => u.LendedBook)
+                .WithMany(u => u.LendedBooks)
                 .HasForeignKey(lb => lb.UserId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
