@@ -31,6 +31,9 @@ namespace LibraryManagementSystem.Controllers.Tests
             {
                 TempData = tempDataMock.Object
             };
+
+            mockMemoryCache.Setup(x => x.CreateEntry(It.IsAny<object>()))
+                .Returns(Mock.Of<ICacheEntry>);
         }
 
         [TearDown]
@@ -79,7 +82,6 @@ namespace LibraryManagementSystem.Controllers.Tests
             this.mockAuthorService.Setup(service => service.AddAuthorAsync(model)).ReturnsAsync(new Author());
             this.mockMemoryCache.Setup(cache => cache.Remove(It.IsAny<string>()));
             this.tempDataMock.Setup(temp => temp["SuccessMessage"]).Returns("SuccessMessage");
-            this.tempDataMock.Setup(temp => temp["ErrorMessage"]).Returns("ErrorMessage");
 
             var result = await this.authorController.Add(model, authorImage) as RedirectToActionResult;
 
@@ -130,10 +132,6 @@ namespace LibraryManagementSystem.Controllers.Tests
             };
             var authorImage = new Mock<IFormFile>().Object;
 
-            this.mockAuthorService.Setup(service => service.AuthorExistByNameAndNationalityAsync(model.FirstName, model.LastName, model.Nationality)).ReturnsAsync(false);
-            this.mockAuthorService.Setup(service => service.AddAuthorAsync(model)).ReturnsAsync(new Author());
-            this.mockMemoryCache.Setup(cache => cache.Remove(It.IsAny<string>()));
-
             var result = await this.authorController.Add(model, authorImage) as RedirectToActionResult;
 
             Assert.That(result, Is.Not.Null);
@@ -172,21 +170,26 @@ namespace LibraryManagementSystem.Controllers.Tests
             });
         }
 
+        // Some problem with the mockMemoryCache ???
         //[Test]
         //public async Task All_DataInCache_ReturnsViewWithCachedData()
         //{
         //    var queryModel = new AllAuthorsQueryModel { CurrentPage = 1, AuthorsPerPage = 10 };
         //    var cachedData = new AllAuthorsFilteredAndPagedServiceModel
         //    {
-        //        Authors = new List<AllAuthorsViewModel>()
-        //        {
-        //            new AllAuthorsViewModel { FirstName = "Peio", LastName = "Yavorov", Nationality = "Bulgarian" }
+        //        Authors = new List<AllAuthorsViewModel> 
+        //        { 
+        //            new AllAuthorsViewModel 
+        //            { 
+        //                FirstName = "Peio",
+        //                LastName = "Yavorov",
+        //                Nationality = "Bulgarian" 
+        //            } 
         //        },
         //        TotalAuthorsCount = 1
         //    };
 
-        //    string cacheKey = $"AuthorsCache_{queryModel.CurrentPage}_{queryModel.AuthorsPerPage}";
-
+        //    string cacheKey = $"AuthorsCache{queryModel.CurrentPage}_{queryModel.AuthorsPerPage}";
         //    this.mockMemoryCache.Setup(cache => cache.TryGetValue(cacheKey, out cachedData)).Returns(true);
 
         //    var result = await this.authorController.All(queryModel) as ViewResult;

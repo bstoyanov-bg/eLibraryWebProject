@@ -14,14 +14,12 @@ namespace LibraryManagementSystem.Web.Controllers
     public class BookController : BaseController
     {
         private readonly IBookService bookService;
-        private readonly ICategoryService categoryService;
         private readonly IFileService fileService;
         private readonly IMemoryCache memoryCache;
 
-        public BookController(IBookService bookService, ICategoryService categoryService, IFileService fileService, IMemoryCache memoryCache)
+        public BookController(IBookService bookService, IFileService fileService, IMemoryCache memoryCache)
         {
             this.bookService = bookService;
-            this.categoryService = categoryService;
             this.fileService = fileService;
             this.memoryCache = memoryCache;
         }
@@ -122,9 +120,9 @@ namespace LibraryManagementSystem.Web.Controllers
             catch
             {
                 this.TempData[ErrorMessage] = "There was problem with adding the Book!";
-            }
 
-            return this.RedirectToAction("All", "Book");
+                return this.RedirectToAction("All", "Book");
+            }
         }
 
         [HttpGet]
