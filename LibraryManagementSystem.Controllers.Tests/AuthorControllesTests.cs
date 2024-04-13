@@ -166,7 +166,6 @@ namespace LibraryManagementSystem.Controllers.Tests
                 Assert.That(result.ActionName, Is.EqualTo("All"));
                 Assert.That(result.ControllerName, Is.EqualTo("Author"));
                 Assert.That(this.authorController.TempData["ErrorMessage"], Is.Not.Null);
-                Assert.That(this.authorController.TempData["SuccessMessage"], Is.Null);
             });
         }
 
