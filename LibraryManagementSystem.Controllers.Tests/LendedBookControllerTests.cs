@@ -20,10 +20,10 @@ namespace LibraryManagementSystem.Controllers.Tests
         [SetUp]
         public void Setup()
         {
-            mockBookService = new Mock<IBookService>();
-            mockLendedBookService = new Mock<ILendedBookService>();
-            tempDataMock = new Mock<ITempDataDictionary>();
-            lendedBookController = new LendedBookController(mockLendedBookService.Object, mockBookService.Object)
+            this.mockBookService = new Mock<IBookService>();
+            this.mockLendedBookService = new Mock<ILendedBookService>();
+            this.tempDataMock = new Mock<ITempDataDictionary>();
+            this.lendedBookController = new LendedBookController(mockLendedBookService.Object, mockBookService.Object)
             {
                 TempData = tempDataMock.Object
             };
@@ -32,9 +32,9 @@ namespace LibraryManagementSystem.Controllers.Tests
         [TearDown]
         public void TearDown()
         {
-            mockBookService.As<IBookService>().Reset();
-            mockLendedBookService.As<ILendedBookService>().Reset();
-            lendedBookController.Dispose();
+            this.mockBookService.As<IBookService>().Reset();
+            this.mockLendedBookService.As<ILendedBookService>().Reset();
+            this.lendedBookController.Dispose();
         }
 
         [Test]

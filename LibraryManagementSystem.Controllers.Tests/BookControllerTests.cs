@@ -23,11 +23,11 @@ namespace LibraryManagementSystem.Controllers.Tests
         [SetUp]
         public void Setup()
         {
-            mockBookService = new Mock<IBookService>();
-            mockFileService = new Mock<IFileService>();
-            mockMemoryCache = new Mock<IMemoryCache>();
-            tempDataMock = new Mock<ITempDataDictionary>();
-            bookController = new BookController(mockBookService.Object, mockFileService.Object, mockMemoryCache.Object)
+            this.mockBookService = new Mock<IBookService>();
+            this.mockFileService = new Mock<IFileService>();
+            this.mockMemoryCache = new Mock<IMemoryCache>();
+            this.tempDataMock = new Mock<ITempDataDictionary>();
+            this.bookController = new BookController(mockBookService.Object, mockFileService.Object, mockMemoryCache.Object)
             {
                 TempData = tempDataMock.Object
             };
@@ -36,10 +36,10 @@ namespace LibraryManagementSystem.Controllers.Tests
         [TearDown]
         public void TearDown()
         {
-            mockBookService.As<IBookService>().Reset();
-            mockFileService.As<IFileService>().Reset();
-            mockMemoryCache.As<IMemoryCache>().Reset();
-            bookController.Dispose();
+            this.mockBookService.As<IBookService>().Reset();
+            this.mockFileService.As<IFileService>().Reset();
+            this.mockMemoryCache.As<IMemoryCache>().Reset();
+            this.bookController.Dispose();
         }
 
         // Some problem with the mockMemoryCache ???
