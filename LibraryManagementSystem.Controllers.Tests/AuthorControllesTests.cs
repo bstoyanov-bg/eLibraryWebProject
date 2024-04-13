@@ -23,26 +23,26 @@ namespace LibraryManagementSystem.Controllers.Tests
         [SetUp]
         public void Setup()
         {
-            this.mockAuthorService = new Mock<IAuthorService>();
-            this.mockFileService = new Mock<IFileService>();
-            this.mockMemoryCache = new Mock<IMemoryCache>();
-            this.tempDataMock = new Mock<ITempDataDictionary>();
-            this.authorController = new AuthorController(mockAuthorService.Object, mockFileService.Object, mockMemoryCache.Object)
+            mockAuthorService = new Mock<IAuthorService>();
+            mockFileService = new Mock<IFileService>();
+            mockMemoryCache = new Mock<IMemoryCache>();
+            tempDataMock = new Mock<ITempDataDictionary>();
+            authorController = new AuthorController(mockAuthorService.Object, mockFileService.Object, mockMemoryCache.Object)
             {
                 TempData = tempDataMock.Object
             };
 
-            this.mockMemoryCache.Setup(x => x.CreateEntry(It.IsAny<object>()))
+            mockMemoryCache.Setup(x => x.CreateEntry(It.IsAny<object>()))
                 .Returns(Mock.Of<ICacheEntry>);
         }
 
         [TearDown]
         public void TearDown()
         {
-            this.mockAuthorService.As<IAuthorService>().Reset();
-            this.mockFileService.As<IFileService>().Reset();
-            this.mockMemoryCache.As<IMemoryCache>().Reset();
-            this.authorController.Dispose();
+            mockAuthorService.As<IAuthorService>().Reset();
+            mockFileService.As<IFileService>().Reset();
+            mockMemoryCache.As<IMemoryCache>().Reset();
+            authorController.Dispose();
         }
 
         [Test]
