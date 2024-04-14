@@ -46,7 +46,7 @@
                             @Html.ActionLink(book.Title, "Details", "Book", new { id = book.Id }, null)
                         </td>
                         <td style="text-align: center; vertical-align: middle;">@book.YearPublished</td>
-                        <td>@book.Description</td>
+                        <td>@book.Description.Substring(0, 600)...</td>
                     </tr>
                 }
             </tbody>

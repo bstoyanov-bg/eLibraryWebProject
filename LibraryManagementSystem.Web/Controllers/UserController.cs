@@ -106,12 +106,15 @@ namespace LibraryManagementSystem.Web.Controllers
             }
             var user = await this.userManager.FindByNameAsync(model.Username);
 
-            bool isDeleted = await this.userService.IsUserDeletedAsync(user!.Id.ToString());
-            if (isDeleted)
+            if (user != null)
             {
-                this.TempData[ErrorMessage] = "The account you are trying to login is deleted!";
+                bool isDeleted = await this.userService.IsUserDeletedAsync(user!.Id.ToString());
+                if (isDeleted)
+                {
+                    this.TempData[ErrorMessage] = "The account you are trying to login is deleted!";
 
-                return this.RedirectToAction("Index", "Home");
+                    return this.RedirectToAction("Index", "Home");
+                }
             }
 
             var result = await this.signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);

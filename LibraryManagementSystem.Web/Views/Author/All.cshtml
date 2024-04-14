@@ -112,7 +112,9 @@
                                 <img class="d-block w-50" style="max-width: 100%; height: auto;" src="~/@author.ImageFilePath" alt="Author-img">
                             </div>
                         </td>
-                        <td style="text-align: center; vertical-align: middle;">@author.FirstName @author.LastName</td>
+                        <td style="text-align: center; vertical-align: middle;">
+                            <a href="@Url.Action("Details", "Author", new { id = author.Id })" style="text-decoration: none;">@author.FirstName @author.LastName</a>
+                        </td>
                         <td style="text-align: center; vertical-align: middle;">@author.Nationality</td>
                         <td style="text-align: center; vertical-align: middle;">@author.BooksCount</td>
                         <td style="text-align: center; vertical-align: middle; white-space: nowrap;">
