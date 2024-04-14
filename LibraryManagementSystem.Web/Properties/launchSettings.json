@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Developement": {
+    "eLibrary_Dev": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
