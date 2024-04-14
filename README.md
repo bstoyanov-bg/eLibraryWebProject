@@ -5,7 +5,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 # eLibrary Application
-This is my first project and was developed as a final project, part of [ASP.NET Advanced course at SoftUni].
+This is my first project and was developed as a final project, part of ASP.NET Advanced course at SoftUni.
 
 ## Overview
 Welcome to eLibrary, your comprehensive solution for managing books, authors, categories, editions, ratings, and facilitating book borrowing and return processes seamlessly. Whether you're a book enthusiast, a librarian, or a developer looking for a robust library management system, eLibrary has got you covered.
@@ -19,6 +19,8 @@ Welcome to eLibrary, your comprehensive solution for managing books, authors, ca
 - Borrowing & Returning Books: Streamline the borrowing and returning processes for library patrons, enhancing user experience. (User)
 - Search & Filtering: Empower users to find desired books or authors quickly through robust search and filtering functionalities. (Admin and User)
 - User Management: Administer user accounts and permissions, ensuring secure access and data integrity. (Admin)
+- Content: Enrich your library experience by uploading pictures for books and authors, bringing the literary world to life with visual storytelling. (Admin)
+- Textual Content Support: Expand your literary horizons by uploading text files for books and editions, ensuring that every word is preserved in its original form. (Admin)
 - Responsive Design: Enjoy a user-friendly experience across various devices with a responsive design. (Admin and User)
 - Admin Superpowers: Admins wield the power to oversee, delete, promote, and demote to admin regular users, ensuring smooth operation and user management. (Admin)
 - Insightful System Metrics: Admins can gain valuable insights into system performance and usage through comprehensive metrics, empowering informed decision-making. (Admin)
@@ -61,6 +63,13 @@ You can also register as new regular User and if needed an Adminostrator can pro
 - [Font Awesome](https://fontawesome.com/)
 - [NUnit 3.14.0](https://github.com/nunit/nunit)
 - [Moq 4.20.70](https://github.com/moq)
+
+## Future Development & Improvements:
+
+As eLibrary continues to evolve, we're committed to enhancing your reading experience and introducing exciting new features. Here's a glimpse into what the future holds:
+
+- Enhanced Book Access Control: Introducing a new module that allows users to read books directly within the browser, without the option to download or copy text. This feature aims to provide a secure and seamless reading experience while safeguarding intellectual property.
+- Subscription System for Book Borrowing: Implementing a subscription-based system for book borrowing, where users can access a predetermined number of books concurrently based on their subscription tier. This system will offer flexibility and convenience while ensuring fair usage policies.
 
 ## License 
 
