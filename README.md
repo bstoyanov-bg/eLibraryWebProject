@@ -2,7 +2,6 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/bstoyanov-bg/eLibraryWebProject) 
 ![GitHub language count](https://img.shields.io/github/languages/count/bstoyanov-bg/eLibraryWebProject) 
 ![GitHub top language](https://img.shields.io/github/languages/top/bstoyanov-bg/eLibraryWebProject) 
-[![codecov](https://codecov.io/gh/your-username/bstoyanov-bg/eLibraryWebProject/master/graph/badge.svg)]
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 # eLibrary Application
