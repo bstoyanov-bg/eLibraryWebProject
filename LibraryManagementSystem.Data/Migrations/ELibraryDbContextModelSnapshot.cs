@@ -103,7 +103,6 @@ namespace LibraryManagementSystem.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -133,7 +132,8 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -352,7 +352,7 @@ namespace LibraryManagementSystem.Data.Migrations
                     b.ToTable("Editions");
                 });
 
-            modelBuilder.Entity("LibraryManagementSystem.Data.Models.LendedBooks", b =>
+            modelBuilder.Entity("LibraryManagementSystem.Data.Models.LendedBook", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -594,10 +594,10 @@ namespace LibraryManagementSystem.Data.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("LibraryManagementSystem.Data.Models.LendedBooks", b =>
+            modelBuilder.Entity("LibraryManagementSystem.Data.Models.LendedBook", b =>
                 {
                     b.HasOne("LibraryManagementSystem.Data.Models.Book", "Book")
-                        .WithMany("LendedBooks")
+                        .WithMany("LendedBook")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -701,7 +701,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.Navigation("Editions");
 
-                    b.Navigation("LendedBooks");
+                    b.Navigation("LendedBook");
 
                     b.Navigation("Ratings");
                 });

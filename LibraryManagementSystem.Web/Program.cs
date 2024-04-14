@@ -20,8 +20,7 @@ namespace LibraryManagementSystem.Web
                 builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services.AddDbContext<ELibraryDbContext>(options =>
-                options.UseSqlServer(connectionString,
-                    builder => builder.MigrationsAssembly("LibraryManagementSystem.Services.Data")));
+                options.UseSqlServer(connectionString));
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {

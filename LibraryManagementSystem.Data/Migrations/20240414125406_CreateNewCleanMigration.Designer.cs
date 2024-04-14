@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LibraryManagementSystem.Services.Data.Migrations
+namespace LibraryManagementSystem.Data.Migrations
 {
     [DbContext(typeof(ELibraryDbContext))]
-    [Migration("20240411182003_MakeNormalizedUserNameNullable")]
-    partial class MakeNormalizedUserNameNullable
+    [Migration("20240414125406_CreateNewCleanMigration")]
+    partial class CreateNewCleanMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -606,7 +606,7 @@ namespace LibraryManagementSystem.Services.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("LibraryManagementSystem.Data.Models.ApplicationUser", "User")
-                        .WithMany("LendedBook")
+                        .WithMany("LendedBooks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -688,7 +688,7 @@ namespace LibraryManagementSystem.Services.Data.Migrations
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("LendedBook");
+                    b.Navigation("LendedBooks");
 
                     b.Navigation("Ratings");
                 });

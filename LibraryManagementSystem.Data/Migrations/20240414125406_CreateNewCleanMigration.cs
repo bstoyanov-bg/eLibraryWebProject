@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace LibraryManagementSystem.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitializeDB : Migration
+    public partial class CreateNewCleanMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,10 +37,12 @@ namespace LibraryManagementSystem.Data.Migrations
                     Country = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false, comment: "Country of the user (Member)"),
                     City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "City of the user (Member)"),
                     MaxLoanedBooks = table.Column<int>(type: "int", maxLength: 2, nullable: true, comment: "Maximum number of books allowed to have at the same time"),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()", comment: "Created On"),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -69,7 +69,10 @@ namespace LibraryManagementSystem.Data.Migrations
                     Biography = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true, comment: "Biography of the Author"),
                     BirthDate = table.Column<DateOnly>(type: "date", nullable: true, comment: "Birth date of the Author"),
                     DeathDate = table.Column<DateOnly>(type: "date", nullable: true, comment: "Death date of the Author"),
-                    Nationality = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Nationality of the Author")
+                    Nationality = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Nationality of the Author"),
+                    ImageFilePath = table.Column<string>(type: "nvarchar(260)", maxLength: 260, nullable: true, comment: "Image of the author"),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()", comment: "Created On"),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -82,7 +85,8 @@ namespace LibraryManagementSystem.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false, comment: "Primary key")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Name of the Category")
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Name of the Category"),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -200,13 +204,16 @@ namespace LibraryManagementSystem.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Primary key"),
-                    ISBN = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "International Standard Book Number"),
+                    ISBN = table.Column<string>(type: "nvarchar(22)", maxLength: 22, nullable: true, comment: "International Standard Book Number"),
                     Title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false, comment: "Title of the book"),
-                    YearPublished = table.Column<DateOnly>(type: "date", maxLength: 5, nullable: true, comment: "The year of book publish"),
+                    YearPublished = table.Column<DateOnly>(type: "date", nullable: true, comment: "The year of book publish"),
                     Description = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: false, comment: "Description of the book"),
                     Publisher = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, comment: "Publisher of the book"),
-                    CoverImagePathUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true, comment: "Cover image of the book"),
-                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "AuthorId")
+                    ImageFilePath = table.Column<string>(type: "nvarchar(260)", maxLength: 260, nullable: true, comment: "Cover image of the book"),
+                    FilePath = table.Column<string>(type: "nvarchar(260)", maxLength: 260, nullable: true, comment: "Path of the uploaded file"),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()", comment: "Created On"),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "AuthorId"),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -248,10 +255,13 @@ namespace LibraryManagementSystem.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Primary key"),
-                    Version = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false, comment: "Version of the edition"),
+                    Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Version of the edition"),
                     Publisher = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Publisher of the book"),
-                    EditionYear = table.Column<DateOnly>(type: "date", maxLength: 5, nullable: false, comment: "The year of book edition"),
-                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "BookId")
+                    EditionYear = table.Column<DateOnly>(type: "date", nullable: false, comment: "The year of book edition"),
+                    FilePath = table.Column<string>(type: "nvarchar(260)", maxLength: 260, nullable: true, comment: "Path of the uploaded file"),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()", comment: "Created On"),
+                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "BookId"),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -269,8 +279,8 @@ namespace LibraryManagementSystem.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Primary key"),
-                    LoanDate = table.Column<DateOnly>(type: "date", nullable: false, comment: "The date when the book was borrowed"),
-                    ReturnDate = table.Column<DateOnly>(type: "date", nullable: true, comment: "The date when the book was returned"),
+                    LoanDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "The date when the book was borrowed"),
+                    ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: true, comment: "The date when the book was returned"),
                     BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "BookId"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Application User Id")
                 },
@@ -299,7 +309,7 @@ namespace LibraryManagementSystem.Data.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Application User Id"),
                     BookRating = table.Column<decimal>(type: "decimal(18,2)", maxLength: 5, precision: 18, scale: 2, nullable: false, comment: "Rating for the book"),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Comment for the book"),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false, comment: "Date of the rating")
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()", comment: "Created On")
                 },
                 constraints: table =>
                 {
@@ -316,15 +326,6 @@ namespace LibraryManagementSystem.Data.Migrations
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { new Guid("42d3d645-8a63-4571-9852-a32464de0d2f"), null, "Administrator", "ADMINISTRATOR" },
-                    { new Guid("c26e95d7-4387-4646-8e05-bb6566d69575"), null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
