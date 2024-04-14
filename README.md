@@ -2,6 +2,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/bstoyanov-bg/eLibraryWebProject) 
 ![GitHub language count](https://img.shields.io/github/languages/count/bstoyanov-bg/eLibraryWebProject) 
 ![GitHub top language](https://img.shields.io/github/languages/top/bstoyanov-bg/eLibraryWebProject) 
+[![codecov](https://codecov.io/gh/your-username/bstoyanov-bg/eLibraryWebProject/master/graph/badge.svg)]
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 # eLibrary Application
@@ -35,7 +36,7 @@ Add your connection string in the `appsettings.json` file in the `LibraryManagem
   }
 }`
 
-Fire the app in Development mode. This initiates all migrations to the database, seamlessly and populates your database with information about books, authors, categories, users and more. Also there are going to be seeded Administrator and User with the provided credentials.
+Fire the app from eLibrary_Dev profile in Development mode. This initiates all migrations to the database seamlessly and populates your database with information about books, authors, categories, users and more. Also there is going to be seeded an Administrator (Librarian) and regular User with the provided credentials.
 
 ***Administrator***
 - Username: Admin-Username
@@ -45,9 +46,13 @@ Fire the app in Development mode. This initiates all migrations to the database,
 - Username: User-Username
 - <details><summary>password: Click to reveal!</summary>pass.123</details>
 
-As Administrator you will have full access in both client side and admin side(area) of the app, except for the borrowing and lending section which are only intended for regular users of the application.
+## Users (Roles) ##
 
-You can also register as new regular User and if needed an Adminostrator can promote it to Admin user.
+The application has three types of users:
+
+- Guests: Explore the home page, search pages, and registration page. Full user functionality is available after registration.
+- Users: Gain full access to all application functionalities upon logging in.
+- Administrators: Access a special dashboard for creating and managing library information and assets, ensuring smooth operation and user management.
 
 ## Software/Technologies Used
 
