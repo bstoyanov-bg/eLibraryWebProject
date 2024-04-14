@@ -1,6 +1,4 @@
-﻿using Ganss.Xss;
-using LibraryManagementSystem.Data.Models;
-using LibraryManagementSystem.Services.Data.Interfaces;
+﻿using LibraryManagementSystem.Services.Data.Interfaces;
 using LibraryManagementSystem.Web.Controllers;
 using LibraryManagementSystem.Web.ViewModels.Rating;
 using Microsoft.AspNetCore.Mvc;

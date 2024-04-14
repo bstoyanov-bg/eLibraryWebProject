@@ -41,7 +41,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 this.ViewBag.UserId = userId;
 
-                bool userRatedBook = await this.ratingService.HasUserRatedBookAsync(userId, book!.Id.ToString());
+                bool userRatedBook = await this.ratingService.HasUserGaveRatingToBookAsync(userId, book!.Id.ToString());
 
                 if (userRatedBook)
                 {

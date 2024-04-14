@@ -80,15 +80,6 @@ namespace LibraryManagementSystem.Services.Data
                 .AnyAsync();
         }
 
-        public async Task<bool> HasUserRatedBookAsync(string userId, string bookId)
-        {
-            return await this.dbContext
-                .Ratings
-                .AsNoTracking()
-                .AnyAsync(r => r.UserId.ToString() == userId &&
-                               r.BookId.ToString() == bookId);
-        }
-
         public async Task<int> GetCountOfRatingsAsync()
         {
             return await this.dbContext
