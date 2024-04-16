@@ -27,6 +27,12 @@ namespace LibraryManagementSystem.Web.Controllers
                 {
                     this.TempData[ErrorMessage] = "No file is chosen for upload!";
 
+                    if (entityType == "Edition")
+                    {
+                        return this.RedirectToAction("Edit", "Edition", new { id });
+
+                    }
+
                     return this.RedirectToAction("Edit", "Book", new { id });
                 }
 
@@ -43,7 +49,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 {
                     this.TempData[ErrorMessage] = "Invalid entity type!";
 
-                    return this.RedirectToAction("Edit", "Book", new {id});
+                    return this.RedirectToAction("Edit", "Book", new { id });
                 }
 
                 string filePath = await this.fileService.UploadFileAsync(id, file, entityType);
