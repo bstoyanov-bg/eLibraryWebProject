@@ -213,7 +213,7 @@ namespace LibraryManagementSystem.Services.Data
             {
                 booksQuery = booksQuery
                     .Where(b => b.BooksCategories
-                    .Any(bc => bc.Category.Name == queryModel.Category));
+                        .Any(bc => bc.Category.Name == queryModel.Category));
             }
 
             if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
@@ -240,9 +240,9 @@ namespace LibraryManagementSystem.Services.Data
                 BookSorting.ByTitleDescending => booksQuery
                     .OrderByDescending(b => b.Title),
                 BookSorting.ByRatingAscending => booksQuery
-                    .OrderBy(b => b.Ratings.Average(r => r.BookRating)),
+                    .OrderByDescending(b => b.Ratings.Average(r => r.BookRating)),
                 BookSorting.ByRatingDescending => booksQuery
-                .OrderByDescending(b => b.Ratings.Average(r => r.BookRating)),
+                .OrderBy(b => b.Ratings.Average(r => r.BookRating)),
                 _ => booksQuery
                     .OrderBy(b => b.Title),
             };
