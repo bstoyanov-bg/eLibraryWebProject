@@ -9,6 +9,15 @@
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7027;http://localhost:5068"
     },
+    "eLibrary_Prod": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7027;http://localhost:5068"
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,

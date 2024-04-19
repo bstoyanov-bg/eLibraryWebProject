@@ -99,6 +99,10 @@ namespace LibraryManagementSystem.Web
                 app.UseHsts();
             }
 
+            //var cultureInfo = CultureInfo.InvariantCulture;
+            //CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            //CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
