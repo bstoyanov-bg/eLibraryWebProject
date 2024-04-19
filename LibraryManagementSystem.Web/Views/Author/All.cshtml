@@ -169,12 +169,13 @@
         }
 
         @* Script for image enlargement *@
-            function enlargeImage(element) {
-                element.style.transition = 'transform 0.3s';
-                element.style.transform = 'scale(2)';
-                element.style.position = 'relative'; // Image has a position other than 'static'
-                element.style.zIndex = '999'; // Higher z-index value to bring the enlarged image to the top
-            }
+        function enlargeImage(element) {
+            element.style.transition = 'transform 0.3s';
+            element.style.transform = 'scale(2)';
+            element.style.transformOrigin = 'bottom left'; // Set the transform origin to the top right corner
+            element.style.position = 'relative'; // Image has a position other than 'static'
+            element.style.zIndex = '999'; // Higher z-index value to bring the enlarged image to the top
+        }
 
         function resetImageSize(element) {
             element.style.transform = 'scale(1)';
