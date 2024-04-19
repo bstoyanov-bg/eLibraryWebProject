@@ -167,7 +167,7 @@
                     <th style="text-align: center; vertical-align: middle;">Version</th>
                     <th style="text-align: center; vertical-align: middle;">Publisher</th>
                     <th style="text-align: center; vertical-align: middle;">Year of Edition</th>
-                    @if (isBookActiveForUser)
+                    @if (this.User.IsInRole(AdminRole) || isBookActiveForUser)
                     {
                         <th style="text-align: center; vertical-align: middle;">Actions</th>
                     }
