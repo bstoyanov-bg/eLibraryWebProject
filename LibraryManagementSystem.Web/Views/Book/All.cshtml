@@ -1,7 +1,7 @@
 ﻿@using LibraryManagementSystem.Services.Data.Interfaces
 @using LibraryManagementSystem.Web.Infrastructure.Extensions
 @using static LibraryManagementSystem.Common.UserRoleNames;
-
+@using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 @model AllBooksQueryModel
 
 @inject ILendedBookService lendedBookService
@@ -139,7 +139,7 @@
                         <td style="text-align: center; vertical-align: middle;">
                             <a href="@Url.Action("Details", "Book", new { id = book.Id })" style="text-decoration: none;">@book.Title</a>
                         </td>
-                        <td style="text-align: center; vertical-align: middle;">@book.YearPublished</td>
+                        <td style="text-align: center; vertical-align: middle;">@book.YearPublished?.ToString(GlobalYearFormat)</td>
                         <td style="text-align: center; vertical-align: middle;">@book.Publisher</td>
                         <td style="text-align: center; vertical-align: middle;">@book.AuthorName</td>
                         <td style="text-align: center; vertical-align: middle;">@book.Category</td>

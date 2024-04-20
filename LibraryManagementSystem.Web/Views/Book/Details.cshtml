@@ -1,6 +1,7 @@
 ﻿@using LibraryManagementSystem.Services.Data.Interfaces
 @using LibraryManagementSystem.Web.Infrastructure.Extensions
 @using static LibraryManagementSystem.Common.UserRoleNames;
+@using static LibraryManagementSystem.Common.GeneralApplicationConstants;
 @model BookDetailsViewModel
 
 @inject ILendedBookService LendedBookService
@@ -69,7 +70,7 @@
                     <p class="mb-0"><span class="fw-bold">Author: </span>@Html.ActionLink(Model.AuthorName, "Details", "Author", new { id = Model.AuthorId }, new { style = "text-decoration: none;" })</p>
                     <p class="mb-0"><span class="fw-bold">Description: </span>@Model.Description</p>
                     <p class="mb-0"><span class="fw-bold">Category: </span>@Model.CategoryName</p>
-                    <p class="mb-0"><span class="fw-bold">Year published: </span>@Model.YearPublished</p>
+                    <p class="mb-0"><span class="fw-bold">Year published: </span>@Model.YearPublished?.ToString(GlobalYearFormat)</p>
                     <p class="mb-0"><span class="fw-bold">Publisher: </span>@Model.Publisher</p>
                     <p class="mb-0"><span class="fw-bold">ISBN: </span>@Model.ISBN</p>
                     <hr>
@@ -179,7 +180,7 @@
                     <tr>
                         <td style="text-align: center; vertical-align: middle;">@edition.Version</td>
                         <td style="text-align: center; vertical-align: middle;">@edition.Publisher</td>
-                        <td style="text-align: center; vertical-align: middle;">@edition.EditionYear</td>
+                        <td style="text-align: center; vertical-align: middle;">@edition.EditionYear.ToString(GlobalYearFormat)</td>
                         <td style="text-align: center; vertical-align: middle; white-space: nowrap;">
                             @if (this.User.IsInRole(AdminRole))
                             {

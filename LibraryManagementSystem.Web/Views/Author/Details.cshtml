@@ -1,4 +1,5 @@
-﻿@model AuthorDetailsViewModel
+﻿@using static LibraryManagementSystem.Common.GeneralApplicationConstants;
+@model AuthorDetailsViewModel
 @{
     ViewBag.Title = "Author Details";
 }
@@ -16,8 +17,8 @@
                 <div class="col-md-8">
                     <h3 class="card-title text-center">@Model.FirstName @Model.LastName</h3>
                     <p class="mb-0"><span class="fw-bold">Biography: </span>@Model.Biography</p>
-                    <p class="mb-0"><span class="fw-bold">Birht date: </span>@Model.BirthDate</p>
-                    <p class="mb-0"><span class="fw-bold">Death date: </span>@Model.DeathDate</p>
+                    <p class="mb-0"><span class="fw-bold">Birht date: </span>@Model.BirthDate?.ToString(GlobalDateFormat)</p>
+                    <p class="mb-0"><span class="fw-bold">Death date: </span>@Model.DeathDate?.ToString(GlobalDateFormat)</p>
                     <p class="mb-0"><span class="fw-bold">Nationality: </span>@Model.Nationality</p>
                 </div>
             </div>
@@ -45,7 +46,7 @@
                         <td style="min-width: 200px;">
                             @Html.ActionLink(book.Title, "Details", "Book", new { id = book.Id }, new { style = "text-decoration: none;" })
                         </td>
-                        <td style="text-align: center; vertical-align: middle;">@book.YearPublished</td>
+                        <td style="text-align: center; vertical-align: middle;">@book.YearPublished?.ToString(GlobalYearFormat)</td>
                         @if (book.Description.Length > 0 && book.Description.Length < 600)
                         {
                             <td>@book.Description</td>
