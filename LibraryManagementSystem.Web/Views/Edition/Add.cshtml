@@ -71,7 +71,7 @@
                                 <strong>Title:</strong> @book.Title |
                                 <strong>Author:</strong> @book.AuthorName |
                                 <strong>Publisher:</strong> @book.Publisher |
-                                <strong>Year:</strong> @book.YearPublished
+                                <strong>Year:</strong> @(book.YearPublished?.Substring(0, Math.Min(4, book.YearPublished.Length)))
                             </option>
                         }
                     </select>
@@ -104,9 +104,10 @@
     <script>
         @* Script for Datepicker *@
             $(document).ready(function () {
-                var dateFormat = '@GlobalDateFormat';
+                var dateFormat = 'dd.mm.yyyy';
 
                 $('#editionYear').datepicker({
+                    minViewMode: 2,
                     format: dateFormat,
                     autoclose: true,
                     todayHighlight: true

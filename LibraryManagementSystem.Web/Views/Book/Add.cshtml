@@ -136,9 +136,10 @@
     <script>
         @* Script for Datepicker *@
             $(document).ready(function () {
-                var dateFormat = '@GlobalDateFormat';
+                var dateFormat = 'dd.mm.yyyy';
 
                 $('#yearPublished').datepicker({
+                    minViewMode: 2,
                     format: dateFormat,
                     autoclose: true,
                     todayHighlight: true

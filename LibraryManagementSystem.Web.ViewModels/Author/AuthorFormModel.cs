@@ -23,11 +23,11 @@ namespace LibraryManagementSystem.Web.ViewModels.Author
             MinimumLength = BiographyMinLength)]
         public string? Biography { get; set; }
 
-        [DisplayFormat(DataFormatString = GlobalYearFormat)]
+        [DisplayFormat(DataFormatString = GlobalDateFormat)]
         [Display(Name = "Birth date")]
         public DateOnly? BirthDate { get; set; }
 
-        [DisplayFormat(DataFormatString = GlobalYearFormat)]
+        [DisplayFormat(DataFormatString = GlobalDateFormat)]
         [Display(Name = "Death date")]
         public DateOnly? DeathDate { get; set; }
 
