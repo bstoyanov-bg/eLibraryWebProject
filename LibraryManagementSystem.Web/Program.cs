@@ -74,6 +74,10 @@ namespace LibraryManagementSystem.Web
                     options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
                 });
 
+            // Fixes the problem with the floating Footer when you are running the application on your development
+            // machine using an environment other than Development.
+            builder.WebHost.UseStaticWebAssets();
+
             WebApplication app = builder.Build();
 
             // Seed data when the application starts.
