@@ -121,7 +121,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
             if (!result.Succeeded)
             {
-                this.TempData[ErrorMessage] = "There was an error while logging you in!";
+                this.TempData[ErrorMessage] = "Your Username and/or Password is incorrect!";
                 return this.View(model);
             }
 
