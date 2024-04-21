@@ -100,7 +100,7 @@ namespace LibraryManagementSystem.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginFormModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return this.View(model);
             }
@@ -147,7 +147,7 @@ namespace LibraryManagementSystem.Web.Controllers
             await this.signInManager.SignOutAsync();
 
             // Update Security Stamp upon logout to invalidate any existing tokens
-            var user = await userManager.GetUserAsync(User);
+            var user = await this.userManager.GetUserAsync(User);
             if (user != null)
             {
                 await this.userManager.UpdateSecurityStampAsync(user);

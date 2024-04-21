@@ -34,7 +34,7 @@ namespace LibraryManagementSystem.Web.Controllers
             string cacheKey = $"{BooksCacheKey}_{queryModel.CurrentPage}_{queryModel.BooksPerPage}";
 
             // Attempt to retrieve data from cache
-            if (!memoryCache.TryGetValue(cacheKey, out AllBooksFilteredAndPagedServiceModel? cachedData))
+            if (!this.memoryCache.TryGetValue(cacheKey, out AllBooksFilteredAndPagedServiceModel? cachedData))
             {
                 // Data not found in cache, fetch it from the service
                 cachedData = await this.bookService.GetAllBooksFilteredAndPagedAsync(queryModel);
@@ -43,7 +43,7 @@ namespace LibraryManagementSystem.Web.Controllers
                 MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromMinutes(BooksCacheDurationInMinutes));
 
-                this.memoryCache.Set(UsersCacheKey, cachedData, cacheOptions);
+                this.memoryCache.Set(cacheKey, cachedData, cacheOptions);
             }
 
             // Populate the query model with cached data

@@ -32,21 +32,25 @@ namespace LibraryManagementSystem.Web.Areas.Admin.Controllers
             string cacheKey = $"{UsersCacheKey}_{queryModel.CurrentPage}_{queryModel.UsersPerPage}";
 
             // Attempt to retrieve data from cache
-            if (!memoryCache.TryGetValue(cacheKey, out AllUsersFilteredAndPagedServiceModel? cachedData))
+            if (!this.memoryCache.TryGetValue(cacheKey, out AllUsersFilteredAndPagedServiceModel? cachedData))
             {
                 // Data not found in cache, fetch it from the service
-                cachedData = await userService.GetAllUsersFilteredAndPagedAsync(queryModel);
+                cachedData = await this.userService.GetAllUsersFilteredAndPagedAsync(queryModel);
 
                 // Cache the fetched data
                 MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromMinutes(UsersCacheDurationInMinutes));
 
-                this.memoryCache.Set(UsersCacheKey, cachedData, cacheOptions);
+                this.memoryCache.Set(cacheKey, cachedData, cacheOptions);
             }
 
             // Populate the query model with cached data
             queryModel.Users = cachedData!.Users;
             queryModel.TotalUsers = cachedData.TotalUsersCount;
+
+            // Allow caching by removing or modifying Cache-Control and Pragma headers
+            //this.Response.Headers.Remove("Cache-Control");
+            //this.Response.Headers.Remove("Pragma");
 
             return View(queryModel);
         }
