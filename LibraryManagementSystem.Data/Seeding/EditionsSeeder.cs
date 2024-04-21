@@ -51,7 +51,7 @@ namespace LibraryManagementSystem.Data.Seeding
                         Id = Guid.Parse("A42D9106-0B58-4840-AD38-AD50DC0ACDC9"),
                         BookId = Guid.Parse("42CBCCE4-349B-4D8C-A077-318A07BA74CC"),
                         Version = "Version 2.0",
-                        Publisher = "Ace",
+                        Publisher = "Ace55",
                         EditionYear = DateOnly.ParseExact("2019", "yyyy", CultureInfo.InvariantCulture),
                         FilePath = "BookFiles/Editions/6ff4f310-c7ca-4157-99c7-692a7fc2b6cd_Journey-to-the-Center-of-the-Earth-Version-2.txt",
                         IsDeleted = false,
