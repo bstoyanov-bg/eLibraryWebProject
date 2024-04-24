@@ -85,7 +85,7 @@
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
-                    <input asp-for="DateOfBirth" class="form-control" id="dateOfBirth" autocomplete="off" aria-required="true" placeholder="dd.mm.yyyy" autocomplete="off" />
+                    <input asp-for="DateOfBirth" class="form-control" id="dateOfBirth" autocomplete="off" aria-required="true" placeholder="dd.mm.yyyy" />
                     <label asp-for="DateOfBirth">Date Of Birth</label>
                     <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                 </div>
@@ -135,7 +135,7 @@
     <script>
         @* Script for Datepicker *@
             $(document).ready(function () {
-                var dateFormat = '@GlobalDateFormat';
+                var dateFormat = 'dd.mm.yyyy';
 
                 $('#dateOfBirth').datepicker({
                     format: dateFormat,

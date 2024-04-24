@@ -41,7 +41,7 @@ namespace LibraryManagementSystem.Web.Controllers
 
                 // Cache the fetched data
                 MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(BooksCacheDurationInMinutes));
+                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(BooksCacheDurationInSeconds));
 
                 this.memoryCache.Set(cacheKey, cachedData, cacheOptions);
             }

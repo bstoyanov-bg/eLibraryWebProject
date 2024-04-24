@@ -25,12 +25,12 @@
         public const int EntitiesPerPage = 10;
 
         public const string UsersCacheKey = "UsersCache";
-        public const int UsersCacheDurationInMinutes = 3;
+        public const int UsersCacheDurationInSeconds = 5;
 
         public const string AuthorsCacheKey = "AuthorsCache";
-        public const int AuthorsCacheDurationInMinutes = 6;
+        public const int AuthorsCacheDurationInSeconds = 5;
 
         public const string BooksCacheKey = "BooksCache";
-        public const int BooksCacheDurationInMinutes = 6;
+        public const int BooksCacheDurationInSeconds = 3;
     }
 }
